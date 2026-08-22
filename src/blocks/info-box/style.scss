@@ -1,0 +1,99 @@
+.gravisain-info-box-card {
+	background: var(--info-box-bg, #ffffff);
+	border: var(--info-box-border-width, 1px) solid var(--info-box-border, rgba(0, 0, 0, 0.08));
+	border-radius: var(--info-box-radius, 12px);
+	padding: var(--info-box-pt, 32px) var(--info-box-pr, 28px) var(--info-box-pb, 32px) var(--info-box-pl, 28px);
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+	transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+	display: flex;
+	flex-direction: column;
+	align-items: var(--info-box-align, flex-start);
+	text-align: var(--info-box-text-align, left);
+
+	&.align-center {
+		align-items: center;
+		text-align: center;
+	}
+
+	&.align-right {
+		align-items: flex-end;
+		text-align: right;
+	}
+
+	.gravisain-info-box-icon {
+		width: var(--info-box-icon-box-size, 48px);
+		height: var(--info-box-icon-box-size, 48px);
+		border-radius: var(--info-box-icon-radius, 10px);
+		background: var(--info-box-icon-bg, rgba(37, 99, 235, 0.1));
+		color: var(--info-box-icon-color, #2563eb);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: var(--info-box-icon-size, 24px);
+		margin-bottom: 20px;
+		overflow: hidden;
+
+		.dashicons {
+			font-size: var(--info-box-icon-size, 24px);
+			width: var(--info-box-icon-size, 24px);
+			height: var(--info-box-icon-size, 24px);
+		}
+
+		.gravisain-info-box-img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+
+	.gravisain-info-box-eyebrow {
+		font-size: 11px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--info-box-eyebrow-color, #64748b);
+		margin-bottom: 8px;
+	}
+
+	.gravisain-info-box-title {
+		font-size: var(--info-box-title-size, 20px);
+		font-weight: 700;
+		color: var(--info-box-title-color, #0f172a);
+		margin: 0 0 12px 0;
+	}
+
+	.gravisain-info-box-desc {
+		font-size: var(--info-box-desc-size, 15px);
+		line-height: 1.6;
+		color: var(--info-box-desc-color, #475569);
+		margin: 0 0 20px 0;
+	}
+
+	.gravisain-info-box-link {
+		font-weight: 600;
+		color: var(--info-box-link-color, #2563eb);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+/* Frontend only hover effects (never triggers in WordPress editor or admin) */
+body:not(.wp-admin):not(.block-editor-iframe__body) {
+	.gravisain-info-box-card.hover-lift:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.12);
+	}
+
+	.gravisain-info-box-card.hover-scale:hover {
+		transform: scale(1.02);
+		box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.1);
+	}
+
+	.gravisain-info-box-card.hover-border-glow:hover {
+		border-color: var(--info-box-link-color, #2563eb);
+		box-shadow: 0 0 20px rgba(37, 99, 235, 0.15);
+	}
+}

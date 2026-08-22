@@ -1,0 +1,1 @@
+.gravisain-faq-accordion{display:flex;flex-direction:column;gap:var(--faq-gap,16px);margin-bottom:var(--faq-mb,32px);margin-left:auto;margin-right:auto;margin-top:var(--faq-mt,32px);max-width:var(--faq-max-width,800px);padding:var(--faq-pt,0) var(--faq-pr,0) var(--faq-pb,0) var(--faq-pl,0);width:100%}

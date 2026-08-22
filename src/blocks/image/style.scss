@@ -1,0 +1,46 @@
+.gravisain-image {
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	margin: 0;
+
+	&.align-left { align-items: flex-start; }
+	&.align-center { align-items: center; }
+	&.align-right { align-items: flex-end; }
+
+	@media (max-width: 1024px) {
+		&.align-tablet-left { align-items: flex-start !important; }
+		&.align-tablet-center { align-items: center !important; }
+		&.align-tablet-right { align-items: flex-end !important; }
+	}
+
+	@media (max-width: 767px) {
+		&.align-mobile-left { align-items: flex-start !important; }
+		&.align-mobile-center { align-items: center !important; }
+		&.align-mobile-right { align-items: flex-end !important; }
+	}
+
+	.gravisain-image-wrapper {
+		display: block;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+		a {
+			display: block;
+			width: 100%;
+			height: 100%;
+			text-decoration: none;
+		}
+
+		&:hover {
+			transform: translateY(-2px);
+		}
+	}
+
+	.gravisain-image-caption {
+		margin-top: 8px;
+		font-size: 14px;
+		color: #666666;
+		text-align: center;
+		width: 100%;
+	}
+}

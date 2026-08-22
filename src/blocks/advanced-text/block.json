@@ -1,0 +1,129 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/advanced-text",
+	"version": "1.1.0",
+	"title": "Advanced Text",
+	"category": "gravisain-blocks",
+	"icon": "text",
+	"description": "Advanced Text block for paragraphs with full responsive typography, spacing, and color controls.",
+	"textdomain": "gravisain",
+	"supports": {
+		"align": ["left", "center", "right", "wide", "full"],
+		"html": false,
+		"anchor": true,
+		"customClassName": true,
+		"customCSS": false,
+		"__experimentalCustomCSS": false
+	},
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"customClassName": {
+			"type": "string",
+			"default": ""
+		},
+		"htmlTag": {
+			"type": "string",
+			"default": "p"
+		},
+		"content": {
+			"type": "string",
+			"default": "This is an advanced text block. You can change its typography, color, and spacing per device."
+		},
+		"textAlign": {
+			"type": "string",
+			"default": "left"
+		},
+		"textAlignTablet": {
+			"type": "string",
+			"default": ""
+		},
+		"textAlignMobile": {
+			"type": "string",
+			"default": ""
+		},
+		"fontFamily": {
+			"type": "string",
+			"default": ""
+		},
+		"fontSize": {
+			"type": "number",
+			"default": 16
+		},
+		"fontSizeTablet": {
+			"type": "number"
+		},
+		"fontSizeMobile": {
+			"type": "number"
+		},
+		"fontWeight": {
+			"type": "string",
+			"default": "400"
+		},
+		"lineHeight": {
+			"type": "string",
+			"default": "1.5"
+		},
+		"lineHeightTablet": {
+			"type": "string"
+		},
+		"lineHeightMobile": {
+			"type": "string"
+		},
+		"letterSpacing": {
+			"type": "string",
+			"default": "0px"
+		},
+		"letterSpacingTablet": {
+			"type": "string"
+		},
+		"letterSpacingMobile": {
+			"type": "string"
+		},
+		"textTransform": {
+			"type": "string",
+			"default": "none"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "#334155"
+		},
+		"highlightColor": {
+			"type": "string",
+			"default": "#2563eb"
+		},
+		"enableTextGradient": {
+			"type": "boolean",
+			"default": false
+		},
+		"textGradient": {
+			"type": "string",
+			"default": "linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)"
+		},
+		"padding": {
+			"type": "object"
+		},
+		"paddingTablet": {
+			"type": "object"
+		},
+		"paddingMobile": {
+			"type": "object"
+		},
+		"margin": {
+			"type": "object"
+		},
+		"marginTablet": {
+			"type": "object"
+		},
+		"marginMobile": {
+			"type": "object"
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

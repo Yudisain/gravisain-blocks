@@ -1,0 +1,66 @@
+/* ==========================================================================
+   UNIVERSAL IFRAME & NON-IFRAME SELECTION / FOCUS BORDER RESET FOR COUNT UP
+   ========================================================================== */
+[data-type="gravisain/count-up"],
+[data-type="gravisain/count-up"].is-selected,
+[data-type="gravisain/count-up"].is-highlighted,
+[data-type="gravisain/count-up"]:focus,
+[data-type="gravisain/count-up"]:focus-within,
+[data-type="gravisain/count-up"]:focus-visible,
+[data-block][data-type="gravisain/count-up"],
+[data-block][data-type="gravisain/count-up"].is-selected,
+[data-block][data-type="gravisain/count-up"]:focus,
+[data-block][data-type="gravisain/count-up"]:focus-within,
+.block-editor-block-list__block[data-type="gravisain/count-up"],
+.block-editor-block-list__block[data-type="gravisain/count-up"].is-selected,
+.block-editor-block-list__block[data-type="gravisain/count-up"]:focus,
+.block-editor-block-list__block[data-type="gravisain/count-up"]:focus-within,
+.wp-block-gravisain-count-up,
+.wp-block-gravisain-count-up.is-selected,
+.wp-block-gravisain-count-up:focus,
+.wp-block-gravisain-count-up:focus-within,
+.gravisain-count-up,
+.gravisain-count-up.is-selected,
+.gravisain-count-up:focus,
+.gravisain-count-up:focus-within,
+.gravisain-count-up *,
+.gravisain-count-up *:focus {
+	outline: none !important;
+	box-shadow: none !important;
+}
+
+[data-type="gravisain/count-up"]::before,
+[data-type="gravisain/count-up"]::after,
+[data-type="gravisain/count-up"].is-selected::before,
+[data-type="gravisain/count-up"].is-selected::after,
+[data-type="gravisain/count-up"]:focus::before,
+[data-type="gravisain/count-up"]:focus::after,
+[data-type="gravisain/count-up"]:focus-within::before,
+[data-type="gravisain/count-up"]:focus-within::after,
+[data-block][data-type="gravisain/count-up"]::before,
+[data-block][data-type="gravisain/count-up"]::after,
+.block-editor-block-list__block[data-type="gravisain/count-up"]::before,
+.block-editor-block-list__block[data-type="gravisain/count-up"]::after,
+.block-editor-block-list__block[data-type="gravisain/count-up"].is-selected::before,
+.block-editor-block-list__block[data-type="gravisain/count-up"].is-selected::after,
+.wp-block-gravisain-count-up::before,
+.wp-block-gravisain-count-up::after,
+.wp-block-gravisain-count-up.is-selected::before,
+.wp-block-gravisain-count-up.is-selected::after,
+.gravisain-count-up::before,
+.gravisain-count-up::after,
+.gravisain-count-up.is-selected::before,
+.gravisain-count-up.is-selected::after {
+	outline: none !important;
+	box-shadow: none !important;
+	border: none !important;
+	display: none !important;
+}
+
+[data-type="gravisain/count-up"].is-hovered:not(.is-selected),
+[data-block][data-type="gravisain/count-up"].is-hovered:not(.is-selected),
+.block-editor-block-list__block[data-type="gravisain/count-up"].is-hovered:not(.is-selected),
+.wp-block-gravisain-count-up.is-hovered:not(.is-selected) {
+	outline: 1px solid var(--wp-admin-theme-color, #007cba) !important;
+	box-shadow: 0 0 0 1px var(--wp-admin-theme-color, #007cba) !important;
+}

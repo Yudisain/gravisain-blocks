@@ -1,0 +1,87 @@
+.gravisain-spacing-visualizer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	pointer-events: none;
+	z-index: 100;
+
+	&.is-dragging-active {
+		// Ensures that while dragging, we don't accidentally hover other things
+		pointer-events: auto;
+	}
+
+	.gravisain-spacing-zone {
+		position: absolute;
+		left: 0;
+		right: 0;
+		background-color: transparent;
+		pointer-events: none;
+		cursor: ns-resize;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: background-color 0.2s ease;
+		min-height: 0;
+
+		&.is-padding-top {
+			top: 0;
+		}
+
+		&.is-padding-bottom {
+			bottom: 0;
+		}
+
+		&.is-dragging, &:hover {
+			background-color: rgba(69, 190, 114, 0.2); // Kadence green-ish color
+		}
+
+		.gravisain-spacing-handle-center {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 4px;
+			font-size: 11px !important;
+			line-height: 1 !important;
+			font-weight: 500;
+			color: #334155;
+			background: transparent;
+			padding: 2px 6px;
+			pointer-events: auto;
+			cursor: ns-resize;
+			opacity: 0;
+			transition: opacity 0.2s ease;
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			white-space: nowrap !important;
+
+			&:hover, .gravisain-spacing-zone.is-dragging & {
+				color: #45be72;
+			}
+		}
+
+		&.is-padding-top .gravisain-spacing-handle-center {
+			bottom: 0;
+			transform: translate(-50%, 50%);
+		}
+
+		&.is-padding-bottom .gravisain-spacing-handle-center {
+			top: 0;
+			transform: translate(-50%, -50%);
+		}
+	}
+}
+
+// Ensure the block wrapper itself enables absolute positioning and doesn't clip our tooltips
+.wp-block-gravisain-row-layout,
+.wp-block-gravisain-container,
+.wp-block-gravisain-column {
+	position: relative;
+	
+	// Show the handle when hovering the entire block
+	&:hover .gravisain-spacing-visualizer .gravisain-spacing-handle-center {
+		opacity: 1;
+	}
+}

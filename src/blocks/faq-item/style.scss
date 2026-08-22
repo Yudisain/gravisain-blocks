@@ -1,0 +1,101 @@
+.gravisain-faq-item {
+	background: var(--content-bg, #ffffff);
+	border: var(--border-width, 1px) solid var(--border-normal, #e2e8f0);
+	border-radius: var(--radius, 8px);
+	overflow: hidden;
+	transition: all 0.3s ease;
+
+	&.has-shadow {
+		box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+	}
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: var(--hdr-pt, 24px) var(--hdr-pr, 24px) var(--hdr-pb, 24px) var(--hdr-pl, 24px);
+		cursor: pointer;
+		background: var(--hdr-bg-normal, #ffffff);
+		border: none;
+		width: 100%;
+		text-align: left;
+		transition: background-color 0.2s ease, color 0.2s ease;
+
+		&:hover {
+			background-color: var(--hdr-bg-active, #f8fafc);
+		}
+	}
+
+	&__question {
+		margin: 0;
+		font-size: var(--q-size, 18px);
+		font-weight: 600;
+		color: var(--q-color-normal, #1e293b);
+		transition: color 0.2s ease;
+	}
+
+	&__icon {
+		transition: transform 0.3s ease, color 0.2s ease;
+		color: var(--icon-color-normal, #64748b);
+		font-size: var(--icon-size, 24px);
+		width: var(--icon-size, 24px);
+		height: var(--icon-size, 24px);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+
+	&__content {
+		display: grid;
+		grid-template-rows: 0fr;
+		transition: grid-template-rows 0.3s ease;
+		background: var(--content-bg, #ffffff);
+		
+		&-inner {
+			overflow: hidden;
+			padding: 0 var(--cnt-pr, 24px);
+			opacity: 0;
+			transition: opacity 0.3s ease, padding 0.3s ease;
+		}
+
+		p:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	/* Open State */
+	&.is-open {
+		border-color: var(--border-active, #4f46e5);
+
+		&.has-shadow {
+			box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+		}
+
+		.gravisain-faq-item__header {
+			background-color: var(--hdr-bg-active, #f8fafc);
+		}
+
+		.gravisain-faq-item__question {
+			color: var(--q-color-active, #4f46e5);
+		}
+
+		.gravisain-faq-item__icon {
+			color: var(--icon-color-active, #4f46e5);
+		}
+
+		&.icon-arrow-down-alt2 .gravisain-faq-item__icon,
+		&.icon-arrow-down .gravisain-faq-item__icon {
+			transform: rotate(180deg);
+		}
+
+		.gravisain-faq-item__content {
+			grid-template-rows: 1fr;
+
+			&-inner {
+				padding: var(--cnt-pt, 0px) var(--cnt-pr, 24px) var(--cnt-pb, 24px) var(--cnt-pl, 24px);
+				opacity: 1;
+			}
+		}
+	}
+}

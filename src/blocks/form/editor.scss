@@ -1,0 +1,10 @@
+.block-editor-block-list__block .gravisain-form-block {
+	.gravisain-form-title {
+		outline: none;
+	}
+
+	.gravisain-form-group input,
+	.gravisain-form-group textarea {
+		pointer-events: none;
+	}
+}

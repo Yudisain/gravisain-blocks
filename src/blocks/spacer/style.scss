@@ -1,0 +1,23 @@
+.gravisain-spacer {
+	position: relative;
+	box-sizing: border-box;
+	clear: both;
+	width: 100%;
+
+	@media (max-width: 1024px) {
+		&[style*="--gravisain-spacer-height-tablet"] {
+			height: var(--gravisain-spacer-height-tablet) !important;
+		}
+	}
+
+	@media (max-width: 767px) {
+		&[style*="--gravisain-spacer-height-mobile"] {
+			height: var(--gravisain-spacer-height-mobile) !important;
+		}
+	}
+
+	.gravisain-spacer-divider-line {
+		margin: 0 auto;
+		box-sizing: border-box;
+	}
+}

@@ -1,0 +1,32 @@
+.gravisain-buttons-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+
+	&.is-layout-vertical {
+		flex-direction: column;
+		
+		> .wp-block-gravisain-advanced-button {
+			width: 100%;
+		}
+	}
+
+	&.is-layout-horizontal {
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.block-editor-inner-blocks {
+		width: 100%;
+		
+		> .block-editor-block-list__layout {
+			display: inherit;
+			flex-direction: inherit;
+			flex-wrap: inherit;
+			align-items: inherit;
+			justify-content: inherit;
+			gap: inherit;
+			width: 100%;
+		}
+	}
+}

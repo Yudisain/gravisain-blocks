@@ -1,0 +1,22 @@
+.gravisain-vector-wrapper {
+	.gravisain-vector-placeholder {
+		padding: 24px;
+		background: #f8fafc;
+		border: 1px dashed #cbd5e1;
+		border-radius: 4px;
+		text-align: center;
+		color: #64748b;
+
+		span {
+			display: block;
+			font-weight: 500;
+			color: #334155;
+			margin-bottom: 8px;
+		}
+		
+		p {
+			margin: 0;
+			font-size: 13px;
+		}
+	}
+}

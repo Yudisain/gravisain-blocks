@@ -1,0 +1,69 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "gravisain/advanced-form",
+  "version": "0.1.0",
+  "title": "Advanced Form",
+  "category": "gravisain-blocks",
+  "icon": "feedback",
+  "description": "Create a fully customizable contact or lead generation form.",
+  "keywords": [
+    "form",
+    "contact",
+    "email",
+    "input"
+  ],
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "attributes": {
+    "formActionUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "showNameField": {
+      "type": "boolean",
+      "default": true
+    },
+    "showPhoneField": {
+      "type": "boolean",
+      "default": false
+    },
+    "showSubjectField": {
+      "type": "boolean",
+      "default": true
+    },
+    "submitButtonText": {
+      "type": "string",
+      "default": "Send Message"
+    },
+    "buttonAlign": {
+      "type": "string",
+      "default": "left"
+    },
+    "buttonColor": {
+      "type": "string",
+      "default": "var(--wp--preset--color--primary, #007cba)"
+    },
+    "buttonTextColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "fieldStyle": {
+      "type": "string",
+      "default": "outline"
+    },
+    "anchor": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "textdomain": "gravisain-blocks",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

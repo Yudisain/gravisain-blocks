@@ -1,0 +1,90 @@
+.gravisain-modal {
+	box-sizing: border-box;
+	margin: 0 0 16px 0;
+	display: inline-block;
+
+	.gravisain-modal-trigger-btn {
+		background-color: var(--gravisain-modal-btn-bg, #007cba);
+		color: var(--gravisain-modal-btn-color, #ffffff);
+		border: none;
+		border-radius: 6px;
+		padding: 12px 24px;
+		font-size: 16px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: opacity 0.2s ease;
+
+		&:hover {
+			opacity: 0.9;
+		}
+	}
+
+	.gravisain-modal-trigger-link {
+		color: var(--gravisain-modal-btn-bg, #007cba);
+		font-size: 16px;
+		font-weight: 600;
+		text-decoration: underline;
+		cursor: pointer;
+	}
+
+	.gravisain-modal-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: var(--gravisain-modal-overlay-bg, rgba(0, 0, 0, 0.6));
+		z-index: 99999;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 20px;
+		box-sizing: border-box;
+
+		.gravisain-modal-box {
+			background-color: var(--gravisain-modal-box-bg, #ffffff);
+			border-radius: var(--gravisain-modal-radius, 12px);
+			max-width: var(--gravisain-modal-width, 600px);
+			width: 100%;
+			max-height: 90vh;
+			display: flex;
+			flex-direction: column;
+			box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+			overflow: hidden;
+
+			.gravisain-modal-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 16px 24px;
+				border-bottom: 1px solid #e2e8f0;
+
+				.gravisain-modal-title {
+					margin: 0 !important;
+					font-size: 20px;
+					font-weight: 600;
+					color: #1e293b;
+				}
+
+				.gravisain-modal-close-btn {
+					background: transparent;
+					border: none;
+					font-size: 28px;
+					line-height: 1;
+					color: var(--gravisain-modal-close-color, #333333);
+					cursor: pointer;
+					padding: 0 4px;
+
+					&:hover {
+						color: #e53e3e;
+					}
+				}
+			}
+
+			.gravisain-modal-body {
+				padding: var(--gravisain-modal-padding, 24px);
+				overflow-y: auto;
+			}
+		}
+	}
+}

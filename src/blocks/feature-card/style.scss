@@ -1,0 +1,103 @@
+.gravisain-feature-card {
+	background: var(--card-bg, #ffffff);
+	padding: var(--card-pt, 32px) var(--card-pr, 28px) var(--card-pb, 32px) var(--card-pl, 28px);
+	border-radius: var(--card-radius, 12px);
+	border: var(--card-border-width, 1px) solid var(--card-border, #f3f4f6);
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+	transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+	text-align: var(--text-align, center);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 100%;
+
+	&.align-left {
+		align-items: flex-start;
+		text-align: left;
+	}
+
+	&.align-right {
+		align-items: flex-end;
+		text-align: right;
+	}
+
+	&.icon-pos-left {
+		flex-direction: row;
+		align-items: flex-start;
+		gap: 1.25rem;
+		text-align: left;
+
+		.gravisain-feature-card__icon {
+			margin-bottom: 0;
+			flex-shrink: 0;
+		}
+	}
+
+	&.icon-pos-right {
+		flex-direction: row-reverse;
+		align-items: flex-start;
+		gap: 1.25rem;
+		text-align: right;
+
+		.gravisain-feature-card__icon {
+			margin-bottom: 0;
+			flex-shrink: 0;
+		}
+	}
+
+	&__icon {
+		width: var(--icon-box-size, 64px);
+		height: var(--icon-box-size, 64px);
+		border-radius: var(--icon-radius, 12px);
+		background: var(--icon-bg, rgba(79, 70, 229, 0.1));
+		color: var(--icon-color, #4f46e5);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 1.5rem;
+		font-size: var(--icon-size, 32px);
+
+		.dashicons {
+			font-size: var(--icon-size, 32px);
+			width: var(--icon-size, 32px);
+			height: var(--icon-size, 32px);
+		}
+	}
+
+	&__content {
+		flex: 1;
+		width: 100%;
+	}
+
+	&__title {
+		margin: 0 0 0.75rem 0;
+		font-size: var(--title-size, 20px);
+		font-weight: 700;
+		color: var(--title-color, #111827);
+	}
+
+	&__description {
+		margin: 0;
+		color: var(--desc-color, #4b5563);
+		font-size: var(--desc-size, 15px);
+		line-height: 1.6;
+	}
+}
+
+/* Frontend only hover effects */
+body:not(.wp-admin):not(.block-editor-iframe__body) {
+	.gravisain-feature-card.hover-lift:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.12);
+	}
+
+	.gravisain-feature-card.hover-scale:hover {
+		transform: scale(1.02);
+		box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.1);
+	}
+
+	.gravisain-feature-card.hover-border-glow:hover {
+		border-color: var(--icon-color, #4f46e5);
+		box-shadow: 0 0 20px rgba(79, 70, 229, 0.15);
+	}
+}

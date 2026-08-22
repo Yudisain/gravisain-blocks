@@ -1,0 +1,30 @@
+.gravisain-google-maps {
+	box-sizing: border-box;
+	margin: 0 0 24px 0;
+	width: 100%;
+	border: none !important;
+	outline: none !important;
+	box-shadow: none !important;
+
+	.gravisain-maps-wrapper {
+		width: 100%;
+		height: var(--gravisain-maps-height, 400px);
+		border-radius: var(--gravisain-maps-radius, 8px);
+		border: var(--gravisain-maps-border-width, 0px) solid var(--gravisain-maps-border-color, #e2e8f0);
+		box-shadow: var(--gravisain-maps-shadow, none);
+		overflow: hidden;
+		position: relative;
+		background: #f1f5f9;
+
+		iframe {
+			width: 100% !important;
+			height: 100% !important;
+			margin: 0 !important;
+			border: none !important;
+			padding: 0 !important;
+			display: block !important;
+			background: transparent !important;
+			color-scheme: light !important;
+		}
+	}
+}

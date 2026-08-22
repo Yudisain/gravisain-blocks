@@ -1,0 +1,123 @@
+/* ==========================================================================
+   COUNTDOWN — FRONTEND STYLES
+   File ini dimuat di FRONTEND (dan sebagai editor content style).
+   Jangan taruh selector editor-only di sini ([data-type], .is-selected dll).
+   ========================================================================== */
+
+/* Reset wrapper dari border apapun yang mungkin ditambahkan theme/WordPress core */
+.wp-block-gravisain-countdown {
+	border: none !important;
+	outline: none !important;
+	box-shadow: none !important;
+}
+
+.gravisain-countdown {
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	margin: 0 0 24px 0;
+	border: none;
+	outline: none;
+
+	&.align-left { align-items: flex-start; }
+	&.align-center { align-items: center; }
+	&.align-right { align-items: flex-end; }
+
+	@media (max-width: 1024px) {
+		&.align-tablet-left { align-items: flex-start !important; }
+		&.align-tablet-center { align-items: center !important; }
+		&.align-tablet-right { align-items: flex-end !important; }
+	}
+
+	@media (max-width: 767px) {
+		&.align-mobile-left { align-items: flex-start !important; }
+		&.align-mobile-center { align-items: center !important; }
+		&.align-mobile-right { align-items: flex-end !important; }
+	}
+
+	.gravisain-countdown-items {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--gravisain-cd-gap, 16px);
+		justify-content: center;
+	}
+
+	&.layout-boxes .gravisain-countdown-item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		background-color: var(--gravisain-cd-box-bg, #f8fafc);
+		border: var(--gravisain-cd-border-width, 1px) solid var(--gravisain-cd-border-color, #e2e8f0);
+		border-radius: var(--gravisain-cd-radius, 8px);
+		padding: 16px 24px;
+		min-width: 80px;
+
+		.gravisain-cd-number {
+			font-size: var(--gravisain-cd-num-size, 36px);
+			font-weight: 700;
+			line-height: 1.1;
+			color: var(--gravisain-cd-num-color, #007cba);
+		}
+
+		.gravisain-cd-label {
+			margin-top: 4px;
+			font-size: var(--gravisain-cd-label-size, 14px);
+			font-weight: 500;
+			color: var(--gravisain-cd-label-color, #666666);
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+		}
+	}
+
+	&.layout-inline .gravisain-countdown-item {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 6px;
+
+		.gravisain-cd-number {
+			font-size: var(--gravisain-cd-num-size, 36px);
+			font-weight: 700;
+			color: var(--gravisain-cd-num-color, #007cba);
+		}
+
+		.gravisain-cd-label {
+			font-size: var(--gravisain-cd-label-size, 14px);
+			font-weight: 500;
+			color: var(--gravisain-cd-label-color, #666666);
+		}
+
+		&:not(:last-child)::after {
+			content: ':';
+			font-size: var(--gravisain-cd-num-size, 36px);
+			font-weight: 700;
+			color: var(--gravisain-cd-num-color, #007cba);
+			margin-left: var(--gravisain-cd-gap, 16px);
+		}
+	}
+
+	&.layout-minimal .gravisain-countdown-item {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: center;
+
+		.gravisain-cd-number {
+			font-size: var(--gravisain-cd-num-size, 36px);
+			font-weight: 700;
+			color: var(--gravisain-cd-num-color, #007cba);
+		}
+
+		.gravisain-cd-label {
+			font-size: var(--gravisain-cd-label-size, 14px);
+			color: var(--gravisain-cd-label-color, #666666);
+		}
+	}
+
+	.gravisain-countdown-expired-msg {
+		font-size: 18px;
+		font-weight: 600;
+		color: #e53e3e;
+		padding: 16px;
+		text-align: center;
+	}
+}

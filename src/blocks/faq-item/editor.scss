@@ -1,0 +1,12 @@
+.gravisain-faq-item {
+	&__content {
+		/* In editor, we don't want the grid animation to hide the content because it makes editing impossible */
+		display: block;
+		grid-template-rows: auto;
+		
+		&-inner {
+			opacity: 1;
+			padding: 1rem 1.5rem 1.5rem 1.5rem;
+		}
+	}
+}

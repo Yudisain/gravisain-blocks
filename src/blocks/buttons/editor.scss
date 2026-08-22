@@ -1,0 +1,10 @@
+.gravisain-buttons-wrapper {
+	padding: 10px;
+	border: 1px dashed transparent;
+	transition: border-color 0.2s ease;
+
+	&:hover,
+	&.is-selected {
+		border-color: var(--wp-admin-theme-color);
+	}
+}

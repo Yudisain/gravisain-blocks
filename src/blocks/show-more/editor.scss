@@ -1,0 +1,17 @@
+.gravisain-show-more {
+	&.is-selected {
+		outline: 1px dashed var(--wp-admin-theme-color);
+		outline-offset: 4px;
+	}
+
+	// In the editor, always show the full content so it's easy to edit
+	.gravisain-sm-content {
+		min-height: 50px;
+	}
+	
+	.gravisain-sm-fade {
+		// Dotted line to show where it would cut off
+		border-top: 1px dashed #ccc;
+		background: rgba(255, 255, 255, 0.5); // semi transparent
+	}
+}

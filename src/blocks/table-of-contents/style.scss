@@ -1,0 +1,95 @@
+.gravisain-table-of-contents {
+	box-sizing: border-box;
+	background-color: var(--gravisain-toc-bg, #f8fafc);
+	border: 1px solid var(--gravisain-toc-border-color, #e2e8f0);
+	border-radius: var(--gravisain-toc-radius, 8px);
+	padding: var(--gravisain-toc-padding, 20px);
+	margin: 0 0 24px 0;
+
+	.gravisain-toc-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 12px;
+
+		.gravisain-toc-title {
+			margin: 0 !important;
+			color: var(--gravisain-toc-title-color, #1a202c);
+			font-size: 18px;
+			font-weight: 600;
+		}
+
+		.gravisain-toc-toggle {
+			background: transparent;
+			border: none;
+			padding: 4px;
+			cursor: pointer;
+			color: var(--gravisain-toc-title-color, #1a202c);
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+
+			.gravisain-toc-toggle-icon {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-top: 2px solid currentColor;
+				border-right: 2px solid currentColor;
+				transform: rotate(135deg);
+				transition: transform 0.2s ease;
+			}
+		}
+	}
+
+	.gravisain-toc-content {
+		transition: max-height 0.3s ease, opacity 0.3s ease;
+		overflow: hidden;
+
+		.gravisain-toc-list {
+			margin: 0 !important;
+			padding-left: 20px !important;
+
+			&.list-style-none {
+				list-style: none !important;
+				padding-left: 0 !important;
+			}
+
+			.gravisain-toc-item {
+				margin: 6px 0 !important;
+				line-height: 1.5;
+
+				&.level-3 { margin-left: 16px !important; }
+				&.level-4 { margin-left: 32px !important; }
+				&.level-5 { margin-left: 48px !important; }
+				&.level-6 { margin-left: 64px !important; }
+
+				a {
+					color: var(--gravisain-toc-link-color, #007cba);
+					text-decoration: none;
+					transition: color 0.2s ease;
+
+					&:hover {
+						color: var(--gravisain-toc-hover-color, #005a87);
+						text-decoration: underline;
+					}
+				}
+			}
+		}
+	}
+
+	&.is-collapsed {
+		.gravisain-toc-header {
+			margin-bottom: 0;
+		}
+
+		.gravisain-toc-content {
+			max-height: 0;
+			opacity: 0;
+			margin: 0;
+		}
+
+		.gravisain-toc-toggle .gravisain-toc-toggle-icon {
+			transform: rotate(-45deg);
+		}
+	}
+}

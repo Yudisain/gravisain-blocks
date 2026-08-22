@@ -1,0 +1,67 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "gravisain/features-grid",
+  "version": "1.1.0",
+  "title": "Features Grid",
+  "category": "gravisain-blocks",
+  "icon": "grid-view",
+  "description": "A premium responsive grid container for feature cards with gap and spacing controls.",
+  "textdomain": "gravisain",
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false
+  },
+  "attributes": {
+    "columns": {
+      "type": "number",
+      "default": 3
+    },
+    "columnsTablet": {
+      "type": "number",
+      "default": 2
+    },
+    "columnsMobile": {
+      "type": "number",
+      "default": 1
+    },
+    "columnGap": {
+      "type": "number",
+      "default": 32
+    },
+    "rowGap": {
+      "type": "number",
+      "default": 32
+    },
+    "marginTop": {
+      "type": "number",
+      "default": 32
+    },
+    "marginBottom": {
+      "type": "number",
+      "default": 32
+    },
+    "paddingTop": {
+      "type": "number",
+      "default": 0
+    },
+    "paddingBottom": {
+      "type": "number",
+      "default": 0
+    },
+    "paddingLeft": {
+      "type": "number",
+      "default": 0
+    },
+    "paddingRight": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

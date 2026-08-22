@@ -1,0 +1,80 @@
+.gravisain-block-container {
+	position: relative;
+	box-sizing: border-box;
+	width: 100%;
+	min-height: var(--container-min-height, auto);
+	overflow: var(--container-overflow, visible);
+	display: flex;
+	flex-direction: column;
+	justify-content: var(--container-align, flex-start);
+
+	.gravisain-container-inner {
+		box-sizing: border-box;
+		position: relative;
+		width: 100%;
+		max-width: var(--container-max-width, 1200px);
+		margin-left: auto;
+		margin-right: auto;
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: var(--container-align, flex-start);
+	}
+
+	/* Responsive Spacing applied to outer block wrapper */
+	&[style*="--gravisain-container-pt"] { padding-top: var(--gravisain-container-pt) !important; }
+	&[style*="--gravisain-container-pr"] { padding-right: var(--gravisain-container-pr) !important; }
+	&[style*="--gravisain-container-pb"] { padding-bottom: var(--gravisain-container-pb) !important; }
+	&[style*="--gravisain-container-pl"] { padding-left: var(--gravisain-container-pl) !important; }
+	&[style*="--gravisain-container-mt"] { margin-top: var(--gravisain-container-mt) !important; }
+	&[style*="--gravisain-container-mb"] { margin-bottom: var(--gravisain-container-mb) !important; }
+
+	@media (max-width: 1024px) {
+		&[style*="--gravisain-container-pt"] { padding-top: var(--gravisain-container-pt-tablet, var(--gravisain-container-pt)) !important; }
+		&[style*="--gravisain-container-pr"] { padding-right: var(--gravisain-container-pr-tablet, var(--gravisain-container-pr)) !important; }
+		&[style*="--gravisain-container-pb"] { padding-bottom: var(--gravisain-container-pb-tablet, var(--gravisain-container-pb)) !important; }
+		&[style*="--gravisain-container-pl"] { padding-left: var(--gravisain-container-pl-tablet, var(--gravisain-container-pl)) !important; }
+		&[style*="--gravisain-container-mt"] { margin-top: var(--gravisain-container-mt-tablet, var(--gravisain-container-mt)) !important; }
+		&[style*="--gravisain-container-mb"] { margin-bottom: var(--gravisain-container-mb-tablet, var(--gravisain-container-mb)) !important; }
+	}
+
+	@media (max-width: 767px) {
+		&[style*="--gravisain-container-pt"] { padding-top: var(--gravisain-container-pt-mobile, var(--gravisain-container-pt-tablet, var(--gravisain-container-pt))) !important; }
+		&[style*="--gravisain-container-pr"] { padding-right: var(--gravisain-container-pr-mobile, var(--gravisain-container-pr-tablet, var(--gravisain-container-pr))) !important; }
+		&[style*="--gravisain-container-pb"] { padding-bottom: var(--gravisain-container-pb-mobile, var(--gravisain-container-pb-tablet, var(--gravisain-container-pb))) !important; }
+		&[style*="--gravisain-container-pl"] { padding-left: var(--gravisain-container-pl-mobile, var(--gravisain-container-pl-tablet, var(--gravisain-container-pl))) !important; }
+		&[style*="--gravisain-container-mt"] { margin-top: var(--gravisain-container-mt-mobile, var(--gravisain-container-mt-tablet, var(--gravisain-container-mt))) !important; }
+		&[style*="--gravisain-container-mb"] { margin-bottom: var(--gravisain-container-mb-mobile, var(--gravisain-container-mb-tablet, var(--gravisain-container-mb))) !important; }
+	}
+
+	/* Alignwide Breakout Fallback */
+	&.alignwide {
+		width: var(--wp--custom--layout--wide-size, 1200px) !important;
+		max-width: calc(100vw - 48px) !important;
+		margin-left: calc(50% - min(var(--wp--custom--layout--wide-size, 1200px), calc(100vw - 48px)) / 2) !important;
+		margin-right: calc(50% - min(var(--wp--custom--layout--wide-size, 1200px), calc(100vw - 48px)) / 2) !important;
+	}
+
+	/* Alignfull Breakout Fallback */
+	&.alignfull {
+		width: 100vw !important;
+		max-width: 100vw !important;
+		margin-left: calc(50% - 50vw) !important;
+		margin-right: calc(50% - 50vw) !important;
+	}
+
+	/* Sidebar Protection: Fallback to 100% when inside a layout with sidebar */
+	:global(.content-area-wrapper.sidebar-left) &.alignfull,
+	:global(.content-area-wrapper.sidebar-right) &.alignfull,
+	:global(.sidebar-left) &.alignfull,
+	:global(.sidebar-right) &.alignfull,
+	:global(.content-area-wrapper.sidebar-left) &.alignwide,
+	:global(.content-area-wrapper.sidebar-right) &.alignwide,
+	:global(.sidebar-left) &.alignwide,
+	:global(.sidebar-right) &.alignwide {
+		width: 100% !important;
+		max-width: 100% !important;
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+	}
+}

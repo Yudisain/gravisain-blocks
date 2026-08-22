@@ -1,0 +1,42 @@
+/**
+ * Gravisain Blocks Source Styles
+ *
+ * @package Gravisain\Blocks
+ */
+
+.gravisain-pattern-hero {
+	position: relative;
+	overflow: hidden;
+}
+
+.gravisain-pattern-card {
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.gravisain-pattern-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+}
+
+details.wp-block-details summary {
+	cursor: pointer;
+	list-style: none;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+details.wp-block-details summary::-webkit-details-marker {
+	display: none;
+}
+
+details.wp-block-details summary::after {
+	content: '+';
+	font-weight: bold;
+	font-size: 1.25em;
+	transition: transform 0.2s ease;
+}
+
+details.wp-block-details[open] summary::after {
+	content: '−';
+}

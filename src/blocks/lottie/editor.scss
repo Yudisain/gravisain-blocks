@@ -1,0 +1,94 @@
+.block-editor-block-list__block .gravisain-lottie {
+	.gravisain-lottie-preview-box {
+		background: #f1f5f9;
+		border: 2px dashed #cbd5e1;
+		border-radius: 8px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 24px;
+		color: #475569;
+		max-width: 100%;
+
+		.gravisain-lottie-badge {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-weight: 600;
+			font-size: 16px;
+
+			small {
+				background: #007cba;
+				color: #fff;
+				padding: 2px 6px;
+				border-radius: 4px;
+				font-size: 11px;
+			}
+		}
+
+		.gravisain-lottie-url {
+			font-size: 12px;
+			color: #64748b;
+			margin-top: 8px;
+			word-break: break-all;
+			text-align: center;
+		}
+	}
+}
+
+/* ==========================================================================
+   UNIVERSAL SELECTION / FOCUS BORDER RESET FOR LOTTIE ANIMATION
+   ========================================================================== */
+[data-type="gravisain/lottie"],
+[data-type="gravisain/lottie"].is-selected,
+[data-type="gravisain/lottie"]:focus,
+[data-type="gravisain/lottie"]:focus-within,
+.block-editor-block-list__block[data-type="gravisain/lottie"],
+.block-editor-block-list__block[data-type="gravisain/lottie"].is-selected,
+.block-editor-block-list__block[data-type="gravisain/lottie"]:focus,
+.block-editor-block-list__block[data-type="gravisain/lottie"]:focus-within,
+.wp-block-gravisain-lottie,
+.wp-block-gravisain-lottie.is-selected,
+.wp-block-gravisain-lottie:focus,
+.wp-block-gravisain-lottie:focus-within,
+.gravisain-lottie,
+.gravisain-lottie.is-selected,
+.gravisain-lottie:focus,
+.gravisain-lottie:focus-within {
+	outline: none !important;
+	box-shadow: none !important;
+	border: none !important;
+	background: transparent !important;
+	padding: 0 !important;
+}
+
+[data-type="gravisain/lottie"]::before,
+[data-type="gravisain/lottie"]::after,
+[data-type="gravisain/lottie"].is-selected::before,
+[data-type="gravisain/lottie"].is-selected::after,
+.block-editor-block-list__block[data-type="gravisain/lottie"]::before,
+.block-editor-block-list__block[data-type="gravisain/lottie"]::after,
+.block-editor-block-list__block[data-type="gravisain/lottie"].is-selected::before,
+.block-editor-block-list__block[data-type="gravisain/lottie"].is-selected::after,
+.wp-block-gravisain-lottie::before,
+.wp-block-gravisain-lottie::after,
+.wp-block-gravisain-lottie.is-selected::before,
+.wp-block-gravisain-lottie.is-selected::after,
+.gravisain-lottie::before,
+.gravisain-lottie::after,
+.gravisain-lottie.is-selected::before,
+.gravisain-lottie.is-selected::after {
+	outline: none !important;
+	box-shadow: none !important;
+	border: none !important;
+	display: none !important;
+}
+
+/* Row Layout hover outline fallback if needed */
+[data-type="gravisain/lottie"].is-hovered:not(.is-selected),
+.block-editor-block-list__block[data-type="gravisain/lottie"].is-hovered:not(.is-selected),
+.wp-block-gravisain-lottie.is-hovered:not(.is-selected) {
+	outline: 1px solid var(--wp-admin-theme-color, #007cba) !important;
+	box-shadow: 0 0 0 1px var(--wp-admin-theme-color, #007cba) !important;
+}

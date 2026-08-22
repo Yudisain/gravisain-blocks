@@ -1,0 +1,58 @@
+.gravisain-progress-bar {
+	box-sizing: border-box;
+	margin: 0 0 16px 0;
+	width: 100%;
+
+	.gravisain-progress-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 6px;
+		color: var(--gravisain-pb-text-color, #333333);
+		font-weight: 500;
+		font-size: 15px;
+
+		.gravisain-progress-percentage {
+			font-weight: 600;
+		}
+	}
+
+	.gravisain-progress-track {
+		width: 100%;
+		height: var(--gravisain-pb-height, 10px);
+		background-color: var(--gravisain-pb-track-color, #e2e8f0);
+		border-radius: var(--gravisain-pb-radius, 999px);
+		overflow: hidden;
+		position: relative;
+
+		.gravisain-progress-fill {
+			height: 100%;
+			background-color: var(--gravisain-pb-bar-color, #007cba);
+			border-radius: var(--gravisain-pb-radius, 999px);
+			transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+		}
+	}
+
+	&.is-striped .gravisain-progress-track .gravisain-progress-fill {
+		background-image: linear-gradient(
+			45deg,
+			rgba(255, 255, 255, 0.15) 25%,
+			transparent 25%,
+			transparent 50%,
+			rgba(255, 255, 255, 0.15) 50%,
+			rgba(255, 255, 255, 0.15) 75%,
+			transparent 75%,
+			transparent
+		);
+		background-size: 1rem 1rem;
+	}
+
+	&.is-animated .gravisain-progress-track .gravisain-progress-fill {
+		animation: gravisain-stripes-move 1s linear infinite;
+	}
+}
+
+@keyframes gravisain-stripes-move {
+	from { background-position: 1rem 0; }
+	to { background-position: 0 0; }
+}

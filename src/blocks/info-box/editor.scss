@@ -1,0 +1,14 @@
+.editor-styles-wrapper .gravisain-info-box-card,
+.block-editor-block-list__block .gravisain-info-box-card,
+.gravisain-info-box-card {
+	cursor: default !important;
+	transition: none !important;
+	transform: none !important;
+
+	&:hover,
+	&:focus,
+	&:focus-within {
+		transform: none !important;
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04) !important;
+	}
+}

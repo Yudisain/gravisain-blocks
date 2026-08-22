@@ -1,0 +1,123 @@
+<?php
+/**
+ * Gutenberg Blocks Registry for Gravisain Blocks Plugin
+ *
+ * @package Gravisain\Blocks
+ */
+
+declare(strict_types=1);
+
+namespace Gravisain\Blocks;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+/**
+ * Block Registry Class
+ *
+ * Registers the Gravisain Blocks category and custom blocks.
+ */
+class BlockRegistry {
+
+	/**
+	 * Register hooks for block categories and blocks.
+	 *
+	 * @return void
+	 */
+	public function register(): void {
+		add_filter( 'block_categories_all', [ $this, 'register_block_category' ], 10, 1 );
+		add_action( 'init', [ $this, 'register_blocks' ], 15 );
+		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_category_icon_assets' ] );
+	}
+
+	/**
+	 * Register 'Gravisain Blocks' category in the Block Editor inserter sidebar.
+	 *
+	 * @param array $categories Existing categories.
+	 * @return array
+	 */
+	public function register_block_category( array $categories ): array {
+		// Check if already registered
+		foreach ( $categories as $cat ) {
+			if ( 'gravisain-blocks' === $cat['slug'] ) {
+				return $categories;
+			}
+		}
+
+		return array_merge(
+			[
+				[
+					'slug'  => 'gravisain-blocks',
+					'title' => __( 'Gravisain Blocks', 'gravisain-blocks' ),
+					'icon'  => null,
+				],
+			],
+			$categories
+		);
+	}
+
+	/**
+	 * Enqueue script & style for custom SVG category icon in the Gutenberg block inserter (+).
+	 *
+	 * @return void
+	 */
+	public function enqueue_category_icon_assets(): void {
+		$js_url = GRAVISAIN_BLOCKS_URL . 'assets/js/category-icon.js';
+		wp_enqueue_script(
+			'gravisain-blocks-category-icon',
+			$js_url,
+			[],
+			GRAVISAIN_BLOCKS_VERSION,
+			true
+		);
+	}
+
+	/**
+	 * Register all custom blocks from assets/blocks directory in alphabetical order (A-Z).
+	 *
+	 * @return void
+	 */
+	public function register_blocks(): void {
+		$blocks_dir = GRAVISAIN_BLOCKS_DIR . 'assets/blocks/';
+
+		if ( ! is_dir( $blocks_dir ) ) {
+			return;
+		}
+
+		$iterator = new \RecursiveIteratorIterator(
+			new \RecursiveDirectoryIterator( $blocks_dir, \RecursiveDirectoryIterator::SKIP_DOTS ),
+			\RecursiveIteratorIterator::SELF_FIRST
+		);
+
+		$registered = [];
+		$blocks     = [];
+
+		foreach ( $iterator as $file ) {
+			if ( $file->isFile() && 'block.json' === $file->getFilename() ) {
+				$block_path = $file->getPath();
+				$metadata   = wp_json_file_decode( $block_path . '/block.json', [ 'associative' => true ] );
+
+				if ( ! empty( $metadata['name'] ) && ! isset( $registered[ $metadata['name'] ] ) ) {
+					$title = (string) ( $metadata['title'] ?? basename( $block_path ) );
+					$blocks[] = [
+						'path'  => $block_path,
+						'name'  => $metadata['name'],
+						'title' => $title,
+					];
+					$registered[ $metadata['name'] ] = true;
+				}
+			}
+		}
+
+		// Sort blocks alphabetically A-Z by title
+		usort( $blocks, function( array $a, array $b ): int {
+			return strcasecmp( $a['title'], $b['title'] );
+		} );
+
+		// Register each block in sorted order
+		foreach ( $blocks as $block ) {
+			register_block_type( $block['path'] );
+		}
+	}
+}

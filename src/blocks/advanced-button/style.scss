@@ -1,0 +1,64 @@
+.gravisain-advanced-button {
+	display: inline-flex;
+	max-width: 100%;
+
+	.gravisain-advanced-button-inner {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		text-decoration: none;
+		line-height: 1.2;
+		width: 100%;
+		box-sizing: border-box;
+
+		// Theming variables applied dynamically via inline styles
+		background-color: var(--btn-bg, #000);
+		color: var(--btn-color, #fff);
+		border-style: solid;
+		border-color: var(--btn-border-color, transparent);
+		
+		transition: all 0.3s ease;
+
+		.gravisain-btn-icon {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 1.2em;
+			height: 1.2em;
+			
+			svg {
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		.gravisain-btn-text {
+			display: inline-block;
+		}
+
+		&:hover,
+		&:focus {
+			background-color: var(--btn-hover-bg, var(--btn-bg, #333));
+			color: var(--btn-hover-color, var(--btn-color, #fff));
+			border-color: var(--btn-hover-border-color, var(--btn-border-color, transparent));
+			outline: none;
+		}
+	}
+
+	&.has-shadow .gravisain-advanced-button-inner {
+		box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.1);
+		
+		&:hover {
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+		}
+	}
+
+	&.hover-effect-scale .gravisain-advanced-button-inner:hover {
+		transform: scale(1.05);
+	}
+
+	&.hover-effect-lift .gravisain-advanced-button-inner:hover {
+		transform: translateY(-4px);
+	}
+}

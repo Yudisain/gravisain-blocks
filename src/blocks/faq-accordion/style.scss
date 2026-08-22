@@ -1,0 +1,12 @@
+.gravisain-faq-accordion {
+	width: 100%;
+	max-width: var(--faq-max-width, 800px);
+	margin-top: var(--faq-mt, 32px);
+	margin-bottom: var(--faq-mb, 32px);
+	margin-left: auto;
+	margin-right: auto;
+	padding: var(--faq-pt, 0px) var(--faq-pr, 0px) var(--faq-pb, 0px) var(--faq-pl, 0px);
+	display: flex;
+	flex-direction: column;
+	gap: var(--faq-gap, 16px);
+}

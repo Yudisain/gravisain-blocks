@@ -1,0 +1,76 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "gravisain/lottie",
+  "version": "1.0.0",
+  "title": "Lottie Animation",
+  "category": "gravisain-blocks",
+  "icon": "video-alt3",
+  "description": "Embed rich, lightweight JSON Lottie animations with interactive triggers like hover, scroll, and click.",
+  "textdomain": "gravisain",
+  "supports": {
+    "html": false,
+    "anchor": false,
+    "customClassName": false,
+    "customCSS": false,
+    "__experimentalCustomCSS": false
+  },
+  "attributes": {
+    "url": {
+      "type": "string",
+      "default": ""
+    },
+    "mediaId": {
+      "type": "number",
+      "default": 0
+    },
+    "trigger": {
+      "type": "string",
+      "default": "autoplay"
+    },
+    "loop": {
+      "type": "boolean",
+      "default": true
+    },
+    "speed": {
+      "type": "number",
+      "default": 1
+    },
+    "width": {
+      "type": "number",
+      "default": 300
+    },
+    "height": {
+      "type": "number",
+      "default": 300
+    },
+    "alignment": {
+      "type": "string",
+      "default": "center"
+    },
+    "alignmentTablet": {
+      "type": "string",
+      "default": ""
+    },
+    "alignmentMobile": {
+      "type": "string",
+      "default": ""
+    },
+    "anchor": {
+      "type": "string",
+      "default": ""
+    },
+    "customClassName": {
+      "type": "string",
+      "default": ""
+    },
+    "customCSS": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}

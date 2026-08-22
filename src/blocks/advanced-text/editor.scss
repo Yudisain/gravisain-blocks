@@ -1,0 +1,46 @@
+.wp-block-gravisain-advanced-text {
+	position: relative;
+	box-sizing: border-box;
+
+	.gravisain-text-content {
+		margin: 0;
+		padding: 0;
+		transition: all 0.2s ease-in-out;
+	}
+
+	&.has-text-align-center .gravisain-text-content {
+		text-align: center;
+	}
+	&.has-text-align-right .gravisain-text-content {
+		text-align: right;
+	}
+	&.has-text-align-left .gravisain-text-content {
+		text-align: left;
+	}
+
+	/* Tablet preview styles */
+	.is-tablet-preview & {
+		&.has-tablet-text-align-center .gravisain-text-content {
+			text-align: center;
+		}
+		&.has-tablet-text-align-right .gravisain-text-content {
+			text-align: right;
+		}
+		&.has-tablet-text-align-left .gravisain-text-content {
+			text-align: left;
+		}
+	}
+
+	/* Mobile preview styles */
+	.is-mobile-preview & {
+		&.has-mobile-text-align-center .gravisain-text-content {
+			text-align: center;
+		}
+		&.has-mobile-text-align-right .gravisain-text-content {
+			text-align: right;
+		}
+		&.has-mobile-text-align-left .gravisain-text-content {
+			text-align: left;
+		}
+	}
+}

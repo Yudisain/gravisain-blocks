@@ -1,0 +1,121 @@
+.gravisain-advanced-heading {
+	padding: 4px 0;
+}
+
+.gravisain-inspector-tabs {
+	margin-top: 16px;
+
+	.components-tab-panel__tabs {
+		display: flex;
+		border-bottom: 1px solid #e2e8f0;
+		margin-bottom: 12px;
+
+		button {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			padding: 10px 0;
+			font-weight: 600;
+			font-size: 13px;
+			color: #64748b;
+			border-bottom: 2px solid transparent;
+			background: transparent;
+
+			&:hover {
+				color: #2563eb;
+				border-bottom-color: #2563eb;
+				background-color: #f8fafc;
+			}
+
+			&.is-active,
+			&.active-tab {
+				color: #2563eb;
+				border-bottom-color: #2563eb;
+				background-color: #eff6ff;
+			}
+		}
+	}
+}
+
+.gravisain-responsive-align-control {
+	margin-bottom: 24px;
+
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 8px;
+	}
+
+	&__label {
+		font-size: 11px;
+		font-weight: 600;
+		text-transform: uppercase;
+		color: #1e293b;
+	}
+
+	&__devices {
+		display: flex;
+		gap: 4px;
+	}
+
+	.gravisain-device-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 26px;
+		height: 26px;
+		border: 1px solid #e2e8f0;
+		border-radius: 4px;
+		background: #f8fafc;
+		color: #64748b;
+		cursor: pointer;
+		transition: all 0.2s ease;
+
+		&:hover {
+			background: #f1f5f9;
+			color: #334155;
+		}
+
+		&.is-active {
+			border-color: #2563eb;
+			background: #eff6ff;
+			color: #2563eb;
+		}
+	}
+
+	&__tabs {
+		display: flex;
+		background: #f1f5f9;
+		padding: 4px;
+		border-radius: 8px;
+		gap: 0;
+	}
+
+	.gravisain-align-btn {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 6px 0;
+		border: none;
+		border-radius: 6px;
+		background: transparent;
+		color: #64748b;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		box-shadow: none;
+
+		&:hover {
+			color: #334155;
+		}
+
+		&.is-active {
+			background: #ffffff;
+			color: #2563eb;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+		}
+	}
+}

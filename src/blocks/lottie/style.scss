@@ -1,0 +1,28 @@
+.gravisain-lottie {
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	margin: 0 0 24px 0;
+
+	&.align-left { align-items: flex-start; }
+	&.align-center { align-items: center; }
+	&.align-right { align-items: flex-end; }
+
+	@media (max-width: 1024px) {
+		&.align-tablet-left { align-items: flex-start !important; }
+		&.align-tablet-center { align-items: center !important; }
+		&.align-tablet-right { align-items: flex-end !important; }
+	}
+
+	@media (max-width: 767px) {
+		&.align-mobile-left { align-items: flex-start !important; }
+		&.align-mobile-center { align-items: center !important; }
+		&.align-mobile-right { align-items: flex-end !important; }
+	}
+
+	.gravisain-lottie-container {
+		display: block;
+		max-width: 100%;
+		overflow: hidden;
+	}
+}

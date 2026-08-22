@@ -1,0 +1,73 @@
+.gravisain-show-more {
+	position: relative;
+	width: 100%;
+
+	.gravisain-sm-inner {
+		position: relative;
+		overflow: hidden;
+		max-height: var(--sm-preview-height, 250px);
+		transition: max-height 0.5s ease-in-out;
+	}
+
+	.gravisain-sm-fade {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 100px;
+		background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, var(--sm-fade-color, #ffffff) 100%);
+		pointer-events: none;
+		transition: opacity 0.3s ease;
+	}
+
+	.gravisain-sm-button-wrap {
+		margin-top: 15px;
+	}
+
+	&.align-btn-left .gravisain-sm-button-wrap { text-align: left; }
+	&.align-btn-center .gravisain-sm-button-wrap { text-align: center; }
+	&.align-btn-right .gravisain-sm-button-wrap { text-align: right; }
+
+	.gravisain-sm-button {
+		display: inline-block;
+		background: transparent;
+		border: 1px solid var(--wp--preset--color--primary, #007cba);
+		color: var(--wp--preset--color--primary, #007cba);
+		padding: 8px 20px;
+		font-size: 14px;
+		border-radius: 4px;
+		cursor: pointer;
+		font-weight: 500;
+		transition: all 0.3s ease;
+		
+		&:hover {
+			background: var(--wp--preset--color--primary, #007cba);
+			color: #fff;
+		}
+	}
+
+	// Expanded State
+	&.is-expanded {
+		.gravisain-sm-inner {
+			max-height: 9999px; // Large enough value to expand
+		}
+
+		.gravisain-sm-fade {
+			opacity: 0;
+		}
+	}
+
+	// Fully visible natively or Expanded with NO toggle
+	&.is-fully-visible,
+	&.is-fully-expanded-no-toggle {
+		.gravisain-sm-inner {
+			max-height: none;
+			overflow: visible;
+		}
+
+		.gravisain-sm-fade,
+		.gravisain-sm-button-wrap {
+			display: none;
+		}
+	}
+}

@@ -1,0 +1,116 @@
+.wp-block-gravisain-column {
+	border: 1px dashed rgba(100, 116, 139, 0.4);
+	min-height: 48px;
+	display: flex;
+	flex-direction: column;
+	transition: all 0.2s ease;
+	max-width: none !important;
+	margin: 0 !important;
+	
+	&:hover {
+		border: 1px solid var(--wp-admin-theme-color);
+	}
+
+	&.is-selected {
+		border: 1px solid var(--wp-admin-theme-color);
+	}
+
+	.block-editor-inner-blocks,
+	.block-editor-block-list__layout {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		width: 100%;
+	}
+
+	/* Force appender wrapper to always be visible and take space */
+	.block-editor-block-list__layout > .block-list-appender {
+		display: flex !important;
+		flex-grow: 1;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.block-editor-block-list__layout > .block-list-appender .block-editor-button-block-appender {
+		margin: auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	/* Style the button inside the appender */
+	.block-editor-block-list__layout > .block-list-appender .components-button {
+		background: transparent !important;
+		color: rgba(100, 116, 139, 0.7) !important;
+		box-shadow: none !important;
+		transition: color 0.2s ease;
+		
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+	}
+
+	/* On hover of column, turn the plus sign blue */
+	&:hover .block-editor-block-list__layout > .block-list-appender .components-button {
+		color: var(--wp-admin-theme-color) !important;
+	}
+
+	/* Column Resizer UI */
+	position: relative; // Ensure resizer is absolute to the column
+	
+	.gravisain-column-resizer {
+		position: absolute;
+		right: calc(var(--gravisain-row-gap, 30px) / -2);
+		top: 0;
+		bottom: 0;
+		width: 14px;
+		transform: translateX(50%);
+		cursor: col-resize;
+		z-index: 10;
+		opacity: 0;
+		transition: opacity 0.2s ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&.is-dragging {
+			opacity: 1 !important;
+		}
+
+		.gravisain-resizer-line {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 50%;
+			width: 1px;
+			background-color: var(--wp-admin-theme-color, #f60);
+			transform: translateX(-50%);
+			pointer-events: none;
+		}
+
+		.gravisain-resizer-handle {
+			width: 24px;
+			height: 24px;
+			background-color: var(--wp-admin-theme-color, #007cba);
+			color: #fff;
+			border: 2px solid #fff;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+			pointer-events: none;
+		}
+	}
+
+	&:hover .gravisain-column-resizer {
+		opacity: 1;
+	}
+}
+
+/* Global body class when dragging */
+body.is-resizing-column {
+	cursor: col-resize !important;
+	user-select: none !important;
+}

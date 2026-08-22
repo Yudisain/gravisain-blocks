@@ -1,0 +1,18 @@
+.gravisain-features-grid {
+	display: grid;
+	grid-template-columns: repeat(var(--grid-cols, 3), 1fr);
+	column-gap: var(--col-gap, 32px);
+	row-gap: var(--row-gap, 32px);
+	width: 100%;
+	margin-top: var(--mt, 32px);
+	margin-bottom: var(--mb, 32px);
+	padding: var(--pt, 0px) var(--pr, 0px) var(--pb, 0px) var(--pl, 0px);
+
+	@media (max-width: 1024px) {
+		grid-template-columns: repeat(var(--grid-cols-tab, 2), 1fr);
+	}
+
+	@media (max-width: 640px) {
+		grid-template-columns: repeat(var(--grid-cols-mob, 1), 1fr);
+	}
+}

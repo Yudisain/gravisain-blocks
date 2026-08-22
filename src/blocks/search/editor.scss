@@ -1,0 +1,9 @@
+.gravisain-search-wrapper {
+	// Editor specific overrides to make it look non-interactive
+	.gravisain-search-input {
+		cursor: default;
+	}
+	.gravisain-search-submit {
+		cursor: default;
+	}
+}

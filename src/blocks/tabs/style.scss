@@ -1,0 +1,102 @@
+.gravisain-tabs {
+	box-sizing: border-box;
+	border: var(--gravisain-tabs-border-width, 1px) solid var(--gravisain-tabs-border-color, #e2e8f0);
+	border-radius: var(--gravisain-tabs-radius, 8px);
+	overflow: hidden;
+
+	.gravisain-tabs-header {
+		background-color: var(--gravisain-tabs-header-bg, #f8fafc);
+		border-bottom: var(--gravisain-tabs-border-width, 1px) solid var(--gravisain-tabs-border-color, #e2e8f0);
+
+		.gravisain-tabs-nav {
+			display: flex;
+			flex-wrap: wrap;
+			margin: 0;
+			padding: 0;
+
+			.gravisain-tab-button {
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+				padding: 12px 20px;
+				background: transparent;
+				border: none;
+				border-bottom: 2px solid transparent;
+				color: var(--gravisain-tabs-color, #333333);
+				font-size: 15px;
+				font-weight: 500;
+				cursor: pointer;
+				transition: all 0.2s ease;
+
+				&:hover {
+					color: var(--gravisain-tabs-active-bg, #007cba);
+				}
+
+				&.is-active {
+					background-color: var(--gravisain-tabs-active-bg, #007cba);
+					color: var(--gravisain-tabs-active-color, #ffffff);
+					border-bottom-color: var(--gravisain-tabs-active-bg, #007cba);
+				}
+			}
+		}
+	}
+
+	&.layout-vertical {
+		display: flex;
+		flex-direction: row;
+
+		@media (max-width: 767px) {
+			flex-direction: column;
+		}
+
+		.gravisain-tabs-header {
+			border-bottom: none;
+			border-right: var(--gravisain-tabs-border-width, 1px) solid var(--gravisain-tabs-border-color, #e2e8f0);
+			min-width: 200px;
+
+			@media (max-width: 767px) {
+				border-right: none;
+				border-bottom: var(--gravisain-tabs-border-width, 1px) solid var(--gravisain-tabs-border-color, #e2e8f0);
+			}
+
+			.gravisain-tabs-nav {
+				flex-direction: column;
+
+				.gravisain-tab-button {
+					width: 100%;
+					justify-content: flex-start;
+					border-bottom: none;
+					border-left: 3px solid transparent;
+
+					&.is-active {
+						border-left-color: var(--gravisain-tabs-active-bg, #007cba);
+					}
+				}
+			}
+		}
+
+		.gravisain-tabs-content-area {
+			flex-grow: 1;
+		}
+	}
+
+	&.align-center .gravisain-tabs-header .gravisain-tabs-nav {
+		justify-content: center;
+	}
+
+	&.align-right .gravisain-tabs-header .gravisain-tabs-nav {
+		justify-content: flex-end;
+	}
+
+	.gravisain-tabs-content-area {
+		background-color: var(--gravisain-tabs-content-bg, #ffffff);
+		padding: var(--gravisain-tabs-padding, 24px);
+
+		.gravisain-tab-pane {
+			display: none;
+			&.is-active {
+				display: block;
+			}
+		}
+	}
+}

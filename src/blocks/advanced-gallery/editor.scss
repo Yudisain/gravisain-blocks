@@ -1,0 +1,23 @@
+.gravisain-advanced-gallery {
+	&.is-selected {
+		.gravisain-gallery-item {
+			position: relative;
+			
+			&:hover {
+				outline: 2px solid var(--wp-admin-theme-color);
+				outline-offset: -2px;
+			}
+		}
+	}
+
+	.gravisain-gallery-uploader {
+		margin-top: 20px;
+		width: 100%;
+		
+		.components-placeholder {
+			min-height: 150px;
+			background: #f8f9fa;
+			border: 1px dashed #ccc;
+		}
+	}
+}

@@ -1,0 +1,56 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/faq-accordion",
+	"version": "1.1.0",
+	"title": "FAQ Accordion",
+	"category": "gravisain-blocks",
+	"icon": "list-view",
+	"description": "An interactive accordion container for Frequently Asked Questions with gap and container width controls.",
+	"textdomain": "gravisain",
+	"supports": {
+		"align": ["wide", "full"],
+		"html": false
+	},
+	"attributes": {
+		"itemGap": {
+			"type": "number",
+			"default": 16
+		},
+		"maxWidth": {
+			"type": "number",
+			"default": 800
+		},
+		"allowMultipleOpen": {
+			"type": "boolean",
+			"default": true
+		},
+		"marginTop": {
+			"type": "number",
+			"default": 32
+		},
+		"marginBottom": {
+			"type": "number",
+			"default": 32
+		},
+		"paddingTop": {
+			"type": "number",
+			"default": 0
+		},
+		"paddingBottom": {
+			"type": "number",
+			"default": 0
+		},
+		"paddingLeft": {
+			"type": "number",
+			"default": 0
+		},
+		"paddingRight": {
+			"type": "number",
+			"default": 0
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}

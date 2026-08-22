@@ -1,0 +1,91 @@
+.gravisain-video-popup {
+	display: block;
+	width: 100%;
+	position: relative;
+	border-radius: var(--vp-border-radius, 12px);
+	overflow: hidden;
+
+	&.aspect-16-9 .gravisain-vp-thumbnail { aspect-ratio: 16 / 9; }
+	&.aspect-4-3 .gravisain-vp-thumbnail { aspect-ratio: 4 / 3; }
+	&.aspect-1-1 .gravisain-vp-thumbnail { aspect-ratio: 1 / 1; }
+	&.aspect-21-9 .gravisain-vp-thumbnail { aspect-ratio: 21 / 9; }
+
+	.gravisain-vp-link {
+		display: block;
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+	.gravisain-vp-thumbnail {
+		position: relative;
+		width: 100%;
+		display: block;
+		background: #000;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+			transition: transform 0.4s ease;
+		}
+
+		.gravisain-vp-overlay {
+			position: absolute;
+			top: 0; left: 0; right: 0; bottom: 0;
+			background: var(--vp-overlay-color, rgba(0,0,0,0.3));
+			transition: background 0.3s ease;
+		}
+
+		.gravisain-vp-play-btn {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 64px;
+			height: 64px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--vp-play-color, #fff);
+			transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+			z-index: 2;
+
+			svg {
+				width: 48px;
+				height: 48px;
+			}
+
+			&.style-solid {
+				background: var(--vp-play-color, #fff);
+				color: #000; // Invert color for contrast if needed, or maybe add a background color var
+				border-radius: 50%;
+				svg { width: 32px; height: 32px; margin-left: 4px; }
+			}
+
+			&.style-outline {
+				border: 2px solid var(--vp-play-color, #fff);
+				border-radius: 50%;
+				svg { width: 32px; height: 32px; margin-left: 4px; }
+			}
+			
+			&.style-simple {
+				filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+			}
+		}
+
+		&:hover {
+			img {
+				transform: scale(1.05);
+			}
+			
+			.gravisain-vp-overlay {
+				background: var(--vp-overlay-color, rgba(0,0,0,0.5));
+			}
+
+			.gravisain-vp-play-btn {
+				transform: translate(-50%, -50%) scale(1.1);
+			}
+		}
+	}
+}

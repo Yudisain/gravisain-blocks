@@ -1,0 +1,22 @@
+.gravisain-vector-wrapper {
+	width: 100%;
+	
+	.gravisain-vector-inner {
+		max-width: var(--gravisain-vector-max-width, 300px);
+		margin-left: auto;
+		margin-right: auto;
+		
+		svg {
+			width: 100%;
+			height: auto;
+			display: block;
+			fill: var(--gravisain-vector-fill, currentColor);
+			stroke: var(--gravisain-vector-stroke, none);
+		}
+	}
+	
+	// Alignment rules
+	&.alignleft .gravisain-vector-inner { margin-left: 0; }
+	&.alignright .gravisain-vector-inner { margin-right: 0; }
+	&.aligncenter .gravisain-vector-inner { margin: 0 auto; }
+}

@@ -1,0 +1,195 @@
+/* ==========================================================================
+   HIGH-SPECIFICITY BORDER RESET FOR COUNTDOWN BLOCK
+   Root cause: WordPress content.min.css loads AFTER our editorStyle in the
+   editor iframe, so same-specificity rules lose. We use parent prefix
+   .block-editor-block-list__layout to get specificity (0,3,0) > WP's (0,2,0).
+   ========================================================================== */
+
+/* 1. HIGH-SPECIFICITY: Reset border, outline, box-shadow pada wrapper utama */
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="gravisain/countdown"],
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="gravisain/countdown"].is-selected,
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="gravisain/countdown"].is-highlighted,
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="gravisain/countdown"]:focus,
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="gravisain/countdown"]:focus-within,
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="gravisain/countdown"]:focus-visible {
+	border: none !important;
+	outline: none !important;
+	box-shadow: none !important;
+}
+
+/* 2. HIGH-SPECIFICITY: Reset ::before / ::after pseudo-elements (selection indicator) */
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="gravisain/countdown"]::before,
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="gravisain/countdown"]::after,
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="gravisain/countdown"].is-selected::before,
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="gravisain/countdown"].is-selected::after,
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="gravisain/countdown"]:focus::before,
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="gravisain/countdown"]:focus::after,
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="gravisain/countdown"]:focus-within::before,
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="gravisain/countdown"]:focus-within::after {
+	border: none !important;
+	outline: none !important;
+	box-shadow: none !important;
+	display: none !important;
+}
+
+/* 3. FALLBACK: Reset untuk context non-iframe / older Gutenberg */
+[data-type="gravisain/countdown"],
+[data-type="gravisain/countdown"].is-selected,
+[data-type="gravisain/countdown"].is-highlighted,
+[data-type="gravisain/countdown"]:focus,
+[data-type="gravisain/countdown"]:focus-within,
+[data-type="gravisain/countdown"]:focus-visible,
+[data-block][data-type="gravisain/countdown"],
+[data-block][data-type="gravisain/countdown"].is-selected,
+[data-block][data-type="gravisain/countdown"]:focus,
+[data-block][data-type="gravisain/countdown"]:focus-within,
+.wp-block-gravisain-countdown,
+.wp-block-gravisain-countdown.is-selected,
+.wp-block-gravisain-countdown:focus,
+.wp-block-gravisain-countdown:focus-within,
+.gravisain-countdown,
+.gravisain-countdown.is-selected,
+.gravisain-countdown:focus,
+.gravisain-countdown:focus-within {
+	border: none !important;
+	outline: none !important;
+	box-shadow: none !important;
+}
+
+/* 4. FALLBACK: Pseudo-elements untuk context non-iframe */
+[data-type="gravisain/countdown"]::before,
+[data-type="gravisain/countdown"]::after,
+[data-type="gravisain/countdown"].is-selected::before,
+[data-type="gravisain/countdown"].is-selected::after,
+.block-editor-block-list__block[data-type="gravisain/countdown"]::before,
+.block-editor-block-list__block[data-type="gravisain/countdown"]::after,
+.block-editor-block-list__block[data-type="gravisain/countdown"].is-selected::before,
+.block-editor-block-list__block[data-type="gravisain/countdown"].is-selected::after,
+.wp-block-gravisain-countdown::before,
+.wp-block-gravisain-countdown::after,
+.wp-block-gravisain-countdown.is-selected::before,
+.wp-block-gravisain-countdown.is-selected::after,
+.gravisain-countdown::before,
+.gravisain-countdown::after,
+.gravisain-countdown.is-selected::before,
+.gravisain-countdown.is-selected::after {
+	border: none !important;
+	outline: none !important;
+	box-shadow: none !important;
+	display: none !important;
+}
+
+/* 5. Hover outline — HANYA saat block di-hover tapi TIDAK dipilih */
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="gravisain/countdown"].is-hovered:not(.is-selected),
+[data-type="gravisain/countdown"].is-hovered:not(.is-selected),
+.wp-block-gravisain-countdown.is-hovered:not(.is-selected) {
+	outline: 1px solid var(--wp-admin-theme-color, #007cba) !important;
+	box-shadow: 0 0 0 1px var(--wp-admin-theme-color, #007cba) !important;
+}
+
+/* 6. Pulihkan border pada countdown-item (layout-boxes) */
+.gravisain-countdown.layout-boxes .gravisain-countdown-item {
+	border: var(--gravisain-cd-border-width, 1px) solid var(--gravisain-cd-border-color, #e2e8f0) !important;
+	border-radius: var(--gravisain-cd-radius, 8px) !important;
+}
+
+
+/* Custom Date & Time Picker Layout inside Inspector Controls */
+.gravisain-custom-datetime-picker {
+	margin-bottom: 16px;
+
+	.gravisain-dt-row {
+		display: flex !important;
+		align-items: center !important;
+		gap: 6px !important;
+		margin-bottom: 14px !important;
+		width: 100% !important;
+	}
+
+	.gravisain-dt-label {
+		font-size: 11px !important;
+		font-weight: 600 !important;
+		text-transform: uppercase !important;
+		color: #475569 !important;
+		margin-bottom: 6px !important;
+		display: block !important;
+	}
+
+	input,
+	select {
+		height: 32px !important;
+		min-height: 32px !important;
+		max-height: 32px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		margin: 0 !important;
+		padding-top: 0 !important;
+		padding-bottom: 0 !important;
+		border: 1px solid #cbd5e1 !important;
+		border-radius: 4px !important;
+		background-color: #ffffff !important;
+		font-size: 13px !important;
+		vertical-align: middle !important;
+	}
+
+	.gravisain-dt-day input {
+		width: 48px !important;
+		text-align: center !important;
+		padding: 0 4px !important;
+	}
+
+	.gravisain-dt-month {
+		flex: 1 !important;
+
+		select {
+			width: 100% !important;
+			padding-left: 8px !important;
+			padding-right: 24px !important;
+		}
+	}
+
+	.gravisain-dt-year input {
+		width: 64px !important;
+		text-align: center !important;
+		padding: 0 4px !important;
+	}
+
+	.gravisain-dt-time input {
+		width: 52px !important;
+		text-align: center !important;
+		padding: 0 4px !important;
+	}
+
+	.gravisain-dt-colon {
+		font-weight: 700 !important;
+		color: #475569 !important;
+		padding: 0 2px !important;
+	}
+
+	.gravisain-dt-tz {
+		display: inline-flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		height: 32px !important;
+		padding: 0 12px !important;
+		margin-left: auto !important;
+		background: #f1f5f9 !important;
+		border: 1px solid #cbd5e1 !important;
+		border-radius: 4px !important;
+		font-size: 11px !important;
+		font-weight: 600 !important;
+		color: #475569 !important;
+	}
+
+	.gravisain-calendar-wrapper {
+		border-top: 1px solid #e2e8f0 !important;
+		padding-top: 12px !important;
+		margin-top: 4px !important;
+
+		.components-date-time__calendar,
+		.components-datetime__calendar {
+			width: 100% !important;
+			margin: 0 !important;
+		}
+	}
+}

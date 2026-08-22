@@ -1,0 +1,14 @@
+.gravisain-posts-grid-preview {
+	position: relative;
+	
+	// Adding a nice overlay or border when block is selected in editor
+	&.is-selected {
+		outline: 1px dashed var(--wp-admin-theme-color);
+		outline-offset: 4px;
+	}
+	
+	.gravisain-posts-grid {
+		// Override pointer events so we can select the block easily in editor without clicking the links inside it
+		pointer-events: none;
+	}
+}

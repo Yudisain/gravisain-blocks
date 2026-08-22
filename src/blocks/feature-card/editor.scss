@@ -1,0 +1,6 @@
+.gravisain-feature-card {
+	/* Ensure hover effect doesn't interrupt editing */
+	&:hover {
+		transform: none;
+	}
+}

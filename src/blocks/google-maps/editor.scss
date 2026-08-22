@@ -1,0 +1,97 @@
+.block-editor-block-list__block .gravisain-google-maps {
+	.gravisain-maps-wrapper {
+		.gravisain-maps-editor-shield {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: transparent;
+			z-index: 10;
+		}
+	}
+}
+
+/* ==========================================================================
+   UNIVERSAL IFRAME & NON-IFRAME SELECTION / FOCUS BORDER RESET FOR GOOGLE MAPS
+   ========================================================================== */
+[data-type="gravisain/google-maps"],
+[data-type="gravisain/google-maps"].is-selected,
+[data-type="gravisain/google-maps"].is-highlighted,
+[data-type="gravisain/google-maps"]:focus,
+[data-type="gravisain/google-maps"]:focus-within,
+[data-type="gravisain/google-maps"]:focus-visible,
+[data-block][data-type="gravisain/google-maps"],
+[data-block][data-type="gravisain/google-maps"].is-selected,
+[data-block][data-type="gravisain/google-maps"]:focus,
+[data-block][data-type="gravisain/google-maps"]:focus-within,
+.block-editor-block-list__block[data-type="gravisain/google-maps"],
+.block-editor-block-list__block[data-type="gravisain/google-maps"].is-selected,
+.block-editor-block-list__block[data-type="gravisain/google-maps"]:focus,
+.block-editor-block-list__block[data-type="gravisain/google-maps"]:focus-within,
+.wp-block-gravisain-google-maps,
+.wp-block-gravisain-google-maps.is-selected,
+.wp-block-gravisain-google-maps:focus,
+.wp-block-gravisain-google-maps:focus-within,
+.gravisain-google-maps,
+.gravisain-google-maps.is-selected,
+.gravisain-google-maps:focus,
+.gravisain-google-maps:focus-within,
+.gravisain-google-maps *,
+.gravisain-google-maps *:focus {
+	outline: none !important;
+	box-shadow: none !important;
+	border: none !important;
+}
+
+/* Nuke background and padding on the block wrapper just in case Gutenberg draws a black background */
+.block-editor-block-list__block[data-type="gravisain/google-maps"],
+.wp-block-gravisain-google-maps,
+.gravisain-google-maps {
+	background: transparent !important;
+	padding: 0 !important;
+}
+
+.gravisain-maps-editor-shield {
+	border: none !important;
+	outline: none !important;
+	box-shadow: none !important;
+}
+
+[data-type="gravisain/google-maps"]::before,
+[data-type="gravisain/google-maps"]::after,
+[data-type="gravisain/google-maps"].is-selected::before,
+[data-type="gravisain/google-maps"].is-selected::after,
+[data-type="gravisain/google-maps"]:focus::before,
+[data-type="gravisain/google-maps"]:focus::after,
+[data-type="gravisain/google-maps"]:focus-within::before,
+[data-type="gravisain/google-maps"]:focus-within::after,
+[data-block][data-type="gravisain/google-maps"]::before,
+[data-block][data-type="gravisain/google-maps"]::after,
+.block-editor-block-list__block[data-type="gravisain/google-maps"]::before,
+.block-editor-block-list__block[data-type="gravisain/google-maps"]::after,
+.block-editor-block-list__block[data-type="gravisain/google-maps"].is-selected::before,
+.block-editor-block-list__block[data-type="gravisain/google-maps"].is-selected::after,
+.wp-block-gravisain-google-maps::before,
+.wp-block-gravisain-google-maps::after,
+.wp-block-gravisain-google-maps.is-selected::before,
+.wp-block-gravisain-google-maps.is-selected::after,
+.gravisain-google-maps::before,
+.gravisain-google-maps::after,
+.gravisain-google-maps.is-selected::before,
+.gravisain-google-maps.is-selected::after {
+	outline: none !important;
+	box-shadow: none !important;
+	border: none !important;
+	display: none !important;
+}
+
+/* Restore the blue selection line for google maps specifically when hovered or selected if needed? 
+   Actually, let's add the hover state from count-up just in case. */
+[data-type="gravisain/google-maps"].is-hovered:not(.is-selected),
+[data-block][data-type="gravisain/google-maps"].is-hovered:not(.is-selected),
+.block-editor-block-list__block[data-type="gravisain/google-maps"].is-hovered:not(.is-selected),
+.wp-block-gravisain-google-maps.is-hovered:not(.is-selected) {
+	outline: 1px solid var(--wp-admin-theme-color, #007cba) !important;
+	box-shadow: 0 0 0 1px var(--wp-admin-theme-color, #007cba) !important;
+}

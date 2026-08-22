@@ -1,0 +1,32 @@
+.block-editor-block-list__block .gravisain-tabs {
+	.gravisain-tabs-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-right: 12px;
+
+		.gravisain-tabs-nav {
+			.gravisain-tab-button {
+				position: relative;
+				display: flex;
+				align-items: center;
+
+				.gravisain-tab-button-title {
+					outline: none;
+				}
+
+				.gravisain-remove-tab {
+					margin-left: 6px;
+					opacity: 0.6;
+					&:hover {
+						opacity: 1;
+					}
+				}
+			}
+		}
+
+		.gravisain-add-tab-btn {
+			margin: 8px 0;
+		}
+	}
+}

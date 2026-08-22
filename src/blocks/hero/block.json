@@ -1,0 +1,198 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/hero",
+	"version": "1.0.1",
+	"title": "Hero Section",
+	"category": "gravisain-blocks",
+	"icon": "cover-image",
+	"description": "Premium Hero section block.",
+	"textdomain": "gravisain",
+	"attributes": {
+		"align": {
+			"type": "string",
+			"default": "full"
+		},
+		"innerContainerMaxWidth": {
+			"type": "string",
+			"default": ""
+		},
+		"layout": {
+			"type": "string",
+			"default": "1-column"
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"title": {
+			"type": "string",
+			"default": "Welcome to Gravisain"
+		},
+		"description": {
+			"type": "string",
+			"default": "This is a premium hero section."
+		},
+		"primaryButton": {
+			"type": "object",
+			"default": {
+				"text": "Get Started",
+				"url": "#",
+				"style": "primary"
+			}
+		},
+		"secondaryButton": {
+			"type": "object",
+			"default": {
+				"text": "Learn More",
+				"url": "#",
+				"style": "outline"
+			}
+		},
+		"media": {
+			"type": "object",
+			"default": {
+				"url": "",
+				"type": "image",
+				"position": "right"
+			}
+		},
+		"background": {
+			"type": "object",
+			"default": {
+				"color": "",
+				"gradient": "",
+				"image": ""
+			}
+		},
+		"overlay": {
+			"type": "object",
+			"default": {
+				"color": "",
+				"opacity": 0.5
+			}
+		},
+		"eyebrowTypography": {
+			"type": "object",
+			"default": {}
+		},
+		"eyebrowTypographyTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"eyebrowTypographyMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"eyebrowColor": {
+			"type": "string",
+			"default": ""
+		},
+		"titleTypography": {
+			"type": "object",
+			"default": {}
+		},
+		"titleTypographyTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"titleTypographyMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"titleColor": {
+			"type": "string",
+			"default": ""
+		},
+		"descriptionTypography": {
+			"type": "object",
+			"default": {}
+		},
+		"descriptionTypographyTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"descriptionTypographyMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"descriptionColor": {
+			"type": "string",
+			"default": ""
+		},
+		"primaryButtonTypography": {
+			"type": "object",
+			"default": {}
+		},
+		"primaryButtonTypographyTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"primaryButtonTypographyMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"secondaryButtonTypography": {
+			"type": "object",
+			"default": {}
+		},
+		"secondaryButtonTypographyTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"secondaryButtonTypographyMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"padding": {
+			"type": "object"
+		},
+		"paddingTablet": {
+			"type": "object"
+		},
+		"paddingMobile": {
+			"type": "object"
+		},
+		"margin": {
+			"type": "object"
+		},
+		"marginTablet": {
+			"type": "object"
+		},
+		"marginMobile": {
+			"type": "object"
+		},
+		"animation": {
+			"type": "object",
+			"default": {}
+		},
+		"responsive": {
+			"type": "object",
+			"default": {}
+		},
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"customClassName": {
+			"type": "string",
+			"default": ""
+		},
+		"customCSS": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"supports": {
+		"align": ["center", "wide", "full"],
+		"html": false,
+		"anchor": false,
+		"customClassName": false,
+		"customCSS": false,
+		"__experimentalCustomCSS": false
+	}
+}
