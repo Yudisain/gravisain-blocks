@@ -51,8 +51,9 @@ export default function ColumnResizer( { clientId } ) {
 
 		// Find the parent row-layout width to calculate percentage changes
 		const columnNode = resizerRef.current.closest('.wp-block-gravisain-column');
-		const rowNode = columnNode ? columnNode.parentElement : null;
-		const nextColumnNode = columnNode ? columnNode.nextElementSibling : null;
+		const columnWrapperNode = columnNode ? columnNode.closest('.block-editor-block-list__block') : null;
+		const rowNode = columnWrapperNode ? columnWrapperNode.parentElement : null;
+		const nextColumnWrapperNode = columnWrapperNode ? columnWrapperNode.nextElementSibling : null;
 		const totalWidthPx = rowNode ? rowNode.offsetWidth : 1000;
 
 		initialData.current = {
@@ -60,8 +61,8 @@ export default function ColumnResizer( { clientId } ) {
 			startWidth: resolvedCurrentWidth,
 			startNextWidth: resolvedNextWidth,
 			totalWidthPx: totalWidthPx,
-			columnNode,
-			nextColumnNode,
+			columnNode: columnWrapperNode,
+			nextColumnNode: nextColumnWrapperNode,
 			newWidth: resolvedCurrentWidth,
 			newNextWidth: resolvedNextWidth
 		};

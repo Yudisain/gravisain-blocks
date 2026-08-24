@@ -24,3 +24,9 @@ Jangan langsung membuat seluruh blok sekaligus. Kerjakan secara bertahap:
 2. Sebutkan file apa saja yang akan dibuat atau dimodifikasi.
 3. Tunggu persetujuan saya jika akan ada perubahan struktur arsitektur atau jika membuat blok baru yang kompleks (seperti Hero).
 4. Baru tuliskan kode.
+
+## Aturan Refactoring & Arsitektur Inti (HUKUM MUTLAK)
+* **DILARANG KERAS MENGUBAH ARSITEKTUR INTI KODE YANG SUDAH JALAN**: Jangan pernah berinisiatif mengubah fondasi *layout* (misalnya dari Flexbox ke CSS Grid) atau *state management* yang sudah berfungsi normal di *existing codebase* tanpa instruksi eksplisit dari saya. 
+* **Jangan Terlalu Pintar (*Don't Over-engineer*)**: Jika saya meminta Bapak untuk mengganti nama *class*, memindahkan *file*, atau memperbaiki satu bagian kecil (seperti menambah *resizer*), kerjakan **HANYA** bagian itu saja. Jangan menyentuh, menulis ulang, atau me-*refactor* kode di sekitarnya dengan alasan "optimasi" atau "modernisasi".
+* **Tanya Sebelum Menghapus/Menulis Ulang**: Jika ada kode lama yang menurut Bapak terlihat kotor atau usang dan *harus* diganti karena berpotensi *error*, berikan analisisnya terlebih dahulu dan tunggu izin saya sebelum Bapak mengeksekusinya.
+
