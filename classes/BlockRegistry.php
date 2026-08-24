@@ -79,41 +79,49 @@ class BlockRegistry {
 	 * @return void
 	 */
 	public function register_blocks(): void {
-		$blocks_dir = GRAVISAIN_BLOCKS_DIR . 'assets/blocks/';
+		$cache_key = 'gravisain_blocks_registry_cache_' . GRAVISAIN_BLOCKS_VERSION;
+		// Bypass cache during development
+		$is_dev = defined( 'WP_DEBUG' ) && WP_DEBUG;
+		$blocks = $is_dev ? false : get_transient( $cache_key );
 
-		if ( ! is_dir( $blocks_dir ) ) {
-			return;
-		}
+		if ( false === $blocks ) {
+			$blocks_dir = GRAVISAIN_BLOCKS_DIR . 'assets/blocks/';
 
-		$iterator = new \RecursiveIteratorIterator(
-			new \RecursiveDirectoryIterator( $blocks_dir, \RecursiveDirectoryIterator::SKIP_DOTS ),
-			\RecursiveIteratorIterator::SELF_FIRST
-		);
+			if ( ! is_dir( $blocks_dir ) ) {
+				return;
+			}
 
-		$registered = [];
-		$blocks     = [];
+			// Use glob for faster scanning (assuming blocks are 1 level deep)
+			$block_json_files = glob( $blocks_dir . '*/block.json' );
+			$registered       = [];
+			$blocks           = [];
 
-		foreach ( $iterator as $file ) {
-			if ( $file->isFile() && 'block.json' === $file->getFilename() ) {
-				$block_path = $file->getPath();
-				$metadata   = wp_json_file_decode( $block_path . '/block.json', [ 'associative' => true ] );
+			if ( $block_json_files ) {
+				foreach ( $block_json_files as $file ) {
+					$block_path = dirname( $file );
+					$metadata   = wp_json_file_decode( $file, [ 'associative' => true ] );
 
-				if ( ! empty( $metadata['name'] ) && ! isset( $registered[ $metadata['name'] ] ) ) {
-					$title = (string) ( $metadata['title'] ?? basename( $block_path ) );
-					$blocks[] = [
-						'path'  => $block_path,
-						'name'  => $metadata['name'],
-						'title' => $title,
-					];
-					$registered[ $metadata['name'] ] = true;
+					if ( ! empty( $metadata['name'] ) && ! isset( $registered[ $metadata['name'] ] ) ) {
+						$title = (string) ( $metadata['title'] ?? basename( $block_path ) );
+						$blocks[] = [
+							'path'  => $block_path,
+							'title' => $title,
+						];
+						$registered[ $metadata['name'] ] = true;
+					}
 				}
+
+				// Sort blocks alphabetically A-Z by title
+				usort( $blocks, function( array $a, array $b ): int {
+					return strcasecmp( $a['title'], $b['title'] );
+				} );
+			}
+
+			// Save to cache for 24 hours if not in dev mode
+			if ( ! $is_dev && ! empty( $blocks ) ) {
+				set_transient( $cache_key, $blocks, 24 * HOUR_IN_SECONDS );
 			}
 		}
-
-		// Sort blocks alphabetically A-Z by title
-		usort( $blocks, function( array $a, array $b ): int {
-			return strcasecmp( $a['title'], $b['title'] );
-		} );
 
 		// Register each block in sorted order
 		foreach ( $blocks as $block ) {
