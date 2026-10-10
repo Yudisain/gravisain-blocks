@@ -1,24 +1,84 @@
 .gravisain-advanced-button {
 	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	max-width: 100%;
+	box-sizing: border-box;
+	vertical-align: middle;
+	position: relative;
+	text-decoration: none;
+
+	/* Responsive Margins applied when custom styles are set */
+	&[style*="--gravisain-btn-margin-top"] { margin-top: var(--gravisain-btn-margin-top) !important; }
+	&[style*="--gravisain-btn-margin-right"] { margin-right: var(--gravisain-btn-margin-right) !important; }
+	&[style*="--gravisain-btn-margin-bottom"] { margin-bottom: var(--gravisain-btn-margin-bottom) !important; }
+	&[style*="--gravisain-btn-margin-left"] { margin-left: var(--gravisain-btn-margin-left) !important; }
+
+	@media (max-width: 991px) {
+		&[style*="--gravisain-btn-margin-top"] { margin-top: var(--gravisain-btn-margin-top-tablet, var(--gravisain-btn-margin-top)) !important; }
+		&[style*="--gravisain-btn-margin-right"] { margin-right: var(--gravisain-btn-margin-right-tablet, var(--gravisain-btn-margin-right)) !important; }
+		&[style*="--gravisain-btn-margin-bottom"] { margin-bottom: var(--gravisain-btn-margin-bottom-tablet, var(--gravisain-btn-margin-bottom)) !important; }
+		&[style*="--gravisain-btn-margin-left"] { margin-left: var(--gravisain-btn-margin-left-tablet, var(--gravisain-btn-margin-left)) !important; }
+	}
+
+	@media (max-width: 767px) {
+		&[style*="--gravisain-btn-margin-top"] { margin-top: var(--gravisain-btn-margin-top-mobile, var(--gravisain-btn-margin-top-tablet, var(--gravisain-btn-margin-top))) !important; }
+		&[style*="--gravisain-btn-margin-right"] { margin-right: var(--gravisain-btn-margin-right-mobile, var(--gravisain-btn-margin-right-tablet, var(--gravisain-btn-margin-right))) !important; }
+		&[style*="--gravisain-btn-margin-bottom"] { margin-bottom: var(--gravisain-btn-margin-bottom-mobile, var(--gravisain-btn-margin-bottom-tablet, var(--gravisain-btn-margin-bottom))) !important; }
+		&[style*="--gravisain-btn-margin-left"] { margin-left: var(--gravisain-btn-margin-left-mobile, var(--gravisain-btn-margin-left-tablet, var(--gravisain-btn-margin-left))) !important; }
+	}
 
 	.gravisain-advanced-button-inner {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		gap: 8px;
-		text-decoration: none;
+		gap: var(--btn-icon-gap, 8px);
+		text-decoration: none !important;
+		font-weight: 600;
 		line-height: 1.2;
-		width: 100%;
 		box-sizing: border-box;
+		cursor: pointer;
+		transition: all 0.25s ease;
 
-		// Theming variables applied dynamically via inline styles
-		background-color: var(--btn-bg, #000);
-		color: var(--btn-color, #fff);
-		border-style: solid;
-		border-color: var(--btn-border-color, transparent);
-		
-		transition: all 0.3s ease;
+		&.gravisain-btn-sm {
+			padding: 8px 16px;
+			font-size: 14px;
+		}
+
+		&.gravisain-btn-md {
+			padding: 12px 24px;
+			font-size: 16px;
+		}
+
+		&.gravisain-btn-lg {
+			padding: 16px 32px;
+			font-size: 18px;
+		}
+
+		&.gravisain-btn-fill {
+			background-color: var(--btn-bg, var(--wp--preset--color--primary, #1e293b));
+			color: var(--btn-color, #ffffff) !important;
+			border: 1px solid var(--btn-border-color, transparent);
+
+			&:hover {
+				background-color: var(--btn-hover-bg, var(--btn-bg, var(--wp--preset--color--primary, #4338ca)));
+				color: var(--btn-hover-color, var(--btn-color, #ffffff)) !important;
+				border-color: var(--btn-hover-border-color, var(--btn-border-color, transparent));
+				opacity: 0.95;
+			}
+		}
+
+		&.gravisain-btn-outline {
+			background-color: var(--btn-bg, transparent);
+			color: var(--btn-color, var(--wp--preset--color--primary, #1e293b)) !important;
+			border: 2px solid var(--btn-border-color, var(--wp--preset--color--primary, #1e293b));
+
+			&:hover {
+				background-color: var(--btn-hover-bg, var(--wp--preset--color--primary, #1e293b));
+				color: var(--btn-hover-color, #ffffff) !important;
+				border-color: var(--btn-hover-border-color, var(--wp--preset--color--primary, #1e293b));
+			}
+		}
 
 		.gravisain-btn-icon {
 			display: inline-flex;
@@ -26,39 +86,80 @@
 			justify-content: center;
 			width: 1.2em;
 			height: 1.2em;
-			
+			flex-shrink: 0;
+
 			svg {
 				width: 100%;
 				height: 100%;
+				/* Do NOT force fill here: Lucide UI icons are drawn with stroke
+				   (outline) and must stay fill="none". Brand logos already carry
+				   their own fill="currentColor" inside the SVG string. */
+			}
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
 			}
 		}
 
 		.gravisain-btn-text {
 			display: inline-block;
-		}
-
-		&:hover,
-		&:focus {
-			background-color: var(--btn-hover-bg, var(--btn-bg, #333));
-			color: var(--btn-hover-color, var(--btn-color, #fff));
-			border-color: var(--btn-hover-border-color, var(--btn-border-color, transparent));
-			outline: none;
+			text-transform: inherit;
+			letter-spacing: inherit;
+			color: inherit !important;
+			background: transparent !important;
+			background-color: transparent !important;
+			outline: none !important;
+			border: none !important;
+			text-decoration: inherit !important;
 		}
 	}
 
-	&.has-shadow .gravisain-advanced-button-inner {
+	// Width Variants
+	&.is-width-full {
+		width: 100%;
+		display: flex;
+
+		.gravisain-advanced-button-inner {
+			width: 100%;
+			justify-content: center;
+		}
+	}
+
+	&.is-width-fixed {
+		display: inline-flex;
+
+		.gravisain-advanced-button-inner {
+			width: 100%;
+			justify-content: center;
+		}
+	}
+
+	// Shadow
+	&.has-shadow {
 		box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.1);
-		
+
 		&:hover {
-			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
 		}
 	}
 
-	&.hover-effect-scale .gravisain-advanced-button-inner:hover {
-		transform: scale(1.05);
+	// Hover Effects
+	&.hover-effect-scale {
+		transition: transform 0.2s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+
+		&:hover {
+			transform: scale(1.04);
+		}
 	}
 
-	&.hover-effect-lift .gravisain-advanced-button-inner:hover {
-		transform: translateY(-4px);
+	&.hover-effect-lift {
+		transition: transform 0.2s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+
+		&:hover {
+			transform: translateY(-3px);
+		}
 	}
 }
+
