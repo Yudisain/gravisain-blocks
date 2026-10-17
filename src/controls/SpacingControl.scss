@@ -1,0 +1,413 @@
+.gravisain-spacing-control {
+	box-sizing: border-box;
+	margin-bottom: 20px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
+	.gravisain-spacing-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 8px;
+
+		.gravisain-spacing-title {
+			font-size: 13px;
+			font-weight: 500;
+			color: #1e293b;
+			margin: 0;
+		}
+
+		.gravisain-spacing-actions {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+
+			.gravisain-device-group {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				margin-right: 4px;
+
+				.gravisain-device-btn {
+					background: transparent;
+					border: none;
+					padding: 3px;
+					color: #94a3b8;
+					cursor: pointer;
+					display: inline-flex;
+					align-items: center;
+					justify-content: center;
+					border-radius: 3px;
+					transition: color 0.15s ease;
+
+					&:hover {
+						color: #3b82f6;
+					}
+
+					&.is-active {
+						color: #2563eb;
+					}
+
+					svg {
+						width: 15px;
+						height: 15px;
+					}
+				}
+			}
+
+			.gravisain-action-btn {
+				background: #ffffff;
+				border: 1px solid #cbd5e1;
+				width: 26px;
+				height: 26px;
+				border-radius: 4px;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				color: #64748b;
+				cursor: pointer;
+				padding: 0;
+				transition: all 0.15s ease;
+
+				&:hover {
+					border-color: #94a3b8;
+					color: #1e293b;
+				}
+
+				&.is-active {
+					background: #2563eb;
+					border-color: #2563eb;
+					color: #ffffff;
+				}
+
+				svg {
+					width: 14px;
+					height: 14px;
+				}
+			}
+		}
+	}
+
+	// 4-Boxed Inputs Layout
+	.gravisain-spacing-box-group {
+		display: flex;
+		align-items: stretch;
+		width: 100%;
+		gap: 0;
+		position: relative;
+
+		// When unlinked: 4 boxes
+		&.is-unlinked {
+			.gravisain-spacing-box {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				border: 1px solid #cbd5e1;
+				border-right: none;
+				background: #ffffff;
+				box-sizing: border-box;
+				transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+				&:first-child {
+					border-top-left-radius: 4px;
+					border-bottom-left-radius: 4px;
+				}
+
+				.gravisain-box-label {
+					font-size: 10px;
+					font-weight: 600;
+					text-align: center;
+					padding: 4px 2px 3px;
+					color: #64748b;
+					text-transform: uppercase;
+					letter-spacing: 0.3px;
+					border-bottom: 2px solid transparent;
+					transition: border-color 0.15s ease, color 0.15s ease;
+					user-select: none;
+				}
+
+				input {
+					border: none !important;
+					outline: none !important;
+					box-shadow: none !important;
+					background: transparent !important;
+					width: 100%;
+					text-align: center;
+					font-size: 13px;
+					font-weight: 500;
+					color: #1e293b;
+					padding: 6px 2px;
+					min-height: 28px;
+					box-sizing: border-box;
+					-moz-appearance: textfield;
+
+					&::-webkit-outer-spin-button,
+					&::-webkit-inner-spin-button {
+						-webkit-appearance: none;
+						margin: 0;
+					}
+				}
+
+				&.is-focused,
+				&:focus-within {
+					z-index: 2;
+					border-color: #2563eb;
+					box-shadow: 0 0 0 1px #2563eb;
+
+					.gravisain-box-label {
+						border-bottom-color: #2563eb;
+						color: #2563eb;
+					}
+				}
+			}
+		}
+
+		// When linked: 1 box
+		&.is-linked {
+			.gravisain-spacing-box-linked {
+				flex: 1;
+				display: flex;
+				border: 1px solid #cbd5e1;
+				border-right: none;
+				border-top-left-radius: 4px;
+				border-bottom-left-radius: 4px;
+				background: #ffffff;
+				box-sizing: border-box;
+				transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+				input {
+					border: none !important;
+					outline: none !important;
+					box-shadow: none !important;
+					background: transparent !important;
+					width: 100%;
+					font-size: 13px;
+					font-weight: 500;
+					color: #1e293b;
+					padding: 8px 12px;
+					min-height: 38px;
+					box-sizing: border-box;
+					-moz-appearance: textfield;
+
+					&::-webkit-outer-spin-button,
+					&::-webkit-inner-spin-button {
+						-webkit-appearance: none;
+						margin: 0;
+					}
+				}
+
+				&.is-focused,
+				&:focus-within {
+					z-index: 2;
+					border-color: #2563eb;
+					box-shadow: 0 0 0 1px #2563eb;
+				}
+			}
+		}
+
+		// Unit Selector Button on the Right
+		.gravisain-unit-wrapper {
+			position: relative;
+			display: flex;
+
+			.gravisain-unit-btn {
+				background: #ffffff;
+				border: 1px solid #cbd5e1;
+				border-top-right-radius: 4px;
+				border-bottom-right-radius: 4px;
+				font-size: 11px;
+				font-weight: 600;
+				color: #334155;
+				padding: 0 10px;
+				cursor: pointer;
+				min-width: 36px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				box-sizing: border-box;
+				transition: all 0.15s ease;
+
+				&:hover {
+					background: #f8fafc;
+					border-color: #94a3b8;
+				}
+
+				&.is-open {
+					border-color: #2563eb;
+					color: #2563eb;
+				}
+			}
+
+			.gravisain-unit-dropdown {
+				position: absolute;
+				top: 100%;
+				right: 0;
+				margin-top: 4px;
+				background: #ffffff;
+				border: 1px solid #cbd5e1;
+				border-radius: 4px;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+				z-index: 1000;
+				display: flex;
+				flex-direction: column;
+				min-width: 60px;
+				overflow: hidden;
+
+				.gravisain-unit-option {
+					background: transparent;
+					border: none;
+					padding: 6px 12px;
+					font-size: 11px;
+					font-weight: 600;
+					color: #334155;
+					text-align: left;
+					cursor: pointer;
+					transition: background 0.1s ease;
+
+					&:hover {
+						background: #f1f5f9;
+						color: #2563eb;
+					}
+
+					&.is-selected {
+						background: #eff6ff;
+						color: #2563eb;
+					}
+				}
+			}
+		}
+	}
+
+	// Slider Section
+	.gravisain-spacing-slider-section {
+		margin-top: 10px;
+		background: #ffffff;
+		border: 1px solid #e2e8f0;
+		border-radius: 6px;
+		padding: 10px 12px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+		.gravisain-slider-header {
+			font-size: 11px;
+			font-weight: 600;
+			color: #475569;
+			text-transform: uppercase;
+			letter-spacing: 0.4px;
+			margin-bottom: 10px;
+		}
+
+		.gravisain-slider-row {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+
+			.gravisain-slider-track-wrap {
+				flex: 1;
+				position: relative;
+				display: flex;
+				align-items: center;
+
+				input[type="range"] {
+					-webkit-appearance: none;
+					width: 100%;
+					height: 6px;
+					background: transparent;
+					cursor: pointer;
+					position: relative;
+					z-index: 2;
+					margin: 0;
+
+					&::-webkit-slider-thumb {
+						-webkit-appearance: none;
+						width: 16px;
+						height: 16px;
+						border-radius: 50%;
+						background: #2563eb;
+						border: 2px solid #ffffff;
+						box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+						cursor: pointer;
+						margin-top: -5px;
+						transition: transform 0.1s ease;
+
+						&:hover {
+							transform: scale(1.15);
+						}
+					}
+
+					&::-moz-range-thumb {
+						width: 16px;
+						height: 16px;
+						border-radius: 50%;
+						background: #2563eb;
+						border: 2px solid #ffffff;
+						box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+						cursor: pointer;
+					}
+
+					&::-webkit-slider-runnable-track {
+						height: 6px;
+						background: transparent;
+						border-radius: 3px;
+					}
+				}
+
+				// Background stepped track with dots/ticks
+				.gravisain-slider-stepped-track {
+					position: absolute;
+					left: 0;
+					right: 0;
+					height: 6px;
+					background: #e2e8f0;
+					border-radius: 3px;
+					pointer-events: none;
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					padding: 0 4px;
+					box-sizing: border-box;
+
+					.gravisain-step-tick {
+						width: 2px;
+						height: 2px;
+						background: #94a3b8;
+						border-radius: 50%;
+					}
+				}
+
+				// Tooltip bubble under or above the thumb
+				.gravisain-slider-tooltip {
+					position: absolute;
+					top: 22px;
+					left: 0;
+					background: #1e293b;
+					color: #ffffff;
+					font-size: 10px;
+					font-weight: 600;
+					padding: 2px 6px;
+					border-radius: 3px;
+					pointer-events: none;
+					white-space: nowrap;
+					transform: translateX(-50%);
+					box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+				}
+			}
+
+			.gravisain-reset-btn {
+				background: #ffffff;
+				border: 1px solid #2563eb;
+				color: #2563eb;
+				font-size: 11px;
+				font-weight: 600;
+				padding: 4px 12px;
+				border-radius: 4px;
+				cursor: pointer;
+				transition: all 0.15s ease;
+				flex-shrink: 0;
+
+				&:hover {
+					background: #2563eb;
+					color: #ffffff;
+				}
+			}
+		}
+	}
+}

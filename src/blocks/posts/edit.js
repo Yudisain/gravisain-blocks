@@ -151,7 +151,19 @@ export default function Edit( { attributes, setAttributes, name } ) {
 			<div { ...blockProps }>
 				<ServerSideRender
 					block={ name }
-					attributes={ attributes }
+					attributes={{
+						postType,
+						postsToShow,
+						columns,
+						gap,
+						showImage,
+						showTitle,
+						showExcerpt,
+						showMeta,
+						showCategory,
+						order,
+						orderBy,
+					}}
 					emptyResponsePlaceholder={
 						<div className="gravisain-posts-empty">
 							{ __( 'No posts found.', 'gravisain-blocks' ) }

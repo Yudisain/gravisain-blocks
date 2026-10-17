@@ -1,23 +1,31 @@
 import { __ } from '@wordpress/i18n';
-import { InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import { InspectorControls } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	SelectControl,
 	TextControl,
+	TextareaControl,
 	RangeControl,
 	ToggleControl,
 	TabPanel,
-	Button,
+	FocalPointPicker,
 } from '@wordpress/components';
 import ColorControl from '../../../controls/ColorControl';
+import IconPickerControl from '../../../controls/IconPickerControl';
 
 export default function Inspector( { attributes, setAttributes } ) {
 	const {
+		icon,
 		iconType,
 		mediaType,
 		dashicon,
 		imageUrl,
-		imageId,
+		imageFocalPoint,
+		imageWidth,
+		imageHeight,
+		imageAspectRatio,
+		imageObjectFit,
+		imageBorderRadius,
 		iconSize,
 		iconBoxSize,
 		iconRadius,
@@ -42,15 +50,22 @@ export default function Inspector( { attributes, setAttributes } ) {
 		cardPaddingLeft,
 		cardPaddingRight,
 		hoverEffect,
+		anchor,
+		customClassName,
+		customCSS,
 	} = attributes;
 
-	const onSelectImage = ( media ) => {
-		setAttributes( { imageUrl: media.url, imageId: media.id } );
-	};
-
-	const onRemoveImage = () => {
-		setAttributes( { imageUrl: '', imageId: 0 } );
-	};
+	const isIconCleared = mediaType === 'none' || icon === 'none';
+	const currentIconValue = isIconCleared
+		? ''
+		: ( icon || ( mediaType === 'image' && imageUrl ? imageUrl : ( dashicon ? 'star' : ( iconType || 'star' ) ) ) );
+	const isImageSelected = ! isIconCleared && Boolean(
+		( icon && typeof icon === 'string' && ( icon.startsWith( 'http' ) || icon.startsWith( '/' ) || icon.startsWith( 'data:image' ) ) ) ||
+		( mediaType === 'image' && imageUrl )
+	);
+	const activeImageUrl = isImageSelected
+		? ( ( icon && typeof icon === 'string' && ( icon.startsWith( 'http' ) || icon.startsWith( '/' ) || icon.startsWith( 'data:image' ) ) ) ? icon : imageUrl )
+		: '';
 
 	return (
 		<InspectorControls>
@@ -80,73 +95,102 @@ export default function Inspector( { attributes, setAttributes } ) {
 						return (
 							<>
 								<PanelBody title={ __( 'Media / Icon Settings', 'gravisain' ) }>
-									<SelectControl
-										label={ __( 'Media Type', 'gravisain' ) }
-										value={ mediaType }
-										options={ [
-											{ label: __( 'Icon (Dashicon / Symbol)', 'gravisain' ), value: 'icon' },
-											{ label: __( 'Custom Image / Icon', 'gravisain' ), value: 'image' },
-										] }
-										onChange={ ( value ) => setAttributes( { mediaType: value } ) }
+									<IconPickerControl
+										label={ __( 'Icon or Image', 'gravisain' ) }
+										value={ currentIconValue }
+										onChange={ ( val ) => {
+											if ( ! val ) {
+												setAttributes( {
+													icon: 'none',
+													iconType: '',
+													dashicon: '',
+													imageUrl: '',
+													mediaType: 'none',
+												} );
+												return;
+											}
+											setAttributes( { icon: val } );
+											const isImg = typeof val === 'string' && (
+												val.startsWith( 'http://' ) ||
+												val.startsWith( 'https://' ) ||
+												val.startsWith( '/' ) ||
+												val.startsWith( 'data:image' )
+											);
+											if ( isImg ) {
+												setAttributes( { imageUrl: val, mediaType: 'image' } );
+											} else {
+												setAttributes( { mediaType: 'icon' } );
+											}
+										} }
 									/>
 
-									{ mediaType === 'icon' ? (
+									{ isImageSelected && activeImageUrl && (
 										<>
-											<TextControl
-												label={ __( 'Dashicon Class (e.g. star-filled, shield)', 'gravisain' ) }
-												value={ dashicon }
-												onChange={ ( value ) => setAttributes( { dashicon: value } ) }
-												help={ __( 'Enter Dashicon name without "dashicons-" prefix, or leave blank to use symbol.', 'gravisain' ) }
-											/>
-											{ ! dashicon && (
-												<SelectControl
-													label={ __( 'Symbol Preset', 'gravisain' ) }
-													value={ iconType }
-													options={ [
-														{ label: __( 'Star ★', 'gravisain' ), value: 'star' },
-														{ label: __( 'Lightning ⚡', 'gravisain' ), value: 'lightning' },
-														{ label: __( 'Shield 🛡️', 'gravisain' ), value: 'shield' },
-														{ label: __( 'Checkmark ✓', 'gravisain' ), value: 'check' },
-														{ label: __( 'Heart ♥', 'gravisain' ), value: 'heart' },
-														{ label: __( 'Award Trophy 🏆', 'gravisain' ), value: 'award' },
-													] }
-													onChange={ ( value ) => setAttributes( { iconType: value } ) }
+											<div style={ { marginTop: 16 } }>
+												<FocalPointPicker
+													label={ __( 'Image Focal Point (Click & Drag)', 'gravisain' ) }
+													url={ activeImageUrl }
+													value={ imageFocalPoint || { x: 0.5, y: 0.5 } }
+													onChange={ ( val ) => setAttributes( { imageFocalPoint: val } ) }
 												/>
-											) }
+											</div>
 										</>
-									) : (
-										<div className="gravisain-media-upload-area" style={ { marginBottom: 16 } }>
-											<MediaUploadCheck>
-												<MediaUpload
-													onSelect={ onSelectImage }
-													allowedTypes={ [ 'image' ] }
-													value={ imageId }
-													render={ ( { open } ) => (
-														<div style={ { display: 'flex', flexDirection: 'column', gap: 8 } }>
-															{ imageUrl && (
-																<img
-																	src={ imageUrl }
-																	alt="Icon preview"
-																	style={ { maxWidth: '80px', maxHeight: '80px', borderRadius: '8px' } }
-																/>
-															) }
-															<div style={ { display: 'flex', gap: 8 } }>
-																<Button variant="secondary" onClick={ open }>
-																	{ imageUrl ? __( 'Replace Image', 'gravisain' ) : __( 'Upload Image', 'gravisain' ) }
-																</Button>
-																{ imageUrl && (
-																	<Button variant="link" isDestructive onClick={ onRemoveImage }>
-																		{ __( 'Remove', 'gravisain' ) }
-																	</Button>
-																) }
-															</div>
-														</div>
-													) }
-												/>
-											</MediaUploadCheck>
-										</div>
 									) }
 								</PanelBody>
+
+								{ isImageSelected && (
+									<PanelBody title={ __( 'Image Settings', 'gravisain' ) } initialOpen={ true }>
+										<SelectControl
+											label={ __( 'Aspect Ratio', 'gravisain' ) }
+											value={ imageAspectRatio || 'auto' }
+											options={ [
+												{ label: __( 'Auto (Original)', 'gravisain' ), value: 'auto' },
+												{ label: __( '1:1 (Square)', 'gravisain' ), value: '1/1' },
+												{ label: __( '16:9 (Landscape)', 'gravisain' ), value: '16/9' },
+												{ label: __( '4:3 (Standard)', 'gravisain' ), value: '4/3' },
+												{ label: __( '3:4 (Portrait)', 'gravisain' ), value: '3/4' },
+											] }
+											onChange={ ( val ) => setAttributes( { imageAspectRatio: val } ) }
+										/>
+
+										<SelectControl
+											label={ __( 'Object Fit', 'gravisain' ) }
+											value={ imageObjectFit || 'cover' }
+											options={ [
+												{ label: __( 'Cover (Crop to fill)', 'gravisain' ), value: 'cover' },
+												{ label: __( 'Contain (Keep entire image)', 'gravisain' ), value: 'contain' },
+												{ label: __( 'Fill (Stretch to fit)', 'gravisain' ), value: 'fill' },
+											] }
+											onChange={ ( val ) => setAttributes( { imageObjectFit: val } ) }
+										/>
+
+										<RangeControl
+											label={ __( 'Image Width (px - 0 for auto)', 'gravisain' ) }
+											value={ imageWidth || 0 }
+											onChange={ ( val ) => setAttributes( { imageWidth: val } ) }
+											min={ 0 }
+											max={ 400 }
+											help={ __( 'Leave 0 to follow Icon Box Size or original image ratio.', 'gravisain' ) }
+										/>
+
+										<RangeControl
+											label={ __( 'Image Height (px - 0 for auto)', 'gravisain' ) }
+											value={ imageHeight || 0 }
+											onChange={ ( val ) => setAttributes( { imageHeight: val } ) }
+											min={ 0 }
+											max={ 400 }
+											help={ __( 'Leave 0 to follow Icon Box Size.', 'gravisain' ) }
+										/>
+
+										<RangeControl
+											label={ __( 'Image Border Radius (px)', 'gravisain' ) }
+											value={ imageBorderRadius || 0 }
+											onChange={ ( val ) => setAttributes( { imageBorderRadius: val } ) }
+											min={ 0 }
+											max={ 100 }
+										/>
+									</PanelBody>
+								) }
 
 								<PanelBody title={ __( 'Content Visibility & Links', 'gravisain' ) }>
 									<ToggleControl
@@ -214,7 +258,7 @@ export default function Inspector( { attributes, setAttributes } ) {
 										value={ iconBoxSize }
 										onChange={ ( val ) => setAttributes( { iconBoxSize: val } ) }
 										min={ 24 }
-										max={ 120 }
+										max={ 200 }
 									/>
 									<RangeControl
 										label={ __( 'Icon Box Border Radius (px)', 'gravisain' ) }
@@ -223,24 +267,28 @@ export default function Inspector( { attributes, setAttributes } ) {
 										min={ 0 }
 										max={ 999 }
 									/>
-									<div style={ { marginBottom: 16 } }>
-										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Icon Color', 'gravisain' ) }
-										</p>
-										<ColorControl
-											value={ iconColor }
-											onChange={ ( color ) => setAttributes( { iconColor: color || '#2563eb' } ) }
-										/>
-									</div>
-									<div style={ { marginBottom: 16 } }>
-										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Icon Background Color', 'gravisain' ) }
-										</p>
-										<ColorControl
-											value={ iconBackgroundColor }
-											onChange={ ( color ) => setAttributes( { iconBackgroundColor: color || 'rgba(37, 99, 235, 0.1)' } ) }
-										/>
-									</div>
+									{ ! isImageSelected && (
+										<>
+											<div style={ { marginBottom: 16 } }>
+												<p style={ { marginBottom: 8, fontWeight: 600 } }>
+													{ __( 'Icon Color', 'gravisain' ) }
+												</p>
+												<ColorControl
+													value={ iconColor }
+													onChange={ ( color ) => setAttributes( { iconColor: color || '#2563eb' } ) }
+												/>
+											</div>
+											<div style={ { marginBottom: 16 } }>
+												<p style={ { marginBottom: 8, fontWeight: 600 } }>
+													{ __( 'Icon Background Color', 'gravisain' ) }
+												</p>
+												<ColorControl
+													value={ iconBackgroundColor }
+													onChange={ ( color ) => setAttributes( { iconBackgroundColor: color || 'rgba(37, 99, 235, 0.1)' } ) }
+												/>
+											</div>
+										</>
+									) }
 								</PanelBody>
 
 								<PanelBody title={ __( 'Typography & Colors', 'gravisain' ) }>
@@ -302,72 +350,94 @@ export default function Inspector( { attributes, setAttributes } ) {
 										</div>
 									) }
 								</PanelBody>
+
+								<PanelBody title={ __( 'Card Background, Border & Spacing', 'gravisain' ) } initialOpen={ false }>
+									<div style={ { marginBottom: 16 } }>
+										<p style={ { marginBottom: 8, fontWeight: 600 } }>
+											{ __( 'Card Background Color', 'gravisain' ) }
+										</p>
+										<ColorControl
+											value={ cardBackgroundColor }
+											onChange={ ( color ) => setAttributes( { cardBackgroundColor: color || '#ffffff' } ) }
+										/>
+									</div>
+									<div style={ { marginBottom: 16 } }>
+										<p style={ { marginBottom: 8, fontWeight: 600 } }>
+											{ __( 'Card Border Color', 'gravisain' ) }
+										</p>
+										<ColorControl
+											value={ cardBorderColor }
+											onChange={ ( color ) => setAttributes( { cardBorderColor: color || 'rgba(0, 0, 0, 0.08)' } ) }
+										/>
+									</div>
+									<RangeControl
+										label={ __( 'Border Width (px)', 'gravisain' ) }
+										value={ cardBorderWidth }
+										onChange={ ( val ) => setAttributes( { cardBorderWidth: val } ) }
+										min={ 0 }
+										max={ 10 }
+									/>
+									<RangeControl
+										label={ __( 'Border Radius (px)', 'gravisain' ) }
+										value={ cardBorderRadius }
+										onChange={ ( val ) => setAttributes( { cardBorderRadius: val } ) }
+										min={ 0 }
+										max={ 60 }
+									/>
+									<RangeControl
+										label={ __( 'Padding Top (px)', 'gravisain' ) }
+										value={ cardPaddingTop }
+										onChange={ ( val ) => setAttributes( { cardPaddingTop: val } ) }
+										min={ 0 }
+										max={ 100 }
+									/>
+									<RangeControl
+										label={ __( 'Padding Bottom (px)', 'gravisain' ) }
+										value={ cardPaddingBottom }
+										onChange={ ( val ) => setAttributes( { cardPaddingBottom: val } ) }
+										min={ 0 }
+										max={ 100 }
+									/>
+									<RangeControl
+										label={ __( 'Padding Left (px)', 'gravisain' ) }
+										value={ cardPaddingLeft }
+										onChange={ ( val ) => setAttributes( { cardPaddingLeft: val } ) }
+										min={ 0 }
+										max={ 100 }
+									/>
+									<RangeControl
+										label={ __( 'Padding Right (px)', 'gravisain' ) }
+										value={ cardPaddingRight }
+										onChange={ ( val ) => setAttributes( { cardPaddingRight: val } ) }
+										min={ 0 }
+										max={ 100 }
+									/>
+								</PanelBody>
 							</>
 						);
 					}
 
 					if ( tab.name === 'advanced' ) {
 						return (
-							<PanelBody title={ __( 'Card Background, Border & Spacing', 'gravisain' ) }>
-								<div style={ { marginBottom: 16 } }>
-									<p style={ { marginBottom: 8, fontWeight: 600 } }>
-										{ __( 'Card Background Color', 'gravisain' ) }
-									</p>
-									<ColorControl
-										value={ cardBackgroundColor }
-										onChange={ ( color ) => setAttributes( { cardBackgroundColor: color || '#ffffff' } ) }
-									/>
-								</div>
-								<div style={ { marginBottom: 16 } }>
-									<p style={ { marginBottom: 8, fontWeight: 600 } }>
-										{ __( 'Card Border Color', 'gravisain' ) }
-									</p>
-									<ColorControl
-										value={ cardBorderColor }
-										onChange={ ( color ) => setAttributes( { cardBorderColor: color || 'rgba(0, 0, 0, 0.08)' } ) }
-									/>
-								</div>
-								<RangeControl
-									label={ __( 'Border Width (px)', 'gravisain' ) }
-									value={ cardBorderWidth }
-									onChange={ ( val ) => setAttributes( { cardBorderWidth: val } ) }
-									min={ 0 }
-									max={ 10 }
+							<PanelBody title={ __( 'Advanced Settings', 'gravisain' ) } initialOpen={ true }>
+								<TextControl
+									label={ __( 'HTML Anchor', 'gravisain' ) }
+									help={ __( 'Enter a word or two — without spaces — to make a unique web address just for this block, called an "anchor". Then, you\'ll be able to link directly to this section of your page.', 'gravisain' ) }
+									value={ anchor || '' }
+									onChange={ ( val ) => setAttributes( { anchor: val } ) }
 								/>
-								<RangeControl
-									label={ __( 'Border Radius (px)', 'gravisain' ) }
-									value={ cardBorderRadius }
-									onChange={ ( val ) => setAttributes( { cardBorderRadius: val } ) }
-									min={ 0 }
-									max={ 60 }
+								<TextControl
+									label={ __( 'Additional CSS class(es)', 'gravisain' ) }
+									help={ __( 'Separate multiple classes with spaces.', 'gravisain' ) }
+									value={ customClassName || '' }
+									onChange={ ( val ) => setAttributes( { customClassName: val } ) }
 								/>
-								<RangeControl
-									label={ __( 'Padding Top (px)', 'gravisain' ) }
-									value={ cardPaddingTop }
-									onChange={ ( val ) => setAttributes( { cardPaddingTop: val } ) }
-									min={ 0 }
-									max={ 100 }
-								/>
-								<RangeControl
-									label={ __( 'Padding Bottom (px)', 'gravisain' ) }
-									value={ cardPaddingBottom }
-									onChange={ ( val ) => setAttributes( { cardPaddingBottom: val } ) }
-									min={ 0 }
-									max={ 100 }
-								/>
-								<RangeControl
-									label={ __( 'Padding Left (px)', 'gravisain' ) }
-									value={ cardPaddingLeft }
-									onChange={ ( val ) => setAttributes( { cardPaddingLeft: val } ) }
-									min={ 0 }
-									max={ 100 }
-								/>
-								<RangeControl
-									label={ __( 'Padding Right (px)', 'gravisain' ) }
-									value={ cardPaddingRight }
-									onChange={ ( val ) => setAttributes( { cardPaddingRight: val } ) }
-									min={ 0 }
-									max={ 100 }
+								<TextareaControl
+									label={ __( 'Additional CSS', 'gravisain' ) }
+									help={ __( 'Add your own CSS to customize the appearance of this block. You do not need to include a CSS selector, just add the property and value, e.g. color: red;.', 'gravisain' ) }
+									value={ customCSS || '' }
+									onChange={ ( val ) => setAttributes( { customCSS: val } ) }
+									rows={ 4 }
 								/>
 							</PanelBody>
 						);

@@ -92,15 +92,15 @@ const Icon16_x6 = (
 );
 
 export const layoutPresets = [
-	{ name: '100', label: '1 Column', cols: 1, widths: ['100%'], icon: Icon100 },
-	{ name: '50-50', label: '2 Columns (50/50)', cols: 2, widths: ['50%', '50%'], icon: Icon50_50 },
-	{ name: '66-33', label: '2 Columns (66/33)', cols: 2, widths: ['66.66%', '33.33%'], icon: Icon66_33 },
-	{ name: '33-66', label: '2 Columns (33/66)', cols: 2, widths: ['33.33%', '66.66%'], icon: Icon33_66 },
-	{ name: '33-33-33', label: '3 Columns (33/33/33)', cols: 3, widths: ['33.33%', '33.33%', '33.33%'], icon: Icon33_33_33 },
-	{ name: '50-25-25', label: '3 Columns (50/25/25)', cols: 3, widths: ['50%', '25%', '25%'], icon: Icon50_25_25 },
-	{ name: '25-25-50', label: '3 Columns (25/25/50)', cols: 3, widths: ['25%', '25%', '50%'], icon: Icon25_25_50 },
-	{ name: '25-50-25', label: '3 Columns (25/50/25)', cols: 3, widths: ['25%', '50%', '25%'], icon: Icon25_50_25 },
-	{ name: '25-25-25-25', label: '4 Columns (25/25/25/25)', cols: 4, widths: ['25%', '25%', '25%', '25%'], icon: Icon25_x4 },
-	{ name: '20-x5', label: '5 Columns Equal', cols: 5, widths: ['20%', '20%', '20%', '20%', '20%'], icon: Icon20_x5 },
-	{ name: '16-x6', label: '6 Columns Equal', cols: 6, widths: ['16.66%', '16.66%', '16.66%', '16.66%', '16.66%', '16.66%'], icon: Icon16_x6 },
+	{ name: '100', label: '1 Column', cols: 1, widths: ['100%'], gridTemplate: '1fr', icon: Icon100 },
+	{ name: '50-50', label: '2 Columns (50/50)', cols: 2, widths: ['50%', '50%'], gridTemplate: '1fr 1fr', icon: Icon50_50 },
+	{ name: '66-33', label: '2 Columns (66/33)', cols: 2, widths: ['66.66%', '33.33%'], gridTemplate: '2fr 1fr', icon: Icon66_33 },
+	{ name: '33-66', label: '2 Columns (33/66)', cols: 2, widths: ['33.33%', '66.66%'], gridTemplate: '1fr 2fr', icon: Icon33_66 },
+	{ name: '33-33-33', label: '3 Columns (33/33/33)', cols: 3, widths: ['33.33%', '33.33%', '33.33%'], gridTemplate: '1fr 1fr 1fr', icon: Icon33_33_33 },
+	{ name: '50-25-25', label: '3 Columns (50/25/25)', cols: 3, widths: ['50%', '25%', '25%'], gridTemplate: '2fr 1fr 1fr', icon: Icon50_25_25 },
+	{ name: '25-25-50', label: '3 Columns (25/25/50)', cols: 3, widths: ['25%', '25%', '50%'], gridTemplate: '1fr 1fr 2fr', icon: Icon25_25_50 },
+	{ name: '25-50-25', label: '3 Columns (25/50/25)', cols: 3, widths: ['25%', '50%', '25%'], gridTemplate: '1fr 2fr 1fr', icon: Icon25_50_25 },
+	{ name: '25-25-25-25', label: '4 Columns (25/25/25/25)', cols: 4, widths: ['25%', '25%', '25%', '25%'], gridTemplate: '1fr 1fr 1fr 1fr', icon: Icon25_x4 },
+	{ name: '20-x5', label: '5 Columns Equal', cols: 5, widths: ['20%', '20%', '20%', '20%', '20%'], gridTemplate: '1fr 1fr 1fr 1fr 1fr', icon: Icon20_x5 },
+	{ name: '16-x6', label: '6 Columns Equal', cols: 6, widths: ['16.66%', '16.66%', '16.66%', '16.66%', '16.66%', '16.66%'], gridTemplate: '1fr 1fr 1fr 1fr 1fr 1fr', icon: Icon16_x6 },
 ];

@@ -8,6 +8,7 @@ export default function save( { attributes } ) {
 		caption,
 		aspectRatio,
 		objectFit,
+		focalPoint,
 		borderRadius,
 		borderWidth,
 		borderColor,
@@ -49,7 +50,9 @@ export default function save( { attributes } ) {
 				width: '100%',
 				height: aspectRatio !== 'auto' ? '100%' : 'auto',
 				objectFit: aspectRatio !== 'auto' ? objectFit : undefined,
+				objectPosition: focalPoint ? `${ Math.round( focalPoint.x * 100 ) }% ${ Math.round( focalPoint.y * 100 ) }%` : undefined,
 				display: 'block',
+				border: 'none',
 			} }
 		/>
 	);
@@ -61,9 +64,7 @@ export default function save( { attributes } ) {
 				style={ {
 					aspectRatio: aspectRatio !== 'auto' ? aspectRatio : undefined,
 					borderRadius: borderRadius ? `${ borderRadius }px` : undefined,
-					borderWidth: borderWidth ? `${ borderWidth }px` : undefined,
-					borderColor: borderColor || undefined,
-					borderStyle: borderWidth ? borderStyle : undefined,
+					border: borderWidth > 0 ? `${ borderWidth }px ${ borderStyle || 'solid' } ${ borderColor || '#cccccc' }` : 'none',
 					boxShadow: boxShadow !== 'none' ? boxShadow : undefined,
 					overflow: 'hidden',
 					position: 'relative',
@@ -88,7 +89,11 @@ export default function save( { attributes } ) {
 							left: 0,
 							right: 0,
 							bottom: 0,
-							backgroundColor: overlayColor,
+							...( overlayColor ? (
+								( overlayColor.includes( 'gradient' ) || overlayColor.includes( 'linear' ) || overlayColor.includes( 'radial' ) )
+									? { backgroundImage: overlayColor }
+									: { backgroundColor: overlayColor }
+							) : {} ),
 							opacity: overlayOpacity / 100,
 							pointerEvents: 'none',
 						} }

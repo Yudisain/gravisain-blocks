@@ -5,7 +5,7 @@ import Inspector from './components/Inspector';
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { thumbnailUrl, thumbnailId, playIconStyle, playIconColor, overlayColor, aspectRatio, borderRadius, anchor } = attributes;
+	const { thumbnailUrl, thumbnailId, thumbnailFocalPoint, playIconStyle, playIconColor, overlayColor, aspectRatio, borderRadius, anchor } = attributes;
 
 	const blockProps = useBlockProps( {
 		id: anchor || undefined,
@@ -49,7 +49,14 @@ export default function Edit( { attributes, setAttributes } ) {
 							/>
 						</BlockControls>
 						<div className="gravisain-vp-thumbnail">
-							<img src={ thumbnailUrl } alt={ __( 'Video Thumbnail', 'gravisain-blocks' ) } />
+							<img
+								src={ thumbnailUrl }
+								alt={ __( 'Video Thumbnail', 'gravisain-blocks' ) }
+								style={ {
+									objectFit: 'cover',
+									objectPosition: thumbnailFocalPoint ? `${Math.round(thumbnailFocalPoint.x * 100)}% ${Math.round(thumbnailFocalPoint.y * 100)}%` : undefined,
+								} }
+							/>
 							<div className="gravisain-vp-overlay"></div>
 							<div className={ `gravisain-vp-play-btn style-${playIconStyle}` }>
 								<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

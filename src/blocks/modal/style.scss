@@ -4,7 +4,7 @@
 	display: inline-block;
 
 	.gravisain-modal-trigger-btn {
-		background-color: var(--gravisain-modal-btn-bg, #007cba);
+		background: var(--gravisain-modal-btn-bg, #007cba);
 		color: var(--gravisain-modal-btn-color, #ffffff);
 		border: none;
 		border-radius: 6px;
@@ -33,7 +33,7 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-		background-color: var(--gravisain-modal-overlay-bg, rgba(0, 0, 0, 0.6));
+		background: var(--gravisain-modal-overlay-bg, rgba(0, 0, 0, 0.6));
 		z-index: 99999;
 		display: flex;
 		align-items: center;
@@ -42,7 +42,7 @@
 		box-sizing: border-box;
 
 		.gravisain-modal-box {
-			background-color: var(--gravisain-modal-box-bg, #ffffff);
+			background: var(--gravisain-modal-box-bg, #ffffff);
 			border-radius: var(--gravisain-modal-radius, 12px);
 			max-width: var(--gravisain-modal-width, 600px);
 			width: 100%;

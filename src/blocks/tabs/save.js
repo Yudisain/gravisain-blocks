@@ -21,12 +21,16 @@ export default function save( { attributes } ) {
 		customCSS,
 	} = attributes;
 
+	const effectiveAlignment = layout === 'vertical'
+		? ( tabAlignment === 'bottom' || tabAlignment === 'right' ? 'bottom' : tabAlignment === 'center' ? 'center' : 'top' )
+		: ( tabAlignment === 'right' || tabAlignment === 'bottom' ? 'right' : tabAlignment === 'center' ? 'center' : 'left' );
+
 	const blockProps = useBlockProps.save( {
 		id: anchor || undefined,
 		className: [
 			'gravisain-tabs',
 			`layout-${ layout || 'horizontal' }`,
-			`align-${ tabAlignment || 'left' }`,
+			`align-${ effectiveAlignment }`,
 			customClassName || '',
 		].filter( Boolean ).join( ' ' ),
 		style: {

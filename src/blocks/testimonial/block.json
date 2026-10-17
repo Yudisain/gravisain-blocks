@@ -33,6 +33,13 @@
 			"type": "number",
 			"default": 0
 		},
+		"avatarFocalPoint": {
+			"type": "object",
+			"default": {
+				"x": 0.5,
+				"y": 0.5
+			}
+		},
 		"rating": {
 			"type": "number",
 			"default": 5

@@ -1,0 +1,121 @@
+.gravisain-site-identity-wrapper {
+	display: inline-block;
+	max-width: 100%;
+
+	a.gravisain-site-identity-link {
+		text-decoration: none;
+		color: inherit;
+		display: block;
+
+		&:hover {
+			.gravisain-site-title {
+				color: var(--gravisain-si-title-hover, inherit);
+			}
+		}
+	}
+
+	.gravisain-site-identity-inner {
+		display: flex;
+		gap: var(--gravisain-si-gap, 16px);
+		max-width: 100%;
+	}
+
+	// Layout Orientations
+	&.layout-logo-left .gravisain-site-identity-inner {
+		flex-direction: row;
+	}
+
+	&.layout-logo-right .gravisain-site-identity-inner {
+		flex-direction: row-reverse;
+	}
+
+	&.layout-logo-top .gravisain-site-identity-inner {
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+	}
+
+	&.layout-logo-bottom .gravisain-site-identity-inner {
+		flex-direction: column-reverse;
+		align-items: center;
+		text-align: center;
+	}
+
+	// Vertical Alignment (for horizontal row layouts)
+	&.align-flex-start .gravisain-site-identity-inner {
+		align-items: flex-start;
+	}
+
+	&.align-center .gravisain-site-identity-inner {
+		align-items: center;
+	}
+
+	&.align-flex-end .gravisain-site-identity-inner {
+		align-items: flex-end;
+	}
+
+	// Logo Wrap & Image
+	.gravisain-site-logo-wrap {
+		width: var(--gravisain-si-logo-width, 140px);
+		max-width: 100%;
+		flex-shrink: 0;
+
+		img, .custom-logo {
+			width: 100%;
+			max-width: 100%;
+			height: auto;
+			display: block;
+			transition: border-radius 0.2s ease;
+		}
+
+		&.is-shape-circle {
+			img, .custom-logo, .gravisain-site-logo-placeholder {
+				border-radius: 50% !important;
+				aspect-ratio: 1 / 1;
+				object-fit: cover;
+			}
+		}
+
+		&.is-shape-rounded {
+			img, .custom-logo, .gravisain-site-logo-placeholder {
+				border-radius: var(--gravisain-si-logo-radius, 12px) !important;
+			}
+		}
+	}
+
+	// Text Container
+	.gravisain-site-text-wrap {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		min-width: 0;
+
+		.gravisain-site-title {
+			margin: 0;
+			padding: 0;
+			color: var(--gravisain-si-title-color, inherit);
+			display: block;
+			transition: color 0.2s ease;
+		}
+
+		.gravisain-site-tagline {
+			margin: 4px 0 0 0;
+			padding: 0;
+			color: var(--gravisain-si-tagline-color, #64748b);
+			display: block;
+		}
+	}
+
+	// Responsive Logo Widths
+	@media (max-width: 1024px) {
+		.gravisain-site-logo-wrap {
+			width: var(--gravisain-si-logo-width-tablet, var(--gravisain-si-logo-width, 140px));
+		}
+	}
+
+	@media (max-width: 767px) {
+		.gravisain-site-logo-wrap {
+			width: var(--gravisain-si-logo-width-mobile, var(--gravisain-si-logo-width-tablet, var(--gravisain-si-logo-width, 140px)));
+		}
+	}
+}

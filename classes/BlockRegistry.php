@@ -80,8 +80,8 @@ class BlockRegistry {
 	 */
 	public function register_blocks(): void {
 		$cache_key = 'gravisain_blocks_registry_cache_' . GRAVISAIN_BLOCKS_VERSION;
-		// Bypass cache during development
-		$is_dev = defined( 'WP_DEBUG' ) && WP_DEBUG;
+		// Bypass cache during development or in WordPress admin/editor
+		$is_dev = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || is_admin();
 		$blocks = $is_dev ? false : get_transient( $cache_key );
 
 		if ( false === $blocks ) {
@@ -117,8 +117,8 @@ class BlockRegistry {
 				} );
 			}
 
-			// Save to cache for 24 hours if not in dev mode
-			if ( ! $is_dev && ! empty( $blocks ) ) {
+			// Save to cache for 24 hours
+			if ( ! empty( $blocks ) ) {
 				set_transient( $cache_key, $blocks, 24 * HOUR_IN_SECONDS );
 			}
 		}

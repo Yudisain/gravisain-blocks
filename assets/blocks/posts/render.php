@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 $post_type      = $attributes['postType'] ?? 'post';
 $posts_to_show  = $attributes['postsToShow'] ?? 3;
 $order          = $attributes['order'] ?? 'DESC';
@@ -55,7 +57,7 @@ $block_attributes = get_block_wrapper_attributes( [
 ] );
 
 ?>
-<div <?php echo $block_attributes; ?>>
+<div <?php echo $block_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="gravisain-posts-wrapper">
 		<?php while ( $posts_query->have_posts() ) : $posts_query->the_post(); ?>
 			<article id="post-<?php the_ID(); ?>" <?php post_class( 'gravisain-post-card' ); ?>>

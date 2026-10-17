@@ -32,13 +32,59 @@
 			"type": "string",
 			"default": "horizontal"
 		},
+		"layoutTablet": {
+			"type": "string",
+			"default": ""
+		},
+		"layoutMobile": {
+			"type": "string",
+			"default": ""
+		},
 		"justifyContent": {
 			"type": "string",
 			"default": "flex-start"
 		},
+		"justifyContentTablet": {
+			"type": "string",
+			"default": ""
+		},
+		"justifyContentMobile": {
+			"type": "string",
+			"default": ""
+		},
 		"gap": {
 			"type": "number",
 			"default": 16
+		},
+		"gapTablet": {
+			"type": "number"
+		},
+		"gapMobile": {
+			"type": "number"
+		},
+		"padding": {
+			"type": "object",
+			"default": {}
+		},
+		"paddingTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"paddingMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"margin": {
+			"type": "object",
+			"default": {}
+		},
+		"marginTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"marginMobile": {
+			"type": "object",
+			"default": {}
 		}
 	},
 	"textdomain": "gravisain",

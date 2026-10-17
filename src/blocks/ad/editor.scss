@@ -1,0 +1,99 @@
+.block-editor-block-list__block .gravisain-ad,
+.gravisain-ad {
+	.gravisain-ad-placeholder {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		min-height: 180px;
+		padding: 28px 20px;
+		background: #f8fafc;
+		border: 2px dashed #cbd5e1;
+		border-radius: 10px;
+		text-align: center;
+		color: #64748b;
+		cursor: pointer;
+		transition: border-color 0.2s ease, color 0.2s ease;
+
+		&:hover {
+			border-color: var( --wp-admin-theme-color, #4f46e5 );
+			color: var( --wp-admin-theme-color, #4f46e5 );
+		}
+
+		.gravisain-ad-placeholder-icon {
+			margin-bottom: 12px;
+			opacity: 0.6;
+		}
+
+		.gravisain-ad-placeholder-title {
+			display: block;
+			font-weight: 600;
+			font-size: 15px;
+			color: #334155;
+			margin-bottom: 6px;
+		}
+
+		.gravisain-ad-placeholder-text {
+			display: block;
+			font-size: 13px;
+			max-width: 320px;
+		}
+	}
+
+	.gravisain-ad-label {
+		display: block;
+		margin-bottom: 6px;
+		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: #94a3b8;
+	}
+
+	.gravisain-ad-banner-image {
+		display: block;
+		width: 100%;
+		height: auto;
+		border-radius: var( --gravisain-ad-radius, 0 );
+	}
+
+	.gravisain-ad-code-preview {
+		position: relative;
+		padding: 22px 16px 16px;
+		background: #0f172a;
+		border-radius: 8px;
+		color: #e2e8f0;
+		text-align: left;
+
+		.gravisain-ad-code-preview-badge {
+			position: absolute;
+			top: 8px;
+			left: 12px;
+			font-size: 10px;
+			font-weight: 600;
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+			color: #818cf8;
+		}
+
+		code {
+			display: block;
+			max-height: 160px;
+			overflow: auto;
+			font-family: Menlo, Consolas, monospace;
+			font-size: 11px;
+			line-height: 1.5;
+			white-space: pre-wrap;
+			word-break: break-word;
+			background: transparent;
+			color: inherit;
+		}
+	}
+}
+
+/* Neutralize selection chrome so the ad wrapper stays clean in the editor. */
+[data-type="gravisain/ad"],
+.gravisain-ad {
+	outline: none;
+}

@@ -12,19 +12,17 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 		if ( ! header || ! content ) return;
 
-		const updateIconClass = ( faqElement, isItemOpen ) => {
-			const iconElement = faqElement.querySelector( '.gravisain-faq-item__icon' );
-			if ( ! iconElement ) return;
-			if ( faqElement.classList.contains( 'icon-plus' ) ) {
-				if ( isItemOpen ) {
-					iconElement.classList.remove( 'dashicons-plus' );
-					iconElement.classList.add( 'dashicons-minus' );
-				} else {
-					iconElement.classList.remove( 'dashicons-minus' );
-					iconElement.classList.add( 'dashicons-plus' );
-				}
+		// Hydrate legacy items that were saved with Dashicons without SVG
+		const iconElement = item.querySelector( '.gravisain-faq-item__icon' );
+		if ( iconElement && ! iconElement.querySelector( 'svg' ) ) {
+			if ( item.classList.contains( 'icon-plus' ) ) {
+				iconElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line class="gravisain-faq-icon--vertical" x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>';
+			} else if ( item.classList.contains( 'icon-arrow-down' ) ) {
+				iconElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+			} else {
+				iconElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>';
 			}
-		};
+		}
 
 		header.addEventListener( 'click', () => {
 			const isOpen = item.classList.contains( 'is-open' );
@@ -41,7 +39,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
 						const otherContent = otherItem.querySelector( '.gravisain-faq-item__content' );
 						if ( otherHeader ) otherHeader.setAttribute( 'aria-expanded', 'false' );
 						if ( otherContent ) otherContent.setAttribute( 'aria-hidden', 'true' );
-						updateIconClass( otherItem, false );
 					}
 				} );
 			}
@@ -51,12 +48,10 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				item.classList.remove( 'is-open' );
 				header.setAttribute( 'aria-expanded', 'false' );
 				content.setAttribute( 'aria-hidden', 'true' );
-				updateIconClass( item, false );
 			} else {
 				item.classList.add( 'is-open' );
 				header.setAttribute( 'aria-expanded', 'true' );
 				content.setAttribute( 'aria-hidden', 'false' );
-				updateIconClass( item, true );
 			}
 		} );
 	} );

@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { PanelBody, RangeControl, SelectControl, TextControl, TextareaControl, TabPanel, Button } from '@wordpress/components';
+import { PanelBody, RangeControl, SelectControl, TextControl, TextareaControl, TabPanel, Button, FocalPointPicker } from '@wordpress/components';
 import ColorControl from '../../../controls/ColorControl';
 import ResponsiveTabControl from '../../../controls/ResponsiveTabControl';
 
@@ -11,6 +11,7 @@ export default function Inspector( { attributes, setAttributes } ) {
 		alt,
 		aspectRatio,
 		objectFit,
+		focalPoint = { x: 0.5, y: 0.5 },
 		borderRadius,
 		borderWidth,
 		borderColor,
@@ -51,22 +52,48 @@ export default function Inspector( { attributes, setAttributes } ) {
 												allowedTypes={ [ 'image' ] }
 												value={ id }
 												render={ ( { open } ) => (
-													<Button variant={ url ? 'secondary' : 'primary' } onClick={ open } style={ { width: '100%', justifyContent: 'center' } }>
-														{ url ? __( 'Replace Image', 'gravisain' ) : __( 'Select Image', 'gravisain' ) }
-													</Button>
+													<>
+														{ url ? (
+															<>
+																<div style={ { display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '16px' } }>
+																	<Button
+																		variant="secondary"
+																		onClick={ open }
+																		style={ { flex: 1, justifyContent: 'center' } }
+																	>
+																		{ __( 'Replace Image', 'gravisain' ) }
+																	</Button>
+																	<Button
+																		isDestructive
+																		variant="secondary"
+																		onClick={ () => setAttributes( { id: 0, url: '', alt: '', focalPoint: { x: 0.5, y: 0.5 } } ) }
+																		style={ { justifyContent: 'center' } }
+																	>
+																		{ __( 'Remove', 'gravisain' ) }
+																	</Button>
+																</div>
+																<div className="gravisain-focal-point-wrapper" style={ { marginBottom: '20px' } }>
+																	<FocalPointPicker
+																		label={ __( 'Focal Point (Click & Drag)', 'gravisain' ) }
+																		url={ url }
+																		value={ focalPoint }
+																		onChange={ ( newFocalPoint ) => setAttributes( { focalPoint: newFocalPoint } ) }
+																	/>
+																</div>
+															</>
+														) : (
+															<Button
+																variant="primary"
+																onClick={ open }
+																style={ { width: '100%', justifyContent: 'center' } }
+															>
+																{ __( 'Select Image', 'gravisain' ) }
+															</Button>
+														) }
+													</>
 												) }
 											/>
 										</MediaUploadCheck>
-										{ url && (
-											<Button
-												isDestructive
-												isLink
-												onClick={ () => setAttributes( { id: 0, url: '', alt: '' } ) }
-												style={ { marginTop: '8px', display: 'block' } }
-											>
-												{ __( 'Remove Image', 'gravisain' ) }
-											</Button>
-										) }
 									</div>
 
 									<TextControl
@@ -160,16 +187,28 @@ export default function Inspector( { attributes, setAttributes } ) {
 										onChange={ ( val ) => setAttributes( { aspectRatio: val } ) }
 									/>
 									{ aspectRatio !== 'auto' && (
-										<SelectControl
-											label={ __( 'Object Fit', 'gravisain' ) }
-											value={ objectFit }
-											options={ [
-												{ label: __( 'Cover', 'gravisain' ), value: 'cover' },
-												{ label: __( 'Contain', 'gravisain' ), value: 'contain' },
-												{ label: __( 'Fill', 'gravisain' ), value: 'fill' },
-											] }
-											onChange={ ( val ) => setAttributes( { objectFit: val } ) }
-										/>
+										<>
+											<SelectControl
+												label={ __( 'Object Fit', 'gravisain' ) }
+												value={ objectFit }
+												options={ [
+													{ label: __( 'Cover', 'gravisain' ), value: 'cover' },
+													{ label: __( 'Contain', 'gravisain' ), value: 'contain' },
+													{ label: __( 'Fill', 'gravisain' ), value: 'fill' },
+												] }
+												onChange={ ( val ) => setAttributes( { objectFit: val } ) }
+											/>
+											{ url && objectFit === 'cover' && (
+												<div style={ { marginTop: '16px' } }>
+													<FocalPointPicker
+														label={ __( 'Focal Point (Cropped Focus)', 'gravisain' ) }
+														url={ url }
+														value={ focalPoint }
+														onChange={ ( newFocalPoint ) => setAttributes( { focalPoint: newFocalPoint } ) }
+													/>
+												</div>
+											) }
+										</>
 									) }
 								</PanelBody>
 

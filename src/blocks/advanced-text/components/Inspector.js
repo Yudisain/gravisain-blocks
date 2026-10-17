@@ -128,7 +128,7 @@ export default function Inspector( {
 						return (
 							<>
 								<PanelBody title={ __( 'Typography', 'gravisain' ) }>
-									<ResponsiveTabControl>
+									<ResponsiveTabControl activeDevice={ device } onChangeDevice={ onDeviceChange }>
 										{ ( currentDevice ) => (
 											<TypographyControl
 												label={ __( 'Text Typography', 'gravisain' ) }

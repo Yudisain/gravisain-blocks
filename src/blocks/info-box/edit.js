@@ -1,15 +1,24 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 import Inspector from './components/Inspector';
+import { getIconMarkup } from '../../controls/icons';
+import parseCustomCSS from '../../controls/parseCustomCSS';
 import './editor.scss';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes } = props;
 	const {
+		icon,
 		iconType,
 		mediaType,
 		dashicon,
 		imageUrl,
+		imageFocalPoint,
+		imageWidth,
+		imageHeight,
+		imageAspectRatio,
+		imageObjectFit,
+		imageBorderRadius,
 		iconSize,
 		iconBoxSize,
 		iconRadius,
@@ -37,22 +46,26 @@ export default function Edit( props ) {
 		cardPaddingLeft,
 		cardPaddingRight,
 		hoverEffect,
+		anchor,
+		customClassName,
+		customCSS,
 	} = attributes;
 
-	const icons = {
-		star: '★',
-		lightning: '⚡',
-		shield: '🛡️',
-		check: '✓',
-		heart: '♥',
-		award: '🏆',
-	};
+	const isIconCleared = mediaType === 'none' || icon === 'none';
+	const iconVal = isIconCleared
+		? ''
+		: ( icon || ( mediaType === 'image' && imageUrl ? imageUrl : ( dashicon || iconType || 'star' ) ) );
+	const iconData = iconVal ? getIconMarkup( iconVal, 'star' ) : null;
+	const isImg = ( iconData && iconData.type === 'image' ) || ( mediaType === 'image' && imageUrl && ! icon );
+	const imgSrc = iconData?.src || imageUrl;
 
 	const blockProps = useBlockProps( {
+		id: anchor || undefined,
 		className: [
 			'gravisain-info-box-card',
 			`align-${ textAlign || 'left' }`,
 			hoverEffect && hoverEffect !== 'none' ? `hover-${ hoverEffect }` : '',
+			customClassName || '',
 		]
 			.filter( Boolean )
 			.join( ' ' ),
@@ -66,10 +79,10 @@ export default function Edit( props ) {
 			'--info-box-pl': `${ cardPaddingLeft ?? 28 }px`,
 			'--info-box-pr': `${ cardPaddingRight ?? 28 }px`,
 			'--info-box-icon-color': iconColor || '#2563eb',
-			'--info-box-icon-bg': iconBackgroundColor || 'rgba(37, 99, 235, 0.1)',
+			'--info-box-icon-bg': isImg ? 'transparent' : ( iconBackgroundColor || 'rgba(37, 99, 235, 0.1)' ),
 			'--info-box-icon-size': `${ iconSize ?? 24 }px`,
-			'--info-box-icon-box-size': `${ iconBoxSize ?? 48 }px`,
-			'--info-box-icon-radius': `${ iconRadius ?? 10 }px`,
+			'--info-box-icon-box-size': isImg && imageWidth ? `${ imageWidth }px` : `${ iconBoxSize ?? 48 }px`,
+			'--info-box-icon-radius': isImg ? `${ imageBorderRadius ?? 0 }px` : `${ iconRadius ?? 10 }px`,
 			'--info-box-title-color': titleColor || '#0f172a',
 			'--info-box-title-size': `${ titleFontSize ?? 20 }px`,
 			'--info-box-desc-color': descriptionColor || '#475569',
@@ -83,6 +96,7 @@ export default function Edit( props ) {
 					? 'flex-end'
 					: 'flex-start',
 			'--info-box-text-align': textAlign || 'left',
+			...parseCustomCSS( customCSS ),
 		},
 	} );
 
@@ -91,15 +105,61 @@ export default function Edit( props ) {
 			<Inspector { ...props } />
 
 			<div { ...blockProps }>
-				<div className="gravisain-info-box-icon">
-					{ mediaType === 'image' && imageUrl ? (
-						<img src={ imageUrl } alt={ title || 'icon' } className="gravisain-info-box-img" />
-					) : dashicon ? (
-						<span className={ `dashicons dashicons-${ dashicon }` } />
-					) : (
-						<span>{ icons[ iconType ] || '★' }</span>
-					) }
-				</div>
+				{ ! isIconCleared && (
+					<div
+						className="gravisain-info-box-icon"
+						style={ isImg ? {
+							width: imageWidth ? `${ imageWidth }px` : undefined,
+							height: imageHeight ? `${ imageHeight }px` : ( imageWidth ? 'auto' : undefined ),
+							background: 'transparent',
+							borderRadius: imageBorderRadius ? `${ imageBorderRadius }px` : undefined,
+						} : undefined }
+					>
+						{ isImg && imgSrc ? (
+							<img
+								src={ imgSrc }
+								alt={ title || 'icon' }
+								className="gravisain-info-box-img"
+								style={ {
+									width: imageWidth ? `${ imageWidth }px` : '100%',
+									height: imageHeight ? `${ imageHeight }px` : '100%',
+									aspectRatio: imageAspectRatio && imageAspectRatio !== 'auto' ? imageAspectRatio : undefined,
+									objectFit: imageObjectFit || 'cover',
+									borderRadius: imageBorderRadius ? `${ imageBorderRadius }px` : undefined,
+									objectPosition: imageFocalPoint ? `${Math.round(imageFocalPoint.x * 100)}% ${Math.round(imageFocalPoint.y * 100)}%` : undefined,
+								} }
+							/>
+						) : iconData && iconData.type === 'svg' ? (
+							<span
+								className="gravisain-info-box-svg"
+								dangerouslySetInnerHTML={ { __html: iconData.content } }
+								style={ {
+									width: `${ iconSize ?? 24 }px`,
+									height: `${ iconSize ?? 24 }px`,
+									display: 'inline-flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+									color: iconColor || '#2563eb',
+								} }
+							/>
+						) : dashicon ? (
+							<span className={ `dashicons dashicons-${ dashicon }` } />
+						) : (
+							<span
+								className="gravisain-info-box-svg"
+								dangerouslySetInnerHTML={ { __html: getIconMarkup( 'star' ).content } }
+								style={ {
+									width: `${ iconSize ?? 24 }px`,
+									height: `${ iconSize ?? 24 }px`,
+									display: 'inline-flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+									color: iconColor || '#2563eb',
+								} }
+							/>
+						) }
+					</div>
+				) }
 
 				{ showEyebrow && (
 					<RichText

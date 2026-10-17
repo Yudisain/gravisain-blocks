@@ -4,9 +4,9 @@ import { PanelBody, ToggleControl } from '@wordpress/components';
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { label, url, opensInNewTab } = attributes;
+	const { label, url, opensInNewTab, isActive } = attributes;
 	const blockProps = useBlockProps( {
-		className: 'gravisain-nav-link-item'
+		className: `gravisain-nav-link-item${ isActive ? ' is-active' : '' }`
 	} );
 
 	return (
@@ -24,6 +24,12 @@ export default function Edit( { attributes, setAttributes } ) {
 						label={ __( 'Open in new tab', 'gravisain-blocks' ) }
 						checked={ opensInNewTab }
 						onChange={ ( value ) => setAttributes( { opensInNewTab: value } ) }
+					/>
+					<ToggleControl
+						label={ __( 'Set as Active / Current Page', 'gravisain-blocks' ) }
+						help={ __( 'Highlights this link with Active Color & Background.', 'gravisain-blocks' ) }
+						checked={ Boolean( isActive ) }
+						onChange={ ( value ) => setAttributes( { isActive: value } ) }
 					/>
 				</PanelBody>
 			</InspectorControls>

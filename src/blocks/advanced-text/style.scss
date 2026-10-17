@@ -2,13 +2,23 @@
 	position: relative;
 	box-sizing: border-box;
 	
+	--gravisain-padding-top: 0px;
+	--gravisain-padding-right: 0px;
+	--gravisain-padding-bottom: 0px;
+	--gravisain-padding-left: 0px;
+	--gravisain-margin-top: 0px;
+	--gravisain-margin-right: 0px;
+	--gravisain-margin-bottom: 16px;
+	--gravisain-margin-left: 0px;
+
 	padding-top: var(--gravisain-padding-top);
 	padding-right: var(--gravisain-padding-right);
 	padding-bottom: var(--gravisain-padding-bottom);
 	padding-left: var(--gravisain-padding-left);
 	margin-top: var(--gravisain-margin-top);
 	margin-right: var(--gravisain-margin-right);
-	margin-bottom: var(--gravisain-margin-bottom, 16px);
+	margin-bottom: var(--gravisain-margin-bottom);
+	margin-left: var(--gravisain-margin-left);
 
 	.gravisain-text-content {
 		margin: 0;
@@ -45,6 +55,7 @@
 		margin-top: var(--gravisain-margin-top-tablet, var(--gravisain-margin-top));
 		margin-right: var(--gravisain-margin-right-tablet, var(--gravisain-margin-right));
 		margin-bottom: var(--gravisain-margin-bottom-tablet, var(--gravisain-margin-bottom, 16px));
+		margin-left: var(--gravisain-margin-left-tablet, var(--gravisain-margin-left));
 
 		.gravisain-text-content {
 			font-size: var(--gravisain-fs-tablet, var(--gravisain-fs, 16px));
@@ -71,6 +82,7 @@
 		margin-top: var(--gravisain-margin-top-mobile, var(--gravisain-margin-top-tablet, var(--gravisain-margin-top)));
 		margin-right: var(--gravisain-margin-right-mobile, var(--gravisain-margin-right-tablet, var(--gravisain-margin-right)));
 		margin-bottom: var(--gravisain-margin-bottom-mobile, var(--gravisain-margin-bottom-tablet, var(--gravisain-margin-bottom, 16px)));
+		margin-left: var(--gravisain-margin-left-mobile, var(--gravisain-margin-left-tablet, var(--gravisain-margin-left)));
 
 		.gravisain-text-content {
 			font-size: var(--gravisain-fs-mobile, var(--gravisain-fs-tablet, var(--gravisain-fs, 16px)));

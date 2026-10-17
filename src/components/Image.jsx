@@ -1,4 +1,4 @@
-export const Image = ({ src, alt, className = '', objectFit = 'cover', ...props }) => {
+export const Image = ({ src, alt, className = '', objectFit = 'cover', focalPoint, style = {}, ...props }) => {
 	if (!src) return null;
 
 	const classes = [
@@ -8,9 +8,11 @@ export const Image = ({ src, alt, className = '', objectFit = 'cover', ...props 
 
 	const styles = {
 		objectFit,
+		objectPosition: focalPoint ? `${Math.round(focalPoint.x * 100)}% ${Math.round(focalPoint.y * 100)}%` : undefined,
 		width: '100%',
 		height: 'auto',
-		display: 'block'
+		display: 'block',
+		...style
 	};
 
 	return (

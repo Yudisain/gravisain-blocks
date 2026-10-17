@@ -9,24 +9,28 @@
 		border-color: rgba(var(--wp-admin-theme-color-rgb), 0.5);
 	}
 	
-	// Editor specific overrides to ensure InnerBlocks renders children correctly as flex items
-	.block-editor-inner-blocks {
-		width: 100%;
-		padding: 0 !important;
-		margin: 0 !important;
-	}
-	
-	.block-editor-block-list__layout {
-		display: flex;
-		flex-wrap: wrap;
-		width: 100%;
-		gap: var(--gravisain-row-gap, 30px);
-		margin: 0 !important;
-		padding: 0 !important;
+	// Force intermediate wrappers to disappear so the Grid takes effect on child columns
+	// DO NOT use !important here. If Gutenberg merges this with the wrapper that has inline `display: grid`,
+	// the inline style must win. If it's a separate inner child, this will successfully make it contents.
+	& .block-editor-inner-blocks,
+	& .block-editor-block-list__layout {
+		display: contents;
 	}
 
-	> .gravisain-row-layout-inner > .block-editor-inner-blocks > .block-editor-block-list__layout > .block-list-appender {
-		/* Show appender so users can click to add columns easily and to select the row layout */
+	// Restore the inner blocks wrapper behavior specifically for direct child columns
+	.wp-block-gravisain-column > .gravisain-column-inner,
+	.wp-block-gravisain-column > .gravisain-column-inner > .block-editor-block-list__layout,
+	.wp-block-gravisain-column > .block-editor-inner-blocks > .block-editor-block-list__layout,
+	.wp-block-gravisain-column > .block-editor-block-list__layout {
+		display: flex !important;
+		flex-direction: column;
+		flex-grow: 1;
+		width: 100%;
+	}
+
+	.wp-block-gravisain-column .block-editor-block-list__layout > .block-list-appender {
+		/* Let the column appender show normally */
+		display: flex !important;
 	}
 	
 	&.is-inner-width-theme .gravisain-row-layout-inner {
@@ -50,36 +54,22 @@
 		margin: 0 auto !important;
 	}
 
-	&.is-display-block .block-editor-block-list__layout {
-		display: flex;
-		flex-direction: column;
+	&.is-display-block > .gravisain-row-layout-inner > .wp-block-gravisain-column {
+		width: 100%;
 	}
-	
-	&.align-items-flex-start .block-editor-block-list__layout { align-items: flex-start; }
-	&.align-items-center .block-editor-block-list__layout { align-items: center; }
-	&.align-items-flex-end .block-editor-block-list__layout { align-items: flex-end; }
-	
-	&.justify-content-center .block-editor-block-list__layout { justify-content: center; }
-	&.justify-content-space-between .block-editor-block-list__layout { justify-content: space-between; }
 
 	// Stacking logic in editor
 	&.is-stacked-on-tablet {
 		@media (max-width: 1024px) {
-			.block-editor-block-list__layout {
-				flex-direction: column;
-			}
-			.wp-block-gravisain-column {
-				width: 100% !important;
+			.gravisain-row-layout-inner {
+				grid-template-columns: 1fr !important;
 			}
 		}
 	}
 	&.is-stacked-on-mobile {
 		@media (max-width: 767px) {
-			.block-editor-block-list__layout {
-				flex-direction: column;
-			}
-			.wp-block-gravisain-column {
-				width: 100% !important;
+			.gravisain-row-layout-inner {
+				grid-template-columns: 1fr !important;
 			}
 		}
 	}

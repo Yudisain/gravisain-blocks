@@ -8,6 +8,38 @@
 	flex-direction: column;
 	justify-content: var(--container-align, flex-start);
 
+	&.is-sticky {
+		position: -webkit-sticky !important;
+		position: sticky !important;
+		top: var(--gravisain-sticky-top, 0px) !important;
+		z-index: 100;
+
+		&.sticky-disable-desktop {
+			@media (min-width: 1025px) {
+				position: static !important;
+				top: auto !important;
+			}
+		}
+
+		&.sticky-disable-tablet {
+			@media (min-width: 768px) and (max-width: 1024px) {
+				position: static !important;
+				top: auto !important;
+			}
+		}
+
+		&.sticky-disable-mobile {
+			@media (max-width: 767px) {
+				position: static !important;
+				top: auto !important;
+			}
+		}
+	}
+
+	&:has(.is-sticky) {
+		overflow: visible !important;
+	}
+
 	.gravisain-container-inner {
 		box-sizing: border-box;
 		position: relative;
@@ -30,6 +62,9 @@
 	&[style*="--gravisain-container-mb"] { margin-bottom: var(--gravisain-container-mb) !important; }
 
 	@media (max-width: 1024px) {
+		&.is-sticky {
+			top: var(--gravisain-sticky-top-tablet, var(--gravisain-sticky-top, 0px));
+		}
 		&[style*="--gravisain-container-pt"] { padding-top: var(--gravisain-container-pt-tablet, var(--gravisain-container-pt)) !important; }
 		&[style*="--gravisain-container-pr"] { padding-right: var(--gravisain-container-pr-tablet, var(--gravisain-container-pr)) !important; }
 		&[style*="--gravisain-container-pb"] { padding-bottom: var(--gravisain-container-pb-tablet, var(--gravisain-container-pb)) !important; }
@@ -39,6 +74,9 @@
 	}
 
 	@media (max-width: 767px) {
+		&.is-sticky {
+			top: var(--gravisain-sticky-top-mobile, var(--gravisain-sticky-top-tablet, var(--gravisain-sticky-top, 0px)));
+		}
 		&[style*="--gravisain-container-pt"] { padding-top: var(--gravisain-container-pt-mobile, var(--gravisain-container-pt-tablet, var(--gravisain-container-pt))) !important; }
 		&[style*="--gravisain-container-pr"] { padding-right: var(--gravisain-container-pr-mobile, var(--gravisain-container-pr-tablet, var(--gravisain-container-pr))) !important; }
 		&[style*="--gravisain-container-pb"] { padding-bottom: var(--gravisain-container-pb-mobile, var(--gravisain-container-pb-tablet, var(--gravisain-container-pb))) !important; }
@@ -64,17 +102,30 @@
 	}
 
 	/* Sidebar Protection: Fallback to 100% when inside a layout with sidebar */
-	:global(.content-area-wrapper.sidebar-left) &.alignfull,
-	:global(.content-area-wrapper.sidebar-right) &.alignfull,
-	:global(.sidebar-left) &.alignfull,
-	:global(.sidebar-right) &.alignfull,
-	:global(.content-area-wrapper.sidebar-left) &.alignwide,
-	:global(.content-area-wrapper.sidebar-right) &.alignwide,
-	:global(.sidebar-left) &.alignwide,
-	:global(.sidebar-right) &.alignwide {
+	.content-area-wrapper.sidebar-left &.alignfull,
+	.content-area-wrapper.sidebar-right &.alignfull,
+	.sidebar-left &.alignfull,
+	.sidebar-right &.alignfull,
+	.content-area-wrapper.sidebar-left &.alignwide,
+	.content-area-wrapper.sidebar-right &.alignwide,
+	.sidebar-left &.alignwide,
+	.sidebar-right &.alignwide {
 		width: 100% !important;
 		max-width: 100% !important;
 		margin-left: 0 !important;
 		margin-right: 0 !important;
+	}
+}
+
+// WordPress Admin Bar Compatibility for Logged-in Users
+:where(body.admin-bar) {
+	.gravisain-block-container.is-sticky {
+		top: calc(var(--gravisain-sticky-top, 0px) + 32px) !important;
+	}
+
+	@media (max-width: 782px) {
+		.gravisain-block-container.is-sticky {
+			top: calc(var(--gravisain-sticky-top-mobile, var(--gravisain-sticky-top, 0px)) + 46px) !important;
+		}
 	}
 }

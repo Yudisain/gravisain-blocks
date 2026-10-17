@@ -1,4 +1,5 @@
 import { useRef } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import Inspector from './components/Inspector';
 import SpacingVisualizer from '../row-layout/components/SpacingVisualizer';
@@ -27,12 +28,37 @@ export default function Edit( props ) {
 		margin,
 		marginTablet,
 		marginMobile,
+		isSticky,
+		stickyDesktop,
+		stickyTablet,
+		stickyMobile,
+		stickyOffset,
+		stickyOffsetTablet,
+		stickyOffsetMobile,
 	} = attributes;
 
 	const blockRef = useRef( null );
 
+	const previewDeviceType = useSelect( ( select ) => {
+		const editorDevice = select( 'core/editor' )?.getDeviceType?.();
+		const postDevice = select( 'core/edit-post' )?.__experimentalGetPreviewDeviceType?.();
+		const siteDevice = select( 'core/edit-site' )?.__experimentalGetPreviewDeviceType?.();
+		return editorDevice || postDevice || siteDevice || 'Desktop';
+	}, [] );
+
+	const isDeviceSticky = isSticky && (
+		previewDeviceType === 'Mobile'
+			? ( stickyMobile === true )
+			: previewDeviceType === 'Tablet'
+			? ( stickyTablet !== false )
+			: ( stickyDesktop !== false )
+	);
+
 	const blockProps = useBlockProps( {
-		className: 'gravisain-block-container',
+		className: [
+			'gravisain-block-container',
+			isDeviceSticky ? 'is-sticky' : '',
+		].filter( Boolean ).join( ' ' ),
 		ref: blockRef,
 		style: {
 			'--container-max-width': maxWidth || '1200px',
@@ -69,6 +95,20 @@ export default function Edit( props ) {
 			'--gravisain-container-mr-mobile': getSpacing( marginMobile, 'right' ),
 			'--gravisain-container-mb-mobile': getSpacing( marginMobile, 'bottom' ),
 			'--gravisain-container-ml-mobile': getSpacing( marginMobile, 'left' ),
+
+			// Sticky Variables & Live Editor Styles
+			'--gravisain-sticky-top': isSticky && stickyOffset !== undefined ? `${ stickyOffset }px` : undefined,
+			'--gravisain-sticky-top-tablet': isSticky && stickyOffsetTablet !== undefined && stickyOffsetTablet !== '' ? `${ stickyOffsetTablet }px` : undefined,
+			'--gravisain-sticky-top-mobile': isSticky && stickyOffsetMobile !== undefined && stickyOffsetMobile !== '' ? `${ stickyOffsetMobile }px` : undefined,
+			position: isDeviceSticky ? 'sticky' : undefined,
+			top: isDeviceSticky
+				? ( previewDeviceType === 'Mobile' && stickyOffsetMobile !== undefined && stickyOffsetMobile !== ''
+					? `${ stickyOffsetMobile }px`
+					: ( previewDeviceType === 'Tablet' && stickyOffsetTablet !== undefined && stickyOffsetTablet !== ''
+						? `${ stickyOffsetTablet }px`
+						: `${ stickyOffset || 0 }px` ) )
+				: undefined,
+			zIndex: isDeviceSticky ? 100 : undefined,
 		},
 	} );
 

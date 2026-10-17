@@ -21,6 +21,18 @@
       "type": "string",
       "default": "1-column"
     },
+    "textAlign": {
+      "type": "string",
+      "default": ""
+    },
+    "textAlignTablet": {
+      "type": "string",
+      "default": ""
+    },
+    "textAlignMobile": {
+      "type": "string",
+      "default": ""
+    },
     "eyebrow": {
       "type": "string",
       "default": ""

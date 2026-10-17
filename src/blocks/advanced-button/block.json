@@ -72,6 +72,26 @@
 			"type": "object",
 			"default": { "top": "12px", "right": "24px", "bottom": "12px", "left": "24px" }
 		},
+		"paddingTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"paddingMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"margin": {
+			"type": "object",
+			"default": {}
+		},
+		"marginTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"marginMobile": {
+			"type": "object",
+			"default": {}
+		},
 		"borderWidth": {
 			"type": "number",
 			"default": 0
@@ -91,6 +111,50 @@
 		"shadow": {
 			"type": "boolean",
 			"default": false
+		},
+		"noFollow": {
+			"type": "boolean",
+			"default": false
+		},
+		"ariaLabel": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonStylePreset": {
+			"type": "string",
+			"default": "fill"
+		},
+		"buttonSize": {
+			"type": "string",
+			"default": "md"
+		},
+		"buttonWidth": {
+			"type": "string",
+			"default": "auto"
+		},
+		"customWidth": {
+			"type": "number",
+			"default": 200
+		},
+		"iconSpacing": {
+			"type": "number",
+			"default": 8
+		},
+		"typography": {
+			"type": "object",
+			"default": {}
+		},
+		"textTransform": {
+			"type": "string",
+			"default": "none"
+		},
+		"buttonStyle": {
+			"type": "string",
+			"default": "fill"
+		},
+		"borderStyle": {
+			"type": "string",
+			"default": "none"
 		}
 	},
 	"textdomain": "gravisain",

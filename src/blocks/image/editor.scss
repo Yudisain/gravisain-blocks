@@ -61,3 +61,37 @@
 	outline: 1px solid var(--wp-admin-theme-color, #007cba) !important;
 	box-shadow: 0 0 0 1px var(--wp-admin-theme-color, #007cba) !important;
 }
+
+/* Fix Gutenberg FocalPointPicker fieldset height bug in Chromium/WebKit */
+fieldset.components-focal-point-picker-control,
+.components-focal-point-picker-control,
+fieldset[class*="focal-point-picker"] {
+	display: flex !important;
+	flex-direction: column !important;
+	width: 100% !important;
+	margin-bottom: 20px !important;
+
+	.focal-point-picker__controls,
+	.components-focal-point-picker__controls {
+		display: flex !important;
+		gap: 12px !important;
+		width: 100% !important;
+		margin-top: 14px !important;
+		margin-bottom: 14px !important;
+		position: relative !important;
+		clear: both !important;
+	}
+
+	.focal-point-picker__controls-position-unit-control,
+	.components-focal-point-picker__controls-position-unit-control {
+		flex: 1 !important;
+	}
+}
+
+.gravisain-focal-point-wrapper {
+	display: flex !important;
+	flex-direction: column !important;
+	width: 100% !important;
+	margin-bottom: 20px !important;
+}
+

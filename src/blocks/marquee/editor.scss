@@ -1,0 +1,171 @@
+.gravisain-marquee-block,
+[data-type="gravisain/marquee"],
+.wp-block-gravisain-marquee {
+	mask-image: none !important;
+	-webkit-mask-image: none !important;
+	border: 1px dashed rgba(79, 70, 229, 0.3);
+	border-radius: 12px;
+	padding: 16px;
+	background: rgba(79, 70, 229, 0.02);
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 12px;
+
+	.gravisain-marquee-editor-badge {
+		font-size: 11px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		color: #4f46e5;
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		user-select: none;
+	}
+
+	.gravisain-marquee-editor-track {
+		width: 100%;
+		overflow-x: auto !important;
+		overflow-y: hidden !important;
+		padding-bottom: 8px;
+		animation: none !important;
+
+		.block-editor-inner-blocks,
+		.block-editor-block-list__layout {
+			display: flex !important;
+			flex-direction: row !important;
+			flex-wrap: nowrap !important;
+			align-items: center !important;
+			gap: var(--gravisain-marquee-gap, 48px) !important;
+			min-height: var(--gravisain-marquee-min-height, 0px) !important;
+			animation: none !important;
+			transform: none !important;
+
+			> * {
+				flex-shrink: 0 !important;
+				margin: 0 !important;
+			}
+		}
+
+		// Hide any captions / placeholders in editor track so images never get pushed out
+		figcaption,
+		.gravisain-image-caption,
+		.block-editor-rich-text__editable {
+			display: none !important;
+		}
+
+		// Gutenberg block wrapper in block list
+		.block-editor-block-list__block,
+		[data-block] {
+			margin: 0 !important;
+			padding: 0 !important;
+			display: inline-flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+			width: auto !important;
+			max-width: none !important;
+			height: auto !important;
+			flex-shrink: 0 !important;
+		}
+
+		// Image wrappers & inner elements
+		.gravisain-image,
+		.wp-block-image,
+		.gravisain-image-wrapper,
+		.components-resizable-box-container,
+		figure,
+		picture,
+		a {
+			margin: 0 !important;
+			padding: 0 !important;
+			display: inline-flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+			height: auto !important;
+			max-height: 100% !important;
+			width: auto !important;
+			max-width: none !important;
+			flex-shrink: 0 !important;
+			border: none !important;
+			box-shadow: none !important;
+		}
+
+		img,
+		svg {
+			display: block !important;
+			max-height: var(--gravisain-marquee-image-height, 100%) !important;
+			height: var(--gravisain-marquee-image-height, auto) !important;
+			width: auto !important;
+			max-width: none !important;
+			object-fit: contain !important;
+			flex-shrink: 0 !important;
+		}
+	}
+}
+
+.gravisain-inspector-tabs {
+	margin-top: 16px;
+
+	.components-tab-panel__tabs {
+		display: flex;
+		border-bottom: 1px solid #e2e8f0;
+		margin-bottom: 12px;
+
+		button {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			padding: 10px 0;
+			font-weight: 600;
+			font-size: 13px;
+			color: #64748b;
+			border-bottom: 2px solid transparent;
+			background: transparent;
+
+			&:hover {
+				color: #2563eb;
+				border-bottom-color: #2563eb;
+				background-color: #f8fafc;
+			}
+
+			&.is-active,
+			&.active-tab {
+				color: #2563eb;
+				border-bottom-color: #2563eb;
+				background-color: #eff6ff;
+			}
+		}
+	}
+
+	.components-range-control__number,
+	.components-input-control__container,
+	.components-input-control {
+		min-height: 32px !important;
+		height: 32px !important;
+	}
+	input.components-range-control__number {
+		min-height: 32px !important;
+		height: 32px !important;
+		padding: 2px 8px !important;
+		font-size: 13px !important;
+		box-sizing: border-box !important;
+	}
+	.components-range-control__reset,
+	.components-range-control .components-button {
+		min-height: 32px !important;
+		height: 32px !important;
+		line-height: 30px !important;
+		padding: 0 10px !important;
+		font-size: 12px !important;
+		box-sizing: border-box !important;
+	}
+	.components-select-control__input {
+		min-height: 32px !important;
+		height: 32px !important;
+		font-size: 13px !important;
+		box-sizing: border-box !important;
+	}
+}

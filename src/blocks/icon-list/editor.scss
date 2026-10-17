@@ -1,20 +1,126 @@
+.gravisain-icon-list,
+.wp-block-gravisain-icon-list,
+.block-editor-block-list__block[data-type="gravisain/icon-list"],
+.block-editor-block-list__block.gravisain-icon-list,
 .block-editor-block-list__block .gravisain-icon-list {
 	.gravisain-icon-list-item {
 		position: relative;
+		border-radius: 4px;
+		padding: 4px 6px !important;
+		margin: -4px -6px !important;
+		transition: background-color 0.15s ease;
+
+		&.is-selected-item {
+			background-color: rgba(79, 70, 229, 0.06);
+			outline: 1px dashed rgba(79, 70, 229, 0.3);
+		}
+
+		.gravisain-list-icon {
+			cursor: pointer;
+			transition: transform 0.15s ease, opacity 0.15s ease;
+
+			&:hover {
+				opacity: 0.85;
+				transform: scale(1.08);
+			}
+		}
 
 		.gravisain-item-actions {
 			opacity: 0;
 			transition: opacity 0.2s ease;
-			display: flex;
+			display: inline-flex;
 			align-items: center;
+			gap: 4px;
+			margin-left: auto;
+			flex-shrink: 0;
+
+			.components-button {
+				display: inline-flex !important;
+				align-items: center !important;
+				justify-content: center !important;
+				width: 24px !important;
+				height: 24px !important;
+				min-width: 24px !important;
+				min-height: 24px !important;
+				padding: 0 !important;
+				border-radius: 4px !important;
+				background: #f1f5f9 !important;
+				color: #475569 !important;
+				border: 1px solid #cbd5e1 !important;
+				cursor: pointer !important;
+				transition: all 0.15s ease !important;
+
+				svg {
+					width: 12px !important;
+					height: 12px !important;
+					display: block !important;
+				}
+
+				&:hover {
+					background: #e2e8f0 !important;
+					color: #0f172a !important;
+					border-color: #94a3b8 !important;
+				}
+
+				&.is-destructive,
+				&.gravisain-remove-item-btn {
+					color: #ef4444 !important;
+					border-color: #fecaca !important;
+					background: #fef2f2 !important;
+
+					&:hover {
+						background: #ef4444 !important;
+						color: #ffffff !important;
+						border-color: #ef4444 !important;
+						transform: scale(1.08);
+					}
+				}
+			}
 		}
 
-		&:hover .gravisain-item-actions {
+		&:hover .gravisain-item-actions,
+		&.is-selected-item .gravisain-item-actions {
 			opacity: 1;
 		}
 	}
 
+	.gravisain-icon-list-items {
+		display: flex;
+		gap: var(--gravisain-list-gap, 12px);
+		list-style: none !important;
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+
+	&.align-center {
+		--gravisain-list-justify: center;
+		--gravisain-list-align: center;
+	}
+
+	&.align-right {
+		--gravisain-list-justify: flex-end;
+		--gravisain-list-align: flex-end;
+	}
+
+	&.align-left {
+		--gravisain-list-justify: flex-start;
+		--gravisain-list-align: flex-start;
+	}
+
+	&.layout-vertical .gravisain-icon-list-items {
+		flex-direction: column;
+		align-items: var(--gravisain-list-align, flex-start);
+	}
+
+	&.layout-horizontal .gravisain-icon-list-items {
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: var(--gravisain-list-justify, flex-start);
+	}
+
 	.gravisain-icon-list-add {
 		margin-top: 12px;
+		display: flex;
+		justify-content: var(--gravisain-list-justify, flex-start);
 	}
 }

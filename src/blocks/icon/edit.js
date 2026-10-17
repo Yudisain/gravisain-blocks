@@ -1,7 +1,7 @@
 import { useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import Inspector from './components/Inspector';
-import { ICONS } from '../../controls/icons';
+import { ICONS, getIconMarkup } from '../../controls/icons';
 import parseCustomCSS from '../../controls/parseCustomCSS';
 import './editor.scss';
 
@@ -57,7 +57,7 @@ export default function Edit( props ) {
 		},
 	} );
 
-	const iconSvg = icon && ICONS[ icon ] ? ICONS[ icon ] : ICONS.star;
+	const iconData = getIconMarkup( icon, 'star' );
 
 	return (
 		<>
@@ -69,7 +69,7 @@ export default function Edit( props ) {
 						width: `${ currentSize }px`,
 						height: `${ currentSize }px`,
 						color: color || '#4f46e5',
-						backgroundColor: backgroundColor || 'transparent',
+						background: backgroundColor || 'transparent',
 						padding: padding ? `${ padding }px` : undefined,
 						borderRadius: borderRadius ? `${ borderRadius }px` : undefined,
 						display: 'inline-flex',
@@ -77,8 +77,13 @@ export default function Edit( props ) {
 						justifyContent: 'center',
 						transition: 'all 0.2s ease',
 					} }
-					dangerouslySetInnerHTML={ { __html: iconSvg } }
-				/>
+				>
+					{ iconData && iconData.type === 'image' ? (
+						<img src={ iconData.src } alt="" style={ { width: '100%', height: '100%', objectFit: 'contain' } } />
+					) : iconData && iconData.type === 'svg' ? (
+						<span dangerouslySetInnerHTML={ { __html: iconData.content } } style={ { width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' } } />
+					) : null }
+				</span>
 			</div>
 		</>
 	);

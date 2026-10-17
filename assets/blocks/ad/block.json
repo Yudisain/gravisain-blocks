@@ -1,0 +1,115 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "gravisain/ad",
+  "version": "1.0.0",
+  "title": "Advertisement / Ad Space",
+  "category": "gravisain-blocks",
+  "icon": "megaphone",
+  "description": "Insert Google AdSense-ready ad spaces, custom ad network code (Ezoic, Media.net, Adsterra, etc.), or clickable image banners with full responsive controls.",
+  "keywords": [
+    "ad",
+    "ads",
+    "adsense",
+    "advertisement",
+    "banner",
+    "iklan",
+    "monetize"
+  ],
+  "textdomain": "gravisain-blocks",
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "attributes": {
+    "adType": {
+      "type": "string",
+      "default": "code"
+    },
+    "adCode": {
+      "type": "string",
+      "default": ""
+    },
+    "bannerId": {
+      "type": "number",
+      "default": 0
+    },
+    "bannerUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "bannerAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "bannerLink": {
+      "type": "string",
+      "default": ""
+    },
+    "bannerLinkTarget": {
+      "type": "string",
+      "default": "_self"
+    },
+    "showLabel": {
+      "type": "boolean",
+      "default": true
+    },
+    "adLabel": {
+      "type": "string",
+      "default": "Advertisement"
+    },
+    "alignment": {
+      "type": "string",
+      "default": "center"
+    },
+    "alignmentTablet": {
+      "type": "string",
+      "default": ""
+    },
+    "alignmentMobile": {
+      "type": "string",
+      "default": ""
+    },
+    "maxWidth": {
+      "type": "number",
+      "default": 0
+    },
+    "minHeight": {
+      "type": "number",
+      "default": 90
+    },
+    "borderRadius": {
+      "type": "number",
+      "default": 0
+    },
+    "margin": {
+      "type": "object",
+      "default": {
+        "top": "",
+        "right": "",
+        "bottom": "",
+        "left": ""
+      }
+    },
+    "anchor": {
+      "type": "string",
+      "default": ""
+    },
+    "customClassName": {
+      "type": "string",
+      "default": ""
+    },
+    "customCSS": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

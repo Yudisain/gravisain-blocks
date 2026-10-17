@@ -6,6 +6,7 @@ import {
 	RangeControl,
 	ToggleControl,
 	TabPanel,
+	FocalPointPicker,
 } from '@wordpress/components';
 import ColorControl from '../../../controls/ColorControl';
 
@@ -14,6 +15,8 @@ export default function Inspector( { attributes, setAttributes } ) {
 		rating,
 		showRating,
 		showAvatar,
+		avatarUrl,
+		avatarFocalPoint,
 		avatarLayout,
 		avatarShape,
 		showQuoteMark,
@@ -115,6 +118,16 @@ export default function Inspector( { attributes, setAttributes } ) {
 												] }
 												onChange={ ( val ) => setAttributes( { avatarShape: val } ) }
 											/>
+											{ avatarUrl && (
+												<div style={ { marginTop: '16px' } }>
+													<FocalPointPicker
+														label={ __( 'Avatar Focal Point', 'gravisain' ) }
+														url={ avatarUrl }
+														value={ avatarFocalPoint || { x: 0.5, y: 0.5 } }
+														onChange={ ( val ) => setAttributes( { avatarFocalPoint: val } ) }
+													/>
+												</div>
+											) }
 										</>
 									) }
 								</PanelBody>

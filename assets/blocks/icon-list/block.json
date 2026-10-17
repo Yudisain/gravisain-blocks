@@ -2,7 +2,7 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "gravisain/icon-list",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Icon List",
   "category": "gravisain-blocks",
   "icon": "list-view",
@@ -23,19 +23,22 @@
           "id": 1,
           "text": "High performance clean architecture",
           "icon": "check",
-          "color": "#10b981"
+          "color": "",
+          "background": ""
         },
         {
           "id": 2,
           "text": "Fully responsive and mobile optimized",
           "icon": "check",
-          "color": "#10b981"
+          "color": "",
+          "background": ""
         },
         {
           "id": 3,
           "text": "Seamless Gutenberg block integration",
           "icon": "check",
-          "color": "#10b981"
+          "color": "",
+          "background": ""
         }
       ]
     },
@@ -43,9 +46,25 @@
       "type": "string",
       "default": "vertical"
     },
+    "alignment": {
+      "type": "string",
+      "default": "left"
+    },
+    "alignmentTablet": {
+      "type": "string",
+      "default": ""
+    },
+    "alignmentMobile": {
+      "type": "string",
+      "default": ""
+    },
     "itemGap": {
       "type": "number",
       "default": 12
+    },
+    "defaultIcon": {
+      "type": "string",
+      "default": "check"
     },
     "iconSize": {
       "type": "number",
@@ -55,13 +74,87 @@
       "type": "string",
       "default": "#10b981"
     },
+    "iconBackground": {
+      "type": "string",
+      "default": ""
+    },
+    "iconPadding": {
+      "type": "number",
+      "default": 0
+    },
+    "iconRadius": {
+      "type": "number",
+      "default": 0
+    },
     "textColor": {
       "type": "string",
       "default": ""
     },
+    "fontFamily": {
+      "type": "string",
+      "default": ""
+    },
+    "fontWeight": {
+      "type": "string",
+      "default": ""
+    },
+    "fontStyle": {
+      "type": "string",
+      "default": "normal"
+    },
     "fontSize": {
       "type": "number",
       "default": 16
+    },
+    "fontSizeTablet": {
+      "type": "number"
+    },
+    "fontSizeMobile": {
+      "type": "number"
+    },
+    "lineHeight": {
+      "type": "string",
+      "default": ""
+    },
+    "lineHeightTablet": {
+      "type": "string"
+    },
+    "lineHeightMobile": {
+      "type": "string"
+    },
+    "letterSpacing": {
+      "type": "string",
+      "default": ""
+    },
+    "letterSpacingTablet": {
+      "type": "string"
+    },
+    "letterSpacingMobile": {
+      "type": "string"
+    },
+    "padding": {
+      "type": "object",
+      "default": {}
+    },
+    "paddingTablet": {
+      "type": "object",
+      "default": {}
+    },
+    "paddingMobile": {
+      "type": "object",
+      "default": {}
+    },
+    "margin": {
+      "type": "object",
+      "default": {}
+    },
+    "marginTablet": {
+      "type": "object",
+      "default": {}
+    },
+    "marginMobile": {
+      "type": "object",
+      "default": {}
     },
     "anchor": {
       "type": "string",

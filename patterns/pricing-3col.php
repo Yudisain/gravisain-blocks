@@ -5,11 +5,16 @@
  * @package Gravisain\Blocks
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 return [
-	'slug'        => 'gravisain-blocks/pricing-3col',
-	'title'       => __( '3-Column Pricing Table with Featured Tier', 'gravisain-blocks' ),
-	'categories'  => [ 'gravisain-pricing' ],
-	'description' => __( 'Modern pricing table with highlighted popular plan card.', 'gravisain-blocks' ),
+	'slug'          => 'gravisain-blocks/pricing-3col',
+	'title'         => __( '3-Column Pricing Table with Featured Tier', 'gravisain-blocks' ),
+	'categories'    => [ 'gravisain-pricing' ],
+	'viewportWidth' => 1200,
+	'description'   => __( 'Modern pricing table with highlighted popular plan card.', 'gravisain-blocks' ),
 	'content'     => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"80px","bottom":"80px","left":"32px","right":"32px"}}},"layout":{"type":"constrained","contentSize":"1160px"}} -->
 <div class="wp-block-group alignfull" style="padding-top:80px;padding-right:32px;padding-bottom:80px;padding-left:32px">
 	<!-- wp:heading {"textAlign":"center","style":{"typography":{"fontSize":"2.5rem","fontWeight":"800"}}} -->

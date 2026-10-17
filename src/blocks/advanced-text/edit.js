@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useEffect, useRef } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import {
 	useBlockProps,
@@ -118,7 +118,81 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			? textAlignMobile
 			: textAlign || 'left';
 
+	const blockRef = useRef( null );
+
+	const getActiveSpacing = ( side ) => {
+		if ( device === 'mobile' ) {
+			const mob = getSpacing( marginMobile, side );
+			if ( mob !== undefined ) return mob;
+			const tab = getSpacing( marginTablet, side );
+			if ( tab !== undefined ) return tab;
+			return getSpacing( margin, side );
+		}
+		if ( device === 'tablet' ) {
+			const tab = getSpacing( marginTablet, side );
+			if ( tab !== undefined ) return tab;
+			return getSpacing( margin, side );
+		}
+		return getSpacing( margin, side );
+	};
+
+	const getActivePadding = ( side ) => {
+		if ( device === 'mobile' ) {
+			const mob = getSpacing( paddingMobile, side );
+			if ( mob !== undefined ) return mob;
+			const tab = getSpacing( paddingTablet, side );
+			if ( tab !== undefined ) return tab;
+			return getSpacing( padding, side );
+		}
+		if ( device === 'tablet' ) {
+			const tab = getSpacing( paddingTablet, side );
+			if ( tab !== undefined ) return tab;
+			return getSpacing( padding, side );
+		}
+		return getSpacing( padding, side );
+	};
+
+	const activeMarginTop = getActiveSpacing( 'top' );
+	const activeMarginBottom = getActiveSpacing( 'bottom' );
+	const activeMarginLeft = getActiveSpacing( 'left' );
+	const activeMarginRight = getActiveSpacing( 'right' );
+
+	const activePaddingTop = getActivePadding( 'top' );
+	const activePaddingBottom = getActivePadding( 'bottom' );
+	const activePaddingLeft = getActivePadding( 'left' );
+	const activePaddingRight = getActivePadding( 'right' );
+
+	useEffect( () => {
+		if ( ! blockRef.current ) return;
+		const el = blockRef.current;
+		const wrapper = el.closest( '.wp-block' ) || el;
+
+		const applyProp = ( node, prop, val ) => {
+			if ( val !== undefined && val !== null && val !== '' ) {
+				const finalVal = typeof val === 'number' ? `${val}px` : ( ! isNaN( val ) && String( val ).trim() !== '' ? `${val}px` : String( val ) );
+				node.style.setProperty( prop, finalVal, 'important' );
+			} else {
+				node.style.removeProperty( prop );
+			}
+		};
+
+		[ el, wrapper ].forEach( ( node ) => {
+			applyProp( node, 'padding-top', activePaddingTop );
+			applyProp( node, 'padding-bottom', activePaddingBottom );
+			applyProp( node, 'padding-left', activePaddingLeft );
+			applyProp( node, 'padding-right', activePaddingRight );
+
+			applyProp( node, 'margin-top', activeMarginTop );
+			applyProp( node, 'margin-block-start', activeMarginTop );
+			applyProp( node, 'margin-bottom', activeMarginBottom );
+			applyProp( node, 'margin-block-end', activeMarginBottom );
+			applyProp( node, 'margin-left', activeMarginLeft );
+			applyProp( node, 'margin-right', activeMarginRight );
+		} );
+	}, [ activeMarginTop, activeMarginBottom, activeMarginLeft, activeMarginRight, activePaddingTop, activePaddingBottom, activePaddingLeft, activePaddingRight ] );
+
 	let blockProps = useBlockProps( {
+		ref: blockRef,
 		id: anchor || undefined,
 		className: [
 			'gravisain-advanced-text',
@@ -189,24 +263,55 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		backgroundClip: enableTextGradient ? 'text' : 'border-box',
 	};
 
+	const isMobile = device === 'mobile' || previewDeviceType === 'Mobile';
+	const isTablet = device === 'tablet' || previewDeviceType === 'Tablet';
+
+	const activeFontSize = isMobile
+		? ( fontSizeMobile !== undefined && fontSizeMobile !== null && fontSizeMobile !== '' ? fontSizeMobile : ( fontSizeTablet !== undefined && fontSizeTablet !== null && fontSizeTablet !== '' ? fontSizeTablet : fontSize ) )
+		: ( isTablet ? ( fontSizeTablet !== undefined && fontSizeTablet !== null && fontSizeTablet !== '' ? fontSizeTablet : fontSize ) : fontSize );
+
+	const activeLineHeight = isMobile
+		? ( lineHeightMobile !== undefined && lineHeightMobile !== null && lineHeightMobile !== '' ? lineHeightMobile : ( lineHeightTablet !== undefined && lineHeightTablet !== null && lineHeightTablet !== '' ? lineHeightTablet : lineHeight ) )
+		: ( isTablet ? ( lineHeightTablet !== undefined && lineHeightTablet !== null && lineHeightTablet !== '' ? lineHeightTablet : lineHeight ) : lineHeight );
+
+	const activeLetterSpacing = isMobile
+		? ( letterSpacingMobile !== undefined && letterSpacingMobile !== null && letterSpacingMobile !== '' ? letterSpacingMobile : ( letterSpacingTablet !== undefined && letterSpacingTablet !== null && letterSpacingTablet !== '' ? letterSpacingTablet : letterSpacing ) )
+		: ( isTablet ? ( letterSpacingTablet !== undefined && letterSpacingTablet !== null && letterSpacingTablet !== '' ? letterSpacingTablet : letterSpacing ) : letterSpacing );
+
 	const dynamicEditorCSS = `
-		#block-${clientId} {
-			text-align: ${currentTextAlign} !important;
-			--gravisain-ff: ${fontFamily ? `'${fontFamily}'` : 'inherit'};
-			--gravisain-fs: ${getTypographyVar(fontSize, true) || '16px'};
-			--gravisain-fs-tablet: ${getTypographyVar(fontSizeTablet, true) || 'inherit'};
-			--gravisain-fs-mobile: ${getTypographyVar(fontSizeMobile, true) || 'inherit'};
-			--gravisain-lh: ${getTypographyVar(lineHeight, false) || '1.5'};
-			--gravisain-lh-tablet: ${getTypographyVar(lineHeightTablet, false) || 'inherit'};
-			--gravisain-lh-mobile: ${getTypographyVar(lineHeightMobile, false) || 'inherit'};
-			--gravisain-ls: ${getTypographyVar(letterSpacing, true) || '0px'};
-			--gravisain-ls-tablet: ${getTypographyVar(letterSpacingTablet, true) || 'inherit'};
-			--gravisain-ls-mobile: ${getTypographyVar(letterSpacingMobile, true) || 'inherit'};
+		[data-block="${ clientId }"],
+		.editor-styles-wrapper [data-block="${ clientId }"],
+		.editor-styles-wrapper #block-${ clientId },
+		#block-${ clientId } {
+			text-align: ${ currentTextAlign } !important;
+			${ activeMarginTop !== undefined && activeMarginTop !== '' ? `margin-top: ${activeMarginTop} !important; margin-block-start: ${activeMarginTop} !important;` : '' }
+			${ activeMarginBottom !== undefined && activeMarginBottom !== '' ? `margin-bottom: ${activeMarginBottom} !important; margin-block-end: ${activeMarginBottom} !important;` : '' }
+			${ activeMarginLeft !== undefined && activeMarginLeft !== '' ? `margin-left: ${activeMarginLeft} !important;` : '' }
+			${ activeMarginRight !== undefined && activeMarginRight !== '' ? `margin-right: ${activeMarginRight} !important;` : '' }
+			${ activePaddingTop !== undefined && activePaddingTop !== '' ? `padding-top: ${activePaddingTop} !important;` : '' }
+			${ activePaddingBottom !== undefined && activePaddingBottom !== '' ? `padding-bottom: ${activePaddingBottom} !important;` : '' }
+			${ activePaddingLeft !== undefined && activePaddingLeft !== '' ? `padding-left: ${activePaddingLeft} !important;` : '' }
+			${ activePaddingRight !== undefined && activePaddingRight !== '' ? `padding-right: ${activePaddingRight} !important;` : '' }
+			--gravisain-ff: ${ fontFamily ? `'${ fontFamily }'` : 'inherit' };
+			--gravisain-fs: ${ getTypographyVar( fontSize, true ) || '16px' };
+			--gravisain-fs-tablet: ${ getTypographyVar( fontSizeTablet, true ) || 'inherit' };
+			--gravisain-fs-mobile: ${ getTypographyVar( fontSizeMobile, true ) || 'inherit' };
+			--gravisain-lh: ${ getTypographyVar( lineHeight, false ) || '1.5' };
+			--gravisain-lh-tablet: ${ getTypographyVar( lineHeightTablet, false ) || 'inherit' };
+			--gravisain-lh-mobile: ${ getTypographyVar( lineHeightMobile, false ) || 'inherit' };
+			--gravisain-ls: ${ getTypographyVar( letterSpacing, true ) || '0px' };
+			--gravisain-ls-tablet: ${ getTypographyVar( letterSpacingTablet, true ) || 'inherit' };
+			--gravisain-ls-mobile: ${ getTypographyVar( letterSpacingMobile, true ) || 'inherit' };
 		}
 		#block-${clientId} .gravisain-text-content,
 		#block-${clientId} .gravisain-text-content * {
 			text-align: ${currentTextAlign} !important;
 			font-family: var(--gravisain-ff);
+		}
+		#block-${clientId} .gravisain-text-content {
+			font-size: ${getTypographyVar(activeFontSize, true) || '16px'} !important;
+			line-height: ${getTypographyVar(activeLineHeight, false) || '1.5'} !important;
+			letter-spacing: ${getTypographyVar(activeLetterSpacing, true) || '0px'} !important;
 		}
 	`;
 

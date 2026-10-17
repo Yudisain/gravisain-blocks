@@ -57,7 +57,7 @@
     },
     "eyebrow": {
       "type": "string",
-      "default": "WHY GRAVISAIN"
+      "default": ""
     },
     "eyebrowPosition": {
       "type": "string",

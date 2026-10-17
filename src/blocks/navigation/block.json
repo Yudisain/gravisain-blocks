@@ -29,9 +29,25 @@
 			"type": "string",
 			"default": "#2563eb"
 		},
+		"linkActiveColor": {
+			"type": "string",
+			"default": "#2563eb"
+		},
+		"linkBackground": {
+			"type": "string",
+			"default": "transparent"
+		},
 		"linkHoverBackground": {
 			"type": "string",
 			"default": "transparent"
+		},
+		"linkActiveBackground": {
+			"type": "string",
+			"default": "transparent"
+		},
+		"fontFamily": {
+			"type": "string",
+			"default": ""
 		},
 		"fontSize": {
 			"type": "number",
@@ -44,6 +60,10 @@
 		"itemSpacing": {
 			"type": "number",
 			"default": 24
+		},
+		"typography": {
+			"type": "object",
+			"default": {}
 		}
 	},
 	"textdomain": "gravisain-blocks",

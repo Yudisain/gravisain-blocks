@@ -9,6 +9,12 @@
 	"description": "An individual FAQ item with customizable question, answer, icons, and state styling.",
 	"textdomain": "gravisain",
 	"parent": [ "gravisain/faq-accordion" ],
+	"usesContext": [
+		"gravisain/faqIconType",
+		"gravisain/faqIconSize",
+		"gravisain/faqIconColorNormal",
+		"gravisain/faqIconColorActive"
+	],
 	"attributes": {
 		"question": {
 			"type": "string",
@@ -19,6 +25,10 @@
 			"default": false
 		},
 		"iconType": {
+			"type": "string",
+			"default": "inherit"
+		},
+		"parentIcon": {
 			"type": "string",
 			"default": "arrow-down-alt2"
 		},
@@ -75,16 +85,13 @@
 			"default": "#f8fafc"
 		},
 		"iconColorNormal": {
-			"type": "string",
-			"default": "#64748b"
+			"type": "string"
 		},
 		"iconColorActive": {
-			"type": "string",
-			"default": "#4f46e5"
+			"type": "string"
 		},
 		"iconSize": {
-			"type": "number",
-			"default": 24
+			"type": "number"
 		},
 		"contentBg": {
 			"type": "string",

@@ -13,6 +13,10 @@
 		"html": false
 	},
 	"attributes": {
+		"icon": {
+			"type": "string",
+			"default": ""
+		},
 		"iconType": {
 			"type": "string",
 			"default": "star"
@@ -30,6 +34,33 @@
 			"default": ""
 		},
 		"imageId": {
+			"type": "number",
+			"default": 0
+		},
+		"imageFocalPoint": {
+			"type": "object",
+			"default": {
+				"x": 0.5,
+				"y": 0.5
+			}
+		},
+		"imageWidth": {
+			"type": "number",
+			"default": 0
+		},
+		"imageHeight": {
+			"type": "number",
+			"default": 0
+		},
+		"imageAspectRatio": {
+			"type": "string",
+			"default": "auto"
+		},
+		"imageObjectFit": {
+			"type": "string",
+			"default": "cover"
+		},
+		"imageBorderRadius": {
 			"type": "number",
 			"default": 0
 		},
@@ -144,6 +175,18 @@
 		"hoverEffect": {
 			"type": "string",
 			"default": "lift"
+		},
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"customClassName": {
+			"type": "string",
+			"default": ""
+		},
+		"customCSS": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"editorScript": "file:./index.js",

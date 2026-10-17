@@ -1,12 +1,24 @@
+export function formatSpacing(val) {
+	if (val === undefined || val === null || val === '') return undefined;
+	if (typeof val === 'number') return `${val}px`;
+	if (typeof val === 'string') {
+		const trimmed = val.trim();
+		if (trimmed === '') return undefined;
+		if (!isNaN(trimmed)) return `${trimmed}px`;
+		return trimmed;
+	}
+	return val;
+}
+
 export function getSpacing(spacing, side) {
 	if (spacing === undefined || spacing === null || spacing === '') return undefined;
 	if (typeof spacing === 'string' || typeof spacing === 'number') {
-		return typeof spacing === 'number' ? `${spacing}px` : spacing;
+		return formatSpacing(spacing);
 	}
-	const val = spacing[side];
-	if (val === undefined || val === null || val === '') return undefined;
-	if (typeof val === 'number') return `${val}px`;
-	return val;
+	if (typeof spacing === 'object') {
+		return formatSpacing(spacing[side]);
+	}
+	return undefined;
 }
 
 export function getTypographyVar(val, isSpacing = false) {

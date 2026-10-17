@@ -1,11 +1,21 @@
+.gravisain-tabs,
+.wp-block-gravisain-tabs,
+.block-editor-block-list__block[data-type="gravisain/tabs"],
+.block-editor-block-list__block.gravisain-tabs,
 .block-editor-block-list__block .gravisain-tabs {
 	.gravisain-tabs-header {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		padding-right: 12px;
+		gap: 12px;
 
 		.gravisain-tabs-nav {
+			flex: 1 1 0%;
+			min-width: 0;
+			display: flex;
+			flex-wrap: wrap;
+
 			.gravisain-tab-button {
 				position: relative;
 				display: flex;
@@ -16,10 +26,44 @@
 				}
 
 				.gravisain-remove-tab {
-					margin-left: 6px;
-					opacity: 0.6;
+					display: inline-flex !important;
+					align-items: center !important;
+					justify-content: center !important;
+					width: 18px !important;
+					height: 18px !important;
+					min-width: 18px !important;
+					min-height: 18px !important;
+					padding: 0 !important;
+					margin-left: 8px !important;
+					border-radius: 50% !important;
+					background-color: rgba(0, 0, 0, 0.08) !important;
+					color: inherit !important;
+					opacity: 0.75 !important;
+					transition: all 0.15s ease !important;
+					cursor: pointer !important;
+
+					svg {
+						width: 10px !important;
+						height: 10px !important;
+						display: block !important;
+						stroke: currentColor !important;
+					}
+
 					&:hover {
-						opacity: 1;
+						opacity: 1 !important;
+						background-color: #ef4444 !important;
+						color: #ffffff !important;
+						transform: scale(1.15);
+					}
+				}
+
+				&.is-active .gravisain-remove-tab {
+					background-color: rgba(255, 255, 255, 0.25) !important;
+					color: #ffffff !important;
+
+					&:hover {
+						background-color: #ef4444 !important;
+						color: #ffffff !important;
 					}
 				}
 			}
@@ -27,6 +71,77 @@
 
 		.gravisain-add-tab-btn {
 			margin: 8px 0;
+			flex-shrink: 0;
+		}
+	}
+
+	&:not(.layout-vertical) {
+		&.align-left .gravisain-tabs-header .gravisain-tabs-nav {
+			justify-content: flex-start;
+		}
+
+		&.align-center .gravisain-tabs-header .gravisain-tabs-nav {
+			justify-content: center;
+		}
+
+		&.align-right .gravisain-tabs-header .gravisain-tabs-nav {
+			justify-content: flex-end;
+		}
+	}
+
+	&.layout-vertical {
+		display: flex !important;
+		flex-direction: row !important;
+		align-items: stretch !important;
+		min-height: 240px;
+
+		.gravisain-tabs-header {
+			display: flex !important;
+			flex-direction: column !important;
+			align-items: stretch !important;
+			align-self: stretch !important;
+			padding-right: 0 !important;
+			min-width: 200px !important;
+			flex-shrink: 0 !important;
+
+			.gravisain-tabs-nav {
+				display: flex !important;
+				flex-direction: column !important;
+				width: 100% !important;
+			}
+
+			.gravisain-add-tab-btn {
+				margin: 12px auto !important;
+				align-self: center !important;
+				flex-shrink: 0 !important;
+			}
+		}
+
+		&.align-top,
+		&.align-left {
+			.gravisain-tabs-header {
+				justify-content: flex-start !important;
+			}
+		}
+
+		&.align-center {
+			.gravisain-tabs-header {
+				justify-content: center !important;
+			}
+		}
+
+		&.align-bottom,
+		&.align-right {
+			.gravisain-tabs-header {
+				justify-content: flex-end !important;
+			}
+		}
+
+		.gravisain-tabs-content-area {
+			flex: 1 1 auto !important;
+			min-width: 0 !important;
+			min-height: 200px;
+			align-self: stretch !important;
 		}
 	}
 }

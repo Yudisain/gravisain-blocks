@@ -5,6 +5,10 @@
  * @package Gravisain\Blocks
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 return [
 	'slug'        => 'gravisain-blocks/cta-banner',
 	'title'       => __( 'High-Impact Call to Action Banner', 'gravisain-blocks' ),

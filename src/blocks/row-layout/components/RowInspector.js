@@ -9,12 +9,14 @@ import SpacingControl from '../../../controls/SpacingControl';
 import ShapeDividerControl from '../../../controls/ShapeDividerControl';
 import BackgroundControl from '../../../controls/BackgroundControl';
 import ResponsiveTabControl from '../../../controls/ResponsiveTabControl';
+import StickyControl from '../../../controls/StickyControl';
 export default function RowInspector( { attributes, setAttributes, clientId } ) {
 	const { 
 		alignItems, justifyContent, rowGap, rowGapTablet, rowGapMobile, stackOn, columns, layoutPreset,
 		backgroundColor, backgroundColorTablet, backgroundColorMobile, 
 		textColor, textColorTablet, textColorMobile, 
-		padding, paddingTablet, paddingMobile, margin, marginTablet, marginMobile, displayMode,
+		padding, paddingTablet, paddingMobile, margin, marginTablet, marginMobile, 
+		displayMode, displayModeTablet, displayModeMobile,
 		backgroundImage, backgroundImageTablet, backgroundImageMobile, 
 		backgroundPosition, backgroundPositionTablet, backgroundPositionMobile, 
 		backgroundSize, backgroundSizeTablet, backgroundSizeMobile, 
@@ -28,7 +30,9 @@ export default function RowInspector( { attributes, setAttributes, clientId } ) 
 		borderWidth, borderWidthTablet, borderWidthMobile, 
 		borderColor, borderColorTablet, borderColorMobile, 
 		boxShadow, boxShadowTablet, boxShadowMobile,
-		anchor, customClassName, customCSS
+		anchor, customClassName, customCSS,
+		isSticky, stickyOffset, stickyOffsetTablet, stickyOffsetMobile,
+		hoverEffect, hoverBackgroundColor, hoverBorderColor
 	} = attributes;
 
 	const setResponsiveAttr = ( baseName, val, device ) => {
@@ -54,20 +58,15 @@ export default function RowInspector( { attributes, setAttributes, clientId } ) 
 	const { insertBlocks, removeBlocks, updateBlockAttributes } = useDispatch( 'core/block-editor' );
 	
 	// ... (changeLayout code)
-	const changeLayout = ( preset, newCols, widths ) => {
-		setAttributes( { layoutPreset: preset, columns: newCols } );
+	const changeLayout = ( preset, newCols, gridTemplate ) => {
+		setAttributes( { layoutPreset: preset, columns: newCols, gridTemplate } );
 		
 		const currentCols = innerBlocks.length;
-		const columnsToKeep = Math.min( newCols, currentCols );
-		
-		for ( let i = 0; i < columnsToKeep; i++ ) {
-			updateBlockAttributes( innerBlocks[ i ].clientId, { width: widths[ i ] } );
-		}
 		
 		if ( newCols > currentCols ) {
 			const newBlocks = [];
 			for ( let i = 0; i < ( newCols - currentCols ); i++ ) {
-				newBlocks.push( createBlock( 'gravisain/column', { width: widths[ currentCols + i ] } ) );
+				newBlocks.push( createBlock( 'gravisain/column', {} ) );
 			}
 			insertBlocks( newBlocks, currentCols, clientId );
 		} 
@@ -113,15 +112,23 @@ export default function RowInspector( { attributes, setAttributes, clientId } ) 
 					{ activeTab === 'general' && (
 						<>
 							<PanelBody title={ __( 'Layout Settings', 'gravisain' ) } initialOpen={ true }>
-								<SelectControl
-									label={ __( 'Display Mode', 'gravisain' ) }
-									value={ displayMode }
-									options={ [
-										{ label: __( 'Flex (Default)', 'gravisain' ), value: 'flex' },
-										{ label: __( 'Block', 'gravisain' ), value: 'block' },
-									] }
-									onChange={ ( value ) => setAttributes( { displayMode: value } ) }
-								/>
+								<ResponsiveTabControl>
+									{ ( device ) => (
+										<SelectControl
+											label={ __( 'Display Mode', 'gravisain' ) + ( device !== 'desktop' ? ` (${ device.charAt(0).toUpperCase() + device.slice(1) })` : '' ) }
+											value={ getResponsiveAttr( 'displayMode', device ) !== undefined ? getResponsiveAttr( 'displayMode', device ) : ( device === 'desktop' ? 'flex' : '' ) }
+											options={ device === 'desktop' ? [
+												{ label: __( 'Flex (Default)', 'gravisain' ), value: 'flex' },
+												{ label: __( 'Block', 'gravisain' ), value: 'block' },
+											] : [
+												{ label: __( 'Inherit', 'gravisain' ), value: '' },
+												{ label: __( 'Flex', 'gravisain' ), value: 'flex' },
+												{ label: __( 'Block', 'gravisain' ), value: 'block' },
+											] }
+											onChange={ ( value ) => setResponsiveAttr( 'displayMode', value, device ) }
+										/>
+									) }
+								</ResponsiveTabControl>
 								<SelectControl
 									label={ __( 'HTML Tag', 'gravisain' ) }
 									value={ htmlTag }
@@ -161,7 +168,7 @@ export default function RowInspector( { attributes, setAttributes, clientId } ) 
 										help={ __( 'Theme width constrains content to the site max-width. Full width stretches content to screen edges.', 'gravisain' ) }
 									/>
 								) }
-								{ displayMode === 'flex' && (
+								{ ( displayMode || 'flex' ) === 'flex' && (
 									<>
 										<SelectControl
 											label={ __( 'Vertical Alignment', 'gravisain' ) }
@@ -215,6 +222,12 @@ export default function RowInspector( { attributes, setAttributes, clientId } ) 
 								/>
 							</PanelBody>
 
+							<StickyControl
+								attributes={ attributes }
+								setAttributes={ setAttributes }
+								helpText={ __( 'This will stick the row to viewport while scrolling.', 'gravisain' ) }
+							/>
+
 							<PanelBody title={ __( 'Change Layout', 'gravisain' ) } initialOpen={ false }>
 								<div className="gravisain-layout-selector">
 									{ layoutPresets.map( ( preset, index ) => {
@@ -223,7 +236,7 @@ export default function RowInspector( { attributes, setAttributes, clientId } ) 
 											<Tooltip text={ preset.label } key={ index }>
 												<Button 
 													className={ `gravisain-layout-btn ${ isActive ? 'is-active' : '' }` }
-													onClick={ () => changeLayout( preset.name, preset.cols, preset.widths ) }
+													onClick={ () => changeLayout( preset.name, preset.cols, preset.gridTemplate ) }
 												>
 													{ preset.icon }
 												</Button>
@@ -333,6 +346,33 @@ export default function RowInspector( { attributes, setAttributes, clientId } ) 
 										</>
 									) }
 								</ResponsiveTabControl>
+							</PanelBody>
+
+							<PanelBody title={ __( 'Hover & Interactive Effects', 'gravisain' ) } initialOpen={ false }>
+								<SelectControl
+									label={ __( 'Row Hover Effect', 'gravisain' ) }
+									value={ hoverEffect || 'none' }
+									options={ [
+										{ label: __( 'None (Static)', 'gravisain' ), value: 'none' },
+										{ label: __( 'Lift Up (Terangkat ke atas)', 'gravisain' ), value: 'lift' },
+										{ label: __( 'Scale Up (Zoom/Membesar)', 'gravisain' ), value: 'scale' },
+										{ label: __( 'Border Glow (Cahaya border)', 'gravisain' ), value: 'border-glow' },
+									] }
+									onChange={ ( val ) => setAttributes( { hoverEffect: val } ) }
+								/>
+								{ hoverEffect === 'border-glow' && (
+									<ColorControl
+										label={ __( 'Hover Glow Color', 'gravisain' ) }
+										value={ hoverBorderColor }
+										onChange={ ( val ) => setAttributes( { hoverBorderColor: val } ) }
+										disableGradient={ true }
+									/>
+								) }
+								<ColorControl
+									label={ __( 'Hover Background Color', 'gravisain' ) }
+									value={ hoverBackgroundColor }
+									onChange={ ( val ) => setAttributes( { hoverBackgroundColor: val } ) }
+								/>
 							</PanelBody>
 							
 							<PanelBody title={ __( 'Shape Dividers', 'gravisain' ) } initialOpen={ false }>

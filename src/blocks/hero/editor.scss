@@ -1,3 +1,57 @@
+/* Ensure margin and padding override Gutenberg editor block styles */
+.editor-styles-wrapper .gravisain-hero,
+.editor-styles-wrapper .wp-block.gravisain-hero,
+.editor-styles-wrapper .wp-block .gravisain-hero,
+.wp-block-gravisain-hero,
+.gravisain-hero {
+	&[style*="--gravisain-hero-padding-top"] {
+		padding-top: var(--gravisain-hero-padding-top) !important;
+	}
+	&[style*="--gravisain-hero-padding-bottom"] {
+		padding-bottom: var(--gravisain-hero-padding-bottom) !important;
+	}
+	&[style*="--gravisain-hero-padding-left"] {
+		padding-left: var(--gravisain-hero-padding-left) !important;
+	}
+	&[style*="--gravisain-hero-padding-right"] {
+		padding-right: var(--gravisain-hero-padding-right) !important;
+	}
+
+	&[style*="--gravisain-hero-margin-top"] {
+		margin-top: var(--gravisain-hero-margin-top) !important;
+		margin-block-start: var(--gravisain-hero-margin-top) !important;
+	}
+	&[style*="--gravisain-hero-margin-bottom"] {
+		margin-bottom: var(--gravisain-hero-margin-bottom) !important;
+		margin-block-end: var(--gravisain-hero-margin-bottom) !important;
+	}
+	&[style*="--gravisain-hero-margin-left"] {
+		margin-left: var(--gravisain-hero-margin-left) !important;
+	}
+	&[style*="--gravisain-hero-margin-right"] {
+		margin-right: var(--gravisain-hero-margin-right) !important;
+	}
+}
+
+/* Constrain Hero when nested inside a Column, Row Layout, or Container in Editor */
+.editor-styles-wrapper .wp-block-gravisain-column .gravisain-hero,
+.editor-styles-wrapper .gravisain-column .gravisain-hero,
+.editor-styles-wrapper .wp-block-column .gravisain-hero,
+.editor-styles-wrapper .wp-block-columns .gravisain-hero,
+.editor-styles-wrapper .wp-block-gravisain-row-layout .gravisain-hero,
+.editor-styles-wrapper .gravisain-row-layout .gravisain-hero,
+.wp-block-gravisain-column .gravisain-hero,
+.gravisain-column .gravisain-hero,
+.wp-block-column .gravisain-hero,
+.wp-block-columns .gravisain-hero,
+.wp-block-gravisain-row-layout .gravisain-hero,
+.gravisain-row-layout .gravisain-hero {
+	width: auto !important;
+	max-width: 100% !important;
+	margin-left: var(--gravisain-hero-margin-left, 0px) !important;
+	margin-right: var(--gravisain-hero-margin-right, 0px) !important;
+}
+
 .gravisain-hero {
 	.hero-media-wrapper {
 		position: relative;
@@ -79,3 +133,35 @@
 		}
 	}
 }
+
+.gravisain-inspector-tabs {
+	.components-range-control__number,
+	.components-input-control__container,
+	.components-input-control {
+		min-height: 32px !important;
+		height: 32px !important;
+	}
+	input.components-range-control__number {
+		min-height: 32px !important;
+		height: 32px !important;
+		padding: 2px 8px !important;
+		font-size: 13px !important;
+		box-sizing: border-box !important;
+	}
+	.components-range-control__reset,
+	.components-range-control .components-button {
+		min-height: 32px !important;
+		height: 32px !important;
+		line-height: 30px !important;
+		padding: 0 10px !important;
+		font-size: 12px !important;
+		box-sizing: border-box !important;
+	}
+	.components-select-control__input {
+		min-height: 32px !important;
+		height: 32px !important;
+		font-size: 13px !important;
+		box-sizing: border-box !important;
+	}
+}
+

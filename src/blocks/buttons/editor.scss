@@ -1,5 +1,13 @@
+.wp-block-gravisain-buttons,
 .gravisain-buttons-wrapper {
-	padding: 10px;
+	padding-top: var(--gravisain-buttons-padding-top, 6px);
+	padding-right: var(--gravisain-buttons-padding-right, 6px);
+	padding-bottom: var(--gravisain-buttons-padding-bottom, 6px);
+	padding-left: var(--gravisain-buttons-padding-left, 6px);
+	margin-top: var(--gravisain-buttons-margin-top);
+	margin-right: var(--gravisain-buttons-margin-right);
+	margin-bottom: var(--gravisain-buttons-margin-bottom);
+	margin-left: var(--gravisain-buttons-margin-left);
 	border: 1px dashed transparent;
 	transition: border-color 0.2s ease;
 
@@ -7,4 +15,81 @@
 	&.is-selected {
 		border-color: var(--wp-admin-theme-color);
 	}
+
+	// Layout Horizontal in Editor
+	&.is-layout-horizontal {
+		display: flex !important;
+		flex-direction: row !important;
+		flex-wrap: wrap !important;
+		align-items: center !important;
+		justify-content: var(--buttons-justify, flex-start) !important;
+		gap: var(--buttons-gap, 16px) !important;
+
+		// Force the inner blocks container in editor to be horizontal flex row
+		&.block-editor-block-list__layout,
+		.block-editor-block-list__layout,
+		.block-editor-inner-blocks {
+			display: flex !important;
+			flex-direction: row !important;
+			flex-wrap: wrap !important;
+			align-items: center !important;
+			justify-content: var(--buttons-justify, inherit) !important;
+			gap: var(--buttons-gap, inherit) !important;
+			width: 100% !important;
+		}
+
+		// Child button block items in Gutenberg editor (target any level of nesting)
+		.block-editor-block-list__block:not(.is-width-full),
+		.wp-block:not(.is-width-full),
+		[data-type="gravisain/advanced-button"]:not(.is-width-full),
+		.wp-block-gravisain-advanced-button:not(.is-width-full),
+		.gravisain-advanced-button:not(.is-width-full) {
+			display: inline-flex !important;
+			width: auto !important;
+			max-width: 100% !important;
+			flex: 0 0 auto !important;
+		}
+
+		.block-list-appender {
+			display: inline-flex !important;
+			align-items: center;
+			margin: 0 !important;
+			align-self: center;
+			flex: 0 0 auto !important;
+			width: auto !important;
+
+			.block-editor-button-block-appender {
+				display: inline-flex;
+				margin: 0;
+			}
+		}
+	}
+
+	// Layout Vertical in Editor
+	&.is-layout-vertical {
+		display: flex !important;
+		flex-direction: column !important;
+		align-items: stretch !important;
+
+		&.block-editor-block-list__layout,
+		.block-editor-block-list__layout,
+		.block-editor-inner-blocks {
+			display: flex !important;
+			flex-direction: column !important;
+			width: 100% !important;
+			gap: var(--buttons-gap, inherit) !important;
+		}
+
+		> .block-editor-block-list__block,
+		> .wp-block,
+		> [data-type="gravisain/advanced-button"],
+		.block-editor-block-list__layout > .block-editor-block-list__block,
+		.block-editor-block-list__layout > .wp-block,
+		.block-editor-block-list__layout > [data-type="gravisain/advanced-button"] {
+			display: flex !important;
+			width: 100% !important;
+		}
+	}
 }
+
+

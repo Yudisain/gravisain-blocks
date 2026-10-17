@@ -1,5 +1,6 @@
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 import parseCustomCSS from '../../controls/parseCustomCSS';
+import { renderDividerGraphic } from './components/dividerShapes';
 
 export default function save( { attributes } ) {
 	const {
@@ -9,7 +10,20 @@ export default function save( { attributes } ) {
 		textAlignMobile,
 		eyebrow,
 		eyebrowPosition,
+		eyebrowColor,
+		eyebrowTypography = {},
+		eyebrowTypographyTablet = {},
+		eyebrowTypographyMobile = {},
 		content,
+		titleColor,
+		titleTypography = {},
+		titleTypographyTablet = {},
+		titleTypographyMobile = {},
+		description,
+		descriptionColor,
+		descriptionTypography = {},
+		descriptionTypographyTablet = {},
+		descriptionTypographyMobile = {},
 		fontSize,
 		fontSizeTablet,
 		fontSizeMobile,
@@ -29,6 +43,9 @@ export default function save( { attributes } ) {
 		dividerWidth,
 		dividerHeight,
 		dividerColor,
+		dividerStyle,
+		dividerFlip,
+		dividerSpacing,
 		padding,
 		paddingTablet,
 		paddingMobile,
@@ -63,6 +80,19 @@ export default function save( { attributes } ) {
 		}
 		return val;
 	};
+
+	const getHeadingTypographyVars = ( prefix, obj = {} ) => {
+		if ( ! obj || typeof obj !== 'object' || Object.keys( obj ).length === 0 ) return {};
+		return {
+			[`--gravisain-heading-${prefix}-ff`]: obj.fontFamily ? `'${obj.fontFamily}'` : undefined,
+			[`--gravisain-heading-${prefix}-fs`]: getTypographyVar( obj.fontSize, true ),
+			[`--gravisain-heading-${prefix}-fw`]: obj.fontWeight ? String( obj.fontWeight ) : undefined,
+			[`--gravisain-heading-${prefix}-lh`]: getTypographyVar( obj.lineHeight, false ),
+			[`--gravisain-heading-${prefix}-ls`]: getTypographyVar( obj.letterSpacing, true ),
+		};
+	};
+
+	const getSolidColor = (c) => (c && c.includes('gradient')) ? undefined : c;
 
 	const blockProps = useBlockProps.save( {
 		id: anchor || undefined,
@@ -101,6 +131,26 @@ export default function save( { attributes } ) {
 			'--gravisain-margin-right-mobile': getSpacing( marginMobile, 'right' ),
 			'--gravisain-margin-bottom-mobile': getSpacing( marginMobile, 'bottom' ),
 			'--gravisain-margin-left-mobile': getSpacing( marginMobile, 'left' ),
+
+			// Eyebrow
+			'--gravisain-heading-eyebrow-color': eyebrowColor ? getSolidColor( eyebrowColor ) : undefined,
+			...getHeadingTypographyVars( 'eyebrow', eyebrowTypography ),
+			...getHeadingTypographyVars( 'eyebrow-tablet', eyebrowTypographyTablet ),
+			...getHeadingTypographyVars( 'eyebrow-mobile', eyebrowTypographyMobile ),
+
+			// Title
+			'--gravisain-heading-title-color': titleColor ? getSolidColor( titleColor ) : undefined,
+			...getHeadingTypographyVars( 'title', titleTypography ),
+			...getHeadingTypographyVars( 'title-tablet', titleTypographyTablet ),
+			...getHeadingTypographyVars( 'title-mobile', titleTypographyMobile ),
+
+			// Description
+			'--gravisain-heading-desc-color': descriptionColor ? getSolidColor( descriptionColor ) : undefined,
+			...getHeadingTypographyVars( 'desc', descriptionTypography ),
+			...getHeadingTypographyVars( 'desc-tablet', descriptionTypographyTablet ),
+			...getHeadingTypographyVars( 'desc-mobile', descriptionTypographyMobile ),
+
+			// Legacy fallbacks
 			'--gravisain-ff': fontFamily ? `'${fontFamily}'` : undefined,
 			'--gravisain-fs': getTypographyVar(fontSize, true),
 			'--gravisain-fs-tablet': getTypographyVar(fontSizeTablet, true),
@@ -118,13 +168,11 @@ export default function save( { attributes } ) {
 
 	const TagName = headingTag || 'h2';
 
-	const getSolidColor = (c) => (c && c.includes('gradient')) ? undefined : c;
-
 	const headingStyle = {
 		textAlign: textAlign || 'left',
 		fontWeight: fontWeight || '800',
 		textTransform: textTransform || 'none',
-		color: enableTextGradient ? 'transparent' : getSolidColor(textColor) || '#0f172a',
+		color: enableTextGradient ? 'transparent' : getSolidColor( titleColor || textColor ) || '#0f172a',
 		'--gravisain-highlight-color': getSolidColor(highlightColor) || '#2563eb',
 		backgroundImage: enableTextGradient ? textGradient : 'none',
 		WebkitBackgroundClip: enableTextGradient ? 'text' : 'border-box',
@@ -156,16 +204,112 @@ export default function save( { attributes } ) {
 				/>
 			) }
 
-			{ showDivider && (
-				<div
-					className="gravisain-heading-divider"
-					style={ {
-						width: `${ dividerWidth }px`,
-						height: `${ dividerHeight }px`,
-						backgroundColor: dividerColor,
-						marginLeft: textAlign === 'center' || textAlign === 'right' ? 'auto' : 0,
-						marginRight: textAlign === 'center' ? 'auto' : 0,
-					} }
+			{ showDivider && ( () => {
+				const style = dividerStyle || 'solid';
+				const width = dividerWidth || 48;
+				const height = dividerHeight || 4;
+				const color = dividerColor || '#2563eb';
+				const marginLeft = textAlign === 'center' || textAlign === 'right' ? 'auto' : 0;
+				const marginRight = textAlign === 'center' ? 'auto' : 0;
+				const hasCustomMargin = dividerSpacing !== undefined && dividerSpacing !== 14;
+
+				if ( style === 'solid' ) {
+					return (
+						<div
+							className="gravisain-heading-divider"
+							style={ {
+								width: `${ width }px`,
+								height: `${ height }px`,
+								background: color,
+								marginLeft,
+								marginRight,
+								...( hasCustomMargin ? { marginTop: `${ dividerSpacing }px` } : {} ),
+							} }
+						/>
+					);
+				}
+
+				if ( style === 'double' ) {
+					const borderThickness = Math.max( 1, Math.floor( height / 3 ) );
+					return (
+						<div
+							className="gravisain-heading-divider is-style-double"
+							style={ {
+								width: `${ width }px`,
+								height: `${ height }px`,
+								borderTop: `${ borderThickness }px solid ${ color }`,
+								borderBottom: `${ borderThickness }px solid ${ color }`,
+								background: 'transparent',
+								marginLeft,
+								marginRight,
+								...( hasCustomMargin ? { marginTop: `${ dividerSpacing }px` } : {} ),
+							} }
+						/>
+					);
+				}
+
+				if ( style === 'dotted' ) {
+					return (
+						<div
+							className="gravisain-heading-divider is-style-dotted"
+							style={ {
+								width: `${ width }px`,
+								height: '0px',
+								borderTop: `${ height }px dotted ${ color }`,
+								background: 'transparent',
+								marginLeft,
+								marginRight,
+								...( hasCustomMargin ? { marginTop: `${ dividerSpacing }px` } : {} ),
+							} }
+						/>
+					);
+				}
+
+				if ( style === 'dashed' ) {
+					return (
+						<div
+							className="gravisain-heading-divider is-style-dashed"
+							style={ {
+								width: `${ width }px`,
+								height: '0px',
+								borderTop: `${ height }px dashed ${ color }`,
+								background: 'transparent',
+								marginLeft,
+								marginRight,
+								...( hasCustomMargin ? { marginTop: `${ dividerSpacing }px` } : {} ),
+							} }
+						/>
+					);
+				}
+
+				return (
+					<div
+						className={ `gravisain-heading-divider is-style-${ style }` }
+						style={ {
+							width: `${ width }px`,
+							height: `${ height }px`,
+							background: 'transparent',
+							lineHeight: 0,
+							marginLeft,
+							marginRight,
+							...( hasCustomMargin ? { marginTop: `${ dividerSpacing }px` } : {} ),
+						} }
+					>
+						{ renderDividerGraphic( {
+							styleKey: style,
+							color,
+							height,
+							flip: dividerFlip,
+						} ) }
+					</div>
+				);
+			} )() }
+
+			{ description && (
+				<RichText.Content
+					tagName="p"
+					className="gravisain-heading-description"
+					value={ description }
 				/>
 			) }
 		</div>

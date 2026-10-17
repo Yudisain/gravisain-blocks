@@ -13,6 +13,7 @@ export default function Edit( props ) {
 		caption,
 		aspectRatio,
 		objectFit,
+		focalPoint,
 		borderRadius,
 		borderWidth,
 		borderColor,
@@ -27,6 +28,14 @@ export default function Edit( props ) {
 		customClassName,
 		customCSS,
 	} = attributes;
+
+	const isInsideMarquee = useSelect( ( select ) => {
+		const blockEditor = select( 'core/block-editor' );
+		if ( ! blockEditor || ! props.clientId ) return false;
+		const parents = blockEditor.getBlockParents( props.clientId );
+		if ( ! parents || ! parents.length ) return false;
+		return parents.some( ( parentId ) => blockEditor.getBlockName( parentId ) === 'gravisain/marquee' );
+	}, [ props.clientId ] );
 
 	const previewDeviceType = useSelect( ( select ) => {
 		const editorDevice = select( 'core/editor' )?.getDeviceType?.();
@@ -45,10 +54,25 @@ export default function Edit( props ) {
 		id: anchor || undefined,
 		className: [
 			'gravisain-image',
-			currentAlignment ? `align-${ currentAlignment }` : '',
+			isInsideMarquee ? 'is-inside-marquee' : ( currentAlignment ? `align-${ currentAlignment }` : '' ),
 			customClassName || '',
 		].filter( Boolean ).join( ' ' ),
-		style: {
+		style: isInsideMarquee ? {
+			display: 'inline-flex',
+			flexDirection: 'row',
+			alignItems: 'center',
+			justifyContent: 'center',
+			width: 'auto',
+			height: 'auto',
+			border: 'none',
+			outline: 'none',
+			boxShadow: 'none',
+			background: 'transparent',
+			padding: 0,
+			margin: 0,
+			flexShrink: 0,
+			...parseCustomCSS( customCSS ),
+		} : {
 			display: 'flex',
 			flexDirection: 'column',
 			alignItems: currentAlignment === 'left' ? 'flex-start' : currentAlignment === 'right' ? 'flex-end' : 'center',
@@ -117,26 +141,32 @@ export default function Edit( props ) {
 				<div
 					className="gravisain-image-wrapper"
 					style={ {
-						aspectRatio: aspectRatio !== 'auto' ? aspectRatio : undefined,
+						aspectRatio: isInsideMarquee ? undefined : ( aspectRatio !== 'auto' ? aspectRatio : undefined ),
 						borderRadius: borderRadius ? `${ borderRadius }px` : undefined,
-						borderWidth: borderWidth ? `${ borderWidth }px` : undefined,
-						borderColor: borderColor || undefined,
-						borderStyle: borderWidth ? borderStyle : undefined,
+						border: borderWidth > 0 ? `${ borderWidth }px ${ borderStyle || 'solid' } ${ borderColor || '#cccccc' }` : 'none',
 						boxShadow: boxShadow !== 'none' ? boxShadow : undefined,
 						overflow: 'hidden',
 						position: 'relative',
-						width: '100%',
-						maxWidth: '100%',
+						width: isInsideMarquee ? 'auto' : '100%',
+						maxWidth: isInsideMarquee ? 'none' : '100%',
+						height: isInsideMarquee ? 'auto' : undefined,
+						display: isInsideMarquee ? 'inline-flex' : undefined,
+						alignItems: isInsideMarquee ? 'center' : undefined,
+						justifyContent: isInsideMarquee ? 'center' : undefined,
 					} }
 				>
 					<img
 						src={ url }
 						alt={ alt }
 						style={ {
-							width: '100%',
-							height: aspectRatio !== 'auto' ? '100%' : 'auto',
-							objectFit: aspectRatio !== 'auto' ? objectFit : undefined,
+							width: isInsideMarquee ? 'auto' : '100%',
+							height: isInsideMarquee ? 'var(--gravisain-marquee-image-height, auto)' : ( aspectRatio !== 'auto' ? '100%' : 'auto' ),
+							maxHeight: isInsideMarquee ? 'var(--gravisain-marquee-image-height, 100%)' : undefined,
+							maxWidth: isInsideMarquee ? 'none' : undefined,
+							objectFit: isInsideMarquee ? 'contain' : ( aspectRatio !== 'auto' ? objectFit : undefined ),
+							objectPosition: focalPoint ? `${ Math.round( focalPoint.x * 100 ) }% ${ Math.round( focalPoint.y * 100 ) }%` : undefined,
 							display: 'block',
+							border: 'none',
 						} }
 					/>
 					{ overlayColor && overlayOpacity > 0 && (
@@ -148,7 +178,11 @@ export default function Edit( props ) {
 								left: 0,
 								right: 0,
 								bottom: 0,
-								backgroundColor: overlayColor,
+								...( overlayColor ? (
+									( overlayColor.includes( 'gradient' ) || overlayColor.includes( 'linear' ) || overlayColor.includes( 'radial' ) )
+										? { backgroundImage: overlayColor }
+										: { backgroundColor: overlayColor }
+								) : {} ),
 								opacity: overlayOpacity / 100,
 								pointerEvents: 'none',
 							} }
@@ -156,13 +190,15 @@ export default function Edit( props ) {
 					) }
 				</div>
 
-				<RichText
-					tagName="figcaption"
-					className="gravisain-image-caption"
-					value={ caption }
-					onChange={ ( val ) => setAttributes( { caption: val } ) }
-					placeholder={ __( 'Write a caption...', 'gravisain' ) }
-				/>
+				{ ! isInsideMarquee && (
+					<RichText
+						tagName="figcaption"
+						className="gravisain-image-caption"
+						value={ caption }
+						onChange={ ( val ) => setAttributes( { caption: val } ) }
+						placeholder={ __( 'Write a caption...', 'gravisain' ) }
+					/>
+				) }
 			</div>
 		</>
 	);

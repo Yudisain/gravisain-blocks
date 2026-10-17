@@ -1,9 +1,9 @@
 import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, RangeControl, SelectControl, ToggleControl, TabPanel } from '@wordpress/components';
+import { PanelBody, RangeControl, SelectControl, ToggleControl, TabPanel, FocalPointPicker } from '@wordpress/components';
 
-export default function GalleryInspector( { attributes, setAttributes } ) {
-	const { columns, gap, layout, imageRatio, enableLightbox, imageRadius } = attributes;
+export default function GalleryInspector( { attributes, setAttributes, selectedImageIndex, setSelectedImageIndex } ) {
+	const { images, columns, gap, layout, imageRatio, enableLightbox, imageRadius } = attributes;
 
 	return (
 		<InspectorControls>
@@ -26,7 +26,25 @@ export default function GalleryInspector( { attributes, setAttributes } ) {
 				{ ( tab ) => (
 					<div className="gravisain-tab-content">
 						{ tab.name === 'general' && (
-							<PanelBody title={ __( 'Layout Settings', 'gravisain-blocks' ) } initialOpen={ true }>
+							<>
+								{ selectedImageIndex !== null && images && images[ selectedImageIndex ] && (
+									<PanelBody title={ __( 'Selected Image Focal Point', 'gravisain-blocks' ) } initialOpen={ true }>
+										<FocalPointPicker
+											label={ __( 'Focal Point', 'gravisain-blocks' ) }
+											url={ images[ selectedImageIndex ].url }
+											value={ images[ selectedImageIndex ].focalPoint || { x: 0.5, y: 0.5 } }
+											onChange={ ( val ) => {
+												const newImages = [ ...images ];
+												newImages[ selectedImageIndex ] = {
+													...newImages[ selectedImageIndex ],
+													focalPoint: val,
+												};
+												setAttributes( { images: newImages } );
+											} }
+										/>
+									</PanelBody>
+								) }
+								<PanelBody title={ __( 'Layout Settings', 'gravisain-blocks' ) } initialOpen={ selectedImageIndex === null }>
 								<SelectControl
 									label={ __( 'Gallery Layout', 'gravisain-blocks' ) }
 									value={ layout }
@@ -99,7 +117,8 @@ export default function GalleryInspector( { attributes, setAttributes } ) {
 									max={ 100 }
 								/>
 							</PanelBody>
-						) }
+						</>
+					) }
 
 						{ tab.name === 'style' && (
 							<PanelBody title={ __( 'Style Settings', 'gravisain-blocks' ) } initialOpen={ true }>

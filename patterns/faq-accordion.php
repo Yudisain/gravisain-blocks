@@ -5,6 +5,10 @@
  * @package Gravisain\Blocks
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 return [
 	'slug'        => 'gravisain-blocks/faq-accordion',
 	'title'       => __( 'FAQ Accordion Section using Native HTML5 Details', 'gravisain-blocks' ),
@@ -21,10 +25,7 @@ return [
 	<!-- /wp:paragraph -->
 
 	<!-- wp:details {"style":{"border":{"width":"1px","radius":"8px","color":"#e2e8f0"},"spacing":{"padding":{"top":"20px","right":"24px","bottom":"20px","left":"24px"},"margin":{"bottom":"16px"}}}} -->
-	<details class="wp-block-details has-border-color" style="border-color:#e2e8f0;border-width:1px;border-radius:8px;margin-bottom:16px;padding-top:20px;padding-right:24px;padding-bottom:20px;padding-left:24px">
-		<!-- wp:summary {"style":{"typography":{"fontSize":"1.1rem","fontWeight":"600"}}} -->
-		<summary style="font-size:1.1rem;font-weight:600">' . esc_html__( 'Why is Gravisain faster than page-builder based themes?', 'gravisain-blocks' ) . '</summary>
-		<!-- /wp:summary -->
+	<details class="wp-block-details has-border-color" style="border-color:#e2e8f0;border-width:1px;border-radius:8px;margin-bottom:16px;padding-top:20px;padding-right:24px;padding-bottom:20px;padding-left:24px"><summary style="font-size:1.1rem;font-weight:600">' . esc_html__( 'Why is Gravisain faster than page-builder based themes?', 'gravisain-blocks' ) . '</summary>
 		<!-- wp:paragraph {"style":{"spacing":{"margin":{"top":"12px"}}}} -->
 		<p style="margin-top:12px">' . esc_html__( 'Gravisain uses a strict hybrid PHP architecture where headers, footers, and layouts are rendered server-side with optimized CSS/JS. We do not load heavy client-side UI frameworks or jQuery.', 'gravisain-blocks' ) . '</p>
 		<!-- /wp:paragraph -->
@@ -32,10 +33,7 @@ return [
 	<!-- /wp:details -->
 
 	<!-- wp:details {"style":{"border":{"width":"1px","radius":"8px","color":"#e2e8f0"},"spacing":{"padding":{"top":"20px","right":"24px","bottom":"20px","left":"24px"},"margin":{"bottom":"16px"}}}} -->
-	<details class="wp-block-details has-border-color" style="border-color:#e2e8f0;border-width:1px;border-radius:8px;margin-bottom:16px;padding-top:20px;padding-right:24px;padding-bottom:20px;padding-left:24px">
-		<!-- wp:summary {"style":{"typography":{"fontSize":"1.1rem","fontWeight":"600"}}} -->
-		<summary style="font-size:1.1rem;font-weight:600">' . esc_html__( 'Can I use Gravisain Blocks without installing extra page builders?', 'gravisain-blocks' ) . '</summary>
-		<!-- /wp:summary -->
+	<details class="wp-block-details has-border-color" style="border-color:#e2e8f0;border-width:1px;border-radius:8px;margin-bottom:16px;padding-top:20px;padding-right:24px;padding-bottom:20px;padding-left:24px"><summary style="font-size:1.1rem;font-weight:600">' . esc_html__( 'Can I use Gravisain Blocks without installing extra page builders?', 'gravisain-blocks' ) . '</summary>
 		<!-- wp:paragraph {"style":{"spacing":{"margin":{"top":"12px"}}}} -->
 		<p style="margin-top:12px">' . esc_html__( 'Yes! Gravisain Blocks utilizes WordPress core Gutenberg blocks and enhances them with curated layout patterns and design tokens.', 'gravisain-blocks' ) . '</p>
 		<!-- /wp:paragraph -->
@@ -43,10 +41,7 @@ return [
 	<!-- /wp:details -->
 
 	<!-- wp:details {"style":{"border":{"width":"1px","radius":"8px","color":"#e2e8f0"},"spacing":{"padding":{"top":"20px","right":"24px","bottom":"20px","left":"24px"},"margin":{"bottom":"16px"}}}} -->
-	<details class="wp-block-details has-border-color" style="border-color:#e2e8f0;border-width:1px;border-radius:8px;margin-bottom:16px;padding-top:20px;padding-right:24px;padding-bottom:20px;padding-left:24px">
-		<!-- wp:summary {"style":{"typography":{"fontSize":"1.1rem","fontWeight":"600"}}} -->
-		<summary style="font-size:1.1rem;font-weight:600">' . esc_html__( 'Is Gravisain compatible with WooCommerce?', 'gravisain-blocks' ) . '</summary>
-		<!-- /wp:summary -->
+	<details class="wp-block-details has-border-color" style="border-color:#e2e8f0;border-width:1px;border-radius:8px;margin-bottom:16px;padding-top:20px;padding-right:24px;padding-bottom:20px;padding-left:24px"><summary style="font-size:1.1rem;font-weight:600">' . esc_html__( 'Is Gravisain compatible with WooCommerce?', 'gravisain-blocks' ) . '</summary>
 		<!-- wp:paragraph {"style":{"spacing":{"margin":{"top":"12px"}}}} -->
 		<p style="margin-top:12px">' . esc_html__( 'Absolutely! Gravisain includes deep WooCommerce integration featuring AJAX cart fragments, custom product grid layout controls, and distraction-free checkout.', 'gravisain-blocks' ) . '</p>
 		<!-- /wp:paragraph -->

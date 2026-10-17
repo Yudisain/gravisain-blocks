@@ -51,7 +51,29 @@
     "paddingRight": {
       "type": "number",
       "default": 0
+    },
+    "iconType": {
+      "type": "string",
+      "default": "arrow-down-alt2"
+    },
+    "iconColorNormal": {
+      "type": "string",
+      "default": "#64748b"
+    },
+    "iconColorActive": {
+      "type": "string",
+      "default": "#4f46e5"
+    },
+    "iconSize": {
+      "type": "number",
+      "default": 24
     }
+  },
+  "providesContext": {
+    "gravisain/faqIconType": "iconType",
+    "gravisain/faqIconColorNormal": "iconColorNormal",
+    "gravisain/faqIconColorActive": "iconColorActive",
+    "gravisain/faqIconSize": "iconSize"
   },
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

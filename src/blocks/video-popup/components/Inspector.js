@@ -1,9 +1,9 @@
 import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl, SelectControl, RangeControl, TabPanel } from '@wordpress/components';
+import { PanelBody, TextControl, SelectControl, RangeControl, TabPanel, FocalPointPicker } from '@wordpress/components';
 
 export default function Inspector( { attributes, setAttributes } ) {
-	const { videoUrl, videoType, playIconStyle, playIconColor, overlayColor, aspectRatio, borderRadius } = attributes;
+	const { videoUrl, videoType, thumbnailUrl, thumbnailFocalPoint, playIconStyle, playIconColor, overlayColor, aspectRatio, borderRadius } = attributes;
 
 	return (
 		<InspectorControls>
@@ -46,6 +46,16 @@ export default function Inspector( { attributes, setAttributes } ) {
 									] }
 									onChange={ ( value ) => setAttributes( { aspectRatio: value } ) }
 								/>
+								{ thumbnailUrl && (
+									<div style={ { marginTop: '16px' } }>
+										<FocalPointPicker
+											label={ __( 'Thumbnail Focal Point', 'gravisain-blocks' ) }
+											url={ thumbnailUrl }
+											value={ thumbnailFocalPoint || { x: 0.5, y: 0.5 } }
+											onChange={ ( val ) => setAttributes( { thumbnailFocalPoint: val } ) }
+										/>
+									</div>
+								) }
 							</PanelBody>
 						) }
 

@@ -3,6 +3,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, TextControl, RangeControl, SelectControl, TabPanel } from '@wordpress/components';
 import SpacingControl from '../../../controls/SpacingControl';
 import ResponsiveTabControl from '../../../controls/ResponsiveTabControl';
+import StickyControl from '../../../controls/StickyControl';
 
 export default function Inspector( { attributes, setAttributes } ) {
 	const {
@@ -87,6 +88,12 @@ export default function Inspector( { attributes, setAttributes } ) {
 										onChange={ ( value ) => setAttributes( { contentAlign: value } ) }
 									/>
 								</PanelBody>
+
+								<StickyControl
+									attributes={ attributes }
+									setAttributes={ setAttributes }
+									helpText={ __( 'This will stick the container to viewport for the height of outer section.', 'gravisain' ) }
+								/>
 							</>
 						);
 					}

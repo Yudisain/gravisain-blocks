@@ -1,5 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useRef } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 import './SpacingVisualizer.scss';
 
 export default function SpacingVisualizer( { attributes, setAttributes, isSelected, blockRef, prefix } ) {
@@ -7,7 +8,22 @@ export default function SpacingVisualizer( { attributes, setAttributes, isSelect
 		return null;
 	}
 
-	const { padding } = attributes;
+	const previewDeviceType = useSelect( ( select ) => {
+		const editorDevice = select( 'core/editor' )?.getDeviceType?.();
+		const postDevice = select( 'core/edit-post' )?.__experimentalGetPreviewDeviceType?.();
+		const siteDevice = select( 'core/edit-site' )?.__experimentalGetPreviewDeviceType?.();
+		return editorDevice || postDevice || siteDevice || 'Desktop';
+	}, [] );
+
+	const isTablet = previewDeviceType === 'Tablet';
+	const isMobile = previewDeviceType === 'Mobile';
+
+	const activePaddingKey = isMobile ? 'paddingMobile' : ( isTablet ? 'paddingTablet' : 'padding' );
+
+	const currentDevicePadding = attributes[ activePaddingKey ];
+	const inheritedPadding = isMobile
+		? ( attributes.paddingMobile || attributes.paddingTablet || attributes.padding )
+		: ( isTablet ? ( attributes.paddingTablet || attributes.padding ) : attributes.padding );
 	
 	// Helper to extract numeric values safely
 	const getNumericValue = ( spacingObj, side ) => {
@@ -25,8 +41,8 @@ export default function SpacingVisualizer( { attributes, setAttributes, isSelect
 	const dragStartY = useRef( 0 );
 	const initialValue = useRef( 0 );
 
-	const paddingTop = getNumericValue( padding, 'top' );
-	const paddingBottom = getNumericValue( padding, 'bottom' );
+	const paddingTop = getNumericValue( currentDevicePadding || inheritedPadding, 'top' );
+	const paddingBottom = getNumericValue( currentDevicePadding || inheritedPadding, 'bottom' );
 
 	const handleMouseDown = ( e, side, type ) => {
 		e.preventDefault();
@@ -37,18 +53,23 @@ export default function SpacingVisualizer( { attributes, setAttributes, isSelect
 		dragStartY.current = e.clientY;
 		
 		if ( type === 'padding' ) {
-			initialValue.current = getNumericValue( padding, side );
+			initialValue.current = getNumericValue( currentDevicePadding || inheritedPadding, side );
 		}
 		
 		setDragValue( initialValue.current );
 	};
 
 	const stateRef = useRef( { isDragging: false, activeHandle: null, dragValue: 0 } );
+	const devicePaddingRef = useRef( { activePaddingKey, currentDevicePadding, inheritedPadding } );
 	
 	// Keep ref in sync with state for event listeners
 	useEffect( () => {
 		stateRef.current = { isDragging, activeHandle, dragValue };
 	}, [ isDragging, activeHandle, dragValue ] );
+
+	useEffect( () => {
+		devicePaddingRef.current = { activePaddingKey, currentDevicePadding, inheritedPadding };
+	}, [ activePaddingKey, currentDevicePadding, inheritedPadding ] );
 
 	useEffect( () => {
 		if ( ! isDragging ) return;
@@ -101,16 +122,24 @@ export default function SpacingVisualizer( { attributes, setAttributes, isSelect
 			const [ type, side ] = state.activeHandle.split('-');
 			
 			if ( type === 'padding' ) {
-				const currentPadding = typeof padding === 'object' && padding !== null ? { ...padding } : { top: '', right: '', bottom: '', left: '' };
-				if ( typeof padding === 'string' ) {
-					currentPadding.top = padding;
-					currentPadding.right = padding;
-					currentPadding.bottom = padding;
-					currentPadding.left = padding;
+				const { activePaddingKey: padKey, currentDevicePadding: devPad, inheritedPadding: inhPad } = devicePaddingRef.current;
+				const baseObj = typeof devPad === 'object' && devPad !== null 
+					? { ...devPad } 
+					: ( typeof inhPad === 'object' && inhPad !== null ? { ...inhPad } : { top: '', right: '', bottom: '', left: '' } );
+
+				if ( typeof devPad === 'string' ) {
+					baseObj.top = devPad;
+					baseObj.right = devPad;
+					baseObj.bottom = devPad;
+					baseObj.left = devPad;
 				}
 				
-				currentPadding[ side ] = `${state.dragValue}px`;
-				setAttributes( { padding: currentPadding } );
+				baseObj[ side ] = `${state.dragValue}px`;
+				setAttributes( { [ padKey ]: baseObj } );
+
+				if ( blockRef && blockRef.current ) {
+					blockRef.current.style.removeProperty( `padding-${side}` );
+				}
 			}
 			
 			setIsDragging( false );

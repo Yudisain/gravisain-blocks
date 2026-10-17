@@ -13,7 +13,7 @@
 	}
 
 	.gravisain-modal-editor-preview {
-		background-color: var(--gravisain-modal-box-bg, #ffffff);
+		background: var(--gravisain-modal-box-bg, #ffffff);
 		border: 2px dashed #007cba;
 		border-radius: var(--gravisain-modal-radius, 12px);
 		max-width: var(--gravisain-modal-width, 600px);

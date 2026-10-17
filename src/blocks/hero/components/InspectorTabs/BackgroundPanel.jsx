@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { PanelBody, Button, RangeControl } from '@wordpress/components';
+import { PanelBody, Button, RangeControl, FocalPointPicker } from '@wordpress/components';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import ColorControl from '../../../../controls/ColorControl';
 
@@ -14,8 +14,8 @@ export default function BackgroundPanel({ attributes, setAttributes }) {
 				onChange={(color) => setAttributes({ background: { ...background, color } })}
 			/>
 			
-			<div style={{ marginBottom: 16 }}>
-				<p style={{ marginBottom: 8, fontWeight: 600 }}>{__('Background Image', 'gravisain')}</p>
+			<div style={{ marginBottom: 20 }}>
+				<p style={{ marginBottom: 12, fontWeight: 600 }}>{__('Background Image', 'gravisain')}</p>
 				<MediaUploadCheck>
 					<MediaUpload
 						onSelect={(mediaObj) =>
@@ -23,21 +23,34 @@ export default function BackgroundPanel({ attributes, setAttributes }) {
 						}
 						allowedTypes={['image']}
 						render={({ open }) => (
-							<Button variant="secondary" onClick={open} style={{ width: '100%', justifyContent: 'center' }}>
-								{background.image ? __('Replace Image', 'gravisain') : __('Select Image', 'gravisain')}
-							</Button>
+							<div style={{ display: 'flex', gap: '8px', marginBottom: background.image ? '16px' : '0' }}>
+								<Button variant="secondary" onClick={open} style={{ flex: 1, justifyContent: 'center' }}>
+									{background.image ? __('Replace Image', 'gravisain') : __('Select Image', 'gravisain')}
+								</Button>
+								{background.image && (
+									<Button
+										variant="secondary"
+										isDestructive
+										onClick={() => setAttributes({ background: { ...background, image: '', focalPoint: { x: 0.5, y: 0.5 } } })}
+									>
+										{__('Remove', 'gravisain')}
+									</Button>
+								)}
+							</div>
 						)}
 					/>
 				</MediaUploadCheck>
 				{background.image && (
-					<Button
-						variant="link"
-						isDestructive
-						onClick={() => setAttributes({ background: { ...background, image: '' } })}
-						style={{ marginTop: '10px' }}
-					>
-						{__('Remove Image', 'gravisain')}
-					</Button>
+					<div className="gravisain-focal-point-wrapper" style={{ marginTop: 12 }}>
+						<FocalPointPicker
+							label={__('Focal Point (Background Position)', 'gravisain')}
+							url={background.image}
+							value={background.focalPoint || { x: 0.5, y: 0.5 }}
+							onChange={(focalPoint) =>
+								setAttributes({ background: { ...background, focalPoint } })
+							}
+						/>
+					</div>
 				)}
 			</div>
 

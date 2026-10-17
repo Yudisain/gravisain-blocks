@@ -1,0 +1,132 @@
+.wp-block-gravisain-marquee,
+.gravisain-marquee-block {
+	display: flex;
+	align-items: center;
+	overflow: hidden !important;
+	contain: paint;
+	user-select: none;
+	width: 100%;
+	max-width: 100%;
+	min-width: 0 !important;
+	position: relative;
+	box-sizing: border-box;
+	min-height: var(--gravisain-marquee-min-height, 0px);
+
+	/* Breakout support for full and wide alignment */
+	&.alignwide {
+		width: var(--wp--custom--layout--wide-size, 1200px) !important;
+		max-width: calc(100vw - 48px) !important;
+		margin-left: calc(50% - min(var(--wp--custom--layout--wide-size, 1200px), calc(100vw - 48px)) / 2) !important;
+		margin-right: calc(50% - min(var(--wp--custom--layout--wide-size, 1200px), calc(100vw - 48px)) / 2) !important;
+	}
+
+	&.alignfull {
+		width: 100vw !important;
+		max-width: 100vw !important;
+		margin-left: calc(50% - 50vw) !important;
+		margin-right: calc(50% - 50vw) !important;
+	}
+
+	&.has-fade-mask {
+		mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+		-webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+	}
+
+	.gravisain-marquee-track,
+	.gravisain-marquee-clone {
+		display: inline-flex;
+		flex-shrink: 0;
+		width: max-content;
+		min-width: 100%;
+		height: 100%;
+		min-height: var(--gravisain-marquee-min-height, 0px);
+		align-items: center;
+		justify-content: flex-start;
+		gap: var(--gravisain-marquee-gap, 48px);
+		padding-right: var(--gravisain-marquee-gap, 48px);
+		animation: gravisainMarqueeLoopLeft var(--gravisain-marquee-speed, 25s) linear infinite;
+		will-change: transform;
+
+		// Hide captions in marquee ticker
+		figcaption,
+		.gravisain-image-caption {
+			display: none !important;
+		}
+
+		// Items inside marquee (images, links, figures)
+		> * {
+			flex-shrink: 0 !important;
+			margin: 0 !important;
+			display: inline-flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+			height: auto !important;
+			width: auto !important;
+		}
+
+		.gravisain-image,
+		.wp-block-image,
+		.gravisain-image-wrapper,
+		figure,
+		picture,
+		a {
+			margin: 0 !important;
+			padding: 0 !important;
+			display: inline-flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+			height: auto !important;
+			max-height: 100% !important;
+			width: auto !important;
+			max-width: none !important;
+			flex-shrink: 0 !important;
+			border: none !important;
+			box-shadow: none !important;
+		}
+
+		img,
+		svg {
+			display: block !important;
+			max-height: var(--gravisain-marquee-image-height, 100%) !important;
+			height: var(--gravisain-marquee-image-height, auto) !important;
+			width: auto !important;
+			max-width: none !important;
+			object-fit: contain !important;
+			flex-shrink: 0 !important;
+		}
+	}
+
+	&[data-direction="right"] {
+		.gravisain-marquee-track,
+		.gravisain-marquee-clone {
+			animation-name: gravisainMarqueeLoopRight;
+		}
+	}
+
+	&[data-pause-on-hover="true"]:hover {
+		.gravisain-marquee-track,
+		.gravisain-marquee-clone {
+			animation-play-state: paused;
+		}
+	}
+}
+
+/* Leftward marquee keyframes */
+@keyframes gravisainMarqueeLoopLeft {
+	0% {
+		transform: translate3d(0, 0, 0);
+	}
+	100% {
+		transform: translate3d(-100%, 0, 0);
+	}
+}
+
+/* Rightward marquee keyframes */
+@keyframes gravisainMarqueeLoopRight {
+	0% {
+		transform: translate3d(-100%, 0, 0);
+	}
+	100% {
+		transform: translate3d(0, 0, 0);
+	}
+}

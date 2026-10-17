@@ -72,6 +72,32 @@
 		"marginMobile": {
 			"type": "object",
 			"default": { "top": "", "right": "", "bottom": "", "left": "" }
+		},
+		"isSticky": {
+			"type": "boolean",
+			"default": false
+		},
+		"stickyDesktop": {
+			"type": "boolean",
+			"default": true
+		},
+		"stickyTablet": {
+			"type": "boolean",
+			"default": true
+		},
+		"stickyMobile": {
+			"type": "boolean",
+			"default": false
+		},
+		"stickyOffset": {
+			"type": "number",
+			"default": 0
+		},
+		"stickyOffsetTablet": {
+			"type": "number"
+		},
+		"stickyOffsetMobile": {
+			"type": "number"
 		}
 	},
 	"editorScript": "file:./index.js",

@@ -51,15 +51,67 @@
 		},
 		"eyebrow": {
 			"type": "string",
-			"default": "WHY GRAVISAIN"
+			"default": ""
 		},
 		"eyebrowPosition": {
 			"type": "string",
 			"default": "above"
 		},
+		"eyebrowColor": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrowTypography": {
+			"type": "object",
+			"default": {}
+		},
+		"eyebrowTypographyTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"eyebrowTypographyMobile": {
+			"type": "object",
+			"default": {}
+		},
 		"content": {
 			"type": "string",
 			"default": "Enterprise Grade Architecture"
+		},
+		"titleColor": {
+			"type": "string",
+			"default": ""
+		},
+		"titleTypography": {
+			"type": "object",
+			"default": {}
+		},
+		"titleTypographyTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"titleTypographyMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"description": {
+			"type": "string",
+			"default": ""
+		},
+		"descriptionColor": {
+			"type": "string",
+			"default": ""
+		},
+		"descriptionTypography": {
+			"type": "object",
+			"default": {}
+		},
+		"descriptionTypographyTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"descriptionTypographyMobile": {
+			"type": "object",
+			"default": {}
 		},
 		"fontSize": {
 			"type": "number",
@@ -117,7 +169,7 @@
 		},
 		"showDivider": {
 			"type": "boolean",
-			"default": true
+			"default": false
 		},
 		"dividerWidth": {
 			"type": "number",
@@ -130,6 +182,18 @@
 		"dividerColor": {
 			"type": "string",
 			"default": "#2563eb"
+		},
+		"dividerStyle": {
+			"type": "string",
+			"default": "solid"
+		},
+		"dividerFlip": {
+			"type": "boolean",
+			"default": false
+		},
+		"dividerSpacing": {
+			"type": "number",
+			"default": 14
 		},
 		"padding": {
 			"type": "object"

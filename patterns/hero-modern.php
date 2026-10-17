@@ -5,6 +5,10 @@
  * @package Gravisain\Blocks
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 return [
 	'slug'        => 'gravisain-blocks/hero-modern',
 	'title'       => __( 'Modern Hero Section with Eyebrow and Buttons', 'gravisain-blocks' ),

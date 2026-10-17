@@ -14,6 +14,10 @@ export default function Edit( props ) {
 	const {
 		itemGap,
 		maxWidth,
+		iconType,
+		iconColorNormal,
+		iconColorActive,
+		iconSize,
 		marginTop,
 		marginBottom,
 		paddingTop,
@@ -27,6 +31,9 @@ export default function Edit( props ) {
 		style: {
 			'--faq-gap': `${ itemGap ?? 16 }px`,
 			'--faq-max-width': `${ maxWidth ?? 800 }px`,
+			'--icon-color-normal': iconColorNormal || '#64748b',
+			'--icon-color-active': iconColorActive || '#4f46e5',
+			'--icon-size': `${ iconSize ?? 24 }px`,
 			'--faq-mt': `${ marginTop ?? 32 }px`,
 			'--faq-mb': `${ marginBottom ?? 32 }px`,
 			'--faq-pt': `${ paddingTop ?? 0 }px`,

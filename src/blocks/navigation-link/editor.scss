@@ -1,19 +1,19 @@
 .gravisain-nav-link-item {
 	display: inline-block;
-	padding: 8px 16px;
-	border: 1px dashed #cbd5e1;
+	border: 1px dashed rgba(203, 213, 225, 0.6);
 	border-radius: 4px;
-	margin-right: 8px;
-	margin-bottom: 8px;
 	cursor: text;
+	transition: border-color 0.2s;
 
 	&:hover {
 		border-color: #94a3b8;
 	}
 
+	&.is-active {
+		border-color: #3b82f6;
+	}
+
 	.gravisain-nav-link-label {
-		color: #334155;
-		font-weight: 500;
 		outline: none;
 	}
 }

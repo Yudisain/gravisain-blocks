@@ -30,7 +30,7 @@
 		width: var(--gravisain-icon-size, 48px);
 		height: var(--gravisain-icon-size, 48px);
 		color: var(--gravisain-icon-color, #4f46e5);
-		background-color: var(--gravisain-icon-bg, transparent);
+		background: var(--gravisain-icon-bg, transparent);
 		transition: color 0.2s ease, transform 0.2s ease;
 
 		svg {

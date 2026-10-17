@@ -6,6 +6,7 @@ export default function save( { attributes } ) {
 		authorName,
 		authorRole,
 		avatarUrl,
+		avatarFocalPoint,
 		rating,
 		showRating,
 		showAvatar,
@@ -87,7 +88,13 @@ export default function save( { attributes } ) {
 			<div className="gravisain-testimonial__author-box">
 				{ showAvatar && avatarUrl && (
 					<div className="gravisain-testimonial__avatar-wrap">
-						<img src={ avatarUrl } alt={ authorName } />
+						<img
+							src={ avatarUrl }
+							alt={ authorName }
+							style={ avatarFocalPoint && ( avatarFocalPoint.x !== 0.5 || avatarFocalPoint.y !== 0.5 ) ? {
+								objectPosition: `${Math.round(avatarFocalPoint.x * 100)}% ${Math.round(avatarFocalPoint.y * 100)}%`,
+							} : undefined }
+						/>
 					</div>
 				) }
 				<div className="gravisain-testimonial__author-details">

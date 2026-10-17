@@ -43,20 +43,42 @@ export default function Inspector( { attributes, setAttributes } ) {
 										{ label: __( 'Horizontal Tabs', 'gravisain' ), value: 'horizontal' },
 										{ label: __( 'Vertical Tabs', 'gravisain' ), value: 'vertical' },
 									] }
-									onChange={ ( val ) => setAttributes( { layout: val } ) }
+									onChange={ ( val ) => {
+										const newAttrs = { layout: val };
+										if ( val === 'vertical' && ( tabAlignment === 'left' || ! tabAlignment ) ) {
+											newAttrs.tabAlignment = 'top';
+										} else if ( val === 'vertical' && tabAlignment === 'right' ) {
+											newAttrs.tabAlignment = 'bottom';
+										} else if ( val === 'horizontal' && ( tabAlignment === 'top' || ! tabAlignment ) ) {
+											newAttrs.tabAlignment = 'left';
+										} else if ( val === 'horizontal' && tabAlignment === 'bottom' ) {
+											newAttrs.tabAlignment = 'right';
+										}
+										setAttributes( newAttrs );
+									} }
 								/>
-								{ layout === 'horizontal' && (
-									<SelectControl
-										label={ __( 'Tab Header Alignment', 'gravisain' ) }
-										value={ tabAlignment }
-										options={ [
-											{ label: __( 'Left', 'gravisain' ), value: 'left' },
-											{ label: __( 'Center', 'gravisain' ), value: 'center' },
-											{ label: __( 'Right', 'gravisain' ), value: 'right' },
-										] }
-										onChange={ ( val ) => setAttributes( { tabAlignment: val } ) }
-									/>
-								) }
+								<SelectControl
+									label={ __( 'Tab Header Alignment', 'gravisain' ) }
+									value={
+										layout === 'vertical'
+											? ( tabAlignment === 'left' ? 'top' : tabAlignment === 'right' ? 'bottom' : tabAlignment || 'top' )
+											: ( tabAlignment === 'top' ? 'left' : tabAlignment === 'bottom' ? 'right' : tabAlignment || 'left' )
+									}
+									options={
+										layout === 'vertical'
+											? [
+												{ label: __( 'Top', 'gravisain' ), value: 'top' },
+												{ label: __( 'Center', 'gravisain' ), value: 'center' },
+												{ label: __( 'Bottom', 'gravisain' ), value: 'bottom' },
+											]
+											: [
+												{ label: __( 'Left', 'gravisain' ), value: 'left' },
+												{ label: __( 'Center', 'gravisain' ), value: 'center' },
+												{ label: __( 'Right', 'gravisain' ), value: 'right' },
+											]
+									}
+									onChange={ ( val ) => setAttributes( { tabAlignment: val } ) }
+								/>
 								<RangeControl
 									label={ __( 'Content Padding (px)', 'gravisain' ) }
 									value={ contentPadding }

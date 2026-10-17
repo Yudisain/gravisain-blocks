@@ -27,7 +27,26 @@ export default function save({ attributes }) {
 		titleColor,
 		primaryButtonTypography = {},
 		secondaryButtonTypography = {},
+		textAlign,
+		textAlignTablet,
+		textAlignMobile,
 	} = attributes;
+
+	const effectiveAlign = textAlign || ( layout === '1-column' ? 'center' : 'left' );
+	const contentClasses = [
+		'hero-content',
+		`has-text-align-${effectiveAlign}`,
+		textAlignTablet ? `has-tablet-text-align-${textAlignTablet}` : '',
+		textAlignMobile ? `has-mobile-text-align-${textAlignMobile}` : '',
+	].filter(Boolean).join(' ');
+
+	const btnGroupClasses = [
+		'hero-button-group',
+		effectiveAlign,
+		`has-btn-align-${effectiveAlign}`,
+		textAlignTablet ? `has-tablet-btn-align-${textAlignTablet}` : '',
+		textAlignMobile ? `has-mobile-btn-align-${textAlignMobile}` : '',
+	].filter(Boolean).join(' ');
 
 	const blockProps = useBlockProps.save({
 		id: anchor || undefined,
@@ -47,7 +66,7 @@ export default function save({ attributes }) {
 		>
 			<Container maxWidth="xl" className="hero-container" style={{ maxWidth: innerContainerMaxWidth || undefined }}>
 				<div className={`hero-layout hero-layout-${layout}`}>
-					<div className="hero-content">
+					<div className={contentClasses}>
 						{!RichText.isEmpty(eyebrow) && (
 							<RichText.Content
 								tagName="span"
@@ -68,7 +87,7 @@ export default function save({ attributes }) {
 							value={description}
 						/>
 
-						<div className={`hero-button-group ${layout === '1-column' ? 'center' : ''}`}>
+						<div className={btnGroupClasses}>
 							{!RichText.isEmpty(primaryButton.text) && (
 								<a href={primaryButton.url} className={`gravisain-button gravisain-button--${primaryButton.style} primary-btn`}>
 									<RichText.Content value={primaryButton.text} />

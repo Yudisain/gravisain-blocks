@@ -1,0 +1,137 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/site-identity",
+	"version": "1.0.0",
+	"title": "Site Identity",
+	"category": "gravisain-blocks",
+	"icon": "admin-site-alt3",
+	"description": "Display your site logo, site title, and tagline with dynamic controls and multiple responsive layouts.",
+	"keywords": [ "site", "identity", "logo", "title", "tagline", "branding", "header" ],
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ],
+		"anchor": true
+	},
+	"attributes": {
+		"showLogo": {
+			"type": "boolean",
+			"default": true
+		},
+		"customLogoId": {
+			"type": "number",
+			"default": 0
+		},
+		"customLogoUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"logoWidth": {
+			"type": "number",
+			"default": 140
+		},
+		"logoWidthTablet": {
+			"type": "number"
+		},
+		"logoWidthMobile": {
+			"type": "number"
+		},
+		"logoShape": {
+			"type": "string",
+			"default": "circle"
+		},
+		"logoBorderRadius": {
+			"type": "number",
+			"default": 50
+		},
+		"showTitle": {
+			"type": "boolean",
+			"default": true
+		},
+		"customTitle": {
+			"type": "string",
+			"default": ""
+		},
+		"showTagline": {
+			"type": "boolean",
+			"default": false
+		},
+		"customTagline": {
+			"type": "string",
+			"default": ""
+		},
+		"layout": {
+			"type": "string",
+			"default": "logo-left"
+		},
+		"verticalAlignment": {
+			"type": "string",
+			"default": "center"
+		},
+		"horizontalAlignment": {
+			"type": "string",
+			"default": "flex-start"
+		},
+		"itemGap": {
+			"type": "number",
+			"default": 16
+		},
+		"linkToHome": {
+			"type": "boolean",
+			"default": true
+		},
+		"linkUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"titleTag": {
+			"type": "string",
+			"default": "span"
+		},
+		"titleColor": {
+			"type": "string",
+			"default": ""
+		},
+		"titleHoverColor": {
+			"type": "string",
+			"default": ""
+		},
+		"titleTypography": {
+			"type": "object",
+			"default": {
+				"fontSize": 20,
+				"fontWeight": "700",
+				"lineHeight": 1.2
+			}
+		},
+		"taglineColor": {
+			"type": "string",
+			"default": "#64748b"
+		},
+		"taglineTypography": {
+			"type": "object",
+			"default": {
+				"fontSize": 14,
+				"fontWeight": "400",
+				"lineHeight": 1.4
+			}
+		},
+		"padding": {
+			"type": "object",
+			"default": {}
+		},
+		"margin": {
+			"type": "object",
+			"default": {}
+		},
+		"customCSS": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"textdomain": "gravisain-blocks",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

@@ -17,9 +17,13 @@ export default function save( { attributes } ) {
 		widthTablet,
 		widthMobile,
 		verticalAlignment,
+		horizontalAlignment,
+		horizontalAlignmentTablet,
+		horizontalAlignmentMobile,
 		backgroundColor,
 		textColor,
 		backgroundImage,
+		backgroundFocalPoint,
 		padding,
 		paddingTablet,
 		paddingMobile,
@@ -30,9 +34,20 @@ export default function save( { attributes } ) {
 		borderColor,
 		borderStyle,
 		borderRadius,
+		boxShadow,
+		hoverEffect,
+		hoverBackgroundColor,
+		hoverBorderColor,
 		anchor,
 		customClassName,
 		customCSS,
+		isSticky,
+		stickyDesktop,
+		stickyTablet,
+		stickyMobile,
+		stickyOffset,
+		stickyOffsetTablet,
+		stickyOffsetMobile,
 	} = attributes;
 
 	const blockProps = useBlockProps.save( {
@@ -40,18 +55,33 @@ export default function save( { attributes } ) {
 		className: [
 			'gravisain-column',
 			verticalAlignment ? `is-vertically-aligned-${ verticalAlignment }` : '',
+			horizontalAlignment ? `has-text-align-${ horizontalAlignment }` : '',
+			horizontalAlignmentTablet ? `has-tablet-text-align-${ horizontalAlignmentTablet }` : '',
+			horizontalAlignmentMobile ? `has-mobile-text-align-${ horizontalAlignmentMobile }` : '',
+			hoverEffect && hoverEffect !== 'none' ? `hover-${ hoverEffect }` : '',
+			isSticky ? 'is-sticky' : '',
+			isSticky && stickyDesktop === false ? 'sticky-disable-desktop' : '',
+			isSticky && stickyTablet === false ? 'sticky-disable-tablet' : '',
+			isSticky && ( stickyMobile === false || stickyMobile === undefined ) ? 'sticky-disable-mobile' : '',
 			customClassName || '',
 		].filter( Boolean ).join( ' ' ),
 		style: {
-			flexBasis: width ? `calc(${ width } - var(--gravisain-gap-compensation, 0px) - 0.1px)` : undefined,
-			flexGrow: width ? 0 : 1,
-			flexShrink: 0,
+			minWidth: 0,
 			boxSizing: 'border-box',
-			backgroundColor: backgroundColor || undefined,
+			...( backgroundColor ? (
+				backgroundColor.includes( 'gradient' )
+					? { backgroundImage: backgroundImage ? `url(${ backgroundImage }), ${ backgroundColor }` : backgroundColor }
+					: { backgroundColor, backgroundImage: backgroundImage ? `url(${ backgroundImage })` : undefined }
+			) : {
+				backgroundImage: backgroundImage ? `url(${ backgroundImage })` : undefined
+			} ),
 			color: textColor || undefined,
-			backgroundImage: backgroundImage ? `url(${ backgroundImage })` : undefined,
 			backgroundSize: backgroundImage ? 'cover' : undefined,
-			backgroundPosition: backgroundImage ? 'center' : undefined,
+			backgroundPosition: backgroundImage
+				? ( backgroundFocalPoint && ( backgroundFocalPoint.x !== 0.5 || backgroundFocalPoint.y !== 0.5 )
+					? `${Math.round(backgroundFocalPoint.x * 100)}% ${Math.round(backgroundFocalPoint.y * 100)}%`
+					: 'center' )
+				: undefined,
 
 			// Desktop Spacing
 			'--gravisain-col-pt': getSpacing( padding, 'top' ),
@@ -92,6 +122,22 @@ export default function save( { attributes } ) {
 			borderColor: borderColor || undefined,
 			borderStyle: borderWidth ? borderStyle : undefined,
 			borderRadius: borderRadius ? `${ borderRadius }px` : undefined,
+			boxShadow: boxShadow || undefined,
+
+			// Hover Effects
+			'--gravisain-col-hover-bg': hoverBackgroundColor || undefined,
+			'--gravisain-col-hover-border': hoverBorderColor || undefined,
+
+			// Sticky Variables
+			'--gravisain-sticky-top': isSticky && stickyOffset !== undefined ? `${ stickyOffset }px` : undefined,
+			'--gravisain-sticky-top-tablet': isSticky && stickyOffsetTablet !== undefined && stickyOffsetTablet !== '' ? `${ stickyOffsetTablet }px` : undefined,
+			'--gravisain-sticky-top-mobile': isSticky && stickyOffsetMobile !== undefined && stickyOffsetMobile !== '' ? `${ stickyOffsetMobile }px` : undefined,
+
+			// Horizontal Alignment Variables
+			'--gravisain-col-align': horizontalAlignment || undefined,
+			'--gravisain-col-align-tablet': horizontalAlignmentTablet || undefined,
+			'--gravisain-col-align-mobile': horizontalAlignmentMobile || undefined,
+
 			...parseCustomCSS( customCSS ),
 		},
 	} );

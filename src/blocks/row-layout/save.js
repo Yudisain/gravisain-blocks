@@ -18,7 +18,8 @@ export default function save( { attributes } ) {
 		columns, alignItems, justifyContent, rowGap, rowGapTablet, rowGapMobile, stackOn,
 		backgroundColor, backgroundColorTablet, backgroundColorMobile, 
 		textColor, textColorTablet, textColorMobile, 
-		padding, paddingTablet, paddingMobile, margin, marginTablet, marginMobile, displayMode,
+		padding, paddingTablet, paddingMobile, margin, marginTablet, marginMobile, 
+		displayMode, displayModeTablet, displayModeMobile,
 		backgroundImage, backgroundImageTablet, backgroundImageMobile, 
 		backgroundPosition, backgroundPositionTablet, backgroundPositionMobile, 
 		backgroundSize, backgroundSizeTablet, backgroundSizeMobile, 
@@ -28,38 +29,70 @@ export default function save( { attributes } ) {
 		topShapeDivider, bottomShapeDivider, hideOnDesktop, hideOnTablet, hideOnMobile,
 		innerContentWidth, useCustomContentWidth, customContentMaxWidth, htmlTag, 
 		borderRadius, borderRadiusTablet, borderRadiusMobile, 
-		borderStyle, borderStyleTablet, borderStyleMobile, 
+		borderStyle, borderStyleTablet, borderStyleMobile,
 		borderWidth, borderWidthTablet, borderWidthMobile, 
 		borderColor, borderColorTablet, borderColorMobile, 
 		boxShadow, boxShadowTablet, boxShadowMobile,
-		anchor, customClassName, customCSS
+		hoverEffect, hoverBackgroundColor, hoverBorderColor,
+		anchor, customClassName, customCSS,
+		gridTemplate, gridTemplateTablet, gridTemplateMobile,
+		isSticky, stickyDesktop, stickyTablet, stickyMobile, stickyOffset, stickyOffsetTablet, stickyOffsetMobile
 	} = attributes;
 
 	const TagName = htmlTag || 'div';
 
 	const activeInnerWidth = useCustomContentWidth ? 'custom' : innerContentWidth;
-	let wrapperClass = `gravisain-row-layout is-display-${displayMode} has-${columns}-columns is-stacked-on-${stackOn} is-inner-width-${activeInnerWidth} ${ alignItems ? 'align-items-' + alignItems : '' } ${ justifyContent ? 'justify-content-' + justifyContent : '' }`;
+	let wrapperClass = `gravisain-row-layout is-display-${displayMode || 'flex'} has-${columns}-columns is-stacked-on-${stackOn} is-inner-width-${activeInnerWidth} ${ alignItems ? 'align-items-' + alignItems : '' } ${ justifyContent ? 'justify-content-' + justifyContent : '' }`;
+	if ( hoverEffect && hoverEffect !== 'none' ) wrapperClass += ` hover-${ hoverEffect }`;
+	if ( isSticky ) {
+		wrapperClass += ' is-sticky';
+		if ( stickyDesktop === false ) wrapperClass += ' sticky-disable-desktop';
+		if ( stickyTablet === false ) wrapperClass += ' sticky-disable-tablet';
+		if ( stickyMobile === false || stickyMobile === undefined ) wrapperClass += ' sticky-disable-mobile';
+	}
+	if ( displayModeTablet ) wrapperClass += ` is-display-tablet-${displayModeTablet}`;
+	if ( displayModeMobile ) wrapperClass += ` is-display-mobile-${displayModeMobile}`;
 	if ( hideOnDesktop ) wrapperClass += ' gravisain-hide-desktop';
 	if ( hideOnTablet ) wrapperClass += ' gravisain-hide-tablet';
 	if ( hideOnMobile ) wrapperClass += ' gravisain-hide-mobile';
 	if ( backgroundOverlay ) wrapperClass += ' has-background-overlay';
 	if ( customClassName ) wrapperClass += ' ' + customClassName;
 
+	const isBgGradient = typeof backgroundColor === 'string' && ( backgroundColor.includes( 'gradient' ) || backgroundColor.includes( 'radial' ) || backgroundColor.includes( 'linear' ) );
+	const desktopBgImage = backgroundImage?.url ? `url(${backgroundImage.url})` : undefined;
+
 	const blockProps = useBlockProps.save( {
 		id: anchor || undefined,
 		className: wrapperClass,
 		style: {
+			'--gravisain-grid-template': gridTemplate || '1fr',
+			'--gravisain-grid-template-tablet': gridTemplateTablet || undefined,
+			'--gravisain-grid-template-mobile': gridTemplateMobile || undefined,
+			
 			'--gravisain-row-gap': rowGap + 'px',
 			'--gravisain-row-gap-tablet': rowGapTablet !== undefined ? rowGapTablet + 'px' : undefined,
 			'--gravisain-row-gap-mobile': rowGapMobile !== undefined ? rowGapMobile + 'px' : undefined,
 			'--gravisain-gap-compensation': columns > 1 ? `calc(${rowGap}px * ${columns - 1} / ${columns})` : '0px',
 			'--gravisain-gap-compensation-tablet': columns > 1 && rowGapTablet !== undefined ? `calc(${rowGapTablet}px * ${columns - 1} / ${columns})` : undefined,
 			'--gravisain-gap-compensation-mobile': columns > 1 && rowGapMobile !== undefined ? `calc(${rowGapMobile}px * ${columns - 1} / ${columns})` : undefined,
-			'--gravisain-bg-color': backgroundColor || undefined,
-			'--gravisain-bg-color-tablet': backgroundColorTablet || undefined,
-			'--gravisain-bg-color-mobile': backgroundColorMobile || undefined,
 			
-			'--gravisain-bg-image': backgroundImage?.url ? `url(${backgroundImage.url})` : undefined,
+			...( backgroundColor ? (
+				isBgGradient
+					? { backgroundImage: desktopBgImage ? `${desktopBgImage}, ${backgroundColor}` : backgroundColor }
+					: { backgroundColor: backgroundColor, backgroundImage: desktopBgImage || undefined }
+			) : {
+				backgroundImage: desktopBgImage || undefined
+			} ),
+
+			'--gravisain-bg-color': !isBgGradient ? ( backgroundColor || undefined ) : undefined,
+			'--gravisain-bg-color-tablet': typeof backgroundColorTablet === 'string' && !backgroundColorTablet.includes('gradient') ? backgroundColorTablet : undefined,
+			'--gravisain-bg-color-mobile': typeof backgroundColorMobile === 'string' && !backgroundColorMobile.includes('gradient') ? backgroundColorMobile : undefined,
+
+			'--gravisain-bg-gradient': isBgGradient ? backgroundColor : undefined,
+			'--gravisain-bg-gradient-tablet': typeof backgroundColorTablet === 'string' && backgroundColorTablet.includes('gradient') ? backgroundColorTablet : undefined,
+			'--gravisain-bg-gradient-mobile': typeof backgroundColorMobile === 'string' && backgroundColorMobile.includes('gradient') ? backgroundColorMobile : undefined,
+			
+			'--gravisain-bg-image': desktopBgImage,
 			'--gravisain-bg-image-tablet': backgroundImageTablet?.url ? `url(${backgroundImageTablet.url})` : undefined,
 			'--gravisain-bg-image-mobile': backgroundImageMobile?.url ? `url(${backgroundImageMobile.url})` : undefined,
 			
@@ -139,6 +172,16 @@ export default function save( { attributes } ) {
 			'--gravisain-box-shadow': boxShadow !== 'none' ? boxShadow : undefined,
 			'--gravisain-box-shadow-tablet': boxShadowTablet !== 'none' ? boxShadowTablet : undefined,
 			'--gravisain-box-shadow-mobile': boxShadowMobile !== 'none' ? boxShadowMobile : undefined,
+
+			// Sticky Variables
+			'--gravisain-sticky-top': isSticky && stickyOffset !== undefined ? `${ stickyOffset }px` : undefined,
+			'--gravisain-sticky-top-tablet': isSticky && stickyOffsetTablet !== undefined && stickyOffsetTablet !== '' ? `${ stickyOffsetTablet }px` : undefined,
+			'--gravisain-sticky-top-mobile': isSticky && stickyOffsetMobile !== undefined && stickyOffsetMobile !== '' ? `${ stickyOffsetMobile }px` : undefined,
+
+			// Hover Variables
+			'--gravisain-row-hover-bg': hoverBackgroundColor || undefined,
+			'--gravisain-row-hover-border': hoverBorderColor || undefined,
+
 			...parseCustomCSS( customCSS )
 		}
 	} );
@@ -150,8 +193,8 @@ export default function save( { attributes } ) {
 					className="gravisain-shape-divider gravisain-shape-top"
 					style={{ 
 						color: topShapeDivider.color, 
-						height: `${ topShapeDivider.height }px`,
-						width: `${ topShapeDivider.width }%`,
+						height: `${ topShapeDivider.height || 100 }px`,
+						width: `${ topShapeDivider.width || 100 }%`,
 						transform: `translateX(-50%) ${ topShapeDivider.flipH ? 'scaleX(-1)' : '' } ${ topShapeDivider.flipV ? 'scaleY(-1)' : '' }`
 					}}
 					dangerouslySetInnerHTML={{ __html: SHAPES[ topShapeDivider.type ].svg }}
@@ -165,8 +208,8 @@ export default function save( { attributes } ) {
 					className="gravisain-shape-divider gravisain-shape-bottom"
 					style={{ 
 						color: bottomShapeDivider.color, 
-						height: `${ bottomShapeDivider.height }px`,
-						width: `${ bottomShapeDivider.width }%`,
+						height: `${ bottomShapeDivider.height || 100 }px`,
+						width: `${ bottomShapeDivider.width || 100 }%`,
 						transform: `translateX(-50%) ${ bottomShapeDivider.flipH ? 'scaleX(-1)' : '' } ${ bottomShapeDivider.flipV ? 'scaleY(-1)' : '' }`
 					}}
 					dangerouslySetInnerHTML={{ __html: SHAPES[ bottomShapeDivider.type ].svg }}

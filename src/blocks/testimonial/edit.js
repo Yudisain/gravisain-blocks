@@ -12,6 +12,7 @@ export default function Edit( props ) {
 		authorRole,
 		avatarUrl,
 		avatarId,
+		avatarFocalPoint,
 		rating,
 		showRating,
 		showAvatar,
@@ -114,7 +115,14 @@ export default function Edit( props ) {
 											{ ! avatarUrl ? (
 												__( 'Upload Avatar', 'gravisain' )
 											) : (
-												<img src={ avatarUrl } alt={ authorName } />
+												<img
+													src={ avatarUrl }
+													alt={ authorName }
+													style={ {
+														objectFit: 'cover',
+														objectPosition: avatarFocalPoint ? `${Math.round(avatarFocalPoint.x * 100)}% ${Math.round(avatarFocalPoint.y * 100)}%` : undefined,
+													} }
+												/>
 											) }
 										</Button>
 									) }

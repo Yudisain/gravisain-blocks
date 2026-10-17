@@ -1,0 +1,76 @@
+.gravisain-ad {
+	box-sizing: border-box;
+	width: 100%;
+	clear: both;
+	margin-top: var( --gravisain-ad-margin-top, 0 );
+	margin-right: var( --gravisain-ad-margin-right, 0 );
+	margin-bottom: var( --gravisain-ad-margin-bottom, 0 );
+	margin-left: var( --gravisain-ad-margin-left, 0 );
+
+	&.align-left { align-items: flex-start; }
+	&.align-center { align-items: center; }
+	&.align-right { align-items: flex-end; }
+
+	.gravisain-ad-label {
+		display: block;
+		margin-bottom: 6px;
+		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: #94a3b8;
+		text-align: inherit;
+	}
+
+	.gravisain-ad-container {
+		box-sizing: border-box;
+		width: 100%;
+		max-width: var( --gravisain-ad-max-width, 100% );
+		// Reserve vertical space so responsive ads don't cause layout shift (CLS).
+		min-height: var( --gravisain-ad-min-height, 90px );
+
+		img.gravisain-ad-banner-image {
+			display: block;
+			width: 100%;
+			height: auto;
+			max-width: 100%;
+			border: 0;
+		}
+
+		a.gravisain-ad-banner-link {
+			display: block;
+			width: 100%;
+			text-decoration: none;
+			border: 0;
+		}
+
+		.gravisain-ad-code {
+			display: block;
+			width: 100%;
+
+			// Keep common AdSense units tidy.
+			.adsbygoogle {
+				display: block;
+			}
+		}
+	}
+
+	// Rounded corners / overflow clipping are only applied to image banners.
+	// Ad network code (AdSense) is left untouched to avoid clipping ad units.
+	.gravisain-ad-container--banner {
+		border-radius: var( --gravisain-ad-radius, 0 );
+		overflow: hidden;
+	}
+
+	@media (max-width: 1024px) {
+		&.align-tablet-left { align-items: flex-start !important; }
+		&.align-tablet-center { align-items: center !important; }
+		&.align-tablet-right { align-items: flex-end !important; }
+	}
+
+	@media (max-width: 767px) {
+		&.align-mobile-left { align-items: flex-start !important; }
+		&.align-mobile-center { align-items: center !important; }
+		&.align-mobile-right { align-items: flex-end !important; }
+	}
+}

@@ -21,7 +21,7 @@ export default function Media({ attributes, setAttributes }) {
 		<div className="hero-media-wrapper">
 			{media.url ? (
 				<div className="hero-media-preview">
-					<Image src={media.url} alt={media.alt} />
+					<Image src={media.url} alt={media.alt} focalPoint={media.focalPoint} />
 					<MediaUploadCheck>
 						<MediaUpload
 							onSelect={onSelectMedia}

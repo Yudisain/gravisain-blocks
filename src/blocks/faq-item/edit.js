@@ -1,14 +1,17 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, RichText, InnerBlocks } from '@wordpress/block-editor';
+import { useEffect } from '@wordpress/element';
 import ItemInspector from './components/ItemInspector';
+import FaqIcon from './components/FaqIcon';
 import './editor.scss';
 
 export default function Edit( props ) {
-	const { attributes, setAttributes } = props;
+	const { attributes, setAttributes, context } = props;
 	const {
 		question,
 		isOpen,
 		iconType,
+		parentIcon,
 		headerPaddingTop,
 		headerPaddingBottom,
 		headerPaddingLeft,
@@ -33,11 +36,31 @@ export default function Edit( props ) {
 		boxShadow,
 	} = attributes;
 
+	const globalIconType = context?.[ 'gravisain/faqIconType' ] || 'arrow-down-alt2';
+	const globalIconSize = context?.[ 'gravisain/faqIconSize' ];
+	const globalIconColorNormal = context?.[ 'gravisain/faqIconColorNormal' ];
+	const globalIconColorActive = context?.[ 'gravisain/faqIconColorActive' ];
+
+	useEffect( () => {
+		if ( parentIcon !== globalIconType ) {
+			setAttributes( { parentIcon: globalIconType } );
+		}
+	}, [ globalIconType, parentIcon ] );
+
+	const effectiveIconType = ( iconType && iconType !== 'inherit' )
+		? iconType
+		: globalIconType;
+
+	// Only apply item-level overrides if user intentionally set a value different from global/defaults
+	const hasItemCustomSize = iconSize !== undefined && iconSize !== '' && iconSize !== 24 && iconSize !== globalIconSize;
+	const hasItemCustomColorNormal = iconColorNormal && iconColorNormal !== '#64748b' && iconColorNormal !== globalIconColorNormal;
+	const hasItemCustomColorActive = iconColorActive && iconColorActive !== '#4f46e5' && iconColorActive !== globalIconColorActive;
+
 	const blockProps = useBlockProps( {
 		className: [
 			'gravisain-faq-item',
 			isOpen ? 'is-open' : '',
-			`icon-${ iconType || 'arrow-down-alt2' }`,
+			effectiveIconType !== 'none' ? `icon-${ effectiveIconType }` : 'no-icon',
 			boxShadow ? 'has-shadow' : '',
 		]
 			.filter( Boolean )
@@ -48,9 +71,9 @@ export default function Edit( props ) {
 			'--q-color-active': questionColorActive || '#4f46e5',
 			'--hdr-bg-normal': headerBgNormal || '#ffffff',
 			'--hdr-bg-active': headerBgActive || '#f8fafc',
-			'--icon-color-normal': iconColorNormal || '#64748b',
-			'--icon-color-active': iconColorActive || '#4f46e5',
-			'--icon-size': `${ iconSize ?? 24 }px`,
+			...( hasItemCustomColorNormal ? { '--icon-color-normal': iconColorNormal } : {} ),
+			...( hasItemCustomColorActive ? { '--icon-color-active': iconColorActive } : {} ),
+			...( hasItemCustomSize ? { '--icon-size': `${ iconSize }px` } : {} ),
 			'--content-bg': contentBg || '#ffffff',
 			'--border-normal': borderColorNormal || '#e2e8f0',
 			'--border-active': borderColorActive || '#4f46e5',
@@ -67,16 +90,6 @@ export default function Edit( props ) {
 		},
 	} );
 
-	const getDashiconClass = () => {
-		if ( iconType === 'plus' ) {
-			return isOpen ? 'dashicons-minus' : 'dashicons-plus';
-		}
-		if ( iconType === 'arrow-down' ) {
-			return 'dashicons-arrow-down';
-		}
-		return 'dashicons-arrow-down-alt2';
-	};
-
 	return (
 		<>
 			<ItemInspector { ...props } />
@@ -92,7 +105,11 @@ export default function Edit( props ) {
 						onChange={ ( value ) => setAttributes( { question: value } ) }
 						placeholder={ __( 'Enter question...', 'gravisain' ) }
 					/>
-					<span className={ `gravisain-faq-item__icon dashicons ${ getDashiconClass() }` } />
+					{ effectiveIconType !== 'none' && (
+						<span className="gravisain-faq-item__icon">
+							<FaqIcon iconType={ effectiveIconType } />
+						</span>
+					) }
 				</div>
 				<div className="gravisain-faq-item__content">
 					<div className="gravisain-faq-item__content-inner">

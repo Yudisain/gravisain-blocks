@@ -5,6 +5,10 @@
  * @package Gravisain\Blocks
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 return [
 	'slug'        => 'gravisain-blocks/feature-grid-3col',
 	'title'       => __( '3-Column Feature Grid with Cards', 'gravisain-blocks' ),

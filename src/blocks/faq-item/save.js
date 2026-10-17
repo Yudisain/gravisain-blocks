@@ -1,10 +1,12 @@
 import { useBlockProps, RichText, InnerBlocks } from '@wordpress/block-editor';
+import FaqIcon from './components/FaqIcon';
 
 export default function save( { attributes } ) {
 	const {
 		question,
 		isOpen,
 		iconType,
+		parentIcon,
 		headerPaddingTop,
 		headerPaddingBottom,
 		headerPaddingLeft,
@@ -29,11 +31,20 @@ export default function save( { attributes } ) {
 		boxShadow,
 	} = attributes;
 
+	const effectiveIconType = ( iconType && iconType !== 'inherit' )
+		? iconType
+		: ( parentIcon || 'arrow-down-alt2' );
+
+	// Only apply item-level overrides if user intentionally set a value different from default
+	const hasItemCustomSize = iconSize !== undefined && iconSize !== '' && iconSize !== 24;
+	const hasItemCustomColorNormal = iconColorNormal && iconColorNormal !== '#64748b';
+	const hasItemCustomColorActive = iconColorActive && iconColorActive !== '#4f46e5';
+
 	const blockProps = useBlockProps.save( {
 		className: [
 			'gravisain-faq-item',
 			isOpen ? 'is-open' : '',
-			`icon-${ iconType || 'arrow-down-alt2' }`,
+			effectiveIconType !== 'none' ? `icon-${ effectiveIconType }` : 'no-icon',
 			boxShadow ? 'has-shadow' : '',
 		]
 			.filter( Boolean )
@@ -44,9 +55,9 @@ export default function save( { attributes } ) {
 			'--q-color-active': questionColorActive || '#4f46e5',
 			'--hdr-bg-normal': headerBgNormal || '#ffffff',
 			'--hdr-bg-active': headerBgActive || '#f8fafc',
-			'--icon-color-normal': iconColorNormal || '#64748b',
-			'--icon-color-active': iconColorActive || '#4f46e5',
-			'--icon-size': `${ iconSize ?? 24 }px`,
+			...( hasItemCustomColorNormal ? { '--icon-color-normal': iconColorNormal } : {} ),
+			...( hasItemCustomColorActive ? { '--icon-color-active': iconColorActive } : {} ),
+			...( hasItemCustomSize ? { '--icon-size': `${ iconSize }px` } : {} ),
 			'--content-bg': contentBg || '#ffffff',
 			'--border-normal': borderColorNormal || '#e2e8f0',
 			'--border-active': borderColorActive || '#4f46e5',
@@ -63,16 +74,6 @@ export default function save( { attributes } ) {
 		},
 	} );
 
-	const getDashiconClass = () => {
-		if ( iconType === 'plus' ) {
-			return isOpen ? 'dashicons-minus' : 'dashicons-plus';
-		}
-		if ( iconType === 'arrow-down' ) {
-			return 'dashicons-arrow-down';
-		}
-		return 'dashicons-arrow-down-alt2';
-	};
-
 	return (
 		<div { ...blockProps }>
 			<button
@@ -86,7 +87,11 @@ export default function save( { attributes } ) {
 						value={ question }
 					/>
 				) }
-				<span className={ `gravisain-faq-item__icon dashicons ${ getDashiconClass() }` } />
+				{ effectiveIconType !== 'none' && (
+					<span className="gravisain-faq-item__icon">
+						<FaqIcon iconType={ effectiveIconType } />
+					</span>
+				) }
 			</button>
 			<div
 				className="gravisain-faq-item__content"

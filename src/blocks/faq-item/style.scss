@@ -22,7 +22,7 @@
 		transition: background-color 0.2s ease, color 0.2s ease;
 
 		&:hover {
-			background-color: var(--hdr-bg-active, #f8fafc);
+			background: var(--hdr-bg-active, #f8fafc);
 		}
 	}
 
@@ -40,10 +40,29 @@
 		font-size: var(--icon-size, 24px);
 		width: var(--icon-size, 24px);
 		height: var(--icon-size, 24px);
+		min-width: var(--icon-size, 24px);
+		min-height: var(--icon-size, 24px);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		flex-shrink: 0;
+
+		svg {
+			width: 100%;
+			height: 100%;
+			display: block;
+			stroke: currentColor;
+		}
+
+		.gravisain-faq-icon--vertical {
+			transform-origin: center;
+			transition: opacity 0.25s ease, transform 0.25s ease;
+		}
+
+		/* Reset legacy dashicons pseudo-element */
+		&.dashicons::before {
+			display: none !important;
+		}
 	}
 
 	&__content {
@@ -73,7 +92,7 @@
 		}
 
 		.gravisain-faq-item__header {
-			background-color: var(--hdr-bg-active, #f8fafc);
+			background: var(--hdr-bg-active, #f8fafc);
 		}
 
 		.gravisain-faq-item__question {
@@ -87,6 +106,11 @@
 		&.icon-arrow-down-alt2 .gravisain-faq-item__icon,
 		&.icon-arrow-down .gravisain-faq-item__icon {
 			transform: rotate(180deg);
+		}
+
+		&.icon-plus .gravisain-faq-item__icon .gravisain-faq-icon--vertical {
+			opacity: 0;
+			transform: scaleY(0);
 		}
 
 		.gravisain-faq-item__content {

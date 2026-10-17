@@ -53,6 +53,18 @@
 			"type": "string",
 			"default": ""
 		},
+		"gridTemplate": {
+			"type": "string",
+			"default": "1fr"
+		},
+		"gridTemplateTablet": {
+			"type": "string",
+			"default": ""
+		},
+		"gridTemplateMobile": {
+			"type": "string",
+			"default": ""
+		},
 		"alignItems": {
 			"type": "string",
 			"default": ""
@@ -221,6 +233,14 @@
 			"type": "string",
 			"default": "flex"
 		},
+		"displayModeTablet": {
+			"type": "string",
+			"default": ""
+		},
+		"displayModeMobile": {
+			"type": "string",
+			"default": ""
+		},
 		"htmlTag": {
 			"type": "string",
 			"default": "div"
@@ -284,6 +304,44 @@
 		"boxShadowMobile": {
 			"type": "string",
 			"default": "none"
+		},
+		"isSticky": {
+			"type": "boolean",
+			"default": false
+		},
+		"stickyDesktop": {
+			"type": "boolean",
+			"default": true
+		},
+		"stickyTablet": {
+			"type": "boolean",
+			"default": true
+		},
+		"stickyMobile": {
+			"type": "boolean",
+			"default": false
+		},
+		"stickyOffset": {
+			"type": "number",
+			"default": 0
+		},
+		"stickyOffsetTablet": {
+			"type": "number"
+		},
+		"stickyOffsetMobile": {
+			"type": "number"
+		},
+		"hoverEffect": {
+			"type": "string",
+			"default": "none"
+		},
+		"hoverBackgroundColor": {
+			"type": "string",
+			"default": ""
+		},
+		"hoverBorderColor": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"editorScript": "file:./index.js",

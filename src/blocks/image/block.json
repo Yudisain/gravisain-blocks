@@ -39,7 +39,14 @@
 		"alignmentMobile": { "type": "string", "default": "" },
 		"anchor": { "type": "string", "default": "" },
 		"customClassName": { "type": "string", "default": "" },
-		"customCSS": { "type": "string", "default": "" }
+		"customCSS": { "type": "string", "default": "" },
+		"focalPoint": {
+			"type": "object",
+			"default": {
+				"x": 0.5,
+				"y": 0.5
+			}
+		}
 	},
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

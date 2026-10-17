@@ -1,5 +1,5 @@
 import { useEffect, useRef } from '@wordpress/element';
-import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+import { useBlockProps, useInnerBlocksProps, InnerBlocks } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import ColumnInspector from './components/ColumnInspector';
 import ColumnResizer from './components/ColumnResizer';
@@ -24,9 +24,13 @@ export default function Edit( props ) {
 		widthTablet,
 		widthMobile,
 		verticalAlignment,
+		horizontalAlignment,
+		horizontalAlignmentTablet,
+		horizontalAlignmentMobile,
 		backgroundColor,
 		textColor,
 		backgroundImage,
+		backgroundFocalPoint,
 		padding,
 		paddingTablet,
 		paddingMobile,
@@ -37,61 +41,72 @@ export default function Edit( props ) {
 		borderColor,
 		borderStyle,
 		borderRadius,
+		boxShadow,
+		hoverEffect,
+		hoverBackgroundColor,
+		hoverBorderColor,
 		anchor,
 		customClassName,
 		customCSS,
+		isSticky,
+		stickyDesktop,
+		stickyTablet,
+		stickyMobile,
+		stickyOffset,
+		stickyOffsetTablet,
+		stickyOffsetMobile,
 	} = attributes;
 
 	const ref = useRef();
 
-	const previewDeviceType = useSelect( ( select ) => {
+	const { previewDeviceType, hasInnerBlocks } = useSelect( ( select ) => {
 		const editorDevice = select( 'core/editor' )?.getDeviceType?.();
 		const postDevice = select( 'core/edit-post' )?.__experimentalGetPreviewDeviceType?.();
 		const siteDevice = select( 'core/edit-site' )?.__experimentalGetPreviewDeviceType?.();
-		return editorDevice || postDevice || siteDevice || 'Desktop';
-	}, [] );
+		return {
+			previewDeviceType: editorDevice || postDevice || siteDevice || 'Desktop',
+			hasInnerBlocks: select( 'core/block-editor' ).getBlock( clientId )?.innerBlocks?.length > 0
+		};
+	}, [ clientId ] );
 
-	const currentWidth = previewDeviceType === 'Tablet' && widthTablet
-		? widthTablet
-		: previewDeviceType === 'Mobile' && widthMobile
-		? widthMobile
-		: width;
+	const isDeviceSticky = isSticky && (
+		previewDeviceType === 'Mobile'
+			? ( stickyMobile === true )
+			: previewDeviceType === 'Tablet'
+			? ( stickyTablet !== false )
+			: ( stickyDesktop !== false )
+	);
 
-	// Gutenberg wraps each block in .block-editor-block-list__block which is the actual
-	// flex item. We must apply flex-basis to THAT wrapper, not to our own element.
-	useEffect( () => {
-		if ( ! ref.current ) return;
-		const blockWrapper = ref.current.closest( '.block-editor-block-list__block' );
-		if ( blockWrapper ) {
-			if ( currentWidth ) {
-				blockWrapper.style.flexBasis = `calc(${ currentWidth } - var(--gravisain-gap-compensation, 0px) - 0.1px)`;
-				blockWrapper.style.flexGrow = '0';
-				blockWrapper.style.flexShrink = '0';
-				blockWrapper.style.maxWidth = 'none';
-				blockWrapper.style.boxSizing = 'border-box';
-			} else {
-				blockWrapper.style.flexBasis = '';
-				blockWrapper.style.flexGrow = '1';
-				blockWrapper.style.flexShrink = '1';
-				blockWrapper.style.maxWidth = '';
-				blockWrapper.style.boxSizing = '';
-			}
-		}
-	}, [ currentWidth ] );
+	const activeHorizontalAlign =
+		previewDeviceType === 'Mobile'
+			? ( horizontalAlignmentMobile || horizontalAlignmentTablet || horizontalAlignment || '' )
+			: previewDeviceType === 'Tablet'
+			? ( horizontalAlignmentTablet || horizontalAlignment || '' )
+			: ( horizontalAlignment || '' );
 
 	const blockProps = useBlockProps( {
 		id: anchor || undefined,
 		className: [
 			'gravisain-column',
 			verticalAlignment ? `is-vertically-aligned-${ verticalAlignment }` : '',
+			activeHorizontalAlign ? `has-text-align-${ activeHorizontalAlign }` : '',
+			hoverEffect && hoverEffect !== 'none' ? `hover-${ hoverEffect }` : '',
+			isDeviceSticky ? 'is-sticky' : '',
 			customClassName || '',
 		].filter( Boolean ).join( ' ' ),
 		style: {
-			backgroundColor: backgroundColor || undefined,
+			...( backgroundColor ? (
+				backgroundColor.includes( 'gradient' )
+					? { backgroundImage: backgroundImage ? `url(${ backgroundImage }), ${ backgroundColor }` : backgroundColor }
+					: { backgroundColor, backgroundImage: backgroundImage ? `url(${ backgroundImage })` : undefined }
+			) : {
+				backgroundImage: backgroundImage ? `url(${ backgroundImage })` : undefined
+			} ),
 			color: textColor || undefined,
-			backgroundImage: backgroundImage ? `url(${ backgroundImage })` : undefined,
 			backgroundSize: backgroundImage ? 'cover' : undefined,
-			backgroundPosition: backgroundImage ? 'center' : undefined,
+			backgroundPosition: backgroundImage
+				? ( backgroundFocalPoint ? `${Math.round(backgroundFocalPoint.x * 100)}% ${Math.round(backgroundFocalPoint.y * 100)}%` : 'center' )
+				: undefined,
 
 			// Desktop Spacing
 			'--gravisain-col-pt': getSpacing( padding, 'top' ),
@@ -127,6 +142,33 @@ export default function Edit( props ) {
 			borderColor: borderColor || undefined,
 			borderStyle: borderWidth ? borderStyle : undefined,
 			borderRadius: borderRadius ? `${ borderRadius }px` : undefined,
+			boxShadow: boxShadow || undefined,
+
+			// Hover Effects
+			'--gravisain-col-hover-bg': hoverBackgroundColor || undefined,
+			'--gravisain-col-hover-border': hoverBorderColor || undefined,
+
+			// Sticky Variables & Live Editor Styles
+			'--gravisain-sticky-top': isSticky && stickyOffset !== undefined ? `${ stickyOffset }px` : undefined,
+			'--gravisain-sticky-top-tablet': isSticky && stickyOffsetTablet !== undefined && stickyOffsetTablet !== '' ? `${ stickyOffsetTablet }px` : undefined,
+			'--gravisain-sticky-top-mobile': isSticky && stickyOffsetMobile !== undefined && stickyOffsetMobile !== '' ? `${ stickyOffsetMobile }px` : undefined,
+			position: isDeviceSticky ? 'sticky' : undefined,
+			top: isDeviceSticky
+				? ( previewDeviceType === 'Mobile' && stickyOffsetMobile !== undefined && stickyOffsetMobile !== ''
+					? `${ stickyOffsetMobile }px`
+					: ( previewDeviceType === 'Tablet' && stickyOffsetTablet !== undefined && stickyOffsetTablet !== ''
+						? `${ stickyOffsetTablet }px`
+						: `${ stickyOffset || 0 }px` ) )
+				: undefined,
+			alignSelf: isDeviceSticky && !verticalAlignment ? 'flex-start' : undefined,
+			zIndex: isDeviceSticky ? 10 : undefined,
+
+			// Horizontal Alignment
+			'--gravisain-col-align': horizontalAlignment || undefined,
+			'--gravisain-col-align-tablet': horizontalAlignmentTablet || undefined,
+			'--gravisain-col-align-mobile': horizontalAlignmentMobile || undefined,
+			textAlign: activeHorizontalAlign || undefined,
+
 			...parseCustomCSS( customCSS ),
 		},
 		ref,
@@ -136,7 +178,7 @@ export default function Edit( props ) {
 		{ className: 'gravisain-column-inner' },
 		{
 			templateLock: false,
-			// Allow default appender behavior so they can click to add blocks easily
+			renderAppender: hasInnerBlocks ? undefined : InnerBlocks.ButtonBlockAppender
 		}
 	);
 

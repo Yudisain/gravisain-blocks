@@ -1,10 +1,10 @@
-=== Gravisain Blocks — Advanced Page Builder Toolkit for Gutenberg ===
-Contributors: gravisain
-Tags: gutenberg, blocks, page builder, editor, gutenberg blocks
+=== Gravisain Blocks ===
+Contributors: yudisain, gravisain
+Tags: blocks, page builder, editor
 Requires at least: 6.2
-Tested up to: 6.7
+Tested up to: 7.1
 Stable tag: 1.0.0
-Requires PHP: 8.2
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,7 @@ Whether you are building landing pages, corporate websites, or complex layouts, 
 * **Lottie Animations** – Embed interactive JSON Lottie animations with speed and loop controls.
 * **Hero Section & Modal Popup** – Full-width hero banners and interactive modal dialogs.
 * **Spacer / Divider** – Responsive space dividers with height controls across device breakpoints.
+* **Advertisement / Ad Space** – Google AdSense-ready ad slots and clickable image banners. Paste raw ad network code (AdSense, Ezoic, Media.net, Adsterra) or upload a banner image with optional link, plus responsive alignment, spacing, and an optional "Advertisement" label.
 
 = Key Features =
 * **1:1 Editor vs Frontend Accuracy:** Built with dynamic CSS variables (`--block-var`) to ensure that what you see inside the Gutenberg editor matches the frontend pixel-for-pixel.
@@ -60,10 +61,51 @@ No. Gravisain Blocks is built with pure ES Modules, React/Gutenberg components, 
 = Does it slow down my website load speed? =
 No. Each block only loads the necessary assets when used on a page, keeping your Core Web Vitals optimal.
 
+== External Services ==
+
+This plugin utilizes external services to deliver typography fonts and optional login security protection:
+
+1. **Google Fonts**
+* **Service Name:** Google Fonts
+* **Provider:** Google LLC
+* **Usage:** Used to render typography fonts in Gutenberg blocks when non-system fonts are chosen in block typography settings (e.g. Advanced Heading, Hero, Advanced Text). The plugin loads stylesheets from `https://fonts.googleapis.com` and web font files from `https://fonts.gstatic.com`.
+* **What Data is Sent and When:** When a user views a page containing blocks configured with Google Fonts, the visitor's browser sends an HTTP GET request to Google servers including standard browser request headers (such as IP address and User-Agent) to download the requested font files. No personal identifiable information (PII) is collected or stored by this plugin.
+* **Terms of Service:** https://policies.google.com/terms
+* **Privacy Policy:** https://policies.google.com/privacy
+
+2. **Cloudflare Turnstile (Optional)**
+* **Service Name:** Cloudflare Turnstile
+* **Provider:** Cloudflare, Inc.
+* **Usage:** Used only when explicitly enabled by an administrator under `Gravisain > Login Security` (or `Appearance > Customize > Login Security & Turnstile`) and valid API keys are configured. When enabled, it enqueues the official Turnstile API script (`https://challenges.cloudflare.com/turnstile/v0/api.js`) on `wp-login.php` and verifies verification tokens with Cloudflare's API (`https://challenges.cloudflare.com/turnstile/v0/siteverify`) to prevent brute-force login attacks.
+* **Terms of Service:** https://www.cloudflare.com/website-terms/
+* **Privacy Policy:** https://www.cloudflare.com/privacypolicy/
+
+== Source Code & Build ==
+
+In compliance with WordPress.org Guidelines #1 and #4 (GPL & Open Source Transparency):
+* The uncompiled, human-readable source code for all React/Gutenberg blocks is bundled in the `src/` directory.
+* The public development repository is available at: https://github.com/yudisain/gravisain-blocks
+* Build instructions:
+  1. Clone repository: `git clone https://github.com/yudisain/gravisain-blocks.git`
+  2. Install dependencies: `npm install`
+  3. Compile assets: `npm run build` (powered by `@wordpress/scripts`)
+
 == Changelog ==
 
 = 1.0.0 =
+* Maintenance update and performance improvements.
+
+= 0.9.3 =
+* Maintenance update and performance improvements.
+
+= 0.9.2 =
+* Maintenance update and performance improvements.
+
+= 0.9.1 =
+* Maintenance update and performance improvements.
+
+= 0.9.0 =
 * Initial public release of Gravisain Blocks.
 * 28+ Modular Gutenberg blocks with 3-tab inspector panels and 1:1 CSS variable synchronization.
 * Added FAQ Accordion, Advanced Heading, Row Layout, Info Box, Testimonials, Features Grid, and Container blocks.
-* Full compatibility with WordPress 6.2+ and PHP 8.2+.
+* Full compatibility with WordPress 6.2+ and PHP 7.4+.

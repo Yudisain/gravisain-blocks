@@ -23,10 +23,23 @@ export default function save( { attributes } ) {
 		margin,
 		marginTablet,
 		marginMobile,
+		isSticky,
+		stickyDesktop,
+		stickyTablet,
+		stickyMobile,
+		stickyOffset,
+		stickyOffsetTablet,
+		stickyOffsetMobile,
 	} = attributes;
 
 	const blockProps = useBlockProps.save( {
-		className: 'gravisain-block-container',
+		className: [
+			'gravisain-block-container',
+			isSticky ? 'is-sticky' : '',
+			isSticky && stickyDesktop === false ? 'sticky-disable-desktop' : '',
+			isSticky && stickyTablet === false ? 'sticky-disable-tablet' : '',
+			isSticky && ( stickyMobile === false || stickyMobile === undefined ) ? 'sticky-disable-mobile' : '',
+		].filter( Boolean ).join( ' ' ),
 		style: {
 			'--container-max-width': maxWidth || '1200px',
 			'--container-min-height': minHeight > 0 ? `${ minHeight }${ minHeightUnit || 'px' }` : 'auto',
@@ -62,6 +75,11 @@ export default function save( { attributes } ) {
 			'--gravisain-container-mr-mobile': getSpacing( marginMobile, 'right' ),
 			'--gravisain-container-mb-mobile': getSpacing( marginMobile, 'bottom' ),
 			'--gravisain-container-ml-mobile': getSpacing( marginMobile, 'left' ),
+
+			// Sticky Variables
+			'--gravisain-sticky-top': isSticky && stickyOffset !== undefined ? `${ stickyOffset }px` : undefined,
+			'--gravisain-sticky-top-tablet': isSticky && stickyOffsetTablet !== undefined && stickyOffsetTablet !== '' ? `${ stickyOffsetTablet }px` : undefined,
+			'--gravisain-sticky-top-mobile': isSticky && stickyOffsetMobile !== undefined && stickyOffsetMobile !== '' ? `${ stickyOffsetMobile }px` : undefined,
 		},
 	} );
 

@@ -1,0 +1,16 @@
+.wp-block-gravisain-badge {
+	margin: 0 !important;
+
+	.gravisain-badge-pill {
+		cursor: text;
+		user-select: text;
+
+		.gravisain-badge-text {
+			outline: none;
+
+			&:focus {
+				outline: none;
+			}
+		}
+	}
+}

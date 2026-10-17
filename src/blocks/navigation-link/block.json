@@ -23,6 +23,10 @@
 		"opensInNewTab": {
 			"type": "boolean",
 			"default": false
+		},
+		"isActive": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"textdomain": "gravisain-blocks",

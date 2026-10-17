@@ -1,8 +1,10 @@
 import { __ } from '@wordpress/i18n';
 import { PanelBody, SelectControl, RangeControl } from '@wordpress/components';
+import ResponsiveAlignmentControl from '../../../../controls/ResponsiveAlignmentControl';
 
 export default function LayoutPanel({ attributes, setAttributes }) {
-	const { layout, innerContainerMaxWidth } = attributes;
+	const { layout, innerContainerMaxWidth, textAlign, textAlignTablet, textAlignMobile } = attributes;
+	const defaultAlign = layout === '1-column' ? 'center' : 'left';
 
 	return (
 		<PanelBody title={__('Layout Settings', 'gravisain')} initialOpen={true}>
@@ -16,6 +18,15 @@ export default function LayoutPanel({ attributes, setAttributes }) {
 					{ label: __('Full Width', 'gravisain'), value: 'full-width' },
 				]}
 				onChange={(val) => setAttributes({ layout: val })}
+			/>
+			<ResponsiveAlignmentControl
+				textAlign={textAlign}
+				textAlignTablet={textAlignTablet}
+				textAlignMobile={textAlignMobile}
+				defaultAlign={defaultAlign}
+				onChangeDesktop={(val) => setAttributes({ textAlign: val })}
+				onChangeTablet={(val) => setAttributes({ textAlignTablet: val })}
+				onChangeMobile={(val) => setAttributes({ textAlignMobile: val })}
 			/>
 			<RangeControl
 				label={__('Inner Container Max Width (px)', 'gravisain')}

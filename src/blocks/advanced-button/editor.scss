@@ -1,9 +1,52 @@
+.wp-block-gravisain-advanced-button:not(.is-width-full),
+.gravisain-advanced-button:not(.is-width-full) {
+	display: inline-flex !important;
+	width: auto !important;
+	max-width: 100% !important;
+	vertical-align: middle;
+}
+
 .gravisain-advanced-button {
+	position: relative;
+	box-sizing: border-box;
+
 	.gravisain-advanced-button-inner {
 		cursor: text;
+		display: inline-flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		width: 100%;
+		height: 100%;
+
+		// Disable stretched-link overlay in editor so rich text is directly selectable & clickable
+		&::after {
+			display: none !important;
+		}
+	}
+
+	// Reset Gutenberg rich text focus outline, background, and default link colors
+	.gravisain-btn-text,
+	.block-editor-rich-text__editable.gravisain-btn-text {
+		background: transparent !important;
+		background-color: transparent !important;
+		color: inherit !important;
+		border: none !important;
+		outline: none !important;
+		box-shadow: none !important;
+		display: inline-block;
+		min-width: 1ch;
+	}
+
+	// Clean subtle dashed outline when actively editing text
+	.block-editor-rich-text__editable.gravisain-btn-text:focus {
+		outline: 1px dashed rgba(255, 255, 255, 0.5) !important;
+		outline-offset: 2px;
 	}
 
 	.components-popover {
 		z-index: 99999;
 	}
 }
+
+
+

@@ -11,4 +11,24 @@
 		transform: none !important;
 		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04) !important;
 	}
+
+	.gravisain-info-box-icon {
+		.gravisain-info-box-svg {
+			display: inline-flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+			width: var(--info-box-icon-size, 24px) !important;
+			height: var(--info-box-icon-size, 24px) !important;
+			color: inherit !important;
+
+			svg {
+				width: 100% !important;
+				height: 100% !important;
+				max-width: 100% !important;
+				max-height: 100% !important;
+				display: block !important;
+				stroke: currentColor;
+			}
+		}
+	}
 }

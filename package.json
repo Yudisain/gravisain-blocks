@@ -8,9 +8,11 @@
     "start": "wp-scripts start --webpack-src-dir=src/blocks --output-path=assets/blocks",
     "blocks:zip": "powershell -ExecutionPolicy Bypass -File scripts/zip-plugin.ps1",
     "theme:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain/scripts/zip-theme.ps1",
-    "starter-sites:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain-starter-sites/scripts/zip-starter-sites.ps1",
     "studio:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain-studio/scripts/zip-plugin.ps1",
-    "all:zip": "npm run blocks:zip && npm run theme:zip && npm run starter-sites:zip && npm run studio:zip"
+    "news:zip": "powershell -ExecutionPolicy Bypass -File ../gravinews/scripts/zip-plugin.ps1",
+    "all:zip": "npm run blocks:zip && npm run theme:zip && npm run studio:zip && npm run news:zip",
+    "set-version": "node scripts/set-version.js",
+    "bump": "node scripts/set-version.js"
   },
   "devDependencies": {
     "@wordpress/scripts": "^32.6.0"

@@ -44,23 +44,38 @@
 	&.layout-vertical {
 		display: flex;
 		flex-direction: row;
+		align-items: stretch;
 
 		@media (max-width: 767px) {
 			flex-direction: column;
 		}
 
 		.gravisain-tabs-header {
+			display: flex;
+			flex-direction: column;
+			align-self: stretch;
 			border-bottom: none;
 			border-right: var(--gravisain-tabs-border-width, 1px) solid var(--gravisain-tabs-border-color, #e2e8f0);
 			min-width: 200px;
+			flex-shrink: 0;
 
 			@media (max-width: 767px) {
 				border-right: none;
 				border-bottom: var(--gravisain-tabs-border-width, 1px) solid var(--gravisain-tabs-border-color, #e2e8f0);
+				min-width: 0;
 			}
 
 			.gravisain-tabs-nav {
+				display: flex;
 				flex-direction: column;
+				margin: 0;
+				padding: 0;
+
+				@media (max-width: 767px) {
+					height: auto;
+					flex: initial;
+					justify-content: flex-start !important;
+				}
 
 				.gravisain-tab-button {
 					width: 100%;
@@ -75,17 +90,48 @@
 			}
 		}
 
+		&.align-top,
+		&.align-left {
+			.gravisain-tabs-header,
+			.gravisain-tabs-header .gravisain-tabs-nav {
+				justify-content: flex-start;
+			}
+		}
+
+		&.align-center {
+			.gravisain-tabs-header,
+			.gravisain-tabs-header .gravisain-tabs-nav {
+				justify-content: center;
+			}
+		}
+
+		&.align-bottom,
+		&.align-right {
+			.gravisain-tabs-header,
+			.gravisain-tabs-header .gravisain-tabs-nav {
+				justify-content: flex-end;
+			}
+		}
+
 		.gravisain-tabs-content-area {
 			flex-grow: 1;
+			min-width: 0;
+			align-self: stretch;
 		}
 	}
 
-	&.align-center .gravisain-tabs-header .gravisain-tabs-nav {
-		justify-content: center;
-	}
+	&:not(.layout-vertical) {
+		&.align-left .gravisain-tabs-header .gravisain-tabs-nav {
+			justify-content: flex-start;
+		}
 
-	&.align-right .gravisain-tabs-header .gravisain-tabs-nav {
-		justify-content: flex-end;
+		&.align-center .gravisain-tabs-header .gravisain-tabs-nav {
+			justify-content: center;
+		}
+
+		&.align-right .gravisain-tabs-header .gravisain-tabs-nav {
+			justify-content: flex-end;
+		}
 	}
 
 	.gravisain-tabs-content-area {

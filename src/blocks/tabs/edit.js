@@ -14,6 +14,23 @@ const TEMPLATE = [
 	[ 'gravisain/tab-pane', { title: 'Second Tab' } ],
 ];
 
+const CloseIcon = () => (
+	<svg
+		width="12"
+		height="12"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		strokeWidth="2.5"
+		strokeLinecap="round"
+		strokeLinejoin="round"
+		style={ { display: 'block' } }
+	>
+		<line x1="18" y1="6" x2="6" y2="18" />
+		<line x1="6" y1="6" x2="18" y2="18" />
+	</svg>
+);
+
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId } = props;
 	const {
@@ -76,12 +93,24 @@ export default function Edit( props ) {
 		}
 	};
 
+	const effectiveAlignment = layout === 'vertical'
+		? ( tabAlignment === 'bottom' || tabAlignment === 'right' ? 'bottom' : tabAlignment === 'center' ? 'center' : 'top' )
+		: ( tabAlignment === 'right' || tabAlignment === 'bottom' ? 'right' : tabAlignment === 'center' ? 'center' : 'left' );
+
+	const isVertical = layout === 'vertical';
+	const headerJustifyContent = isVertical
+		? ( effectiveAlignment === 'center' ? 'center' : effectiveAlignment === 'bottom' ? 'flex-end' : 'flex-start' )
+		: undefined;
+	const navJustifyContent = ! isVertical
+		? ( effectiveAlignment === 'center' ? 'center' : effectiveAlignment === 'right' ? 'flex-end' : 'flex-start' )
+		: undefined;
+
 	const blockProps = useBlockProps( {
 		id: anchor || undefined,
 		className: [
 			'gravisain-tabs',
 			`layout-${ layout || 'horizontal' }`,
-			`align-${ tabAlignment || 'left' }`,
+			`align-${ effectiveAlignment }`,
 			customClassName || '',
 		].filter( Boolean ).join( ' ' ),
 		style: {
@@ -94,6 +123,7 @@ export default function Edit( props ) {
 			'--gravisain-tabs-radius': `${ borderRadius }px`,
 			'--gravisain-tabs-border-width': `${ borderWidth }px`,
 			'--gravisain-tabs-border-color': borderColor || '#e2e8f0',
+			...( isVertical ? { display: 'flex', flexDirection: 'row', alignItems: 'stretch', minHeight: '260px' } : {} ),
 			...parseCustomCSS( customCSS ),
 		},
 	} );
@@ -102,8 +132,42 @@ export default function Edit( props ) {
 		<>
 			<Inspector { ...props } />
 			<div { ...blockProps }>
-				<div className="gravisain-tabs-header">
-					<div className="gravisain-tabs-nav">
+				<div
+					className="gravisain-tabs-header"
+					style={
+						isVertical
+							? {
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'stretch',
+								justifyContent: headerJustifyContent,
+								minWidth: '200px',
+								flexShrink: 0,
+								alignSelf: 'stretch',
+							}
+							: undefined
+					}
+				>
+					<div
+						className="gravisain-tabs-nav"
+						style={
+							! isVertical
+								? {
+									display: 'flex',
+									flexDirection: 'row',
+									flexWrap: 'wrap',
+									flex: '1 1 0%',
+									justifyContent: navJustifyContent,
+									minHeight: 0,
+									width: '100%',
+								}
+								: {
+									display: 'flex',
+									flexDirection: 'column',
+									width: '100%',
+								}
+						}
+					>
 						{ childBlocks.map( ( block, index ) => {
 							const isActive = activeTab === index;
 							return (
@@ -124,11 +188,12 @@ export default function Edit( props ) {
 											<Button
 												className="gravisain-remove-tab"
 												isSmall
-												icon="no-alt"
+												icon={ <CloseIcon /> }
 												onClick={ ( e ) => {
 													e.stopPropagation();
 													removeTab( block.clientId, index );
 												} }
+												aria-label={ __( 'Remove Tab', 'gravisain' ) }
 											/>
 										</Tooltip>
 									) }
@@ -142,7 +207,10 @@ export default function Edit( props ) {
 					</Button>
 				</div>
 
-				<div className="gravisain-tabs-content-area">
+				<div
+					className="gravisain-tabs-content-area"
+					style={ isVertical ? { flex: '1 1 auto', minWidth: 0, alignSelf: 'stretch' } : undefined }
+				>
 					<InnerBlocks
 						allowedBlocks={ ALLOWED_BLOCKS }
 						template={ TEMPLATE }

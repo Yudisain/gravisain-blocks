@@ -15,6 +15,7 @@ import ResponsiveAlignmentControl from './ResponsiveAlignmentControl';
 
 import ResponsiveTabControl from '../../../controls/ResponsiveTabControl';
 import SpacingControl from '../../../controls/SpacingControl';
+import { DIVIDER_STYLES, getDividerConfig } from './dividerShapes';
 
 export default function Inspector( {
 	attributes,
@@ -29,7 +30,22 @@ export default function Inspector( {
 		textAlignTablet,
 		textAlignMobile,
 		fontFamily,
+		eyebrow,
 		eyebrowPosition,
+		eyebrowColor,
+		eyebrowTypography = {},
+		eyebrowTypographyTablet = {},
+		eyebrowTypographyMobile = {},
+		content,
+		titleColor,
+		titleTypography = {},
+		titleTypographyTablet = {},
+		titleTypographyMobile = {},
+		description,
+		descriptionColor,
+		descriptionTypography = {},
+		descriptionTypographyTablet = {},
+		descriptionTypographyMobile = {},
 		fontSize,
 		fontWeight,
 		lineHeight,
@@ -43,6 +59,9 @@ export default function Inspector( {
 		dividerWidth,
 		dividerHeight,
 		dividerColor,
+		dividerStyle,
+		dividerFlip,
+		dividerSpacing,
 		padding,
 		paddingTablet,
 		paddingMobile,
@@ -66,6 +85,44 @@ export default function Inspector( {
 		if ( currentDevice === 'desktop' ) setAttributes( { [baseName]: val } );
 		if ( currentDevice === 'tablet' ) setAttributes( { [`${baseName}Tablet`]: val } );
 		if ( currentDevice === 'mobile' ) setAttributes( { [`${baseName}Mobile`]: val } );
+	};
+
+	const getResponsiveObj = ( baseName, currentDevice ) => {
+		if ( currentDevice === 'desktop' ) return attributes[ baseName ] || {};
+		if ( currentDevice === 'tablet' ) return attributes[ `${ baseName }Tablet` ] || {};
+		if ( currentDevice === 'mobile' ) return attributes[ `${ baseName }Mobile` ] || {};
+		return {};
+	};
+
+	const setResponsiveObj = ( baseName, val, currentDevice ) => {
+		if ( currentDevice === 'desktop' ) setAttributes( { [ baseName ]: val } );
+		if ( currentDevice === 'tablet' ) setAttributes( { [ `${ baseName }Tablet` ]: val } );
+		if ( currentDevice === 'mobile' ) setAttributes( { [ `${ baseName }Mobile` ]: val } );
+	};
+
+	const getTitleTypography = ( currentDevice ) => {
+		const current = currentDevice === 'desktop'
+			? ( titleTypography || {} )
+			: ( currentDevice === 'tablet' ? ( titleTypographyTablet || {} ) : ( titleTypographyMobile || {} ) );
+
+		return {
+			fontFamily: current.fontFamily !== undefined ? current.fontFamily : ( currentDevice === 'desktop' ? fontFamily : '' ),
+			fontSize: current.fontSize !== undefined ? current.fontSize : getResponsiveAttr( 'fontSize', currentDevice ),
+			fontWeight: current.fontWeight !== undefined ? current.fontWeight : fontWeight,
+			lineHeight: current.lineHeight !== undefined ? current.lineHeight : getResponsiveAttr( 'lineHeight', currentDevice ),
+			letterSpacing: current.letterSpacing !== undefined ? current.letterSpacing : getResponsiveAttr( 'letterSpacing', currentDevice ),
+		};
+	};
+
+	const setTitleTypography = ( newVal, currentDevice ) => {
+		setResponsiveObj( 'titleTypography', newVal, currentDevice );
+		if ( currentDevice === 'desktop' ) {
+			if ( newVal.fontFamily !== undefined ) setAttributes( { fontFamily: newVal.fontFamily } );
+			if ( newVal.fontWeight !== undefined ) setAttributes( { fontWeight: newVal.fontWeight } );
+		}
+		if ( newVal.fontSize !== undefined ) setResponsiveAttr( 'fontSize', newVal.fontSize, currentDevice );
+		if ( newVal.lineHeight !== undefined ) setResponsiveAttr( 'lineHeight', newVal.lineHeight !== undefined ? String( newVal.lineHeight ) : undefined, currentDevice );
+		if ( newVal.letterSpacing !== undefined ) setResponsiveAttr( 'letterSpacing', newVal.letterSpacing !== undefined ? String( newVal.letterSpacing ) : undefined, currentDevice );
 	};
 
 	return (
@@ -94,7 +151,7 @@ export default function Inspector( {
 				{ ( tab ) => {
 					if ( tab.name === 'general' ) {
 						return (
-							<PanelBody title={ __( 'Heading Tag & Eyebrow', 'gravisain' ) }>
+							<PanelBody title={ __( 'Heading Content & Eyebrow', 'gravisain' ) }>
 								<SelectControl
 									label={ __( 'HTML Heading Tag', 'gravisain' ) }
 									value={ headingTag }
@@ -140,12 +197,26 @@ export default function Inspector( {
 										setAttributes( { eyebrowPosition: value } )
 									}
 								/>
+								<TextControl
+									label={ __( 'Eyebrow Text (Optional)', 'gravisain' ) }
+									value={ eyebrow || '' }
+									onChange={ ( value ) => setAttributes( { eyebrow: value } ) }
+									placeholder={ __( 'e.g. NEXT-GENERATION ARCHITECTURE', 'gravisain' ) }
+									help={ __( 'Small uppercase badge/eyebrow displayed above or below the heading title.', 'gravisain' ) }
+								/>
 								<ToggleControl
 									label={ __( 'Show Accent Line Divider', 'gravisain' ) }
 									checked={ showDivider }
 									onChange={ ( value ) =>
 										setAttributes( { showDivider: value } )
 									}
+								/>
+								<TextareaControl
+									label={ __( 'Description Text (Optional)', 'gravisain' ) }
+									value={ description }
+									onChange={ ( value ) => setAttributes( { description: value } ) }
+									help={ __( 'Optional description text rendered below the heading.', 'gravisain' ) }
+									rows={ 3 }
 								/>
 							</PanelBody>
 						);
@@ -155,44 +226,77 @@ export default function Inspector( {
 						return (
 							<>
 								<PanelBody title={ __( 'Typography', 'gravisain' ) }>
-									<ResponsiveTabControl>
-										{ ( currentDevice ) => (
-											<TypographyControl
-												label={ __( 'Heading Typography', 'gravisain' ) }
-												value={ {
-													fontFamily: fontFamily,
-													fontSize: getResponsiveAttr('fontSize', currentDevice),
-													fontWeight: fontWeight, // weight is usually global
-													lineHeight: getResponsiveAttr('lineHeight', currentDevice),
-													letterSpacing: getResponsiveAttr('letterSpacing', currentDevice),
-												} }
-												onChange={ ( newVal ) => {
-													if ( newVal.fontFamily !== fontFamily ) {
-														setAttributes( { fontFamily: newVal.fontFamily } );
-													}
-													setResponsiveAttr('fontSize', newVal.fontSize, currentDevice);
-													setResponsiveAttr('lineHeight', newVal.lineHeight !== undefined ? String(newVal.lineHeight) : undefined, currentDevice);
-													setResponsiveAttr('letterSpacing', newVal.letterSpacing !== undefined ? String(newVal.letterSpacing) : undefined, currentDevice);
-													if ( newVal.fontWeight !== fontWeight ) {
-														setAttributes( { fontWeight: newVal.fontWeight } );
-													}
-												} }
+									<div style={ { marginBottom: 24 } }>
+										<p style={ { marginBottom: 8, fontWeight: 600 } }>{ __( 'Title Typography', 'gravisain' ) }</p>
+										{ ! enableTextGradient && (
+											<ColorControl
+												label={ __( 'Title Color', 'gravisain' ) }
+												value={ titleColor || textColor }
+												onChange={ ( val ) => setAttributes( { titleColor: val, textColor: val || '#0f172a' } ) }
+												disableGradient={ true }
 											/>
 										) }
-									</ResponsiveTabControl>
-									<SelectControl
-										label={ __( 'Text Transform', 'gravisain' ) }
-										value={ textTransform }
-										options={ [
-											{ label: 'None', value: 'none' },
-											{ label: 'UPPERCASE', value: 'uppercase' },
-											{ label: 'Capitalize', value: 'capitalize' },
-											{ label: 'lowercase', value: 'lowercase' },
-										] }
-										onChange={ ( value ) =>
-											setAttributes( { textTransform: value } )
-										}
-									/>
+										<ResponsiveTabControl activeDevice={ device } onChangeDevice={ onDeviceChange }>
+											{ ( currentDevice ) => (
+												<TypographyControl
+													label={ __( 'Typography', 'gravisain' ) }
+													value={ getTitleTypography( currentDevice ) }
+													onChange={ ( newVal ) => setTitleTypography( newVal, currentDevice ) }
+												/>
+											) }
+										</ResponsiveTabControl>
+										<SelectControl
+											label={ __( 'Text Transform', 'gravisain' ) }
+											value={ textTransform }
+											options={ [
+												{ label: 'None', value: 'none' },
+												{ label: 'UPPERCASE', value: 'uppercase' },
+												{ label: 'Capitalize', value: 'capitalize' },
+												{ label: 'lowercase', value: 'lowercase' },
+											] }
+											onChange={ ( value ) =>
+												setAttributes( { textTransform: value } )
+											}
+										/>
+									</div>
+
+									<div style={ { marginBottom: 24, paddingTop: 16, borderTop: '1px solid #e0e0e0' } }>
+										<p style={ { marginBottom: 8, fontWeight: 600 } }>{ __( 'Eyebrow Typography', 'gravisain' ) }</p>
+										<ColorControl
+											label={ __( 'Eyebrow Color', 'gravisain' ) }
+											value={ eyebrowColor }
+											onChange={ ( val ) => setAttributes( { eyebrowColor: val } ) }
+											disableGradient={ true }
+										/>
+										<ResponsiveTabControl activeDevice={ device } onChangeDevice={ onDeviceChange }>
+											{ ( currentDevice ) => (
+												<TypographyControl
+													label={ __( 'Typography', 'gravisain' ) }
+													value={ getResponsiveObj( 'eyebrowTypography', currentDevice ) }
+													onChange={ ( val ) => setResponsiveObj( 'eyebrowTypography', val, currentDevice ) }
+												/>
+											) }
+										</ResponsiveTabControl>
+									</div>
+
+									<div style={ { paddingTop: 16, borderTop: '1px solid #e0e0e0' } }>
+										<p style={ { marginBottom: 8, fontWeight: 600 } }>{ __( 'Description Typography', 'gravisain' ) }</p>
+										<ColorControl
+											label={ __( 'Description Color', 'gravisain' ) }
+											value={ descriptionColor }
+											onChange={ ( val ) => setAttributes( { descriptionColor: val } ) }
+											disableGradient={ true }
+										/>
+										<ResponsiveTabControl activeDevice={ device } onChangeDevice={ onDeviceChange }>
+											{ ( currentDevice ) => (
+												<TypographyControl
+													label={ __( 'Typography', 'gravisain' ) }
+													value={ getResponsiveObj( 'descriptionTypography', currentDevice ) }
+													onChange={ ( val ) => setResponsiveObj( 'descriptionTypography', val, currentDevice ) }
+												/>
+											) }
+										</ResponsiveTabControl>
+									</div>
 								</PanelBody>
 
 								<PanelBody title={ __( 'Color & Gradient Styling', 'gravisain' ) }>
@@ -210,10 +314,11 @@ export default function Inspector( {
 													{ __( 'Heading Text Color', 'gravisain' ) }
 												</p>
 												<ColorControl
-													value={ textColor }
+													value={ titleColor || textColor }
 													onChange={ ( color ) =>
 														setAttributes( {
 															textColor: color || '#0f172a',
+															titleColor: color || '#0f172a',
 														} )
 													}
 													disableGradient={true}
@@ -250,6 +355,167 @@ export default function Inspector( {
 									<PanelBody
 										title={ __( 'Accent Divider Line Styling', 'gravisain' ) }
 									>
+										<p style={ { marginBottom: 8, fontWeight: 600 } }>
+											{ __( 'Divider Model / Style', 'gravisain' ) }
+										</p>
+										<div
+											style={ {
+												display: 'grid',
+												gridTemplateColumns: 'repeat(3, 1fr)',
+												gap: '6px',
+												marginBottom: '14px',
+											} }
+										>
+											{ DIVIDER_STYLES.map( ( style ) => {
+												const isSelected = ( dividerStyle || 'solid' ) === style.value;
+												return (
+													<button
+														key={ style.value }
+														type="button"
+														onClick={ () => {
+															const updates = { dividerStyle: style.value };
+															if ( style.type === 'svg' && ( ! dividerHeight || dividerHeight <= 4 ) ) {
+																updates.dividerHeight = 12;
+															}
+															setAttributes( updates );
+														} }
+														style={ {
+															display: 'flex',
+															flexDirection: 'column',
+															alignItems: 'center',
+															justifyContent: 'center',
+															padding: '8px 4px 6px',
+															borderRadius: '6px',
+															border: isSelected ? '2px solid #2563eb' : '1px solid #cbd5e1',
+															backgroundColor: isSelected ? '#eff6ff' : '#ffffff',
+															cursor: 'pointer',
+															minHeight: '48px',
+															boxSizing: 'border-box',
+															transition: 'all 0.15s ease',
+														} }
+														title={ style.label }
+													>
+														<div
+															style={ {
+																width: '100%',
+																height: '18px',
+																display: 'flex',
+																alignItems: 'center',
+																justifyContent: 'center',
+															} }
+														>
+															{ style.value === 'solid' && (
+																<div
+																	style={ {
+																		width: '80%',
+																		height: '3px',
+																		backgroundColor: isSelected ? '#2563eb' : '#64748b',
+																		borderRadius: '2px',
+																	} }
+																/>
+															) }
+															{ style.type === 'svg' && (
+																<svg
+																	viewBox={ style.viewBox }
+																	preserveAspectRatio="none"
+																	style={ {
+																		width: '85%',
+																		height: '14px',
+																		overflow: 'visible',
+																		transform: dividerFlip && [ 'brush', 'brush-swoop', 'curved' ].includes( style.value ) ? 'scaleX(-1)' : 'none',
+																	} }
+																>
+																	{ style.isFill ? (
+																		<path
+																			d={ style.path }
+																			fill={ isSelected ? '#2563eb' : '#64748b' }
+																		/>
+																	) : (
+																		<path
+																			d={ style.path }
+																			fill="none"
+																			stroke={ isSelected ? '#2563eb' : '#64748b' }
+																			strokeWidth="3"
+																			strokeLinecap="round"
+																			strokeLinejoin="round"
+																		/>
+																	) }
+																</svg>
+															) }
+															{ style.value === 'double' && (
+																<div
+																	style={ {
+																		width: '80%',
+																		height: '6px',
+																		borderTop: `1.5px solid ${ isSelected ? '#2563eb' : '#64748b' }`,
+																		borderBottom: `1.5px solid ${ isSelected ? '#2563eb' : '#64748b' }`,
+																	} }
+																/>
+															) }
+															{ style.value === 'dotted' && (
+																<div
+																	style={ {
+																		width: '80%',
+																		height: '0px',
+																		borderTop: `2px dotted ${ isSelected ? '#2563eb' : '#64748b' }`,
+																	} }
+																/>
+															) }
+															{ style.value === 'dashed' && (
+																<div
+																	style={ {
+																		width: '80%',
+																		height: '0px',
+																		borderTop: `2px dashed ${ isSelected ? '#2563eb' : '#64748b' }`,
+																	} }
+																/>
+															) }
+														</div>
+														<span
+															style={ {
+																fontSize: '9px',
+																marginTop: '4px',
+																color: isSelected ? '#2563eb' : '#64748b',
+																fontWeight: isSelected ? 600 : 400,
+																lineHeight: 1,
+																whiteSpace: 'nowrap',
+																overflow: 'hidden',
+																textOverflow: 'ellipsis',
+																maxWidth: '100%',
+															} }
+														>
+															{ style.label }
+														</span>
+													</button>
+												);
+											} ) }
+										</div>
+
+										<SelectControl
+											label={ __( 'Select Model', 'gravisain' ) }
+											value={ dividerStyle || 'solid' }
+											options={ DIVIDER_STYLES.map( ( s ) => ( {
+												label: s.label,
+												value: s.value,
+											} ) ) }
+											onChange={ ( value ) => {
+												const updates = { dividerStyle: value };
+												const conf = getDividerConfig( value );
+												if ( conf.type === 'svg' && ( ! dividerHeight || dividerHeight <= 4 ) ) {
+													updates.dividerHeight = 12;
+												}
+												setAttributes( updates );
+											} }
+										/>
+
+										{ [ 'brush', 'brush-swoop', 'curved' ].includes( dividerStyle ) && (
+											<ToggleControl
+												label={ __( 'Flip Horizontally', 'gravisain' ) }
+												checked={ !! dividerFlip }
+												onChange={ ( val ) => setAttributes( { dividerFlip: val } ) }
+											/>
+										) }
+
 										<RangeControl
 											label={ __( 'Divider Width (px)', 'gravisain' ) }
 											value={ dividerWidth || 48 }
@@ -257,7 +523,7 @@ export default function Inspector( {
 												setAttributes( { dividerWidth: value } )
 											}
 											min={ 10 }
-											max={ 300 }
+											max={ 600 }
 										/>
 										<RangeControl
 											label={ __( 'Divider Height / Thickness (px)', 'gravisain' ) }
@@ -266,7 +532,16 @@ export default function Inspector( {
 												setAttributes( { dividerHeight: value } )
 											}
 											min={ 1 }
-											max={ 12 }
+											max={ 40 }
+										/>
+										<RangeControl
+											label={ __( 'Margin Top / Spacing (px)', 'gravisain' ) }
+											value={ dividerSpacing !== undefined ? dividerSpacing : 14 }
+											onChange={ ( value ) =>
+												setAttributes( { dividerSpacing: value } )
+											}
+											min={ 0 }
+											max={ 60 }
 										/>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
 											{ __( 'Divider Color', 'gravisain' ) }
@@ -278,7 +553,7 @@ export default function Inspector( {
 													dividerColor: color || '#2563eb',
 												} )
 											}
-											disableGradient={true}
+											disableGradient={ true }
 										/>
 									</PanelBody>
 								) }

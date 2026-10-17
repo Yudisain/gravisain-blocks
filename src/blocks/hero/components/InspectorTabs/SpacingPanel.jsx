@@ -31,6 +31,7 @@ export default function SpacingPanel({ attributes, setAttributes }) {
 							label={__('Margin', 'gravisain')}
 							value={getResponsiveAttr('margin', currentDevice)}
 							onChange={(val) => setResponsiveAttr('margin', val, currentDevice)}
+							allowNegative={true}
 						/>
 					</>
 				)}

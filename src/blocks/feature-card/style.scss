@@ -56,11 +56,39 @@
 		justify-content: center;
 		margin-bottom: 1.5rem;
 		font-size: var(--icon-size, 32px);
+		line-height: 1;
 
 		.dashicons {
 			font-size: var(--icon-size, 32px);
 			width: var(--icon-size, 32px);
 			height: var(--icon-size, 32px);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.gravisain-feature-card__svg {
+			width: var(--icon-size, 32px);
+			height: var(--icon-size, 32px);
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			color: inherit;
+
+			svg {
+				width: 100% !important;
+				height: 100% !important;
+				max-width: 100% !important;
+				max-height: 100% !important;
+				display: block !important;
+			}
+		}
+
+		img {
+			width: var(--icon-size, 32px);
+			height: var(--icon-size, 32px);
+			object-fit: contain;
+			display: block;
 		}
 	}
 

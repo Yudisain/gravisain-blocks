@@ -1,13 +1,25 @@
 import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, TabPanel, RangeControl, TextControl } from '@wordpress/components';
+import { PanelBody, SelectControl, TabPanel, RangeControl } from '@wordpress/components';
+import ColorControl from '../../../controls/ColorControl';
+import TypographyControl from '../../../controls/TypographyControl';
 
 export default function Inspector( { attributes, setAttributes } ) {
 	const { 
 		layout, alignment, 
-		linkColor, linkHoverColor, linkHoverBackground, 
-		fontSize, fontWeight, itemSpacing 
+		linkColor, linkHoverColor, linkActiveColor,
+		linkBackground, linkHoverBackground, linkActiveBackground,
+		fontSize, fontWeight, fontFamily, typography = {}, itemSpacing 
 	} = attributes;
+
+	const currentTypography = {
+		fontSize: typography?.fontSize ?? fontSize ?? 16,
+		fontWeight: typography?.fontWeight || fontWeight || '500',
+		fontFamily: typography?.fontFamily || fontFamily || '',
+		fontStyle: typography?.fontStyle || typography?.style || 'normal',
+		lineHeight: typography?.lineHeight,
+		letterSpacing: typography?.letterSpacing,
+	};
 
 	return (
 		<InspectorControls>
@@ -54,42 +66,56 @@ export default function Inspector( { attributes, setAttributes } ) {
 						) }
 
 						{ tab.name === 'style' && (
-							<PanelBody title={ __( 'Typography & Colors', 'gravisain-blocks' ) } initialOpen={ true }>
-								<RangeControl
-									label={ __( 'Font Size (px)', 'gravisain-blocks' ) }
-									value={ fontSize }
-									onChange={ ( value ) => setAttributes( { fontSize: value } ) }
-									min={ 10 }
-									max={ 100 }
-								/>
-								<SelectControl
-									label={ __( 'Font Weight', 'gravisain-blocks' ) }
-									value={ fontWeight }
-									options={ [
-										{ label: '400 (Regular)', value: '400' },
-										{ label: '500 (Medium)', value: '500' },
-										{ label: '600 (Semi Bold)', value: '600' },
-										{ label: '700 (Bold)', value: '700' },
-										{ label: '800 (Extra Bold)', value: '800' },
-									] }
-									onChange={ ( value ) => setAttributes( { fontWeight: value } ) }
-								/>
-								<TextControl
-									label={ __( 'Link Color', 'gravisain-blocks' ) }
-									value={ linkColor }
-									onChange={ ( value ) => setAttributes( { linkColor: value } ) }
-								/>
-								<TextControl
-									label={ __( 'Hover Color', 'gravisain-blocks' ) }
-									value={ linkHoverColor }
-									onChange={ ( value ) => setAttributes( { linkHoverColor: value } ) }
-								/>
-								<TextControl
-									label={ __( 'Hover Background', 'gravisain-blocks' ) }
-									value={ linkHoverBackground }
-									onChange={ ( value ) => setAttributes( { linkHoverBackground: value } ) }
-								/>
-							</PanelBody>
+							<>
+								<PanelBody title={ __( 'Navigation Font', 'gravisain-blocks' ) } initialOpen={ true }>
+									<TypographyControl
+										label={ __( 'Font Settings', 'gravisain-blocks' ) }
+										value={ currentTypography }
+										onChange={ ( val ) => setAttributes( { 
+											typography: val,
+											fontFamily: val?.fontFamily || '',
+											fontSize: val?.fontSize,
+											fontWeight: val?.fontWeight,
+										} ) }
+									/>
+								</PanelBody>
+
+								<PanelBody title={ __( 'Navigation Colors', 'gravisain-blocks' ) } initialOpen={ true }>
+									<ColorControl
+										label={ __( 'Initial Color', 'gravisain-blocks' ) }
+										value={ linkColor }
+										onChange={ ( value ) => setAttributes( { linkColor: value || '' } ) }
+									/>
+									<ColorControl
+										label={ __( 'Hover Color', 'gravisain-blocks' ) }
+										value={ linkHoverColor }
+										onChange={ ( value ) => setAttributes( { linkHoverColor: value || '' } ) }
+									/>
+									<ColorControl
+										label={ __( 'Active Color', 'gravisain-blocks' ) }
+										value={ linkActiveColor }
+										onChange={ ( value ) => setAttributes( { linkActiveColor: value || '' } ) }
+									/>
+								</PanelBody>
+
+								<PanelBody title={ __( 'Navigation Background', 'gravisain-blocks' ) } initialOpen={ true }>
+									<ColorControl
+										label={ __( 'Initial Background', 'gravisain-blocks' ) }
+										value={ linkBackground }
+										onChange={ ( value ) => setAttributes( { linkBackground: value || '' } ) }
+									/>
+									<ColorControl
+										label={ __( 'Hover Background', 'gravisain-blocks' ) }
+										value={ linkHoverBackground }
+										onChange={ ( value ) => setAttributes( { linkHoverBackground: value || '' } ) }
+									/>
+									<ColorControl
+										label={ __( 'Active Background', 'gravisain-blocks' ) }
+										value={ linkActiveBackground }
+										onChange={ ( value ) => setAttributes( { linkActiveBackground: value || '' } ) }
+									/>
+								</PanelBody>
+							</>
 						) }
 					</div>
 				) }

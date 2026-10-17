@@ -1,5 +1,45 @@
+/* Ensure margin and padding override Gutenberg editor block styles */
+.editor-styles-wrapper .gravisain-advanced-heading,
+.editor-styles-wrapper .wp-block.gravisain-advanced-heading,
+.editor-styles-wrapper .wp-block .gravisain-advanced-heading,
+.wp-block-gravisain-advanced-heading,
 .gravisain-advanced-heading {
 	padding: 4px 0;
+
+	&[style*="--gravisain-padding-top"] {
+		padding-top: var(--gravisain-padding-top) !important;
+	}
+	&[style*="--gravisain-padding-bottom"] {
+		padding-bottom: var(--gravisain-padding-bottom) !important;
+	}
+	&[style*="--gravisain-padding-left"] {
+		padding-left: var(--gravisain-padding-left) !important;
+	}
+	&[style*="--gravisain-padding-right"] {
+		padding-right: var(--gravisain-padding-right) !important;
+	}
+
+	&[style*="--gravisain-margin-top"] {
+		margin-top: var(--gravisain-margin-top) !important;
+		margin-block-start: var(--gravisain-margin-top) !important;
+	}
+	&[style*="--gravisain-margin-bottom"] {
+		margin-bottom: var(--gravisain-margin-bottom) !important;
+		margin-block-end: var(--gravisain-margin-bottom) !important;
+	}
+	&[style*="--gravisain-margin-left"] {
+		margin-left: var(--gravisain-margin-left) !important;
+	}
+	&[style*="--gravisain-margin-right"] {
+		margin-right: var(--gravisain-margin-right) !important;
+	}
+
+	.gravisain-heading-description {
+		&:empty::before,
+		&[data-empty="true"]::before {
+			opacity: 0.5;
+		}
+	}
 }
 
 .gravisain-inspector-tabs {
@@ -36,6 +76,35 @@
 				background-color: #eff6ff;
 			}
 		}
+	}
+
+	.components-range-control__number,
+	.components-input-control__container,
+	.components-input-control {
+		min-height: 32px !important;
+		height: 32px !important;
+	}
+	input.components-range-control__number {
+		min-height: 32px !important;
+		height: 32px !important;
+		padding: 2px 8px !important;
+		font-size: 13px !important;
+		box-sizing: border-box !important;
+	}
+	.components-range-control__reset,
+	.components-range-control .components-button {
+		min-height: 32px !important;
+		height: 32px !important;
+		line-height: 30px !important;
+		padding: 0 10px !important;
+		font-size: 12px !important;
+		box-sizing: border-box !important;
+	}
+	.components-select-control__input {
+		min-height: 32px !important;
+		height: 32px !important;
+		font-size: 13px !important;
+		box-sizing: border-box !important;
 	}
 }
 

@@ -7,7 +7,11 @@ export const Section = forwardRef(({ children, className = '', style = {}, backg
 	].filter(Boolean).join(' ');
 
 	const styles = {
-		...(background?.color ? { backgroundColor: background.color } : {}),
+		...(background?.color ? (
+			background.color.includes('gradient')
+				? { backgroundImage: background.color }
+				: { backgroundColor: background.color }
+		) : {}),
 		...(background?.image ? { backgroundImage: `url(${background.image})` } : {}),
 		...(spacing?.paddingTop ? { paddingTop: spacing.paddingTop } : {}),
 		...(spacing?.paddingBottom ? { paddingBottom: spacing.paddingBottom } : {}),
@@ -21,7 +25,12 @@ export const Section = forwardRef(({ children, className = '', style = {}, backg
 			{overlay?.color && (
 				<div 
 					className="gravisain-section-overlay" 
-					style={{ backgroundColor: overlay.color, opacity: overlay.opacity || 0.5, position: 'absolute', inset: 0 }} 
+					style={{ 
+						...(overlay.color.includes('gradient') ? { backgroundImage: overlay.color } : { backgroundColor: overlay.color }), 
+						opacity: overlay.opacity || 0.5, 
+						position: 'absolute', 
+						inset: 0 
+					}} 
 				/>
 			)}
 			<div className="gravisain-section-content" style={{ position: 'relative', zIndex: 1 }}>

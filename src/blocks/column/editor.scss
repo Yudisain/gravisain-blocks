@@ -3,8 +3,7 @@
 	min-height: 48px;
 	display: flex;
 	flex-direction: column;
-	transition: all 0.2s ease;
-	max-width: none !important;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
 	margin: 0 !important;
 	
 	&:hover {
@@ -15,12 +14,44 @@
 		border: 1px solid var(--wp-admin-theme-color);
 	}
 
-	.block-editor-inner-blocks,
-	.block-editor-block-list__layout {
+	> .gravisain-column-inner,
+	> .gravisain-column-inner > .block-editor-block-list__layout,
+	> .block-editor-inner-blocks,
+	> .block-editor-block-list__layout {
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
 		width: 100%;
+	}
+
+	&.has-text-align-center {
+		text-align: center;
+
+		.wp-block-buttons,
+		.gravisain-buttons,
+		.gravisain-advanced-button {
+			justify-content: center !important;
+		}
+	}
+
+	&.has-text-align-right {
+		text-align: right;
+
+		.wp-block-buttons,
+		.gravisain-buttons,
+		.gravisain-advanced-button {
+			justify-content: flex-end !important;
+		}
+	}
+
+	&.has-text-align-left {
+		text-align: left;
+
+		.wp-block-buttons,
+		.gravisain-buttons,
+		.gravisain-advanced-button {
+			justify-content: flex-start !important;
+		}
 	}
 
 	/* Force appender wrapper to always be visible and take space */
@@ -64,15 +95,16 @@
 		right: calc(var(--gravisain-row-gap, 30px) / -2);
 		top: 0;
 		bottom: 0;
-		width: 14px;
+		width: 24px;
 		transform: translateX(50%);
 		cursor: col-resize;
-		z-index: 10;
+		z-index: 250;
 		opacity: 0;
-		transition: opacity 0.2s ease;
+		transition: opacity 0.15s ease;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		pointer-events: auto;
 
 		&.is-dragging {
 			opacity: 1 !important;
@@ -83,24 +115,74 @@
 			top: 0;
 			bottom: 0;
 			left: 50%;
-			width: 1px;
-			background-color: var(--wp-admin-theme-color, #f60);
+			width: 2px;
+			background-color: var(--wp-admin-theme-color, #2271b1);
 			transform: translateX(-50%);
 			pointer-events: none;
+			opacity: 0.9;
 		}
 
 		.gravisain-resizer-handle {
 			width: 24px;
 			height: 24px;
-			background-color: var(--wp-admin-theme-color, #007cba);
+			background-color: var(--wp-admin-theme-color, #2271b1);
 			color: #fff;
 			border: 2px solid #fff;
 			border-radius: 50%;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
 			pointer-events: none;
+			transition: transform 0.15s ease, background-color 0.15s ease;
+			z-index: 2;
+			opacity: 1 !important;
+
+			svg {
+				display: block;
+			}
+		}
+
+		&:hover .gravisain-resizer-handle,
+		&.is-dragging .gravisain-resizer-handle {
+			transform: scale(1.15);
+		}
+
+		.gravisain-resizer-tooltip {
+			position: absolute;
+			bottom: calc(50% + 18px);
+			left: 50%;
+			transform: translateX(-50%);
+			background: #1e293b;
+			color: #ffffff;
+			padding: 2px 7px;
+			border-radius: 4px;
+			font-size: 11px;
+			font-weight: 600;
+			letter-spacing: 0.3px;
+			line-height: 1.3;
+			white-space: nowrap !important;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+			pointer-events: none;
+			display: flex;
+			align-items: center;
+			gap: 4px;
+			z-index: 9999;
+
+			.gravisain-resizer-tooltip-sep {
+				opacity: 0.4;
+				font-weight: 400;
+			}
+
+			&::after {
+				content: "";
+				position: absolute;
+				top: 100%;
+				left: 50%;
+				transform: translateX(-50%);
+				border: 4px solid transparent;
+				border-top-color: #1e293b;
+			}
 		}
 	}
 
@@ -109,8 +191,31 @@
 	}
 }
 
-/* Global body class when dragging */
-body.is-resizing-column {
+/* Parent row hover & selection makes column resizers clearly visible without washed out transparency */
+.wp-block-gravisain-row-layout:hover .gravisain-column-resizer,
+.wp-block-gravisain-row-layout.is-selected .gravisain-column-resizer {
+	opacity: 1 !important;
+}
+
+.wp-block-gravisain-row-layout .gravisain-column-resizer:hover,
+.wp-block-gravisain-row-layout .gravisain-column-resizer.is-dragging {
+	opacity: 1 !important;
+}
+
+/* Global body class when dragging columns */
+body.is-resizing-column,
+body.is-resizing-column * {
 	cursor: col-resize !important;
 	user-select: none !important;
+}
+
+body.is-resizing-column .gravisain-row-layout-inner,
+body.is-resizing-column .wp-block-gravisain-column {
+	transition: none !important;
+}
+
+/* Disable spacing visualizer overlay during column resizing so it never intercepts */
+body.is-resizing-column .gravisain-spacing-visualizer {
+	display: none !important;
+	pointer-events: none !important;
 }

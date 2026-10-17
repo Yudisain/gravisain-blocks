@@ -12,6 +12,11 @@
 		pointer-events: auto;
 	}
 
+	body.is-resizing-column & {
+		display: none !important;
+		pointer-events: none !important;
+	}
+
 	.gravisain-spacing-zone {
 		position: absolute;
 		left: 0;

@@ -26,16 +26,19 @@ export default function save( { attributes } ) {
 			<div className="gravisain-gallery-wrapper">
 				{ images.map( ( img, index ) => {
 					const figureClass = `gravisain-gallery-figure ${enableLightbox ? 'has-lightbox' : ''}`.trim();
+					const imgStyle = img.focalPoint && ( img.focalPoint.x !== 0.5 || img.focalPoint.y !== 0.5 )
+						? { objectPosition: `${Math.round(img.focalPoint.x * 100)}% ${Math.round(img.focalPoint.y * 100)}%` }
+						: undefined;
 					
 					return (
 						<div key={ img.id || index } className="gravisain-gallery-item">
 							<figure className={ figureClass }>
 								{ enableLightbox ? (
 									<a href={ img.url } data-lightbox="gravisain-gallery">
-										<img src={ img.url } alt={ img.alt } />
+										<img src={ img.url } alt={ img.alt } style={ imgStyle } />
 									</a>
 								) : (
-									<img src={ img.url } alt={ img.alt } />
+									<img src={ img.url } alt={ img.alt } style={ imgStyle } />
 								) }
 								{ img.caption && <figcaption>{ img.caption }</figcaption> }
 							</figure>

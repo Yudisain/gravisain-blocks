@@ -1,4 +1,5 @@
 import { useBlockProps, RichText } from '@wordpress/block-editor';
+import { getIconMarkup } from '../../controls/icons';
 
 export default function save( { attributes } ) {
 	const {
@@ -68,13 +69,53 @@ export default function save( { attributes } ) {
 		},
 	} );
 
+	const iconVal = icon || ( iconSymbol ? iconSymbol : 'star' );
+	const iconData = getIconMarkup( iconVal, 'star' );
+	const isImg = iconData && iconData.type === 'image';
+	const isSvg = iconData && iconData.type === 'svg';
+	const isDashicon = icon && ! isImg && ! isSvg && ! icon.trim().startsWith( '<svg' ) && ! icon.trim().startsWith( '<SVG' );
+
 	return (
 		<div { ...blockProps }>
 			<div className="gravisain-feature-card__icon">
-				{ icon ? (
-					<span className={ `dashicons dashicons-${ icon }` } />
+				{ isImg ? (
+					<img
+						src={ iconData.src }
+						alt=""
+						style={ {
+							width: `${ iconSize ?? 32 }px`,
+							height: `${ iconSize ?? 32 }px`,
+							objectFit: 'contain',
+						} }
+					/>
+				) : isSvg ? (
+					<span
+						className="gravisain-feature-card__svg"
+						dangerouslySetInnerHTML={ { __html: iconData.content } }
+						style={ {
+							width: `${ iconSize ?? 32 }px`,
+							height: `${ iconSize ?? 32 }px`,
+							display: 'inline-flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							color: iconColor || '#4f46e5',
+						} }
+					/>
+				) : isDashicon ? (
+					<span className={ `dashicons dashicons-${ icon.replace( /^dashicons-/, '' ) }` } />
 				) : (
-					<span>{ symbols[ iconSymbol ] || '★' }</span>
+					<span
+						className="gravisain-feature-card__svg"
+						dangerouslySetInnerHTML={ { __html: getIconMarkup( 'star' ).content } }
+						style={ {
+							width: `${ iconSize ?? 32 }px`,
+							height: `${ iconSize ?? 32 }px`,
+							display: 'inline-flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							color: iconColor || '#4f46e5',
+						} }
+					/>
 				) }
 			</div>
 			<div className="gravisain-feature-card__content">

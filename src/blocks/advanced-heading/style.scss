@@ -1,25 +1,36 @@
 .gravisain-advanced-heading {
 	display: block;
 	position: relative;
-	width: 100%;
+	box-sizing: border-box;
 	
+	--gravisain-padding-top: 0px;
+	--gravisain-padding-right: 0px;
+	--gravisain-padding-bottom: 0px;
+	--gravisain-padding-left: 0px;
+	--gravisain-margin-top: 0px;
+	--gravisain-margin-right: auto;
+	--gravisain-margin-bottom: 24px;
+	--gravisain-margin-left: auto;
+
 	padding-top: var(--gravisain-padding-top);
 	padding-right: var(--gravisain-padding-right);
 	padding-bottom: var(--gravisain-padding-bottom);
 	padding-left: var(--gravisain-padding-left);
 	margin-top: var(--gravisain-margin-top);
 	margin-right: var(--gravisain-margin-right);
-	margin-bottom: var(--gravisain-margin-bottom, 24px);
+	margin-bottom: var(--gravisain-margin-bottom);
+	margin-left: var(--gravisain-margin-left);
 
 	.gravisain-heading-eyebrow {
 		display: block !important;
 		width: 100% !important;
-		font-family: var(--gravisain-ff, inherit);
-		font-size: 11px;
-		font-weight: 700;
+		font-family: var(--gravisain-heading-eyebrow-ff, var(--gravisain-ff, inherit));
+		font-size: var(--gravisain-heading-eyebrow-fs, 11px);
+		font-weight: var(--gravisain-heading-eyebrow-fw, 700);
+		line-height: var(--gravisain-heading-eyebrow-lh, 1.2);
+		letter-spacing: var(--gravisain-heading-eyebrow-ls, 0.12em);
 		text-transform: uppercase;
-		letter-spacing: 0.12em;
-		color: #64748b;
+		color: var(--gravisain-heading-eyebrow-color, #64748b);
 		margin-bottom: 8px;
 
 		&.below {
@@ -31,10 +42,12 @@
 	.gravisain-heading-title {
 		display: block !important;
 		width: 100% !important;
-		font-family: var(--gravisain-ff, inherit);
-		font-size: var(--gravisain-fs, 32px);
-		line-height: var(--gravisain-lh, 1.25);
-		letter-spacing: var(--gravisain-ls, 0px);
+		font-family: var(--gravisain-heading-title-ff, var(--gravisain-ff, inherit));
+		font-size: var(--gravisain-heading-title-fs, var(--gravisain-fs, 32px));
+		font-weight: var(--gravisain-heading-title-fw, 800);
+		line-height: var(--gravisain-heading-title-lh, var(--gravisain-lh, 1.25));
+		letter-spacing: var(--gravisain-heading-title-ls, var(--gravisain-ls, 0px));
+		color: var(--gravisain-heading-title-color, inherit);
 		margin: 0;
 
 		mark,
@@ -43,6 +56,19 @@
 			color: var(--gravisain-highlight-color, #2563eb);
 			font-weight: inherit;
 		}
+	}
+
+	.gravisain-heading-description {
+		display: block !important;
+		width: 100% !important;
+		font-family: var(--gravisain-heading-desc-ff, inherit);
+		font-size: var(--gravisain-heading-desc-fs, 1rem);
+		font-weight: var(--gravisain-heading-desc-fw, 400);
+		line-height: var(--gravisain-heading-desc-lh, 1.6);
+		letter-spacing: var(--gravisain-heading-desc-ls, 0px);
+		color: var(--gravisain-heading-desc-color, #64748b);
+		margin-top: 14px;
+		margin-bottom: 0;
 	}
 
 	mark.gravisain-highlight,
@@ -58,12 +84,33 @@
 		height: 4px;
 		border-radius: 2px;
 		margin-top: 14px;
+		box-sizing: border-box;
+		position: relative;
+
+		&.is-style-solid {
+			border-radius: 2px;
+		}
+
+		&.is-style-dotted,
+		&.is-style-dashed,
+		&.is-style-double {
+			border-radius: 0;
+		}
+
+		.gravisain-divider-svg {
+			display: block;
+			width: 100%;
+			height: 100%;
+			overflow: visible;
+			pointer-events: none;
+		}
 	}
 
 	/* Base Alignment */
 	text-align: left;
 	.gravisain-heading-title,
-	.gravisain-heading-eyebrow {
+	.gravisain-heading-eyebrow,
+	.gravisain-heading-description {
 		text-align: left !important;
 	}
 	.gravisain-heading-divider {
@@ -74,7 +121,8 @@
 	&.has-text-align-center {
 		text-align: center;
 		.gravisain-heading-title,
-		.gravisain-heading-eyebrow {
+		.gravisain-heading-eyebrow,
+		.gravisain-heading-description {
 			text-align: center !important;
 		}
 		.gravisain-heading-divider {
@@ -86,7 +134,8 @@
 	&.has-text-align-right {
 		text-align: right;
 		.gravisain-heading-title,
-		.gravisain-heading-eyebrow {
+		.gravisain-heading-eyebrow,
+		.gravisain-heading-description {
 			text-align: right !important;
 		}
 		.gravisain-heading-divider {
@@ -111,19 +160,39 @@
 		padding-bottom: var(--gravisain-padding-bottom-tablet, var(--gravisain-padding-bottom));
 		padding-left: var(--gravisain-padding-left-tablet, var(--gravisain-padding-left));
 		margin-top: var(--gravisain-margin-top-tablet, var(--gravisain-margin-top));
-		margin-right: var(--gravisain-margin-right-tablet, var(--gravisain-margin-right));
+		margin-right: var(--gravisain-margin-right-tablet, var(--gravisain-margin-right, auto));
 		margin-bottom: var(--gravisain-margin-bottom-tablet, var(--gravisain-margin-bottom, 24px));
+		margin-left: var(--gravisain-margin-left-tablet, var(--gravisain-margin-left, auto));
+
+		.gravisain-heading-eyebrow {
+			font-family: var(--gravisain-heading-eyebrow-tablet-ff, var(--gravisain-heading-eyebrow-ff, var(--gravisain-ff, inherit)));
+			font-size: var(--gravisain-heading-eyebrow-tablet-fs, var(--gravisain-heading-eyebrow-fs, 11px));
+			font-weight: var(--gravisain-heading-eyebrow-tablet-fw, var(--gravisain-heading-eyebrow-fw, 700));
+			line-height: var(--gravisain-heading-eyebrow-tablet-lh, var(--gravisain-heading-eyebrow-lh, 1.2));
+			letter-spacing: var(--gravisain-heading-eyebrow-tablet-ls, var(--gravisain-heading-eyebrow-ls, 0.12em));
+		}
 
 		.gravisain-heading-title {
-			font-size: var(--gravisain-fs-tablet, var(--gravisain-fs, 32px));
-			line-height: var(--gravisain-lh-tablet, var(--gravisain-lh, 1.25));
-			letter-spacing: var(--gravisain-ls-tablet, var(--gravisain-ls, 0px));
+			font-family: var(--gravisain-heading-title-tablet-ff, var(--gravisain-heading-title-ff, var(--gravisain-ff, inherit)));
+			font-size: var(--gravisain-heading-title-tablet-fs, var(--gravisain-fs-tablet, var(--gravisain-heading-title-fs, var(--gravisain-fs, 32px))));
+			font-weight: var(--gravisain-heading-title-tablet-fw, var(--gravisain-heading-title-fw, 800));
+			line-height: var(--gravisain-heading-title-tablet-lh, var(--gravisain-lh-tablet, var(--gravisain-heading-title-lh, var(--gravisain-lh, 1.25))));
+			letter-spacing: var(--gravisain-heading-title-tablet-ls, var(--gravisain-ls-tablet, var(--gravisain-heading-title-ls, var(--gravisain-ls, 0px))));
+		}
+
+		.gravisain-heading-description {
+			font-family: var(--gravisain-heading-desc-tablet-ff, var(--gravisain-heading-desc-ff, inherit));
+			font-size: var(--gravisain-heading-desc-tablet-fs, var(--gravisain-heading-desc-fs, 1rem));
+			font-weight: var(--gravisain-heading-desc-tablet-fw, var(--gravisain-heading-desc-fw, 400));
+			line-height: var(--gravisain-heading-desc-tablet-lh, var(--gravisain-heading-desc-lh, 1.6));
+			letter-spacing: var(--gravisain-heading-desc-tablet-ls, var(--gravisain-heading-desc-ls, 0px));
 		}
 
 		&.has-tablet-text-align-left {
 			text-align: left !important;
 			.gravisain-heading-title,
-			.gravisain-heading-eyebrow {
+			.gravisain-heading-eyebrow,
+			.gravisain-heading-description {
 				text-align: left !important;
 			}
 			.gravisain-heading-divider {
@@ -134,7 +203,8 @@
 		&.has-tablet-text-align-center {
 			text-align: center !important;
 			.gravisain-heading-title,
-			.gravisain-heading-eyebrow {
+			.gravisain-heading-eyebrow,
+			.gravisain-heading-description {
 				text-align: center !important;
 			}
 			.gravisain-heading-divider {
@@ -145,7 +215,8 @@
 		&.has-tablet-text-align-right {
 			text-align: right !important;
 			.gravisain-heading-title,
-			.gravisain-heading-eyebrow {
+			.gravisain-heading-eyebrow,
+			.gravisain-heading-description {
 				text-align: right !important;
 			}
 			.gravisain-heading-divider {
@@ -161,19 +232,39 @@
 		padding-bottom: var(--gravisain-padding-bottom-mobile, var(--gravisain-padding-bottom-tablet, var(--gravisain-padding-bottom)));
 		padding-left: var(--gravisain-padding-left-mobile, var(--gravisain-padding-left-tablet, var(--gravisain-padding-left)));
 		margin-top: var(--gravisain-margin-top-mobile, var(--gravisain-margin-top-tablet, var(--gravisain-margin-top)));
-		margin-right: var(--gravisain-margin-right-mobile, var(--gravisain-margin-right-tablet, var(--gravisain-margin-right)));
+		margin-right: var(--gravisain-margin-right-mobile, var(--gravisain-margin-right-tablet, var(--gravisain-margin-right, auto)));
 		margin-bottom: var(--gravisain-margin-bottom-mobile, var(--gravisain-margin-bottom-tablet, var(--gravisain-margin-bottom, 24px)));
+		margin-left: var(--gravisain-margin-left-mobile, var(--gravisain-margin-left-tablet, var(--gravisain-margin-left, auto)));
+
+		.gravisain-heading-eyebrow {
+			font-family: var(--gravisain-heading-eyebrow-mobile-ff, var(--gravisain-heading-eyebrow-tablet-ff, var(--gravisain-heading-eyebrow-ff, var(--gravisain-ff, inherit))));
+			font-size: var(--gravisain-heading-eyebrow-mobile-fs, var(--gravisain-heading-eyebrow-tablet-fs, var(--gravisain-heading-eyebrow-fs, 11px)));
+			font-weight: var(--gravisain-heading-eyebrow-mobile-fw, var(--gravisain-heading-eyebrow-tablet-fw, var(--gravisain-heading-eyebrow-fw, 700)));
+			line-height: var(--gravisain-heading-eyebrow-mobile-lh, var(--gravisain-heading-eyebrow-tablet-lh, var(--gravisain-heading-eyebrow-lh, 1.2)));
+			letter-spacing: var(--gravisain-heading-eyebrow-mobile-ls, var(--gravisain-heading-eyebrow-tablet-ls, var(--gravisain-heading-eyebrow-ls, 0.12em)));
+		}
 
 		.gravisain-heading-title {
-			font-size: var(--gravisain-fs-mobile, var(--gravisain-fs-tablet, var(--gravisain-fs, 32px)));
-			line-height: var(--gravisain-lh-mobile, var(--gravisain-lh-tablet, var(--gravisain-lh, 1.25)));
-			letter-spacing: var(--gravisain-ls-mobile, var(--gravisain-ls-tablet, var(--gravisain-ls, 0px)));
+			font-family: var(--gravisain-heading-title-mobile-ff, var(--gravisain-heading-title-tablet-ff, var(--gravisain-heading-title-ff, var(--gravisain-ff, inherit))));
+			font-size: var(--gravisain-heading-title-mobile-fs, var(--gravisain-fs-mobile, var(--gravisain-heading-title-tablet-fs, var(--gravisain-fs-tablet, var(--gravisain-heading-title-fs, var(--gravisain-fs, 32px))))));
+			font-weight: var(--gravisain-heading-title-mobile-fw, var(--gravisain-heading-title-tablet-fw, var(--gravisain-heading-title-fw, 800)));
+			line-height: var(--gravisain-heading-title-mobile-lh, var(--gravisain-lh-mobile, var(--gravisain-heading-title-tablet-lh, var(--gravisain-lh-tablet, var(--gravisain-heading-title-lh, var(--gravisain-lh, 1.25))))));
+			letter-spacing: var(--gravisain-heading-title-mobile-ls, var(--gravisain-ls-mobile, var(--gravisain-heading-title-tablet-ls, var(--gravisain-ls-tablet, var(--gravisain-heading-title-ls, var(--gravisain-ls, 0px))))));
+		}
+
+		.gravisain-heading-description {
+			font-family: var(--gravisain-heading-desc-mobile-ff, var(--gravisain-heading-desc-tablet-ff, var(--gravisain-heading-desc-ff, inherit)));
+			font-size: var(--gravisain-heading-desc-mobile-fs, var(--gravisain-heading-desc-tablet-fs, var(--gravisain-heading-desc-fs, 1rem)));
+			font-weight: var(--gravisain-heading-desc-mobile-fw, var(--gravisain-heading-desc-tablet-fw, var(--gravisain-heading-desc-fw, 400)));
+			line-height: var(--gravisain-heading-desc-mobile-lh, var(--gravisain-heading-desc-tablet-lh, var(--gravisain-heading-desc-lh, 1.6)));
+			letter-spacing: var(--gravisain-heading-desc-mobile-ls, var(--gravisain-heading-desc-tablet-ls, var(--gravisain-heading-desc-ls, 0px)));
 		}
 
 		&.has-mobile-text-align-left {
 			text-align: left !important;
 			.gravisain-heading-title,
-			.gravisain-heading-eyebrow {
+			.gravisain-heading-eyebrow,
+			.gravisain-heading-description {
 				text-align: left !important;
 			}
 			.gravisain-heading-divider {
@@ -184,7 +275,8 @@
 		&.has-mobile-text-align-center {
 			text-align: center !important;
 			.gravisain-heading-title,
-			.gravisain-heading-eyebrow {
+			.gravisain-heading-eyebrow,
+			.gravisain-heading-description {
 				text-align: center !important;
 			}
 			.gravisain-heading-divider {
@@ -195,7 +287,8 @@
 		&.has-mobile-text-align-right {
 			text-align: right !important;
 			.gravisain-heading-title,
-			.gravisain-heading-eyebrow {
+			.gravisain-heading-eyebrow,
+			.gravisain-heading-description {
 				text-align: right !important;
 			}
 			.gravisain-heading-divider {

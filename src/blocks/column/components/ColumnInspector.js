@@ -1,9 +1,11 @@
 import { __ } from '@wordpress/i18n';
 import { InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, TextControl, TextareaControl, RangeControl, Button, TabPanel } from '@wordpress/components';
+import { PanelBody, SelectControl, TextControl, TextareaControl, RangeControl, Button, TabPanel, FocalPointPicker } from '@wordpress/components';
 import ColorControl from '../../../controls/ColorControl';
 import SpacingControl from '../../../controls/SpacingControl';
 import ResponsiveTabControl from '../../../controls/ResponsiveTabControl';
+import ResponsiveAlignmentControl from '../../../controls/ResponsiveAlignmentControl';
+import StickyControl from '../../../controls/StickyControl';
 
 export default function ColumnInspector( { attributes, setAttributes } ) {
 	const {
@@ -11,9 +13,13 @@ export default function ColumnInspector( { attributes, setAttributes } ) {
 		widthTablet,
 		widthMobile,
 		verticalAlignment,
+		horizontalAlignment,
+		horizontalAlignmentTablet,
+		horizontalAlignmentMobile,
 		backgroundColor,
 		textColor,
 		backgroundImage,
+		backgroundFocalPoint,
 		padding,
 		paddingTablet,
 		paddingMobile,
@@ -24,6 +30,10 @@ export default function ColumnInspector( { attributes, setAttributes } ) {
 		borderColor,
 		borderStyle,
 		borderRadius,
+		boxShadow,
+		hoverEffect,
+		hoverBackgroundColor,
+		hoverBorderColor,
 		anchor,
 		customClassName,
 		customCSS,
@@ -55,58 +65,78 @@ export default function ColumnInspector( { attributes, setAttributes } ) {
 				{ ( tab ) => (
 					<div className="gravisain-tab-content">
 						{ tab.name === 'general' && (
-							<PanelBody title={ __( 'Column Width & Alignment', 'gravisain' ) } initialOpen={ true }>
-								<ResponsiveTabControl>
-									{ ( device ) => {
-										if ( device === 'tablet' ) {
+							<>
+								<PanelBody title={ __( 'Column Width & Alignment', 'gravisain' ) } initialOpen={ true }>
+									<ResponsiveTabControl>
+										{ ( device ) => {
+											if ( device === 'tablet' ) {
+												return (
+													<RangeControl
+														label={ __( 'Tablet Width (%)', 'gravisain' ) }
+														value={ parseFloat( widthTablet ) || undefined }
+														onChange={ ( val ) => setAttributes( { widthTablet: val !== undefined ? `${val}%` : undefined } ) }
+														min={ 0 }
+														max={ 100 }
+														allowReset={ true }
+													/>
+												);
+											}
+											if ( device === 'mobile' ) {
+												return (
+													<RangeControl
+														label={ __( 'Mobile Width (%)', 'gravisain' ) }
+														value={ parseFloat( widthMobile ) || undefined }
+														onChange={ ( val ) => setAttributes( { widthMobile: val !== undefined ? `${val}%` : undefined } ) }
+														min={ 0 }
+														max={ 100 }
+														allowReset={ true }
+													/>
+												);
+											}
 											return (
 												<RangeControl
-													label={ __( 'Tablet Width (%)', 'gravisain' ) }
-													value={ parseFloat( widthTablet ) || undefined }
-													onChange={ ( val ) => setAttributes( { widthTablet: val !== undefined ? `${val}%` : undefined } ) }
+													label={ __( 'Desktop Width (%)', 'gravisain' ) }
+													value={ parseFloat( width ) || undefined }
+													onChange={ ( val ) => setAttributes( { width: val !== undefined ? `${val}%` : undefined } ) }
 													min={ 0 }
 													max={ 100 }
 													allowReset={ true }
 												/>
 											);
-										}
-										if ( device === 'mobile' ) {
-											return (
-												<RangeControl
-													label={ __( 'Mobile Width (%)', 'gravisain' ) }
-													value={ parseFloat( widthMobile ) || undefined }
-													onChange={ ( val ) => setAttributes( { widthMobile: val !== undefined ? `${val}%` : undefined } ) }
-													min={ 0 }
-													max={ 100 }
-													allowReset={ true }
-												/>
-											);
-										}
-										return (
-											<RangeControl
-												label={ __( 'Desktop Width (%)', 'gravisain' ) }
-												value={ parseFloat( width ) || undefined }
-												onChange={ ( val ) => setAttributes( { width: val !== undefined ? `${val}%` : undefined } ) }
-												min={ 0 }
-												max={ 100 }
-												allowReset={ true }
-											/>
-										);
-									} }
-								</ResponsiveTabControl>
+										} }
+									</ResponsiveTabControl>
 
-								<SelectControl
-									label={ __( 'Vertical Alignment', 'gravisain' ) }
-									value={ verticalAlignment }
-									options={ [
-										{ label: __( 'Default', 'gravisain' ), value: '' },
-										{ label: __( 'Top', 'gravisain' ), value: 'top' },
-										{ label: __( 'Middle', 'gravisain' ), value: 'center' },
-										{ label: __( 'Bottom', 'gravisain' ), value: 'bottom' },
-									] }
-									onChange={ ( value ) => setAttributes( { verticalAlignment: value } ) }
+									<SelectControl
+										label={ __( 'Vertical Alignment', 'gravisain' ) }
+										value={ verticalAlignment }
+										options={ [
+											{ label: __( 'Default', 'gravisain' ), value: '' },
+											{ label: __( 'Top', 'gravisain' ), value: 'top' },
+											{ label: __( 'Middle', 'gravisain' ), value: 'center' },
+											{ label: __( 'Bottom', 'gravisain' ), value: 'bottom' },
+										] }
+										onChange={ ( value ) => setAttributes( { verticalAlignment: value } ) }
+									/>
+
+									<div style={ { marginTop: '16px' } }>
+										<ResponsiveAlignmentControl
+											label={ __( 'Horizontal Alignment', 'gravisain' ) }
+											textAlign={ horizontalAlignment }
+											textAlignTablet={ horizontalAlignmentTablet }
+											textAlignMobile={ horizontalAlignmentMobile }
+											onChangeDesktop={ ( val ) => setAttributes( { horizontalAlignment: val } ) }
+											onChangeTablet={ ( val ) => setAttributes( { horizontalAlignmentTablet: val } ) }
+											onChangeMobile={ ( val ) => setAttributes( { horizontalAlignmentMobile: val } ) }
+										/>
+									</div>
+								</PanelBody>
+
+								<StickyControl
+									attributes={ attributes }
+									setAttributes={ setAttributes }
+									helpText={ __( 'This will stick the column to viewport for the height of outer container.', 'gravisain' ) }
 								/>
-							</PanelBody>
+							</>
 						) }
 
 						{ tab.name === 'style' && (
@@ -138,9 +168,19 @@ export default function ColumnInspector( { attributes, setAttributes } ) {
 										/>
 									</MediaUploadCheck>
 									{ backgroundImage && (
-										<Button variant="link" isDestructive onClick={ () => setAttributes( { backgroundImage: '' } ) } style={ { marginTop: '10px', display: 'block' } }>
-											{ __( 'Remove Image', 'gravisain' ) }
-										</Button>
+										<>
+											<Button variant="link" isDestructive onClick={ () => setAttributes( { backgroundImage: '' } ) } style={ { marginTop: '10px', display: 'block' } }>
+												{ __( 'Remove Image', 'gravisain' ) }
+											</Button>
+											<div style={ { marginTop: '16px' } }>
+												<FocalPointPicker
+													label={ __( 'Background Focal Point', 'gravisain' ) }
+													url={ backgroundImage }
+													value={ backgroundFocalPoint || { x: 0.5, y: 0.5 } }
+													onChange={ ( val ) => setAttributes( { backgroundFocalPoint: val } ) }
+												/>
+											</div>
+										</>
 									) }
 								</PanelBody>
 
@@ -231,6 +271,47 @@ export default function ColumnInspector( { attributes, setAttributes } ) {
 										onChange={ ( val ) => setAttributes( { borderRadius: val } ) }
 										min={ 0 }
 										max={ 100 }
+									/>
+									<hr style={{ margin: '16px 0' }} />
+									<SelectControl
+										label={ __( 'Box Shadow', 'gravisain' ) }
+										value={ boxShadow }
+										options={ [
+											{ label: __( 'None', 'gravisain' ), value: '' },
+											{ label: __( 'Soft Shadow', 'gravisain' ), value: '0 4px 12px rgba(0,0,0,0.08)' },
+											{ label: __( 'Medium Shadow', 'gravisain' ), value: '0 8px 24px rgba(0,0,0,0.12)' },
+											{ label: __( 'Hard Shadow', 'gravisain' ), value: '0 12px 36px rgba(0,0,0,0.15)' },
+										] }
+										onChange={ ( val ) => setAttributes( { boxShadow: val } ) }
+									/>
+								</PanelBody>
+
+								<PanelBody title={ __( 'Hover & Interactive Effects', 'gravisain' ) } initialOpen={ false }>
+									<SelectControl
+										label={ __( 'Column Hover Effect', 'gravisain' ) }
+										value={ hoverEffect || 'none' }
+										options={ [
+											{ label: __( 'None', 'gravisain' ), value: 'none' },
+											{ label: __( 'Lift Up (Shadow Boost)', 'gravisain' ), value: 'lift' },
+											{ label: __( 'Scale Up (Zoom In)', 'gravisain' ), value: 'scale' },
+											{ label: __( 'Border Glow', 'gravisain' ), value: 'border-glow' },
+										] }
+										onChange={ ( val ) => setAttributes( { hoverEffect: val } ) }
+										help={ __( 'Adds smooth lift or zoom animation when visitors hover over this column.', 'gravisain' ) }
+									/>
+									{ hoverEffect === 'border-glow' && (
+										<ColorControl
+											label={ __( 'Hover Glow Color', 'gravisain' ) }
+											value={ hoverBorderColor }
+											onChange={ ( val ) => setAttributes( { hoverBorderColor: val } ) }
+											disableGradient={ true }
+										/>
+									) }
+									<ColorControl
+										label={ __( 'Hover Background Color (Optional)', 'gravisain' ) }
+										value={ hoverBackgroundColor }
+										onChange={ ( val ) => setAttributes( { hoverBackgroundColor: val } ) }
+										disableGradient={ true }
 									/>
 								</PanelBody>
 							</>

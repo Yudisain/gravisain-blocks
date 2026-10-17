@@ -2,6 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { RichText, __experimentalLinkControl as LinkControl } from '@wordpress/block-editor';
 import { Popover } from '@wordpress/components';
 import { useState } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 import { Heading } from '../../../components/Heading.jsx';
 import { Text } from '../../../components/Text.jsx';
 import { Button } from '../../../components/Button.jsx';
@@ -13,13 +14,33 @@ export default function Content({ attributes, setAttributes }) {
 		description, 
 		primaryButton, 
 		secondaryButton, 
-		layout
+		layout,
+		textAlign,
+		textAlignTablet,
+		textAlignMobile,
 	} = attributes;
 
 	const [ activeLink, setActiveLink ] = useState( null );
 
+	const previewDeviceType = useSelect( ( select ) => {
+		const editorDevice = select( 'core/editor' )?.getDeviceType?.();
+		const postDevice = select( 'core/edit-post' )?.__experimentalGetPreviewDeviceType?.();
+		const siteDevice = select( 'core/edit-site' )?.__experimentalGetPreviewDeviceType?.();
+		return editorDevice || postDevice || siteDevice || 'Desktop';
+	}, [] );
+
+	const defaultAlign = layout === '1-column' ? 'center' : 'left';
+	const isTablet = previewDeviceType === 'Tablet';
+	const isMobile = previewDeviceType === 'Mobile';
+
+	const activeAlign = isMobile && textAlignMobile
+		? textAlignMobile
+		: isTablet && textAlignTablet
+		? textAlignTablet
+		: textAlign || defaultAlign;
+
 	return (
-		<div className="hero-content">
+		<div className={`hero-content has-text-align-${activeAlign}`} style={ { textAlign: activeAlign } }>
 			<RichText
 				tagName="span"
 				className="hero-eyebrow"
@@ -44,7 +65,7 @@ export default function Content({ attributes, setAttributes }) {
 				placeholder={__('Enter hero description...', 'gravisain')}
 			/>
 
-			<div className={`hero-button-group ${layout === '1-column' ? 'center' : ''}`}>
+			<div className={`hero-button-group ${activeAlign} has-btn-align-${activeAlign}`}>
 				<div className="button-wrapper" onClick={() => setActiveLink('primary')}>
 					<RichText
 						tagName="span"

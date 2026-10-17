@@ -56,6 +56,20 @@
 		"orderBy": {
 			"type": "string",
 			"default": "date"
+		},
+		"className": {
+			"type": "string",
+			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": ""
+		},
+		"metadata": {
+			"type": "object"
+		},
+		"style": {
+			"type": "object"
 		}
 	},
 	"textdomain": "gravisain-blocks",

@@ -8,6 +8,7 @@ import {
 	TabPanel,
 } from '@wordpress/components';
 import ColorControl from '../../../controls/ColorControl';
+import IconPickerControl from '../../../controls/IconPickerControl';
 
 export default function CardInspector( { attributes, setAttributes } ) {
 	const {
@@ -63,27 +64,11 @@ export default function CardInspector( { attributes, setAttributes } ) {
 						return (
 							<>
 								<PanelBody title={ __( 'Icon & Layout Settings', 'gravisain' ) }>
-									<TextControl
-										label={ __( 'Dashicon Class (e.g. wordpress, star-filled)', 'gravisain' ) }
+									<IconPickerControl
+										label={ __( 'Icon', 'gravisain' ) }
 										value={ icon }
 										onChange={ ( value ) => setAttributes( { icon: value } ) }
-										help={ __( 'Enter Dashicon name without "dashicons-" prefix. If empty, uses symbol below.', 'gravisain' ) }
 									/>
-									{ ! icon && (
-										<SelectControl
-											label={ __( 'Symbol Preset', 'gravisain' ) }
-											value={ iconSymbol }
-											options={ [
-												{ label: __( 'Star ★', 'gravisain' ), value: 'star' },
-												{ label: __( 'Lightning ⚡', 'gravisain' ), value: 'lightning' },
-												{ label: __( 'Shield 🛡️', 'gravisain' ), value: 'shield' },
-												{ label: __( 'Checkmark ✓', 'gravisain' ), value: 'check' },
-												{ label: __( 'Award Trophy 🏆', 'gravisain' ), value: 'award' },
-												{ label: __( 'Heart ♥', 'gravisain' ), value: 'heart' },
-											] }
-											onChange={ ( value ) => setAttributes( { iconSymbol: value } ) }
-										/>
-									) }
 									<SelectControl
 										label={ __( 'Icon Position Layout', 'gravisain' ) }
 										value={ iconPosition }

@@ -4,6 +4,21 @@
  * @package Gravisain\Blocks
  */
 
+/* Prevent horizontal overflow blowout from full-width breakout elements or flex tracks */
+html,
+body {
+	max-width: 100%;
+	overflow-x: clip;
+}
+
+.content-area-wrapper,
+.content-area-wrapper > *,
+.site-main,
+.primary-content-area,
+.entry-content {
+	min-width: 0 !important;
+}
+
 .gravisain-pattern-hero {
 	position: relative;
 	overflow: hidden;
@@ -40,3 +55,194 @@ details.wp-block-details summary::after {
 details.wp-block-details[open] summary::after {
 	content: '−';
 }
+
+/* Gravisain Standard Spacing Control (Padding & Margin) */
+.gravisain-spacing-control {
+	box-sizing: border-box;
+	margin-bottom: 16px;
+}
+.gravisain-spacing-control * {
+	box-sizing: border-box;
+}
+.gravisain-spacing-control .gravisain-spacing-header {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	margin-bottom: 8px !important;
+}
+.gravisain-spacing-control .gravisain-spacing-title {
+	font-size: 12px !important;
+	font-weight: 500 !important;
+	color: #1e293b !important;
+	margin: 0 !important;
+}
+.gravisain-spacing-control .gravisain-spacing-actions {
+	display: flex !important;
+	align-items: center !important;
+	gap: 5px !important;
+}
+.gravisain-spacing-control .gravisain-action-btn {
+	background: #ffffff !important;
+	border: 1px solid #cbd5e1 !important;
+	width: 26px !important;
+	height: 26px !important;
+	border-radius: 4px !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	color: #64748b !important;
+	cursor: pointer !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	outline: none !important;
+	box-shadow: none !important;
+	transition: all 0.15s ease !important;
+}
+.gravisain-spacing-control .gravisain-action-btn:hover {
+	border-color: #94a3b8 !important;
+	color: #1e293b !important;
+	background: #f8fafc !important;
+}
+.gravisain-spacing-control .gravisain-action-btn.is-active {
+	background: #2563eb !important;
+	border-color: #2563eb !important;
+	color: #ffffff !important;
+}
+.gravisain-spacing-control .gravisain-spacing-box-group {
+	display: flex !important;
+	flex-direction: row !important;
+	align-items: stretch !important;
+	width: 100% !important;
+	gap: 0 !important;
+	position: relative !important;
+}
+.gravisain-spacing-control .gravisain-spacing-box {
+	flex: 1 1 0% !important;
+	min-width: 0 !important;
+	display: flex !important;
+	flex-direction: column !important;
+	border: 1px solid #cbd5e1 !important;
+	border-right: none !important;
+	background: #ffffff !important;
+	box-sizing: border-box !important;
+	position: relative !important;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+.gravisain-spacing-control .gravisain-spacing-box:first-child {
+	border-top-left-radius: 4px !important;
+	border-bottom-left-radius: 4px !important;
+}
+.gravisain-spacing-control .gravisain-spacing-box .gravisain-box-label {
+	font-size: 9px !important;
+	font-weight: 600 !important;
+	text-align: center !important;
+	padding: 4px 2px 2px !important;
+	color: #64748b !important;
+	text-transform: uppercase !important;
+	letter-spacing: 0.3px !important;
+	border-bottom: 2px solid transparent !important;
+	user-select: none !important;
+	line-height: 1 !important;
+}
+.gravisain-spacing-control .gravisain-spacing-box input {
+	border: none !important;
+	outline: none !important;
+	box-shadow: none !important;
+	background: transparent !important;
+	width: 100% !important;
+	text-align: center !important;
+	font-size: 12px !important;
+	font-weight: 500 !important;
+	color: #1e293b !important;
+	padding: 3px 2px !important;
+	height: 28px !important;
+	min-height: 28px !important;
+	max-height: 28px !important;
+	margin: 0 !important;
+	box-sizing: border-box !important;
+	-moz-appearance: textfield !important;
+}
+.gravisain-spacing-control input::-webkit-outer-spin-button,
+.gravisain-spacing-control input::-webkit-inner-spin-button {
+	-webkit-appearance: none !important;
+	margin: 0 !important;
+}
+.gravisain-spacing-control .gravisain-spacing-box.is-focused,
+.gravisain-spacing-control .gravisain-spacing-box:focus-within {
+	z-index: 2 !important;
+	border-color: #2563eb !important;
+	box-shadow: 0 0 0 1px #2563eb !important;
+}
+.gravisain-spacing-control .gravisain-spacing-box.is-focused .gravisain-box-label,
+.gravisain-spacing-control .gravisain-spacing-box:focus-within .gravisain-box-label {
+	border-bottom-color: #2563eb !important;
+	color: #2563eb !important;
+}
+.gravisain-spacing-control .gravisain-unit-wrapper {
+	position: relative !important;
+	display: flex !important;
+}
+.gravisain-spacing-control .gravisain-unit-btn {
+	background: #ffffff !important;
+	border: 1px solid #cbd5e1 !important;
+	border-top-right-radius: 4px !important;
+	border-bottom-right-radius: 4px !important;
+	font-size: 11px !important;
+	font-weight: 600 !important;
+	color: #334155 !important;
+	padding: 0 10px !important;
+	cursor: pointer !important;
+	min-width: 40px !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	box-sizing: border-box !important;
+	transition: all 0.15s ease !important;
+	height: auto !important;
+	margin: 0 !important;
+}
+.gravisain-spacing-control .gravisain-unit-btn:hover {
+	background: #f8fafc !important;
+	border-color: #94a3b8 !important;
+}
+.gravisain-spacing-control .gravisain-unit-btn.is-open {
+	border-color: #2563eb !important;
+	color: #2563eb !important;
+}
+.gravisain-spacing-control .gravisain-unit-dropdown {
+	position: absolute !important;
+	top: 100% !important;
+	right: 0 !important;
+	margin-top: 4px !important;
+	background: #ffffff !important;
+	border: 1px solid #cbd5e1 !important;
+	border-radius: 4px !important;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+	z-index: 1000 !important;
+	display: flex !important;
+	flex-direction: column !important;
+	min-width: 60px !important;
+	overflow: hidden !important;
+}
+.gravisain-spacing-control .gravisain-unit-option {
+	background: transparent !important;
+	border: none !important;
+	padding: 6px 12px !important;
+	font-size: 11px !important;
+	font-weight: 600 !important;
+	color: #334155 !important;
+	text-align: left !important;
+	cursor: pointer !important;
+	transition: background 0.1s ease !important;
+	display: block !important;
+	width: 100% !important;
+}
+.gravisain-spacing-control .gravisain-unit-option:hover {
+	background: #f1f5f9 !important;
+	color: #2563eb !important;
+}
+.gravisain-spacing-control .gravisain-unit-option.is-selected {
+	background: #eff6ff !important;
+	color: #2563eb !important;
+}
+

@@ -1,5 +1,5 @@
 import { useBlockProps } from '@wordpress/block-editor';
-import { ICONS } from '../../controls/icons';
+import { ICONS, getIconMarkup } from '../../controls/icons';
 import parseCustomCSS from '../../controls/parseCustomCSS';
 
 export default function save( { attributes } ) {
@@ -43,7 +43,9 @@ export default function save( { attributes } ) {
 		},
 	} );
 
-	const iconSvg = icon && ICONS[ icon ] ? ICONS[ icon ] : ICONS.star;
+	const iconData = getIconMarkup( icon, 'star' );
+	const isImg = iconData && iconData.type === 'image';
+	const iconSvg = iconData && iconData.type === 'svg' ? iconData.content : ( ICONS[ icon ] || ICONS.star );
 
 	const iconContent = (
 		<span
@@ -52,8 +54,12 @@ export default function save( { attributes } ) {
 				padding: padding ? `${ padding }px` : undefined,
 				borderRadius: borderRadius ? `${ borderRadius }px` : undefined,
 			} }
-			dangerouslySetInnerHTML={ { __html: iconSvg } }
-		/>
+			dangerouslySetInnerHTML={ ! isImg ? { __html: iconSvg } : undefined }
+		>
+			{ isImg && (
+				<img src={ iconData.src } alt="" style={ { width: '100%', height: '100%', objectFit: 'contain' } } />
+			) }
+		</span>
 	);
 
 	return (

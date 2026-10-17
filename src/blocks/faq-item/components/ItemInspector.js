@@ -71,13 +71,16 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 								/>
 								<SelectControl
 									label={ __( 'Accordion Icon Type', 'gravisain' ) }
-									value={ iconType }
+									value={ iconType || 'inherit' }
 									options={ [
+										{ label: __( 'Inherit from Accordion (Default)', 'gravisain' ), value: 'inherit' },
 										{ label: __( 'Arrow Down / Up', 'gravisain' ), value: 'arrow-down-alt2' },
 										{ label: __( 'Chevron Down / Up', 'gravisain' ), value: 'arrow-down' },
 										{ label: __( 'Plus / Minus (+ / -)', 'gravisain' ), value: 'plus' },
+										{ label: __( 'None (No Icon)', 'gravisain' ), value: 'none' },
 									] }
 									onChange={ ( value ) => setAttributes( { iconType: value } ) }
+									help={ __( 'Leave as "Inherit" to follow the global icon chosen on the parent FAQ Accordion container.', 'gravisain' ) }
 								/>
 							</PanelBody>
 						);
@@ -137,8 +140,10 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 										label={ __( 'Icon Size (px)', 'gravisain' ) }
 										value={ iconSize }
 										onChange={ ( value ) => setAttributes( { iconSize: value } ) }
-										min={ 16 }
+										min={ 14 }
 										max={ 48 }
+										allowReset={ true }
+										help={ __( 'Leave empty or click reset to inherit Global Icon Size from Accordion.', 'gravisain' ) }
 									/>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
@@ -146,7 +151,8 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 										</p>
 										<ColorControl
 											value={ iconColorNormal }
-											onChange={ ( color ) => setAttributes( { iconColorNormal: color || '#64748b' } ) }
+											onChange={ ( color ) => setAttributes( { iconColorNormal: color } ) }
+											disableGradient={ true }
 										/>
 									</div>
 									<div style={ { marginBottom: 16 } }>
@@ -155,7 +161,8 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 										</p>
 										<ColorControl
 											value={ iconColorActive }
-											onChange={ ( color ) => setAttributes( { iconColorActive: color || '#4f46e5' } ) }
+											onChange={ ( color ) => setAttributes( { iconColorActive: color } ) }
+											disableGradient={ true }
 										/>
 									</div>
 									<div style={ { marginBottom: 16 } }>

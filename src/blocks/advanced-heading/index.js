@@ -5,6 +5,7 @@ import './format-highlight.js';
 import Edit from './edit.js';
 import save from './save.js';
 import metadata from './block.json';
+import deprecated from './deprecated.js';
 
 registerBlockType( metadata.name, {
 	icon: (
@@ -12,4 +13,5 @@ registerBlockType( metadata.name, {
 	),
 	edit: Edit,
 	save,
+	deprecated,
 } );

@@ -22,7 +22,7 @@ const getSpacing = ( spacing, side ) => {
 	if ( typeof val === 'number' ) return `${val}px`;
 	return val || undefined;
 };
-import { useRef } from '@wordpress/element';
+import { useRef, useEffect } from '@wordpress/element';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes, clientId } = props;
@@ -30,7 +30,8 @@ export default function Edit( props ) {
 		columns, layoutPreset, alignItems, justifyContent, rowGap, rowGapTablet, rowGapMobile, stackOn,
 		backgroundColor, backgroundColorTablet, backgroundColorMobile, 
 		textColor, textColorTablet, textColorMobile, 
-		padding, paddingTablet, paddingMobile, margin, marginTablet, marginMobile, displayMode,
+		padding, paddingTablet, paddingMobile, margin, marginTablet, marginMobile, 
+		displayMode, displayModeTablet, displayModeMobile,
 		backgroundImage, backgroundImageTablet, backgroundImageMobile, 
 		backgroundPosition, backgroundPositionTablet, backgroundPositionMobile, 
 		backgroundSize, backgroundSizeTablet, backgroundSizeMobile, 
@@ -44,7 +45,10 @@ export default function Edit( props ) {
 		borderWidth, borderWidthTablet, borderWidthMobile, 
 		borderColor, borderColorTablet, borderColorMobile, 
 		boxShadow, boxShadowTablet, boxShadowMobile,
-		anchor, customClassName, customCSS
+		hoverEffect, hoverBackgroundColor, hoverBorderColor,
+		anchor, customClassName, customCSS,
+		gridTemplate, gridTemplateTablet, gridTemplateMobile,
+		isSticky, stickyDesktop, stickyTablet, stickyMobile, stickyOffset, stickyOffsetTablet, stickyOffsetMobile
 	} = attributes;
 
 	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
@@ -57,13 +61,6 @@ export default function Edit( props ) {
 	const TagName = htmlTag || 'div';
 
 	const activeInnerWidth = useCustomContentWidth ? 'custom' : innerContentWidth;
-	let wrapperClass = `gravisain-row-layout is-display-${displayMode} has-${columns}-columns is-stacked-on-${stackOn} is-inner-width-${activeInnerWidth} ${ alignItems ? 'align-items-' + alignItems : '' } ${ justifyContent ? 'justify-content-' + justifyContent : '' }`;
-	if ( hideOnDesktop ) wrapperClass += ' gravisain-hide-desktop';
-	if ( hideOnTablet ) wrapperClass += ' gravisain-hide-tablet';
-	if ( hideOnMobile ) wrapperClass += ' gravisain-hide-mobile';
-	if ( backgroundOverlay ) wrapperClass += ' has-background-overlay';
-	if ( customClassName ) wrapperClass += ' ' + customClassName;
-
 	const blockRef = useRef( null );
 
 	const previewDeviceType = useSelect( ( select ) => {
@@ -76,14 +73,36 @@ export default function Edit( props ) {
 	const isTablet = previewDeviceType === 'Tablet';
 	const isMobile = previewDeviceType === 'Mobile';
 
+	const isDeviceSticky = isSticky && (
+		isMobile
+			? ( stickyMobile === true )
+			: isTablet
+			? ( stickyTablet !== false )
+			: ( stickyDesktop !== false )
+	);
+
 	const getActiveValue = ( base, tablet, mobile ) => {
 		if ( isMobile ) return mobile !== undefined && mobile !== '' ? mobile : ( tablet !== undefined && tablet !== '' ? tablet : base );
 		if ( isTablet ) return tablet !== undefined && tablet !== '' ? tablet : base;
 		return base;
 	};
 
+	const activeDisplayMode = getActiveValue( displayMode || 'flex', displayModeTablet, displayModeMobile );
+	let wrapperClass = `gravisain-row-layout is-display-${activeDisplayMode} has-${columns}-columns is-stacked-on-${stackOn} is-inner-width-${activeInnerWidth} ${ alignItems ? 'align-items-' + alignItems : '' } ${ justifyContent ? 'justify-content-' + justifyContent : '' }`;
+	if ( hoverEffect && hoverEffect !== 'none' ) wrapperClass += ` hover-${ hoverEffect }`;
+	if ( isDeviceSticky ) wrapperClass += ' is-sticky';
+	if ( hideOnDesktop ) wrapperClass += ' gravisain-hide-desktop';
+	if ( hideOnTablet ) wrapperClass += ' gravisain-hide-tablet';
+	if ( hideOnMobile ) wrapperClass += ' gravisain-hide-mobile';
+	if ( backgroundOverlay ) wrapperClass += ' has-background-overlay';
+	if ( customClassName ) wrapperClass += ' ' + customClassName;
+
 	const activeRowGap = getActiveValue( rowGap, rowGapTablet, rowGapMobile );
 	const activeColumns = columns; // Columns don't stack using CSS variables here, they use classes.
+
+	const activeBgColor = getActiveValue( backgroundColor, backgroundColorTablet, backgroundColorMobile );
+	const activeBgImage = getActiveValue( backgroundImage?.url ? `url(${backgroundImage.url})` : undefined, backgroundImageTablet?.url ? `url(${backgroundImageTablet.url})` : undefined, backgroundImageMobile?.url ? `url(${backgroundImageMobile.url})` : undefined );
+	const isBgGradient = typeof activeBgColor === 'string' && ( activeBgColor.includes( 'gradient' ) || activeBgColor.includes( 'radial' ) || activeBgColor.includes( 'linear' ) );
 
 	const blockProps = useBlockProps( {
 		ref: blockRef,
@@ -93,8 +112,17 @@ export default function Edit( props ) {
 			'--gravisain-row-gap': activeRowGap + 'px',
 			'--gravisain-gap-compensation': activeColumns > 1 ? `calc(${activeRowGap}px * ${activeColumns - 1} / ${activeColumns})` : '0px',
 			
-			'--gravisain-bg-color': getActiveValue( backgroundColor, backgroundColorTablet, backgroundColorMobile ) || undefined,
-			'--gravisain-bg-image': getActiveValue( backgroundImage?.url ? `url(${backgroundImage.url})` : undefined, backgroundImageTablet?.url ? `url(${backgroundImageTablet.url})` : undefined, backgroundImageMobile?.url ? `url(${backgroundImageMobile.url})` : undefined ) || undefined,
+			...( activeBgColor ? (
+				isBgGradient
+					? { backgroundImage: activeBgImage ? `${activeBgImage}, ${activeBgColor}` : activeBgColor }
+					: { backgroundColor: activeBgColor, backgroundImage: activeBgImage || undefined }
+			) : {
+				backgroundImage: activeBgImage || undefined
+			} ),
+
+			'--gravisain-bg-color': !isBgGradient ? ( activeBgColor || undefined ) : undefined,
+			'--gravisain-bg-gradient': isBgGradient ? activeBgColor : undefined,
+			'--gravisain-bg-image': activeBgImage || undefined,
 			'--gravisain-bg-position': getActiveValue( backgroundPosition, backgroundPositionTablet, backgroundPositionMobile ) || undefined,
 			'--gravisain-bg-size': getActiveValue( backgroundSize, backgroundSizeTablet, backgroundSizeMobile ) || undefined,
 			'--gravisain-bg-attachment': getActiveValue( backgroundAttachment, backgroundAttachmentTablet, backgroundAttachmentMobile ) || undefined,
@@ -124,22 +152,83 @@ export default function Edit( props ) {
 			
 			'--gravisain-box-shadow': getActiveValue( boxShadow !== 'none' ? boxShadow : undefined, boxShadowTablet !== 'none' ? boxShadowTablet : undefined, boxShadowMobile !== 'none' ? boxShadowMobile : undefined ),
 			
+			// Sticky Variables & Live Editor Styles
+			'--gravisain-sticky-top': isSticky && stickyOffset !== undefined ? `${ stickyOffset }px` : undefined,
+			'--gravisain-sticky-top-tablet': isSticky && stickyOffsetTablet !== undefined && stickyOffsetTablet !== '' ? `${ stickyOffsetTablet }px` : undefined,
+			'--gravisain-sticky-top-mobile': isSticky && stickyOffsetMobile !== undefined && stickyOffsetMobile !== '' ? `${ stickyOffsetMobile }px` : undefined,
+			position: isDeviceSticky ? 'sticky' : undefined,
+			top: isDeviceSticky
+				? ( isMobile && stickyOffsetMobile !== undefined && stickyOffsetMobile !== ''
+					? `${ stickyOffsetMobile }px`
+					: ( isTablet && stickyOffsetTablet !== undefined && stickyOffsetTablet !== ''
+						? `${ stickyOffsetTablet }px`
+						: `${ stickyOffset || 0 }px` ) )
+				: undefined,
+			zIndex: isDeviceSticky ? 100 : undefined,
+
+			// Hover Variables
+			'--gravisain-row-hover-bg': hoverBackgroundColor || undefined,
+			'--gravisain-row-hover-border': hoverBorderColor || undefined,
+
 			...parseCustomCSS( customCSS )
 		}
 	} );
 
-	const setupColumns = ( preset, cols, widths ) => {
-		const newBlocks = widths.map( ( w ) => createBlock( 'gravisain/column', { width: w } ) );
+	const setupColumns = ( preset, cols, tmpl ) => {
+		const newBlocks = [];
+		for ( let i = 0; i < cols; i++ ) {
+			newBlocks.push( createBlock( 'gravisain/column', {} ) );
+		}
 		replaceInnerBlocks( clientId, newBlocks );
-		setAttributes( { layoutPreset: preset, columns: cols } );
+		setAttributes( { layoutPreset: preset, columns: cols, gridTemplate: tmpl } );
 	};
 
+	// Auto-recover old blocks and sync manually added/deleted columns
+	useEffect(() => {
+		if ( innerBlockCount > 0 ) {
+			const currentTemplates = (gridTemplate || '').split(' ').filter(t => t.trim() !== '');
+			
+			// If number of columns OR number of grid template fragments doesn't match the inner blocks
+			if ( innerBlockCount !== columns || currentTemplates.length !== innerBlockCount ) {
+				let newTemplates = [...currentTemplates];
+				
+				if ( innerBlockCount > newTemplates.length ) {
+					const diff = innerBlockCount - newTemplates.length;
+					for ( let i = 0; i < diff; i++ ) {
+						newTemplates.push('1fr');
+					}
+				} else if ( innerBlockCount < newTemplates.length ) {
+					newTemplates = newTemplates.slice(0, innerBlockCount);
+				}
+
+				if ( newTemplates.length === 0 ) {
+					newTemplates = Array(innerBlockCount).fill('1fr');
+				}
+
+				setAttributes({ 
+					columns: innerBlockCount,
+					gridTemplate: newTemplates.join(' ')
+				});
+			}
+		}
+	}, [ innerBlockCount, columns, gridTemplate, setAttributes ]);
+
 	const innerBlocksProps = useInnerBlocksProps(
-		{ className: `gravisain-row-layout-inner gravisain-row-inner-${clientId}` },
+		{ 
+			className: `gravisain-row-layout-inner gravisain-row-inner-${clientId}`,
+			style: {
+				display: activeDisplayMode === 'flex' ? 'grid' : 'flex',
+				flexDirection: activeDisplayMode === 'block' ? 'column' : undefined,
+				gridTemplateColumns: activeDisplayMode === 'flex' ? (getActiveValue( gridTemplate, gridTemplateTablet, gridTemplateMobile ) || '1fr') : undefined,
+				gap: activeRowGap ? `${activeRowGap}px` : undefined,
+				alignItems: activeDisplayMode === 'flex' ? alignItems : undefined,
+				justifyContent: activeDisplayMode === 'flex' ? justifyContent : undefined
+			}
+		},
 		{
 			allowedBlocks: ALLOWED_BLOCKS,
-			orientation: displayMode === 'flex' ? 'horizontal' : 'vertical',
-			renderAppender: InnerBlocks.ButtonBlockAppender
+			orientation: 'horizontal',
+			renderAppender: false
 		}
 	);
 
@@ -156,7 +245,7 @@ export default function Edit( props ) {
 							<Tooltip text={ preset.label } key={ index }>
 								<Button 
 									className="gravisain-layout-btn"
-									onClick={ () => setupColumns( preset.name, preset.cols, preset.widths ) }
+									onClick={ () => setupColumns( preset.name, preset.cols, preset.gridTemplate ) }
 								>
 									{ preset.icon }
 								</Button>
@@ -171,7 +260,7 @@ export default function Edit( props ) {
 	return (
 		<>
 			<BlockControls>
-				{ displayMode === 'flex' && (
+				{ activeDisplayMode === 'flex' && (
 					<BlockVerticalAlignmentToolbar
 						value={ alignItems === 'flex-start' ? 'top' : alignItems === 'flex-end' ? 'bottom' : alignItems === 'center' ? 'center' : undefined }
 						onChange={ ( val ) => {
@@ -207,8 +296,8 @@ export default function Edit( props ) {
 						className="gravisain-shape-divider gravisain-shape-top"
 						style={{ 
 							color: topShapeDivider.color, 
-							height: `${ topShapeDivider.height }px`,
-							width: `${ topShapeDivider.width }%`,
+							height: `${ topShapeDivider.height || 100 }px`,
+							width: `${ topShapeDivider.width || 100 }%`,
 							transform: `translateX(-50%) ${ topShapeDivider.flipH ? 'scaleX(-1)' : '' } ${ topShapeDivider.flipV ? 'scaleY(-1)' : '' }`
 						}}
 						dangerouslySetInnerHTML={{ __html: SHAPES[ topShapeDivider.type ].svg }}
@@ -220,8 +309,8 @@ export default function Edit( props ) {
 						className="gravisain-shape-divider gravisain-shape-bottom"
 						style={{ 
 							color: bottomShapeDivider.color, 
-							height: `${ bottomShapeDivider.height }px`,
-							width: `${ bottomShapeDivider.width }%`,
+							height: `${ bottomShapeDivider.height || 100 }px`,
+							width: `${ bottomShapeDivider.width || 100 }%`,
 							transform: `translateX(-50%) ${ bottomShapeDivider.flipH ? 'scaleX(-1)' : '' } ${ bottomShapeDivider.flipV ? 'scaleY(-1)' : '' }`
 						}}
 						dangerouslySetInnerHTML={{ __html: SHAPES[ bottomShapeDivider.type ].svg }}

@@ -35,6 +35,18 @@
       "type": "string",
       "default": ""
     },
+    "horizontalAlignment": {
+      "type": "string",
+      "default": ""
+    },
+    "horizontalAlignmentTablet": {
+      "type": "string",
+      "default": ""
+    },
+    "horizontalAlignmentMobile": {
+      "type": "string",
+      "default": ""
+    },
     "backgroundColor": {
       "type": "string",
       "default": ""
@@ -46,6 +58,13 @@
     "backgroundImage": {
       "type": "string",
       "default": ""
+    },
+    "backgroundFocalPoint": {
+      "type": "object",
+      "default": {
+        "x": 0.5,
+        "y": 0.5
+      }
     },
     "padding": {
       "type": "object",
@@ -117,6 +136,22 @@
       "type": "number",
       "default": 0
     },
+    "boxShadow": {
+      "type": "string",
+      "default": ""
+    },
+    "hoverEffect": {
+      "type": "string",
+      "default": "none"
+    },
+    "hoverBackgroundColor": {
+      "type": "string",
+      "default": ""
+    },
+    "hoverBorderColor": {
+      "type": "string",
+      "default": ""
+    },
     "anchor": {
       "type": "string",
       "default": ""
@@ -128,6 +163,32 @@
     "customCSS": {
       "type": "string",
       "default": ""
+    },
+    "isSticky": {
+      "type": "boolean",
+      "default": false
+    },
+    "stickyDesktop": {
+      "type": "boolean",
+      "default": true
+    },
+    "stickyTablet": {
+      "type": "boolean",
+      "default": true
+    },
+    "stickyMobile": {
+      "type": "boolean",
+      "default": false
+    },
+    "stickyOffset": {
+      "type": "number",
+      "default": 0
+    },
+    "stickyOffsetTablet": {
+      "type": "number"
+    },
+    "stickyOffsetMobile": {
+      "type": "number"
     }
   },
   "editorScript": "file:./index.js",

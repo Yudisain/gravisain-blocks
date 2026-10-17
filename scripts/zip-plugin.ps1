@@ -38,7 +38,8 @@ $includeFolders = @(
 	"classes",
 	"patterns",
 	"assets",
-	"languages"
+	"languages",
+	"src"
 )
 
 $includeFiles = @(

@@ -182,14 +182,16 @@ class Maintenance {
 			'sanitize_callback' => 'sanitize_text_field',
 		] );
 
-		$wp_customize->add_control( new \Gravisain\Customizer\Controls\HeadingControl( $wp_customize, 'gravisain_maintenance_default_section_title', [
-			'label'           => __( 'Default Fallback Design Options', 'gravisain-blocks' ),
-			'section'         => 'gravisain_maintenance_section',
-			'settings'        => 'gravisain_maintenance_default_section_title',
-			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_theme_mod( 'gravisain_maintenance_source', 'default' );
-			},
-		] ) );
+		if ( class_exists( '\Gravisain\Customizer\Controls\HeadingControl' ) ) {
+			$wp_customize->add_control( new \Gravisain\Customizer\Controls\HeadingControl( $wp_customize, 'gravisain_maintenance_default_section_title', [
+				'label'           => __( 'Default Fallback Design Options', 'gravisain-blocks' ),
+				'section'         => 'gravisain_maintenance_section',
+				'settings'        => 'gravisain_maintenance_default_section_title',
+				'active_callback' => function() use ( $is_enabled ) {
+					return $is_enabled() && 'default' === get_theme_mod( 'gravisain_maintenance_source', 'default' );
+				},
+			] ) );
+		}
 
 		// 7. Headline.
 		$wp_customize->add_setting( 'gravisain_maintenance_headline', [
@@ -493,6 +495,178 @@ class Maintenance {
 			}
 		}
 
+		$css = "
+			:root {
+				--bg-color: " . esc_html( $bg_color ) . ";
+				--text-color: " . esc_html( $text_color ) . ";
+				--accent-color: " . esc_html( $accent_color ) . ";
+				--glass-bg: rgba(255, 255, 255, 0.03);
+				--glass-border: rgba(255, 255, 255, 0.08);
+			}
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif;
+				background: var(--bg-color);
+				color: var(--text-color);
+				min-height: 100vh;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 20px;
+				overflow-x: hidden;
+				position: relative;
+			}
+			body::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 80%);
+				z-index: 1;
+				pointer-events: none;
+			}
+			.container {
+				max-width: 600px;
+				width: 100%;
+				text-align: center;
+				z-index: 2;
+				background: var(--glass-bg);
+				border: 1px solid var(--glass-border);
+				padding: 50px 40px;
+				border-radius: 20px;
+				backdrop-filter: blur(12px);
+				-webkit-backdrop-filter: blur(12px);
+				box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+				animation: fadeIn 0.8s ease-out;
+			}
+			.logo-wrapper {
+				margin-bottom: 30px;
+			}
+			.logo {
+				max-height: 80px;
+				width: auto;
+				object-fit: contain;
+			}
+			.site-title {
+				font-size: 24px;
+				font-weight: 700;
+				letter-spacing: -0.5px;
+				opacity: 0.9;
+			}
+			h1 {
+				font-size: 38px;
+				font-weight: 800;
+				line-height: 1.2;
+				margin-bottom: 20px;
+				letter-spacing: -1px;
+				background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.7) 100%);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
+			.message {
+				font-size: 16px;
+				line-height: 1.6;
+				opacity: 0.8;
+				margin-bottom: 40px;
+				font-weight: 400;
+			}
+			.countdown {
+				display: flex;
+				justify-content: center;
+				gap: 15px;
+				margin-bottom: 40px;
+			}
+			.countdown-item {
+				background: rgba(255, 255, 255, 0.05);
+				border: 1px solid var(--glass-border);
+				padding: 15px;
+				border-radius: 12px;
+				min-width: 80px;
+				backdrop-filter: blur(5px);
+			}
+			.countdown-value {
+				font-size: 28px;
+				font-weight: 700;
+				color: var(--accent-color);
+				display: block;
+				margin-bottom: 4px;
+			}
+			.countdown-label {
+				font-size: 11px;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+				opacity: 0.6;
+				font-weight: 600;
+			}
+			.indicator {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 60px;
+				height: 60px;
+				border-radius: 50%;
+				background: rgba(59, 130, 246, 0.1);
+				border: 1px solid rgba(59, 130, 246, 0.2);
+				color: var(--accent-color);
+				margin-bottom: 30px;
+				position: relative;
+			}
+			.indicator::before {
+				content: '';
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				border-radius: 50%;
+				background: var(--accent-color);
+				opacity: 0.1;
+				animation: pulse 2s infinite;
+			}
+			.indicator svg {
+				width: 28px;
+				height: 28px;
+				animation: rotate 8s linear infinite;
+			}
+			@keyframes fadeIn {
+				from { opacity: 0; transform: translateY(20px); }
+				to { opacity: 1; transform: translateY(0); }
+			}
+			@keyframes pulse {
+				0% { transform: scale(1); opacity: 0.3; }
+				100% { transform: scale(1.6); opacity: 0; }
+			}
+			@keyframes rotate {
+				from { transform: rotate(0deg); }
+				to { transform: rotate(360deg); }
+			}
+			@media(max-width: 500px) {
+				.container {
+					padding: 40px 20px;
+				}
+				h1 {
+					font-size: 28px;
+				}
+				.countdown {
+					gap: 8px;
+				}
+				.countdown-item {
+					min-width: 65px;
+					padding: 10px;
+				}
+				.countdown-value {
+					font-size: 20px;
+				}
+			}
+		";
+		wp_register_style( 'gravisain-maintenance-style', false, [], defined( 'GRAVISAIN_BLOCKS_VERSION' ) ? GRAVISAIN_BLOCKS_VERSION : '1.0.0' );
+		wp_enqueue_style( 'gravisain-maintenance-style' );
+		wp_add_inline_style( 'gravisain-maintenance-style', $css );
+
 		// Premium layout HTML.
 		?>
 		<!DOCTYPE html>
@@ -501,181 +675,7 @@ class Maintenance {
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<title><?php echo esc_html( $headline ); ?></title>
-			<style>
-				:root {
-					--bg-color: <?php echo esc_html( $bg_color ); ?>;
-					--text-color: <?php echo esc_html( $text_color ); ?>;
-					--accent-color: <?php echo esc_html( $accent_color ); ?>;
-					--glass-bg: rgba(255, 255, 255, 0.03);
-					--glass-border: rgba(255, 255, 255, 0.08);
-				}
-				* {
-					box-sizing: border-box;
-					margin: 0;
-					padding: 0;
-				}
-				body {
-					font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-					background: var(--bg-color);
-					color: var(--text-color);
-					min-height: 100vh;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					padding: 20px;
-					overflow-x: hidden;
-					position: relative;
-				}
-				/* Elegant backdrop radial gradient */
-				body::before {
-					content: '';
-					position: absolute;
-					top: 0;
-					left: 0;
-					right: 0;
-					bottom: 0;
-					background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 80%);
-					z-index: 1;
-					pointer-events: none;
-				}
-				.container {
-					max-width: 600px;
-					width: 100%;
-					text-align: center;
-					z-index: 2;
-					background: var(--glass-bg);
-					border: 1px solid var(--glass-border);
-					padding: 50px 40px;
-					border-radius: 20px;
-					backdrop-filter: blur(12px);
-					-webkit-backdrop-filter: blur(12px);
-					box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-					animation: fadeIn 0.8s ease-out;
-				}
-				.logo-wrapper {
-					margin-bottom: 30px;
-				}
-				.logo {
-					max-height: 80px;
-					width: auto;
-					object-fit: contain;
-				}
-				.site-title {
-					font-size: 24px;
-					font-weight: 700;
-					letter-spacing: -0.5px;
-					opacity: 0.9;
-				}
-				h1 {
-					font-size: 38px;
-					font-weight: 800;
-					line-height: 1.2;
-					margin-bottom: 20px;
-					letter-spacing: -1px;
-					background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.7) 100%);
-					-webkit-background-clip: text;
-					-webkit-text-fill-color: transparent;
-				}
-				.message {
-					font-size: 16px;
-					line-height: 1.6;
-					opacity: 0.8;
-					margin-bottom: 40px;
-					font-weight: 400;
-				}
-				
-				/* Countdown styles */
-				.countdown {
-					display: flex;
-					justify-content: center;
-					gap: 15px;
-					margin-bottom: 40px;
-				}
-				.countdown-item {
-					background: rgba(255, 255, 255, 0.05);
-					border: 1px solid var(--glass-border);
-					padding: 15px;
-					border-radius: 12px;
-					min-width: 80px;
-					backdrop-filter: blur(5px);
-				}
-				.countdown-value {
-					font-size: 28px;
-					font-weight: 700;
-					color: var(--accent-color);
-					display: block;
-					margin-bottom: 4px;
-				}
-				.countdown-label {
-					font-size: 11px;
-					text-transform: uppercase;
-					letter-spacing: 1px;
-					opacity: 0.6;
-					font-weight: 600;
-				}
-
-				/* Pulsing gear indicator */
-				.indicator {
-					display: inline-flex;
-					align-items: center;
-					justify-content: center;
-					width: 60px;
-					height: 60px;
-					border-radius: 50%;
-					background: rgba(59, 130, 246, 0.1);
-					border: 1px solid rgba(59, 130, 246, 0.2);
-					color: var(--accent-color);
-					margin-bottom: 30px;
-					position: relative;
-				}
-				.indicator::before {
-					content: '';
-					position: absolute;
-					width: 100%;
-					height: 100%;
-					border-radius: 50%;
-					background: var(--accent-color);
-					opacity: 0.1;
-					animation: pulse 2s infinite;
-				}
-				.indicator svg {
-					width: 28px;
-					height: 28px;
-					animation: rotate 8s linear infinite;
-				}
-
-				@keyframes fadeIn {
-					from { opacity: 0; transform: translateY(20px); }
-					to { opacity: 1; transform: translateY(0); }
-				}
-				@keyframes pulse {
-					0% { transform: scale(1); opacity: 0.3; }
-					100% { transform: scale(1.6); opacity: 0; }
-				}
-				@keyframes rotate {
-					from { transform: rotate(0deg); }
-					to { transform: rotate(360deg); }
-				}
-
-				@media(max-width: 500px) {
-					.container {
-						padding: 40px 20px;
-					}
-					h1 {
-						font-size: 28px;
-					}
-					.countdown {
-						gap: 8px;
-					}
-					.countdown-item {
-						min-width: 65px;
-						padding: 10px;
-					}
-					.countdown-value {
-						font-size: 20px;
-					}
-				}
-			</style>
+			<?php wp_print_styles( 'gravisain-maintenance-style' ); ?>
 		</head>
 		<body>
 			<div class="container">
@@ -722,9 +722,10 @@ class Maintenance {
 						</div>
 					</div>
 
-					<script>
+					<?php
+					$js = "
 						document.addEventListener('DOMContentLoaded', function() {
-							const targetDate = <?php echo esc_js( $countdown_ts ); ?> * 1000;
+							const targetDate = " . (int) $countdown_ts . " * 1000;
 							
 							function updateCountdown() {
 								const now = new Date().getTime();
@@ -752,7 +753,12 @@ class Maintenance {
 							updateCountdown();
 							setInterval(updateCountdown, 1000);
 						});
-					</script>
+					";
+					wp_register_script( 'gravisain-maintenance-countdown', false, [], defined( 'GRAVISAIN_BLOCKS_VERSION' ) ? GRAVISAIN_BLOCKS_VERSION : '1.0.0', true );
+					wp_enqueue_script( 'gravisain-maintenance-countdown' );
+					wp_add_inline_script( 'gravisain-maintenance-countdown', $js );
+					wp_print_scripts( 'gravisain-maintenance-countdown' );
+					?>
 				<?php endif; ?>
 			</div>
 		</body>
