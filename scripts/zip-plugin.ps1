@@ -44,6 +44,7 @@ New-Item -ItemType Directory -Path $stagingDir -Force | Out-Null
 $includeFolders = @(
 	"classes",
 	"patterns",
+	"starter-templates",
 	"assets",
 	"languages",
 	"src"

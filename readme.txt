@@ -2,7 +2,7 @@
 Contributors: yudisain, gravisain
 Tags: blocks, page builder, editor
 Requires at least: 6.2
-Tested up to: 6.7
+Tested up to: 7.1
 Stable tag: 1.0.0
 Requires PHP: 7.4
 License: GPLv2 or later
@@ -61,7 +61,7 @@ No. Styles and scripts for each block are only enqueued when that block is prese
 
 == External Services ==
 
-This plugin utilizes external services to deliver typography fonts and optional login security protection:
+This plugin utilizes external services to deliver typography fonts, interactive map embeds, advertising units, and optional login security protection:
 
 1. **Google Fonts**
 * **Service Name:** Google Fonts
@@ -71,7 +71,23 @@ This plugin utilizes external services to deliver typography fonts and optional 
 * **Terms of Service:** https://policies.google.com/terms
 * **Privacy Policy:** https://policies.google.com/privacy
 
-2. **Cloudflare Turnstile (Optional)**
+2. **Google Maps Embed**
+* **Service Name:** Google Maps Embed
+* **Provider:** Google LLC
+* **Usage:** Used when the Google Maps block (`gravisain/google-maps`) is added to a page or post to display an interactive map based on the location entered by the editor. The block embeds an iframe from `https://maps.google.com/maps`.
+* **What Data is Sent and When:** When a visitor views a page containing the Google Maps block, the visitor's browser loads the map iframe directly from Google servers, sending standard browser request headers (such as IP address and User-Agent) and the configured location query parameters.
+* **Terms of Service:** https://policies.google.com/terms
+* **Privacy Policy:** https://policies.google.com/privacy
+
+3. **Google AdSense (Optional)**
+* **Service Name:** Google AdSense
+* **Provider:** Google LLC
+* **Usage:** Used only when the Advertisement / Ad Space block (`gravisain/ad`) is configured in "Google AdSense" mode with a valid Publisher ID (`ca-pub-xxx`) and Slot ID. The block renders a structured `<ins class="adsbygoogle">` unit.
+* **What Data is Sent and When:** When a visitor views a page containing an active AdSense ad unit, the visitor's browser communicates with Google AdSense servers to retrieve relevant ad content, transmitting standard browser request data.
+* **Terms of Service:** https://policies.google.com/terms
+* **Privacy Policy:** https://policies.google.com/privacy
+
+4. **Cloudflare Turnstile (Optional)**
 * **Service Name:** Cloudflare Turnstile
 * **Provider:** Cloudflare, Inc.
 * **Usage:** Used only when explicitly enabled by an administrator under `Gravisain > Login Security` and valid API keys are configured. When enabled, it enqueues the official Turnstile API script (`https://challenges.cloudflare.com/turnstile/v0/api.js`) on `wp-login.php` and verifies verification tokens with Cloudflare's API (`https://challenges.cloudflare.com/turnstile/v0/siteverify`) to protect against brute-force login attacks.

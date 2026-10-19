@@ -96,18 +96,14 @@ class PatternRegistry {
 	 * @return string
 	 */
 	public static function get_template_content( string $slug, string $file = 'home.html' ): string {
-		$candidates = [
-			GRAVISAIN_BLOCKS_DIR . 'starter-templates/' . $slug . '/' . $file,
-			dirname( GRAVISAIN_BLOCKS_DIR ) . '/starter-templates/' . $slug . '/' . $file,
-			dirname( GRAVISAIN_BLOCKS_DIR, 2 ) . '/starter-templates/' . $slug . '/' . $file,
-		];
+		$safe_slug = sanitize_file_name( $slug );
+		$safe_file = sanitize_file_name( $file );
+		$path      = GRAVISAIN_BLOCKS_DIR . 'starter-templates/' . $safe_slug . '/' . $safe_file;
 
-		foreach ( $candidates as $path ) {
-			if ( @file_exists( $path ) ) {
-				$content = @file_get_contents( $path );
-				if ( false !== $content && ! empty( $content ) ) {
-					return self::normalize_content( $content );
-				}
+		if ( file_exists( $path ) ) {
+			$content = file_get_contents( $path );
+			if ( false !== $content && ! empty( $content ) ) {
+				return self::normalize_content( $content );
 			}
 		}
 

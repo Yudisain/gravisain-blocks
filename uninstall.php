@@ -16,12 +16,39 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
  * Clean up plugin options, transients, and database records upon uninstallation.
  */
 function gravisain_blocks_uninstall_cleanup(): void {
-	// Clean up any global options or transients stored by Gravisain Blocks.
-	delete_option( 'gravisain_blocks_settings' );
-	delete_option( 'gravisain_blocks_version' );
-	delete_transient( 'gravisain_blocks_patterns_cache' );
+	$options_to_delete = [
+		'gravisain_blocks_settings',
+		'gravisain_blocks_version',
+		'gravisain_turnstile_enabled',
+		'gravisain_turnstile_site_key',
+		'gravisain_turnstile_secret_key',
+		'gravisain_turnstile_theme',
+		'gravisain_turnstile_fail_mode',
+		'gravisain_turnstile_bypass_key',
+		'gravisain_turnstile_notify_admin',
+		'gravisain_turnstile_logout_redirect',
+		'gravisain_turnstile_direct_login_redirect',
+	];
 
-	// For site network / multisite installations, clean up options across sites.
+	$transients_to_delete = [
+		'gravisain_blocks_patterns_cache',
+		'gravisain_blocks_registry_cache_1.0.0',
+		'gravisain_turnstile_circuit_breaker',
+	];
+
+	$delete_items = function () use ( $options_to_delete, $transients_to_delete ): void {
+		foreach ( $options_to_delete as $option ) {
+			delete_option( $option );
+		}
+		foreach ( $transients_to_delete as $transient ) {
+			delete_transient( $transient );
+		}
+	};
+
+	// Clean current site options and transients.
+	$delete_items();
+
+	// For site network / multisite installations, clean up options across all sites.
 	if ( is_multisite() ) {
 		$sites = get_sites(
 			[
@@ -33,9 +60,7 @@ function gravisain_blocks_uninstall_cleanup(): void {
 		if ( is_array( $sites ) ) {
 			foreach ( $sites as $site_id ) {
 				switch_to_blog( (int) $site_id );
-				delete_option( 'gravisain_blocks_settings' );
-				delete_option( 'gravisain_blocks_version' );
-				delete_transient( 'gravisain_blocks_patterns_cache' );
+				$delete_items();
 				restore_current_blog();
 			}
 		}
