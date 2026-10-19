@@ -8,6 +8,7 @@ import './editor.scss';
 export default function Edit( props ) {
 	const { attributes, setAttributes } = props;
 	const {
+		layoutPreset,
 		icon,
 		iconType,
 		mediaType,
@@ -59,10 +60,14 @@ export default function Edit( props ) {
 	const isImg = ( iconData && iconData.type === 'image' ) || ( mediaType === 'image' && imageUrl && ! icon );
 	const imgSrc = iconData?.src || imageUrl;
 
+	const isHorizontal = layoutPreset === 'left-horizontal';
+	const isCenter = ( layoutPreset === 'top-center' || layoutPreset === 'top-center-circle' || layoutPreset === 'overlap-center' || textAlign === 'center' ) && ! isHorizontal;
+
 	const blockProps = useBlockProps( {
 		id: anchor || undefined,
 		className: [
 			'gravisain-info-box-card',
+			layoutPreset ? `layout-${ layoutPreset }` : 'layout-top-left',
 			`align-${ textAlign || 'left' }`,
 			hoverEffect && hoverEffect !== 'none' ? `hover-${ hoverEffect }` : '',
 			customClassName || '',
@@ -70,6 +75,10 @@ export default function Edit( props ) {
 			.filter( Boolean )
 			.join( ' ' ),
 		style: {
+			display: 'flex',
+			flexDirection: isHorizontal ? 'row' : 'column',
+			alignItems: isHorizontal ? 'flex-start' : ( isCenter ? 'center' : ( textAlign === 'right' ? 'flex-end' : 'flex-start' ) ),
+			gap: isHorizontal ? '24px' : undefined,
 			'--info-box-bg': cardBackgroundColor || '#ffffff',
 			'--info-box-border': cardBorderColor || 'rgba(0, 0, 0, 0.08)',
 			'--info-box-border-width': `${ cardBorderWidth ?? 1 }px`,
@@ -108,12 +117,16 @@ export default function Edit( props ) {
 				{ ! isIconCleared && (
 					<div
 						className="gravisain-info-box-icon"
-						style={ isImg ? {
-							width: imageWidth ? `${ imageWidth }px` : undefined,
-							height: imageHeight ? `${ imageHeight }px` : ( imageWidth ? 'auto' : undefined ),
-							background: 'transparent',
-							borderRadius: imageBorderRadius ? `${ imageBorderRadius }px` : undefined,
-						} : undefined }
+						style={ {
+							...( isHorizontal ? { margin: 0, flexShrink: 0, alignSelf: 'flex-start' } : {} ),
+							...( isCenter ? { marginLeft: 'auto', marginRight: 'auto' } : {} ),
+							...( isImg ? {
+								width: imageWidth ? `${ imageWidth }px` : undefined,
+								height: imageHeight ? `${ imageHeight }px` : ( imageWidth ? 'auto' : undefined ),
+								background: 'transparent',
+								borderRadius: imageBorderRadius ? `${ imageBorderRadius }px` : undefined,
+							} : {} ),
+						} }
 					>
 						{ isImg && imgSrc ? (
 							<img
@@ -161,41 +174,60 @@ export default function Edit( props ) {
 					</div>
 				) }
 
-				{ showEyebrow && (
+				<div
+					className="gravisain-info-box-content"
+					style={ {
+						display: 'flex',
+						flexDirection: 'column',
+						...( isHorizontal ? {
+							flex: '1 1 auto',
+							minWidth: 0,
+							alignItems: 'flex-start',
+							textAlign: 'left',
+							width: 'auto',
+						} : {
+							width: '100%',
+							alignItems: isCenter ? 'center' : ( textAlign === 'right' ? 'flex-end' : 'flex-start' ),
+							textAlign: isCenter ? 'center' : ( textAlign || 'left' ),
+						} ),
+					} }
+				>
+					{ showEyebrow && (
+						<RichText
+							tagName="span"
+							className="gravisain-info-box-eyebrow"
+							value={ eyebrow }
+							onChange={ ( val ) => setAttributes( { eyebrow: val } ) }
+							placeholder={ __( 'EYEBROW LABEL', 'gravisain' ) }
+						/>
+					) }
+
 					<RichText
-						tagName="span"
-						className="gravisain-info-box-eyebrow"
-						value={ eyebrow }
-						onChange={ ( val ) => setAttributes( { eyebrow: val } ) }
-						placeholder={ __( 'EYEBROW LABEL', 'gravisain' ) }
+						tagName="h3"
+						className="gravisain-info-box-title"
+						value={ title }
+						onChange={ ( val ) => setAttributes( { title: val } ) }
+						placeholder={ __( 'Info Box Title...', 'gravisain' ) }
 					/>
-				) }
 
-				<RichText
-					tagName="h3"
-					className="gravisain-info-box-title"
-					value={ title }
-					onChange={ ( val ) => setAttributes( { title: val } ) }
-					placeholder={ __( 'Info Box Title...', 'gravisain' ) }
-				/>
-
-				<RichText
-					tagName="p"
-					className="gravisain-info-box-desc"
-					value={ description }
-					onChange={ ( val ) => setAttributes( { description: val } ) }
-					placeholder={ __( 'Write description here...', 'gravisain' ) }
-				/>
-
-				{ showLink && (
 					<RichText
-						tagName="a"
-						className="gravisain-info-box-link"
-						value={ linkText }
-						onChange={ ( val ) => setAttributes( { linkText: val } ) }
-						placeholder={ __( 'Link text...', 'gravisain' ) }
+						tagName="p"
+						className="gravisain-info-box-desc"
+						value={ description }
+						onChange={ ( val ) => setAttributes( { description: val } ) }
+						placeholder={ __( 'Write description here...', 'gravisain' ) }
 					/>
-				) }
+
+					{ showLink && (
+						<RichText
+							tagName="a"
+							className="gravisain-info-box-link"
+							value={ linkText }
+							onChange={ ( val ) => setAttributes( { linkText: val } ) }
+							placeholder={ __( 'Link text...', 'gravisain' ) }
+						/>
+					) }
+				</div>
 			</div>
 		</>
 	);

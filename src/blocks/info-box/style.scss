@@ -11,13 +11,171 @@
 	text-align: var(--info-box-text-align, left);
 
 	&.align-center {
-		align-items: center;
-		text-align: center;
+		align-items: center !important;
+		text-align: center !important;
+
+		.gravisain-info-box-icon {
+			margin-left: auto !important;
+			margin-right: auto !important;
+		}
+
+		.gravisain-info-box-content {
+			align-items: center !important;
+			text-align: center !important;
+
+			> * {
+				text-align: center !important;
+			}
+		}
 	}
 
 	&.align-right {
-		align-items: flex-end;
-		text-align: right;
+		align-items: flex-end !important;
+		text-align: right !important;
+
+		.gravisain-info-box-icon {
+			margin-left: auto !important;
+			margin-right: 0 !important;
+		}
+
+		.gravisain-info-box-content {
+			align-items: flex-end !important;
+			text-align: right !important;
+
+			> * {
+				text-align: right !important;
+			}
+		}
+	}
+
+	/* Content Wrapper */
+	.gravisain-info-box-content {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		align-items: inherit;
+		text-align: inherit;
+
+		> * {
+			text-align: inherit;
+		}
+	}
+
+	/* Layout Presets */
+	&.layout-top-center,
+	&.layout-top-center-circle {
+		flex-direction: column !important;
+		align-items: center !important;
+		text-align: center !important;
+
+		.gravisain-info-box-icon {
+			margin-left: auto !important;
+			margin-right: auto !important;
+			margin-bottom: 20px !important;
+		}
+
+		.gravisain-info-box-content {
+			align-items: center !important;
+			text-align: center !important;
+
+			> * {
+				text-align: center !important;
+			}
+		}
+	}
+
+	&.layout-top-left {
+		flex-direction: column !important;
+		align-items: flex-start !important;
+		text-align: left !important;
+
+		.gravisain-info-box-icon {
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+			margin-bottom: 20px !important;
+		}
+
+		.gravisain-info-box-content {
+			align-items: flex-start !important;
+			text-align: left !important;
+		}
+	}
+
+	&.layout-left-horizontal {
+		flex-direction: row !important;
+		align-items: flex-start !important;
+		text-align: left !important;
+		gap: 24px !important;
+
+		.gravisain-info-box-icon {
+			margin: 0 !important;
+			flex-shrink: 0 !important;
+			align-self: flex-start !important;
+		}
+
+		.gravisain-info-box-content {
+			flex: 1 1 auto !important;
+			min-width: 0 !important;
+			align-items: flex-start !important;
+			text-align: left !important;
+		}
+
+		/* Fallback for unwrapped elements */
+		.gravisain-info-box-eyebrow,
+		.gravisain-info-box-title,
+		.gravisain-info-box-desc,
+		.gravisain-info-box-link {
+			text-align: left !important;
+		}
+	}
+
+	&.layout-overlap-center,
+	&.layout-overlap-left {
+		flex-direction: column !important;
+		position: relative !important;
+		margin-top: calc(var(--info-box-icon-box-size, 48px) / 2 + 10px) !important;
+
+		.gravisain-info-box-icon {
+			margin-top: calc(-1 * var(--info-box-pt, 32px) - (var(--info-box-icon-box-size, 48px) / 2)) !important;
+			box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+			border: 3px solid var(--info-box-bg, #ffffff) !important;
+			z-index: 2 !important;
+			margin-bottom: 20px !important;
+		}
+	}
+
+	&.layout-overlap-center {
+		align-items: center !important;
+		text-align: center !important;
+
+		.gravisain-info-box-icon {
+			margin-left: auto !important;
+			margin-right: auto !important;
+		}
+
+		.gravisain-info-box-content {
+			align-items: center !important;
+			text-align: center !important;
+
+			> * {
+				text-align: center !important;
+			}
+		}
+	}
+
+	&.layout-overlap-left {
+		align-items: flex-start !important;
+		text-align: left !important;
+
+		.gravisain-info-box-icon {
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+		}
+
+		.gravisain-info-box-content {
+			align-items: flex-start !important;
+			text-align: left !important;
+		}
 	}
 
 	.gravisain-info-box-icon {
@@ -59,6 +217,11 @@
 				max-width: 100% !important;
 				max-height: 100% !important;
 				display: block !important;
+
+				text {
+					stroke: none !important;
+					fill: currentColor !important;
+				}
 			}
 		}
 	}

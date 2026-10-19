@@ -6,7 +6,7 @@
 	"title": "Advertisement / Ad Space",
 	"category": "gravisain-blocks",
 	"icon": "megaphone",
-	"description": "Insert Google AdSense-ready ad spaces, custom ad network code (Ezoic, Media.net, Adsterra, etc.), or clickable image banners with full responsive controls.",
+	"description": "Insert official Google AdSense ad units (via structured Publisher ID and Slot ID) or clickable image banners with full responsive controls.",
 	"keywords": [ "ad", "ads", "adsense", "advertisement", "banner", "iklan", "monetize" ],
 	"textdomain": "gravisain-blocks",
 	"supports": {
@@ -17,11 +17,23 @@
 	"attributes": {
 		"adType": {
 			"type": "string",
-			"default": "code"
+			"default": "adsense"
 		},
-		"adCode": {
+		"adSenseClient": {
 			"type": "string",
 			"default": ""
+		},
+		"adSenseSlot": {
+			"type": "string",
+			"default": ""
+		},
+		"adSenseFormat": {
+			"type": "string",
+			"default": "auto"
+		},
+		"adSenseResponsive": {
+			"type": "boolean",
+			"default": true
 		},
 		"bannerId": {
 			"type": "number",
@@ -89,10 +101,6 @@
 			"default": ""
 		},
 		"customClassName": {
-			"type": "string",
-			"default": ""
-		},
-		"customCSS": {
 			"type": "string",
 			"default": ""
 		}

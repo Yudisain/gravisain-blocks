@@ -6,6 +6,9 @@
 	text-align: var(--testi-text-align, left);
 	position: relative;
 	margin: 2rem 0;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
 	transition: transform 0.25s ease, box-shadow 0.25s ease;
 
 	&.has-shadow {
@@ -56,6 +59,7 @@
 		font-style: italic;
 		position: relative;
 		z-index: 1;
+		flex-grow: 1;
 	}
 
 	&__author-box {
@@ -64,6 +68,8 @@
 		gap: 1rem;
 		border-top: 1px solid rgba(0, 0, 0, 0.06);
 		padding-top: 1.5rem;
+		margin-top: auto;
+		flex-wrap: wrap;
 	}
 
 	&.avatar-layout-top {
@@ -108,6 +114,10 @@
 	&__author-details {
 		display: flex;
 		flex-direction: column;
+		min-width: 0;
+		flex: 1 1 auto;
+		overflow-wrap: break-word;
+		word-break: break-word;
 	}
 
 	&__author-name {

@@ -73,8 +73,8 @@ export default function Edit( props ) {
 		},
 	} );
 
-	const iconVal = icon || ( iconSymbol ? iconSymbol : 'star' );
-	const iconData = getIconMarkup( iconVal, 'star' );
+	const hasIcon = Boolean( icon && icon !== 'none' );
+	const iconData = hasIcon ? getIconMarkup( icon, 'star' ) : null;
 	const isImg = iconData && iconData.type === 'image';
 	const isSvg = iconData && iconData.type === 'svg';
 	const isDashicon = icon && ! isImg && ! isSvg && ! icon.trim().startsWith( '<svg' ) && ! icon.trim().startsWith( '<SVG' );
@@ -83,47 +83,51 @@ export default function Edit( props ) {
 		<>
 			<CardInspector { ...props } />
 			<div { ...blockProps }>
-				<div className="gravisain-feature-card__icon">
-					{ isImg ? (
-						<img
-							src={ iconData.src }
-							alt=""
-							style={ {
-								width: `${ iconSize ?? 32 }px`,
-								height: `${ iconSize ?? 32 }px`,
-								objectFit: 'contain',
-							} }
-						/>
-					) : isSvg ? (
-						<span
-							className="gravisain-feature-card__svg"
-							dangerouslySetInnerHTML={ { __html: iconData.content } }
-							style={ {
-								width: `${ iconSize ?? 32 }px`,
-								height: `${ iconSize ?? 32 }px`,
-								display: 'inline-flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								color: iconColor || '#4f46e5',
-							} }
-						/>
-					) : isDashicon ? (
-						<span className={ `dashicons dashicons-${ icon.replace( /^dashicons-/, '' ) }` } />
-					) : (
-						<span
-							className="gravisain-feature-card__svg"
-							dangerouslySetInnerHTML={ { __html: getIconMarkup( 'star' ).content } }
-							style={ {
-								width: `${ iconSize ?? 32 }px`,
-								height: `${ iconSize ?? 32 }px`,
-								display: 'inline-flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								color: iconColor || '#4f46e5',
-							} }
-						/>
-					) }
-				</div>
+				{ hasIcon && (
+					<div className="gravisain-feature-card__icon">
+						{ isImg ? (
+							<img
+								src={ iconData.src }
+								alt=""
+								style={ {
+									width: `${ iconSize ?? 32 }px`,
+									height: `${ iconSize ?? 32 }px`,
+									objectFit: 'contain',
+								} }
+							/>
+						) : isSvg ? (
+							<span
+								className="gravisain-feature-card__svg"
+								dangerouslySetInnerHTML={ { __html: iconData.content } }
+								style={ {
+									width: `${ iconSize ?? 32 }px`,
+									height: `${ iconSize ?? 32 }px`,
+									display: 'inline-flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+									color: iconColor || '#4f46e5',
+								} }
+							/>
+						) : isDashicon ? (
+							<span className={ `dashicons dashicons-${ icon.replace( /^dashicons-/, '' ) }` } />
+						) : (
+							iconData?.content && (
+								<span
+									className="gravisain-feature-card__svg"
+									dangerouslySetInnerHTML={ { __html: iconData.content } }
+									style={ {
+										width: `${ iconSize ?? 32 }px`,
+										height: `${ iconSize ?? 32 }px`,
+										display: 'inline-flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+										color: iconColor || '#4f46e5',
+									} }
+								/>
+							)
+						) }
+					</div>
+				) }
 				<div className="gravisain-feature-card__content">
 					<RichText
 						tagName="h3"

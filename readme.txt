@@ -3,7 +3,7 @@ Contributors: yudisain, gravisain
 Tags: blocks, page builder, editor
 Requires at least: 6.2
 Tested up to: 7.1
-Stable tag: 1.0.0
+Stable tag: 1.0.0.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -91,6 +91,13 @@ In compliance with WordPress.org Guidelines #1 and #4 (GPL & Open Source Transpa
   3. Compile assets: `npm run build` (powered by `@wordpress/scripts`)
 
 == Changelog ==
+
+= 1.0.1 =
+* Maintenance update and performance improvements.
+
+= 1.0.0.1 =
+* Info Box: Added 6 Quick Layout Presets (Top Center, Center Circle, Top Left, Left Inline, Overlap Center, Overlap Left) with 1-click styling.
+* Performance and CSS grid layout optimizations.
 
 = 1.0.0 =
 * Maintenance update and performance improvements.

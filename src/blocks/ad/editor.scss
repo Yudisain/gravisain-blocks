@@ -37,7 +37,8 @@
 		.gravisain-ad-placeholder-text {
 			display: block;
 			font-size: 13px;
-			max-width: 320px;
+			max-width: 340px;
+			line-height: 1.4;
 		}
 	}
 
@@ -58,36 +59,57 @@
 		border-radius: var( --gravisain-ad-radius, 0 );
 	}
 
-	.gravisain-ad-code-preview {
+	.gravisain-ad-unit-preview {
 		position: relative;
-		padding: 22px 16px 16px;
-		background: #0f172a;
+		padding: 16px 20px;
+		background: #f8fafc;
+		border: 1px solid #e2e8f0;
 		border-radius: 8px;
-		color: #e2e8f0;
 		text-align: left;
 
-		.gravisain-ad-code-preview-badge {
-			position: absolute;
-			top: 8px;
-			left: 12px;
-			font-size: 10px;
+		.gravisain-ad-unit-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			font-size: 11px;
 			font-weight: 600;
-			letter-spacing: 0.06em;
+			letter-spacing: 0.04em;
 			text-transform: uppercase;
-			color: #818cf8;
+			color: #4f46e5;
+			margin-bottom: 10px;
+
+			svg {
+				flex-shrink: 0;
+			}
 		}
 
-		code {
-			display: block;
-			max-height: 160px;
-			overflow: auto;
-			font-family: Menlo, Consolas, monospace;
-			font-size: 11px;
-			line-height: 1.5;
-			white-space: pre-wrap;
-			word-break: break-word;
-			background: transparent;
-			color: inherit;
+		.gravisain-ad-unit-info {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+		}
+
+		.gravisain-ad-unit-row {
+			display: flex;
+			align-items: baseline;
+			gap: 8px;
+			font-size: 12px;
+			color: #475569;
+
+			.gravisain-ad-unit-label {
+				font-weight: 600;
+				color: #1e293b;
+				min-width: 70px;
+			}
+
+			.gravisain-ad-unit-val {
+				font-family: Menlo, Consolas, monospace;
+				background: #ffffff;
+				padding: 2px 6px;
+				border-radius: 4px;
+				border: 1px solid #cbd5e1;
+				color: #0f172a;
+			}
 		}
 	}
 }

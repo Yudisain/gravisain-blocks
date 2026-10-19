@@ -244,89 +244,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		};
 	};
 
-	let blockProps = useBlockProps( {
-		ref: blockRef,
-		id: anchor || undefined,
-		className: [
-			'gravisain-advanced-heading',
-			textAlignTablet ? `has-tablet-text-align-${ textAlignTablet }` : '',
-			textAlignMobile ? `has-mobile-text-align-${ textAlignMobile }` : '',
-			breakoutPadding ? 'has-breakout-padding' : '',
-			customClassName || '',
-		]
-			.filter( Boolean )
-			.join( ' ' ),
-		style: {
-			'--gravisain-padding-top': getSpacing( padding, 'top' ),
-			'--gravisain-padding-right': getSpacing( padding, 'right' ),
-			'--gravisain-padding-bottom': getSpacing( padding, 'bottom' ),
-			'--gravisain-padding-left': getSpacing( padding, 'left' ),
-			'--gravisain-margin-top': getSpacing( margin, 'top' ),
-			'--gravisain-margin-right': getSpacing( margin, 'right' ),
-			'--gravisain-margin-bottom': getSpacing( margin, 'bottom' ),
-			'--gravisain-margin-left': getSpacing( margin, 'left' ),
-			'--gravisain-padding-top-tablet': getSpacing( paddingTablet, 'top' ),
-			'--gravisain-padding-right-tablet': getSpacing( paddingTablet, 'right' ),
-			'--gravisain-padding-bottom-tablet': getSpacing( paddingTablet, 'bottom' ),
-			'--gravisain-padding-left-tablet': getSpacing( paddingTablet, 'left' ),
-			'--gravisain-margin-top-tablet': getSpacing( marginTablet, 'top' ),
-			'--gravisain-margin-right-tablet': getSpacing( marginTablet, 'right' ),
-			'--gravisain-margin-bottom-tablet': getSpacing( marginTablet, 'bottom' ),
-			'--gravisain-margin-left-tablet': getSpacing( marginTablet, 'left' ),
-			'--gravisain-padding-top-mobile': getSpacing( paddingMobile, 'top' ),
-			'--gravisain-padding-right-mobile': getSpacing( paddingMobile, 'right' ),
-			'--gravisain-padding-bottom-mobile': getSpacing( paddingMobile, 'bottom' ),
-			'--gravisain-padding-left-mobile': getSpacing( paddingMobile, 'left' ),
-			'--gravisain-margin-top-mobile': getSpacing( marginMobile, 'top' ),
-			'--gravisain-margin-right-mobile': getSpacing( marginMobile, 'right' ),
-			'--gravisain-margin-bottom-mobile': getSpacing( marginMobile, 'bottom' ),
-			'--gravisain-margin-left-mobile': getSpacing( marginMobile, 'left' ),
-
-			// Eyebrow
-			'--gravisain-heading-eyebrow-color': getSolidColor( eyebrowColor ) || undefined,
-			...getHeadingTypographyVars( 'eyebrow', eyebrowTypography ),
-			...getHeadingTypographyVars( 'eyebrow-tablet', eyebrowTypographyTablet ),
-			...getHeadingTypographyVars( 'eyebrow-mobile', eyebrowTypographyMobile ),
-
-			// Title
-			'--gravisain-heading-title-color': getSolidColor( titleColor || textColor ) || undefined,
-			...getHeadingTypographyVars( 'title', titleTypography, { fontFamily, fontSize, fontWeight, lineHeight, letterSpacing } ),
-			...getHeadingTypographyVars( 'title-tablet', titleTypographyTablet, { fontSize: fontSizeTablet, lineHeight: lineHeightTablet, letterSpacing: letterSpacingTablet } ),
-			...getHeadingTypographyVars( 'title-mobile', titleTypographyMobile, { fontSize: fontSizeMobile, lineHeight: lineHeightMobile, letterSpacing: letterSpacingMobile } ),
-
-			// Description
-			'--gravisain-heading-desc-color': getSolidColor( descriptionColor ) || undefined,
-			...getHeadingTypographyVars( 'desc', descriptionTypography ),
-			...getHeadingTypographyVars( 'desc-tablet', descriptionTypographyTablet ),
-			...getHeadingTypographyVars( 'desc-mobile', descriptionTypographyMobile ),
-
-			// Legacy fallbacks
-			'--gravisain-ff': fontFamily ? `'${fontFamily}'` : undefined,
-			'--gravisain-fs': getTypographyVar(fontSize, true),
-			'--gravisain-fs-tablet': getTypographyVar(fontSizeTablet, true),
-			'--gravisain-fs-mobile': getTypographyVar(fontSizeMobile, true),
-			'--gravisain-lh': getTypographyVar(lineHeight, false),
-			'--gravisain-lh-tablet': getTypographyVar(lineHeightTablet, false),
-			'--gravisain-lh-mobile': getTypographyVar(lineHeightMobile, false),
-			'--gravisain-ls': getTypographyVar(letterSpacing, true),
-			'--gravisain-ls-tablet': getTypographyVar(letterSpacingTablet, true),
-			'--gravisain-ls-mobile': getTypographyVar(letterSpacingMobile, true),
-			maxWidth: maxWidth || 'none',
-			...parseCustomCSS( customCSS ),
-		},
-	} );
-
-	// Force strip any core text-alignment classes that conflict with our current responsive state
-	if ( blockProps.className ) {
-		blockProps.className = blockProps.className
-			.split( ' ' )
-			.filter( ( c ) => ! c.startsWith( 'has-text-align-' ) )
-			.join( ' ' )
-			.trim() + ` has-text-align-${ currentTextAlign }`;
-	}
-
-	const TagName = headingTag || 'h2';
-
 	const isMobile = device === 'mobile' || previewDeviceType === 'Mobile';
 	const isTablet = device === 'tablet' || previewDeviceType === 'Tablet';
 
@@ -373,8 +290,96 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		{ fontSize: 16, fontWeight: '400', letterSpacing: '0px', lineHeight: '1.6' }
 	);
 
+	let blockProps = useBlockProps( {
+		ref: blockRef,
+		id: anchor || undefined,
+		className: [
+			'gravisain-advanced-heading',
+			`gravisain-heading-${ clientId }`,
+			textAlignTablet ? `has-tablet-text-align-${ textAlignTablet }` : '',
+			textAlignMobile ? `has-mobile-text-align-${ textAlignMobile }` : '',
+			breakoutPadding ? 'has-breakout-padding' : '',
+			customClassName || '',
+		]
+			.filter( Boolean )
+			.join( ' ' ),
+		style: {
+			'--gravisain-padding-top': getSpacing( padding, 'top' ),
+			'--gravisain-padding-right': getSpacing( padding, 'right' ),
+			'--gravisain-padding-bottom': getSpacing( padding, 'bottom' ),
+			'--gravisain-padding-left': getSpacing( padding, 'left' ),
+			'--gravisain-margin-top': getSpacing( margin, 'top' ),
+			'--gravisain-margin-right': getSpacing( margin, 'right' ),
+			'--gravisain-margin-bottom': getSpacing( margin, 'bottom' ),
+			'--gravisain-margin-left': getSpacing( margin, 'left' ),
+			'--gravisain-padding-top-tablet': getSpacing( paddingTablet, 'top' ),
+			'--gravisain-padding-right-tablet': getSpacing( paddingTablet, 'right' ),
+			'--gravisain-padding-bottom-tablet': getSpacing( paddingTablet, 'bottom' ),
+			'--gravisain-padding-left-tablet': getSpacing( paddingTablet, 'left' ),
+			'--gravisain-margin-top-tablet': getSpacing( marginTablet, 'top' ),
+			'--gravisain-margin-right-tablet': getSpacing( marginTablet, 'right' ),
+			'--gravisain-margin-bottom-tablet': getSpacing( marginTablet, 'bottom' ),
+			'--gravisain-margin-left-tablet': getSpacing( marginTablet, 'left' ),
+			'--gravisain-padding-top-mobile': getSpacing( paddingMobile, 'top' ),
+			'--gravisain-padding-right-mobile': getSpacing( paddingMobile, 'right' ),
+			'--gravisain-padding-bottom-mobile': getSpacing( paddingMobile, 'bottom' ),
+			'--gravisain-padding-left-mobile': getSpacing( paddingMobile, 'left' ),
+			'--gravisain-margin-top-mobile': getSpacing( marginMobile, 'top' ),
+			'--gravisain-margin-right-mobile': getSpacing( marginMobile, 'right' ),
+			'--gravisain-margin-bottom-mobile': getSpacing( marginMobile, 'bottom' ),
+			'--gravisain-margin-left-mobile': getSpacing( marginMobile, 'left' ),
+
+			// Eyebrow
+			'--gravisain-heading-eyebrow-color': getSolidColor( eyebrowColor ) || undefined,
+			'--gravisain-heading-eyebrow-ff': activeEyebrowTypo.ff ? `'${ activeEyebrowTypo.ff }'` : undefined,
+			'--gravisain-heading-eyebrow-fs': getTypographyVar( activeEyebrowTypo.fs, true ),
+			'--gravisain-heading-eyebrow-fw': activeEyebrowTypo.fw ? String( activeEyebrowTypo.fw ) : undefined,
+			'--gravisain-heading-eyebrow-lh': getTypographyVar( activeEyebrowTypo.lh, false ),
+			'--gravisain-heading-eyebrow-ls': getTypographyVar( activeEyebrowTypo.ls, true ),
+
+			// Title
+			'--gravisain-heading-title-color': getSolidColor( titleColor || textColor ) || undefined,
+			'--gravisain-heading-title-ff': activeTitleTypo.ff ? `'${ activeTitleTypo.ff }'` : ( fontFamily ? `'${ fontFamily }'` : undefined ),
+			'--gravisain-heading-title-fs': getTypographyVar( activeTitleTypo.fs, true ),
+			'--gravisain-heading-title-fw': activeTitleTypo.fw ? String( activeTitleTypo.fw ) : ( fontWeight ? String( fontWeight ) : undefined ),
+			'--gravisain-heading-title-lh': getTypographyVar( activeTitleTypo.lh, false ),
+			'--gravisain-heading-title-ls': getTypographyVar( activeTitleTypo.ls, true ),
+
+			// Description
+			'--gravisain-heading-desc-color': getSolidColor( descriptionColor ) || undefined,
+			'--gravisain-heading-desc-ff': activeDescTypo.ff ? `'${ activeDescTypo.ff }'` : undefined,
+			'--gravisain-heading-desc-fs': getTypographyVar( activeDescTypo.fs, true ),
+			'--gravisain-heading-desc-fw': activeDescTypo.fw ? String( activeDescTypo.fw ) : undefined,
+			'--gravisain-heading-desc-lh': getTypographyVar( activeDescTypo.lh, false ),
+			'--gravisain-heading-desc-ls': getTypographyVar( activeDescTypo.ls, true ),
+
+			// Legacy fallbacks
+			'--gravisain-ff': activeTitleTypo.ff ? `'${ activeTitleTypo.ff }'` : ( fontFamily ? `'${ fontFamily }'` : undefined ),
+			'--gravisain-fs': getTypographyVar( activeTitleTypo.fs, true ),
+			'--gravisain-lh': getTypographyVar( activeTitleTypo.lh, false ),
+			'--gravisain-ls': getTypographyVar( activeTitleTypo.ls, true ),
+			maxWidth: maxWidth || 'none',
+			...parseCustomCSS( customCSS ),
+		},
+	} );
+
+	// Force strip any core text-alignment classes that conflict with our current responsive state
+	if ( blockProps.className ) {
+		blockProps.className = blockProps.className
+			.split( ' ' )
+			.filter( ( c ) => ! c.startsWith( 'has-text-align-' ) )
+			.join( ' ' )
+			.trim() + ` has-text-align-${ currentTextAlign }`;
+	}
+
+	const TagName = headingTag || 'h2';
+
 	const headingStyle = {
 		textAlign: currentTextAlign,
+		fontSize: getTypographyVar( activeTitleTypo.fs, true ),
+		lineHeight: getTypographyVar( activeTitleTypo.lh, false ),
+		letterSpacing: getTypographyVar( activeTitleTypo.ls, true ),
+		fontFamily: activeTitleTypo.ff ? `'${ activeTitleTypo.ff }'` : ( fontFamily ? `'${ fontFamily }'` : undefined ),
 		fontWeight: activeTitleTypo.fw || fontWeight || '800',
 		textTransform: textTransform || 'none',
 		color: enableTextGradient ? 'transparent' : getSolidColor( titleColor || textColor ) || '#0f172a',
@@ -384,10 +389,34 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		backgroundClip: enableTextGradient ? 'text' : 'border-box',
 	};
 
+	const eyebrowStyle = {
+		display: 'block',
+		textAlign: currentTextAlign,
+		fontSize: getTypographyVar( activeEyebrowTypo.fs, true ),
+		lineHeight: getTypographyVar( activeEyebrowTypo.lh, false ),
+		letterSpacing: getTypographyVar( activeEyebrowTypo.ls, true ),
+		fontFamily: activeEyebrowTypo.ff ? `'${ activeEyebrowTypo.ff }'` : undefined,
+		fontWeight: activeEyebrowTypo.fw || '700',
+		color: eyebrowColor ? getSolidColor( eyebrowColor ) : undefined,
+	};
+
+	const descriptionStyle = {
+		display: 'block',
+		textAlign: currentTextAlign,
+		fontSize: getTypographyVar( activeDescTypo.fs, true ),
+		lineHeight: getTypographyVar( activeDescTypo.lh, false ),
+		letterSpacing: getTypographyVar( activeDescTypo.ls, true ),
+		fontFamily: activeDescTypo.ff ? `'${ activeDescTypo.ff }'` : undefined,
+		fontWeight: activeDescTypo.fw || '400',
+		color: descriptionColor ? getSolidColor( descriptionColor ) : undefined,
+	};
+
 	const dynamicEditorCSS = `
 		[data-block="${ clientId }"],
 		.editor-styles-wrapper [data-block="${ clientId }"],
+		.editor-styles-wrapper .gravisain-heading-${ clientId },
 		.editor-styles-wrapper #block-${ clientId },
+		.gravisain-heading-${ clientId },
 		#block-${ clientId } {
 			text-align: ${ currentTextAlign } !important;
 			${ activeMarginTop !== undefined && activeMarginTop !== '' ? `margin-top: ${activeMarginTop} !important; margin-block-start: ${activeMarginTop} !important;` : '' }
@@ -399,22 +428,18 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			${ activePaddingLeft !== undefined && activePaddingLeft !== '' ? `padding-left: ${activePaddingLeft} !important;` : '' }
 			${ activePaddingRight !== undefined && activePaddingRight !== '' ? `padding-right: ${activePaddingRight} !important;` : '' }
 		}
-		#block-${ clientId } .gravisain-heading-title,
-		#block-${ clientId } .gravisain-heading-eyebrow,
-		#block-${ clientId } .gravisain-heading-description,
-		#block-${ clientId } .gravisain-heading-title *,
-		#block-${ clientId } .gravisain-heading-eyebrow *,
-		#block-${ clientId } .gravisain-heading-description * {
-			text-align: ${ currentTextAlign } !important;
-		}
+		[data-block="${ clientId }"] .gravisain-heading-title,
+		.gravisain-heading-${ clientId } .gravisain-heading-title,
 		#block-${ clientId } .gravisain-heading-title {
 			${ activeTitleTypo.ff ? `font-family: '${ activeTitleTypo.ff }' !important;` : '' }
-			font-size: ${ getTypographyVar( activeTitleTypo.fs, true ) || '32px' } !important;
+			${ activeTitleTypo.fs ? `font-size: ${ getTypographyVar( activeTitleTypo.fs, true ) } !important;` : '' }
 			${ activeTitleTypo.fw ? `font-weight: ${ activeTitleTypo.fw } !important;` : '' }
-			line-height: ${ getTypographyVar( activeTitleTypo.lh, false ) || '1.25' } !important;
-			letter-spacing: ${ getTypographyVar( activeTitleTypo.ls, true ) || '0px' } !important;
+			${ activeTitleTypo.lh ? `line-height: ${ getTypographyVar( activeTitleTypo.lh, false ) } !important;` : '' }
+			${ activeTitleTypo.ls ? `letter-spacing: ${ getTypographyVar( activeTitleTypo.ls, true ) } !important;` : '' }
 			${ ( ! enableTextGradient && ( titleColor || textColor ) ) ? `color: ${ getSolidColor( titleColor || textColor ) } !important;` : '' }
 		}
+		[data-block="${ clientId }"] .gravisain-heading-eyebrow,
+		.gravisain-heading-${ clientId } .gravisain-heading-eyebrow,
 		#block-${ clientId } .gravisain-heading-eyebrow {
 			${ activeEyebrowTypo.ff ? `font-family: '${ activeEyebrowTypo.ff }' !important;` : '' }
 			${ activeEyebrowTypo.fs ? `font-size: ${ getTypographyVar( activeEyebrowTypo.fs, true ) } !important;` : '' }
@@ -423,6 +448,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			${ activeEyebrowTypo.ls ? `letter-spacing: ${ getTypographyVar( activeEyebrowTypo.ls, true ) } !important;` : '' }
 			${ eyebrowColor ? `color: ${ getSolidColor( eyebrowColor ) } !important;` : '' }
 		}
+		[data-block="${ clientId }"] .gravisain-heading-description,
+		.gravisain-heading-${ clientId } .gravisain-heading-description,
 		#block-${ clientId } .gravisain-heading-description {
 			${ activeDescTypo.ff ? `font-family: '${ activeDescTypo.ff }' !important;` : '' }
 			${ activeDescTypo.fs ? `font-size: ${ getTypographyVar( activeDescTypo.fs, true ) } !important;` : '' }
@@ -431,6 +458,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			${ activeDescTypo.ls ? `letter-spacing: ${ getTypographyVar( activeDescTypo.ls, true ) } !important;` : '' }
 			${ descriptionColor ? `color: ${ getSolidColor( descriptionColor ) } !important;` : '' }
 		}
+		[data-block="${ clientId }"] .gravisain-heading-divider,
+		.gravisain-heading-${ clientId } .gravisain-heading-divider,
 		#block-${ clientId } .gravisain-heading-divider {
 			margin-left: ${ currentTextAlign === 'center' || currentTextAlign === 'right' ? 'auto' : '0' } !important;
 			margin-right: ${ currentTextAlign === 'center' || currentTextAlign === 'left' ? 'auto' : '0' } !important;
@@ -467,7 +496,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					<RichText
 						tagName="span"
 						className="gravisain-heading-eyebrow"
-						style={ { display: 'block' } }
+						style={ eyebrowStyle }
 						value={ eyebrow }
 						onChange={ ( val ) => setAttributes( { eyebrow: val } ) }
 						placeholder={ __( 'Eyebrow text...', 'gravisain' ) }
@@ -487,7 +516,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					<RichText
 						tagName="span"
 						className="gravisain-heading-eyebrow below"
-						style={ { display: 'block' } }
+						style={ eyebrowStyle }
 						value={ eyebrow }
 						onChange={ ( val ) => setAttributes( { eyebrow: val } ) }
 					/>
@@ -597,6 +626,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				<RichText
 					tagName="p"
 					className="gravisain-heading-description"
+					style={ descriptionStyle }
 					value={ description }
 					onChange={ ( val ) => setAttributes( { description: val } ) }
 					placeholder={ __( 'Write description here (optional)...', 'gravisain' ) }

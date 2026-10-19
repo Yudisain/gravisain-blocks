@@ -2,9 +2,8 @@
 /**
  * Render callback for the Gravisain Advertisement / Ad Space block.
  *
- * This is a server-side rendered (dynamic) block so that raw ad network code
- * (e.g. Google AdSense <script> and <ins> tags) is preserved and not stripped
- * by WordPress content sanitization.
+ * Renders structured Google AdSense <ins class="adsbygoogle"> units or
+ * accessible image banners safely without any raw/arbitrary scripts.
  *
  * @package Gravisain\Blocks
  */
@@ -15,8 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
-$ad_type          = $attributes['adType'] ?? 'code';
-$ad_code          = $attributes['adCode'] ?? '';
+$ad_type          = $attributes['adType'] ?? 'adsense';
 $banner_url       = $attributes['bannerUrl'] ?? '';
 $banner_alt       = $attributes['bannerAlt'] ?? '';
 $banner_link      = $attributes['bannerLink'] ?? '';
@@ -31,26 +29,35 @@ $min_height       = $attributes['minHeight'] ?? 90;
 $border_radius    = $attributes['borderRadius'] ?? 0;
 $margin           = $attributes['margin'] ?? [];
 $custom_class     = $attributes['customClassName'] ?? '';
-$custom_css       = $attributes['customCSS'] ?? '';
 
-// Nothing to output if the chosen ad type has no content.
-$is_empty = ( 'banner' === $ad_type ) ? ( '' === $banner_url ) : ( '' === $ad_code );
+// Structured Google AdSense attributes.
+$raw_client    = sanitize_text_field( $attributes['adSenseClient'] ?? '' );
+$raw_slot      = sanitize_text_field( $attributes['adSenseSlot'] ?? '' );
+$ad_format     = in_array( $attributes['adSenseFormat'] ?? 'auto', [ 'auto', 'rectangle', 'horizontal', 'vertical', 'fluid' ], true ) ? $attributes['adSenseFormat'] : 'auto';
+$ad_responsive = ! empty( $attributes['adSenseResponsive'] );
+
+// Validate publisher client (ca-pub-1234567890123456) and numeric slot ID.
+$ad_client = preg_match( '/^ca-pub-[0-9]{10,24}$/i', $raw_client ) ? $raw_client : '';
+$ad_slot   = preg_match( '/^[0-9]{5,20}$/', $raw_slot ) ? $raw_slot : '';
+
+// Nothing to output if the chosen ad type has no valid configuration.
+$is_empty = ( 'banner' === $ad_type ) ? ( '' === $banner_url ) : ( '' === $ad_client || '' === $ad_slot );
 if ( $is_empty ) {
 	return;
 }
 
 $classes = [ 'gravisain-ad' ];
 if ( $alignment ) {
-	$classes[] = 'align-' . $alignment;
+	$classes[] = 'align-' . sanitize_html_class( $alignment );
 }
 if ( $alignment_tablet ) {
-	$classes[] = 'align-tablet-' . $alignment_tablet;
+	$classes[] = 'align-tablet-' . sanitize_html_class( $alignment_tablet );
 }
 if ( $alignment_mobile ) {
-	$classes[] = 'align-mobile-' . $alignment_mobile;
+	$classes[] = 'align-mobile-' . sanitize_html_class( $alignment_mobile );
 }
 if ( $custom_class ) {
-	$classes[] = $custom_class;
+	$classes[] = sanitize_html_class( $custom_class );
 }
 
 $style_vars = [];
@@ -60,20 +67,15 @@ if ( $max_width > 0 ) {
 if ( $min_height > 0 ) {
 	$style_vars[] = '--gravisain-ad-min-height:' . intval( $min_height ) . 'px';
 }
-if ( $border_radius > 0 ) {
+if ( $border_radius > 0 && 'banner' === $ad_type ) {
 	$style_vars[] = '--gravisain-ad-radius:' . intval( $border_radius ) . 'px';
 }
 foreach ( [ 'top', 'right', 'bottom', 'left' ] as $side ) {
-	if ( ! empty( $margin[ $side ] ) ) {
+	if ( ! empty( $margin[ $side ] ) && preg_match( '/^[0-9]+(px|em|rem|%)?$/', (string) $margin[ $side ] ) ) {
 		$style_vars[] = '--gravisain-ad-margin-' . $side . ':' . esc_attr( $margin[ $side ] );
 	}
 }
-if ( $custom_css ) {
-	$style_vars[] = $custom_css;
-}
 
-// The anchor id (if set) and the wp-block-* / align classes are added
-// automatically by get_block_wrapper_attributes().
 $wrapper_attributes = get_block_wrapper_attributes( [
 	'class' => implode( ' ', $classes ),
 	'style' => implode( ';', $style_vars ),
@@ -103,13 +105,13 @@ $wrapper_attributes = get_block_wrapper_attributes( [
 			}
 			?>
 		<?php else : ?>
-			<div class="gravisain-ad-code">
-				<?php
-				// Raw ad code is intentionally output unescaped so that ad network
-				// <script> and <ins> tags render correctly. Only capability-gated
-				// editors can set this content.
-				echo $ad_code; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				?>
+			<div class="gravisain-ad-unit">
+				<ins class="adsbygoogle"
+					style="display:block"
+					data-ad-client="<?php echo esc_attr( $ad_client ); ?>"
+					data-ad-slot="<?php echo esc_attr( $ad_slot ); ?>"
+					data-ad-format="<?php echo esc_attr( $ad_format ); ?>"
+					data-full-width-responsive="<?php echo $ad_responsive ? 'true' : 'false'; ?>"></ins>
 			</div>
 		<?php endif; ?>
 	</div>

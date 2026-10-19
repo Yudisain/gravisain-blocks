@@ -56,6 +56,47 @@ $get_typo_var = function( $val, bool $is_size = false ) use ( $sanitize_css_valu
 	return null;
 };
 
+/**
+ * Sanitize font weight to only allow numeric 100-900 or valid CSS keywords.
+ */
+$sanitize_font_weight = function( $fw ): ?string {
+	if ( empty( $fw ) ) {
+		return null;
+	}
+	$fw = trim( (string) $fw );
+	if ( preg_match( '/^(normal|bold|bolder|lighter|[1-9]00)$/i', $fw ) ) {
+		return strtolower( $fw );
+	}
+	return null;
+};
+
+/**
+ * Sanitize a CSS color value (hex, rgb/rgba, hsl/hsla, var(), or keyword).
+ */
+$sanitize_css_color = function( $color ): ?string {
+	if ( ! is_string( $color ) ) {
+		return null;
+	}
+	$color = trim( $color );
+	if ( '' === $color || false !== strpos( $color, 'gradient' ) ) {
+		return null;
+	}
+	if ( preg_match( '/^#([0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/', $color ) ) {
+		return $color;
+	}
+	if ( preg_match( '/^(rgba?|hsla?)\(\s*([0-9]{1,3}%?|[0-9]*\.?[0-9]+)\s*,\s*([0-9]{1,3}%?|[0-9]*\.?[0-9]+)\s*,\s*([0-9]{1,3}%?|[0-9]*\.?[0-9]+)(\s*,\s*([0-9]*\.?[0-9]+%?))?\s*\)$/i', $color ) ) {
+		return $color;
+	}
+	if ( preg_match( '/^var\(--[a-zA-Z0-9_-]+\)$/', $color ) ) {
+		return $color;
+	}
+	$named = [ 'transparent', 'currentcolor', 'inherit', 'initial', 'black', 'silver', 'gray', 'white', 'maroon', 'red', 'purple', 'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'teal', 'aqua', 'orange' ];
+	if ( in_array( strtolower( $color ), $named, true ) ) {
+		return strtolower( $color );
+	}
+	return null;
+};
+
 // ── Attributes ───────────────────────────────────────────────────────────────
 
 $html_tag       = $attributes['htmlTag']              ?? 'p';
@@ -67,7 +108,7 @@ $font_family    = $attributes['fontFamily']           ?? '';
 $font_size      = $attributes['fontSize']             ?? 16;
 $font_size_tab  = $attributes['fontSizeTablet']       ?? null;
 $font_size_mob  = $attributes['fontSizeMobile']       ?? null;
-$font_weight    = $attributes['fontWeight']           ?? '400';
+$font_weight    = $sanitize_font_weight( $attributes['fontWeight'] ?? '400' ) ?: '400';
 $line_height    = $attributes['lineHeight']           ?? '1.5';
 $line_ht_tab    = $attributes['lineHeightTablet']     ?? null;
 $line_ht_mob    = $attributes['lineHeightMobile']     ?? null;
@@ -75,8 +116,8 @@ $letter_sp      = $attributes['letterSpacing']        ?? '0px';
 $letter_sp_tab  = $attributes['letterSpacingTablet']  ?? null;
 $letter_sp_mob  = $attributes['letterSpacingMobile']  ?? null;
 $text_transform = $attributes['textTransform']        ?? 'none';
-$text_color     = $attributes['textColor']            ?? '#334155';
-$highlight_clr  = $attributes['highlightColor']       ?? '#2563eb';
+$text_color     = $sanitize_css_color( $attributes['textColor'] ?? '' ) ?: '#334155';
+$highlight_clr  = $sanitize_css_color( $attributes['highlightColor'] ?? '' ) ?: '#2563eb';
 $enable_grad    = $attributes['enableTextGradient']   ?? false;
 $text_gradient  = $attributes['textGradient']         ?? '';
 $padding        = $attributes['padding']              ?? null;
@@ -87,11 +128,6 @@ $margin_tab     = $attributes['marginTablet']         ?? null;
 $margin_mob     = $attributes['marginMobile']         ?? null;
 $anchor         = $attributes['anchor']               ?? '';
 $custom_class   = $attributes['customClassName']      ?? '';
-
-// Sanitize gradient used as solid color.
-$is_gradient_str = fn( $c ) => ( is_string( $c ) && false !== strpos( $c, 'gradient' ) );
-if ( $is_gradient_str( $text_color ) )   $text_color  = '#334155';
-if ( $is_gradient_str( $highlight_clr ) ) $highlight_clr = '#2563eb';
 
 // ── Build outer CSS custom properties ────────────────────────────────────────
 

@@ -66,27 +66,69 @@ $get_typo_var = function( $val, bool $is_size = false ) use ( $sanitize_css_valu
 	return null;
 };
 
+/**
+ * Sanitize font weight to only allow numeric 100-900 or valid CSS keywords.
+ */
+$sanitize_font_weight = function( $fw ): ?string {
+	if ( empty( $fw ) ) {
+		return null;
+	}
+	$fw = trim( (string) $fw );
+	if ( preg_match( '/^(normal|bold|bolder|lighter|[1-9]00)$/i', $fw ) ) {
+		return strtolower( $fw );
+	}
+	return null;
+};
+
+/**
+ * Sanitize a CSS color value (hex, rgb/rgba, hsl/hsla, var(), or keyword).
+ */
+$sanitize_css_color = function( $color ): ?string {
+	if ( ! is_string( $color ) ) {
+		return null;
+	}
+	$color = trim( $color );
+	if ( '' === $color || false !== strpos( $color, 'gradient' ) ) {
+		return null;
+	}
+	if ( preg_match( '/^#([0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/', $color ) ) {
+		return $color;
+	}
+	if ( preg_match( '/^(rgba?|hsla?)\(\s*([0-9]{1,3}%?|[0-9]*\.?[0-9]+)\s*,\s*([0-9]{1,3}%?|[0-9]*\.?[0-9]+)\s*,\s*([0-9]{1,3}%?|[0-9]*\.?[0-9]+)(\s*,\s*([0-9]*\.?[0-9]+%?))?\s*\)$/i', $color ) ) {
+		return $color;
+	}
+	if ( preg_match( '/^var\(--[a-zA-Z0-9_-]+\)$/', $color ) ) {
+		return $color;
+	}
+	$named = [ 'transparent', 'currentcolor', 'inherit', 'initial', 'black', 'silver', 'gray', 'white', 'maroon', 'red', 'purple', 'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'teal', 'aqua', 'orange' ];
+	if ( in_array( strtolower( $color ), $named, true ) ) {
+		return strtolower( $color );
+	}
+	return null;
+};
+
 // ── Attribute extraction ─────────────────────────────────────────────────────
 
 $heading_tag     = $attributes['headingTag']          ?? 'h2';
+$align           = $attributes['align']               ?? '';
 $text_align      = $attributes['textAlign']           ?? 'left';
 $text_align_tab  = $attributes['textAlignTablet']     ?? '';
 $text_align_mob  = $attributes['textAlignMobile']     ?? '';
 $eyebrow         = $attributes['eyebrow']             ?? '';
 $eyebrow_pos     = $attributes['eyebrowPosition']     ?? 'above';
-$eyebrow_color   = $attributes['eyebrowColor']        ?? '';
+$eyebrow_color   = $sanitize_css_color( $attributes['eyebrowColor'] ?? '' );
 $eyebrow_typo    = $attributes['eyebrowTypography']   ?? [];
 $eyebrow_tab     = $attributes['eyebrowTypographyTablet'] ?? [];
 $eyebrow_mob     = $attributes['eyebrowTypographyMobile'] ?? [];
 
 $content         = $attributes['content']             ?? '';
-$title_color     = $attributes['titleColor']          ?? '';
+$title_color     = $sanitize_css_color( $attributes['titleColor'] ?? '' );
 $title_typo      = $attributes['titleTypography']     ?? [];
 $title_tab       = $attributes['titleTypographyTablet'] ?? [];
 $title_mob       = $attributes['titleTypographyMobile'] ?? [];
 
 $description     = $attributes['description']         ?? '';
-$desc_color      = $attributes['descriptionColor']    ?? '';
+$desc_color      = $sanitize_css_color( $attributes['descriptionColor'] ?? '' );
 $desc_typo       = $attributes['descriptionTypography'] ?? [];
 $desc_tab        = $attributes['descriptionTypographyTablet'] ?? [];
 $desc_mob        = $attributes['descriptionTypographyMobile'] ?? [];
@@ -95,7 +137,7 @@ $font_family     = $attributes['fontFamily']          ?? '';
 $font_size       = $attributes['fontSize']            ?? 32;
 $font_size_tab   = $attributes['fontSizeTablet']      ?? null;
 $font_size_mob   = $attributes['fontSizeMobile']      ?? null;
-$font_weight     = $attributes['fontWeight']          ?? '800';
+$font_weight     = $sanitize_font_weight( $attributes['fontWeight'] ?? '800' ) ?: '800';
 $line_height     = $attributes['lineHeight']          ?? '1.25';
 $line_height_tab = $attributes['lineHeightTablet']    ?? null;
 $line_height_mob = $attributes['lineHeightMobile']    ?? null;
@@ -103,14 +145,14 @@ $letter_spacing  = $attributes['letterSpacing']       ?? '0px';
 $letter_sp_tab   = $attributes['letterSpacingTablet'] ?? null;
 $letter_sp_mob   = $attributes['letterSpacingMobile'] ?? null;
 $text_transform  = $attributes['textTransform']       ?? 'none';
-$text_color      = $attributes['textColor']           ?? '#0f172a';
-$highlight_color = $attributes['highlightColor']      ?? '#2563eb';
+$text_color      = $sanitize_css_color( $attributes['textColor'] ?? '' ) ?: '#0f172a';
+$highlight_color = $sanitize_css_color( $attributes['highlightColor'] ?? '' ) ?: '#2563eb';
 $enable_gradient = $attributes['enableTextGradient']  ?? false;
 $text_gradient   = $attributes['textGradient']        ?? '';
 $show_divider    = $attributes['showDivider']         ?? true;
 $divider_width   = $attributes['dividerWidth']        ?? 48;
 $divider_height  = $attributes['dividerHeight']       ?? 4;
-$divider_color   = $attributes['dividerColor']        ?? '#2563eb';
+$divider_color   = $sanitize_css_color( $attributes['dividerColor'] ?? '' ) ?: '#2563eb';
 $divider_style   = $attributes['dividerStyle']        ?? 'solid';
 $divider_flip    = $attributes['dividerFlip']         ?? false;
 $divider_spacing = $attributes['dividerSpacing']      ?? 14;
@@ -125,14 +167,6 @@ $breakout        = $attributes['breakoutPadding']     ?? false;
 $anchor          = $attributes['anchor']              ?? '';
 $custom_class    = $attributes['customClassName']     ?? '';
 $custom_css_raw  = $attributes['customCSS']           ?? '';
-
-// Sanitize: never set a gradient as a solid text color.
-$is_gradient_str = fn( $c ) => ( is_string( $c ) && false !== strpos( $c, 'gradient' ) );
-if ( $is_gradient_str( $text_color ) )      $text_color      = '#0f172a';
-if ( $is_gradient_str( $title_color ) )     $title_color     = '';
-if ( $is_gradient_str( $eyebrow_color ) )   $eyebrow_color   = '';
-if ( $is_gradient_str( $desc_color ) )      $desc_color      = '';
-if ( $is_gradient_str( $highlight_color ) ) $highlight_color = '#2563eb';
 
 // ── Build CSS custom properties ──────────────────────────────────────────────
 
@@ -174,7 +208,7 @@ $format_font_family = function( ?string $font ): ?string {
 	return '"' . esc_attr( $font ) . '", sans-serif';
 };
 
-$add_typo_vars = function( string $prefix, $typo_obj, array $fallback = [] ) use ( &$css_vars, $format_font_family, $get_typo_var ) {
+$add_typo_vars = function( string $prefix, $typo_obj, array $fallback = [] ) use ( &$css_vars, $format_font_family, $get_typo_var, $sanitize_font_weight ) {
 	if ( ! is_array( $typo_obj ) ) {
 		$typo_obj = [];
 	}
@@ -191,8 +225,9 @@ $add_typo_vars = function( string $prefix, $typo_obj, array $fallback = [] ) use
 	}
 
 	$fw = $typo_obj['fontWeight'] ?? ( $fallback['fontWeight'] ?? null );
+	$fw = $sanitize_font_weight( $fw );
 	if ( $fw ) {
-		$css_vars["--gravisain-heading-{$prefix}-fw"] = (string) $fw;
+		$css_vars["--gravisain-heading-{$prefix}-fw"] = $fw;
 	}
 
 	$lh = $typo_obj['lineHeight'] ?? ( $fallback['lineHeight'] ?? null );
@@ -284,11 +319,13 @@ if ( $m_top !== null && $m_top !== '' ) {
 if ( $m_bottom !== null && $m_bottom !== '' ) {
 	$style_string .= ';margin-bottom:' . esc_attr( $m_bottom ) . ' !important;margin-block-end:' . esc_attr( $m_bottom ) . ' !important';
 }
-if ( $m_left !== null && $m_left !== '' ) {
-	$style_string .= ';margin-left:' . esc_attr( $m_left ) . ' !important';
-}
-if ( $m_right !== null && $m_right !== '' ) {
-	$style_string .= ';margin-right:' . esc_attr( $m_right ) . ' !important';
+if ( $align !== 'full' ) {
+	if ( $m_left !== null && $m_left !== '' ) {
+		$style_string .= ';margin-left:' . esc_attr( $m_left ) . ' !important';
+	}
+	if ( $m_right !== null && $m_right !== '' ) {
+		$style_string .= ';margin-right:' . esc_attr( $m_right ) . ' !important';
+	}
 }
 
 // Explicit padding overrides
@@ -310,12 +347,17 @@ if ( $p_right !== null && $p_right !== '' ) {
 	$style_string .= ';padding-right:' . esc_attr( $p_right ) . ' !important';
 }
 
+if ( $max_width && $align !== 'full' ) {
+	$style_string .= ';max-width:' . esc_attr( $max_width ) . ' !important';
+}
+
 // ── CSS classes ───────────────────────────────────────────────────────────────
 
 $classes = [
 	'gravisain-advanced-heading',
 	'has-text-align-' . $text_align,
 ];
+if ( $align )          $classes[] = 'align' . $align;
 if ( $text_align_tab ) $classes[] = 'has-tablet-text-align-' . $text_align_tab;
 if ( $text_align_mob ) $classes[] = 'has-mobile-text-align-' . $text_align_mob;
 if ( $breakout )       $classes[] = 'has-breakout-padding';

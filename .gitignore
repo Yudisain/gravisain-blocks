@@ -6,3 +6,6 @@ release/
 .idea/
 .vscode/
 starter-templates/
+build/
+.agents/
+WP-ORG-REVIEW.md

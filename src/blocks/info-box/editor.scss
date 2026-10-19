@@ -28,7 +28,193 @@
 				max-height: 100% !important;
 				display: block !important;
 				stroke: currentColor;
+
+				text {
+					stroke: none !important;
+					fill: currentColor !important;
+				}
 			}
 		}
 	}
+
+	/* Content wrapper in editor */
+	.gravisain-info-box-content {
+		display: flex !important;
+		flex-direction: column !important;
+		width: 100% !important;
+	}
+
+	&.layout-top-center,
+	&.layout-top-center-circle {
+		flex-direction: column !important;
+		align-items: center !important;
+		text-align: center !important;
+
+		.gravisain-info-box-icon {
+			margin-left: auto !important;
+			margin-right: auto !important;
+			margin-bottom: 20px !important;
+		}
+
+		.gravisain-info-box-content {
+			align-items: center !important;
+			text-align: center !important;
+		}
+	}
+
+	&.layout-top-left {
+		flex-direction: column !important;
+		align-items: flex-start !important;
+		text-align: left !important;
+
+		.gravisain-info-box-icon {
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+			margin-bottom: 20px !important;
+		}
+
+		.gravisain-info-box-content {
+			align-items: flex-start !important;
+			text-align: left !important;
+		}
+	}
+
+	&.layout-left-horizontal {
+		display: flex !important;
+		flex-direction: row !important;
+		align-items: flex-start !important;
+		text-align: left !important;
+		gap: 24px !important;
+
+		.gravisain-info-box-icon {
+			margin: 0 !important;
+			flex-shrink: 0 !important;
+			align-self: flex-start !important;
+		}
+
+		.gravisain-info-box-content {
+			flex: 1 1 auto !important;
+			min-width: 0 !important;
+			align-items: flex-start !important;
+			text-align: left !important;
+			width: auto !important;
+		}
+	}
+
+	&.layout-overlap-center,
+	&.layout-overlap-left {
+		flex-direction: column !important;
+		position: relative !important;
+		margin-top: calc(var(--info-box-icon-box-size, 48px) / 2 + 10px) !important;
+
+		.gravisain-info-box-icon {
+			margin-top: calc(-1 * var(--info-box-pt, 32px) - (var(--info-box-icon-box-size, 48px) / 2)) !important;
+			box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+			border: 3px solid var(--info-box-bg, #ffffff) !important;
+			z-index: 2 !important;
+			margin-bottom: 20px !important;
+		}
+	}
+
+	&.layout-overlap-center {
+		align-items: center !important;
+		text-align: center !important;
+
+		.gravisain-info-box-icon {
+			margin-left: auto !important;
+			margin-right: auto !important;
+		}
+
+		.gravisain-info-box-content {
+			align-items: center !important;
+			text-align: center !important;
+		}
+	}
+
+	&.layout-overlap-left {
+		align-items: flex-start !important;
+		text-align: left !important;
+
+		.gravisain-info-box-icon {
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+		}
+
+		.gravisain-info-box-content {
+			align-items: flex-start !important;
+			text-align: left !important;
+		}
+	}
 }
+
+/* Info Box Layout Presets Panel in Sidebar Inspector */
+.gravisain-infobox-presets-wrapper {
+	margin: 6px 0 14px 0;
+}
+
+.gravisain-infobox-presets-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 10px;
+}
+
+.gravisain-infobox-preset-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 6px 4px 8px;
+	background: #ffffff;
+	border: 1.5px solid #e2e8f0;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	outline: none;
+	width: 100%;
+	box-sizing: border-box;
+
+	&:hover {
+		border-color: #94a3b8;
+		background: #f8fafc;
+		transform: translateY(-2px);
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+	}
+
+	&.is-active {
+		border-color: #2563eb;
+		background: #eff6ff;
+		box-shadow: 0 0 0 1.5px #2563eb;
+	}
+
+	.gravisain-infobox-preset-preview {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		svg {
+			width: 100%;
+			height: auto;
+			max-height: 52px;
+			display: block;
+		}
+	}
+
+	.gravisain-infobox-preset-name {
+		margin-top: 6px;
+		font-size: 10.5px;
+		font-weight: 500;
+		color: #475569;
+		text-align: center;
+		line-height: 1.2;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 100%;
+	}
+
+	&.is-active .gravisain-infobox-preset-name {
+		color: #1d4ed8;
+		font-weight: 600;
+	}
+}
+

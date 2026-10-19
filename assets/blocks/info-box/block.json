@@ -16,6 +16,10 @@
     "html": false
   },
   "attributes": {
+    "layoutPreset": {
+      "type": "string",
+      "default": "top-left"
+    },
     "icon": {
       "type": "string",
       "default": ""

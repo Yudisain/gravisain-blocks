@@ -232,27 +232,115 @@ export default function Edit( props ) {
 		}
 	);
 
+	const renderPresetBtn = ( preset, index ) => (
+		<Tooltip text={ preset.label } key={ preset.name || index }>
+			<button 
+				type="button"
+				className="gravisain-row-setup-btn"
+				style={ {
+					display: 'inline-flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					width: '108px',
+					height: '54px',
+					padding: 0,
+					backgroundColor: 'transparent',
+					border: '1.5px solid transparent',
+					borderRadius: '4px',
+					cursor: 'pointer',
+					color: '#cbd5e1',
+					boxSizing: 'border-box',
+					boxShadow: 'none',
+					outline: 'none',
+					transition: 'all 0.18s cubic-bezier(0.4, 0, 0.2, 1)',
+				} }
+				onMouseEnter={ ( e ) => {
+					e.currentTarget.style.color = '#4f46e5';
+					e.currentTarget.style.backgroundColor = '#f8fafc';
+					e.currentTarget.style.borderColor = '#cbd5e1';
+					e.currentTarget.style.transform = 'translateY(-2px)';
+					e.currentTarget.style.boxShadow = '0 4px 10px -2px rgba(79, 70, 229, 0.15)';
+				} }
+				onMouseLeave={ ( e ) => {
+					e.currentTarget.style.color = '#cbd5e1';
+					e.currentTarget.style.backgroundColor = 'transparent';
+					e.currentTarget.style.borderColor = 'transparent';
+					e.currentTarget.style.transform = 'none';
+					e.currentTarget.style.boxShadow = 'none';
+				} }
+				onClick={ () => setupColumns( preset.name, preset.cols, preset.gridTemplate ) }
+				aria-label={ preset.label }
+			>
+				{ preset.icon }
+			</button>
+		</Tooltip>
+	);
+
 	if ( innerBlockCount === 0 ) {
+		const row1Presets = layoutPresets.slice( 0, 4 );
+		const row2Presets = layoutPresets.slice( 4, 8 );
+		const row3Presets = layoutPresets.slice( 8, 11 );
+
+		const rowStyle = {
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+			gap: '12px',
+		};
+
 		return (
 			<TagName { ...blockProps }>
-				<Placeholder
-					icon="grid-view"
-					label={ __( 'Select Layout', 'gravisain' ) }
-					instructions={ __( 'Easy layouts responsive grid with columns option.', 'gravisain' ) }
+				<div 
+					className="gravisain-row-setup-container"
+					style={ {
+						border: '1px dashed #cbd5e1',
+						backgroundColor: '#ffffff',
+						padding: '28px 24px 32px',
+						borderRadius: '6px',
+						textAlign: 'center',
+						boxSizing: 'border-box',
+						width: '100%',
+						margin: '0 auto',
+					} }
 				>
-					<div className="gravisain-layout-selector">
-						{ layoutPresets.map( ( preset, index ) => (
-							<Tooltip text={ preset.label } key={ index }>
-								<Button 
-									className="gravisain-layout-btn"
-									onClick={ () => setupColumns( preset.name, preset.cols, preset.gridTemplate ) }
-								>
-									{ preset.icon }
-								</Button>
-							</Tooltip>
-						) ) }
+					<div 
+						className="gravisain-row-setup-title"
+						style={ {
+							fontSize: '13px',
+							fontWeight: 600,
+							textTransform: 'uppercase',
+							letterSpacing: '0.8px',
+							color: '#334155',
+							marginBottom: '22px',
+							userSelect: 'none',
+							lineHeight: 1.4,
+							textAlign: 'center',
+						} }
+					>
+						{ __( 'SELECT YOUR LAYOUT', 'gravisain' ) }
 					</div>
-				</Placeholder>
+					<div 
+						className="gravisain-row-setup-grid"
+						style={ {
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							gap: '12px',
+							maxWidth: '560px',
+							margin: '0 auto',
+						} }
+					>
+						<div className="gravisain-row-setup-row" style={ rowStyle }>
+							{ row1Presets.map( ( p, i ) => renderPresetBtn( p, i ) ) }
+						</div>
+						<div className="gravisain-row-setup-row" style={ rowStyle }>
+							{ row2Presets.map( ( p, i ) => renderPresetBtn( p, i + 4 ) ) }
+						</div>
+						<div className="gravisain-row-setup-row" style={ rowStyle }>
+							{ row3Presets.map( ( p, i ) => renderPresetBtn( p, i + 8 ) ) }
+						</div>
+					</div>
+				</div>
 			</TagName>
 		);
 	}

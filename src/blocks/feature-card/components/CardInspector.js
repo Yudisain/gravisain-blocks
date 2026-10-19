@@ -67,7 +67,7 @@ export default function CardInspector( { attributes, setAttributes } ) {
 									<IconPickerControl
 										label={ __( 'Icon', 'gravisain' ) }
 										value={ icon }
-										onChange={ ( value ) => setAttributes( { icon: value } ) }
+										onChange={ ( value ) => setAttributes( { icon: value, iconSymbol: value } ) }
 									/>
 									<SelectControl
 										label={ __( 'Icon Position Layout', 'gravisain' ) }

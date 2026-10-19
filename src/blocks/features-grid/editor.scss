@@ -1,3 +1,35 @@
 .gravisain-features-grid {
-	/* Basic editor scaffolding if needed */
+	&.is-selected {
+		outline: 1px dashed var(--wp-admin-theme-color);
+		outline-offset: 4px;
+	}
+
+	// Force intermediate Gutenberg wrappers to disappear so child feature cards become direct grid items
+	& .block-editor-inner-blocks,
+	& .block-editor-block-list__layout {
+		display: contents !important;
+	}
+
+	// In the Gutenberg editor, canvas width is often <1024px due to sidebars.
+	// Force desktop column settings in default desktop editing mode so the Desktop Columns slider works in real time!
+	grid-template-columns: repeat(var(--grid-cols, 3), minmax(0, 1fr)) !important;
+	column-gap: var(--col-gap, 32px) !important;
+	row-gap: var(--row-gap, 32px) !important;
+
+	.block-list-appender {
+		grid-column: 1 / -1;
+		display: flex;
+		justify-content: center;
+		margin: 1rem 0;
+	}
 }
+
+// Support device preview modes in Gutenberg
+.is-tablet-preview .gravisain-features-grid {
+	grid-template-columns: repeat(var(--grid-cols-tab, 2), minmax(0, 1fr)) !important;
+}
+
+.is-mobile-preview .gravisain-features-grid {
+	grid-template-columns: repeat(var(--grid-cols-mob, 1), minmax(0, 1fr)) !important;
+}
+

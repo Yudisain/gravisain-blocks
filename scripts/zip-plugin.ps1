@@ -25,7 +25,14 @@ if (Test-Path $stagingDir) {
 }
 
 if (Test-Path $zipPath) {
-	Remove-Item -LiteralPath $zipPath -Force -ErrorAction SilentlyContinue
+	for ($i = 0; $i -lt 5; $i++) {
+		try {
+			Remove-Item -LiteralPath $zipPath -Force -ErrorAction Stop
+			break
+		} catch {
+			Start-Sleep -Milliseconds 500
+		}
+	}
 }
 
 if (-not (Test-Path $releaseDir)) {

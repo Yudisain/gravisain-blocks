@@ -13,8 +13,8 @@ const pluginDir = path.resolve(__dirname, '..');
  * @param {string} newVersion Target version string (e.g. '1.2.3')
  */
 function syncVersion(newVersion) {
-  if (!newVersion || !/^\d+\.\d+(\.\d+)?(-[a-zA-Z0-9.]+)?$/.test(newVersion.trim())) {
-    console.error(`❌ Format versi tidak valid: "${newVersion}". Contoh yang benar: 1.2.3 atau 1.3.0`);
+  if (!newVersion || !/^\d+\.\d+(\.\d+)*(-[a-zA-Z0-9.]+)?$/.test(newVersion.trim())) {
+    console.error(`❌ Format versi tidak valid: "${newVersion}". Contoh yang benar: 1.0.1 atau 1.0.0.1`);
     process.exit(1);
   }
 
@@ -71,9 +71,11 @@ function syncVersion(newVersion) {
   const pkgPath = path.join(pluginDir, 'package.json');
   if (fs.existsSync(pkgPath)) {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
-    pkg.version = ver;
+    // If version has 4 segments (e.g. 1.0.0.1), use 3-segment base for package.json to prevent npm/webpack crash
+    const semverSafe = ver.split('.').length > 3 ? ver.split('.').slice(0, 3).join('.') : ver;
+    pkg.version = semverSafe;
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf8');
-    console.log(`  ✓ package.json (version: ${ver})`);
+    console.log(`  ✓ package.json (version: ${semverSafe}${semverSafe !== ver ? ' [SemVer-safe]' : ''})`);
   }
 
   console.log(`✅ Seluruh file versi berhasil diseragamkan ke v${ver}!\n`);

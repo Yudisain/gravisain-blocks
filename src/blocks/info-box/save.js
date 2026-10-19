@@ -4,6 +4,7 @@ import parseCustomCSS from '../../controls/parseCustomCSS';
 
 export default function save( { attributes } ) {
 	const {
+		layoutPreset,
 		icon,
 		iconType,
 		mediaType,
@@ -60,6 +61,7 @@ export default function save( { attributes } ) {
 		id: anchor || undefined,
 		className: [
 			'gravisain-info-box-card',
+			layoutPreset ? `layout-${ layoutPreset }` : 'layout-top-left',
 			`align-${ textAlign || 'left' }`,
 			hoverEffect && hoverEffect !== 'none' ? `hover-${ hoverEffect }` : '',
 			customClassName || '',
@@ -138,35 +140,37 @@ export default function save( { attributes } ) {
 				</div>
 			) }
 
-			{ showEyebrow && eyebrow && (
-				<RichText.Content
-					tagName="span"
-					className="gravisain-info-box-eyebrow"
-					value={ eyebrow }
-				/>
-			) }
+			<div className="gravisain-info-box-content">
+				{ showEyebrow && eyebrow && (
+					<RichText.Content
+						tagName="span"
+						className="gravisain-info-box-eyebrow"
+						value={ eyebrow }
+					/>
+				) }
 
-			{ title && (
-				<RichText.Content
-					tagName="h3"
-					className="gravisain-info-box-title"
-					value={ title }
-				/>
-			) }
+				{ title && (
+					<RichText.Content
+						tagName="h3"
+						className="gravisain-info-box-title"
+						value={ title }
+					/>
+				) }
 
-			{ description && (
-				<RichText.Content
-					tagName="p"
-					className="gravisain-info-box-desc"
-					value={ description }
-				/>
-			) }
+				{ description && (
+					<RichText.Content
+						tagName="p"
+						className="gravisain-info-box-desc"
+						value={ description }
+					/>
+				) }
 
-			{ showLink && linkText && (
-				<a href={ linkUrl || '#' } className="gravisain-info-box-link">
-					<RichText.Content value={ linkText } />
-				</a>
-			) }
+				{ showLink && linkText && (
+					<a href={ linkUrl || '#' } className="gravisain-info-box-link">
+						<RichText.Content value={ linkText } />
+					</a>
+				) }
+			</div>
 		</div>
 	);
 }

@@ -230,19 +230,40 @@ export default function RowInspector( { attributes, setAttributes, clientId } ) 
 
 							<PanelBody title={ __( 'Change Layout', 'gravisain' ) } initialOpen={ false }>
 								<div className="gravisain-layout-selector">
-									{ layoutPresets.map( ( preset, index ) => {
-										const isActive = layoutPreset === preset.name;
-										return (
-											<Tooltip text={ preset.label } key={ index }>
-												<Button 
-													className={ `gravisain-layout-btn ${ isActive ? 'is-active' : '' }` }
-													onClick={ () => changeLayout( preset.name, preset.cols, preset.gridTemplate ) }
-												>
-													{ preset.icon }
-												</Button>
-											</Tooltip>
-										);
-									} ) }
+									{ ( () => {
+										const currentActive = ( () => {
+											if ( layoutPreset ) return layoutPreset;
+											if ( columns && gridTemplate ) {
+												const cleanTmpl = gridTemplate.trim().replace( /\s+/g, ' ' );
+												const match = layoutPresets.find( ( p ) => {
+													if ( p.cols !== columns ) return false;
+													return p.gridTemplate.trim().replace( /\s+/g, ' ' ) === cleanTmpl;
+												} );
+												if ( match ) return match.name;
+											}
+											if ( columns === 1 ) return '100';
+											if ( columns === 2 ) return '50-50';
+											if ( columns === 3 ) return '33-33-33';
+											if ( columns === 4 ) return '25-25-25-25';
+											if ( columns === 5 ) return '20-x5';
+											if ( columns === 6 ) return '16-x6';
+											return '';
+										} )();
+
+										return layoutPresets.map( ( preset, index ) => {
+											const isActive = currentActive === preset.name;
+											return (
+												<Tooltip text={ preset.label } key={ index }>
+													<Button 
+														className={ `gravisain-layout-btn ${ isActive ? 'is-active' : '' }` }
+														onClick={ () => changeLayout( preset.name, preset.cols, preset.gridTemplate ) }
+													>
+														{ preset.icon }
+													</Button>
+												</Tooltip>
+											);
+										} );
+									} )() }
 								</div>
 							</PanelBody>
 						</>

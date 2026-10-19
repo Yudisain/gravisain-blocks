@@ -8,6 +8,7 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 	const detectTab = ( val ) => {
 		if ( ! val || typeof val !== 'string' ) return 'icon';
 		const trimmed = val.trim();
+		if ( trimmed.startsWith( 'number:' ) || ( /^\d+$/.test( trimmed ) && ! ICONS[ trimmed ] ) ) return 'number';
 		if ( trimmed.startsWith( '<svg' ) || trimmed.startsWith( '<SVG' ) ) return 'svg';
 		if (
 			trimmed.startsWith( 'http://' ) ||
@@ -29,6 +30,7 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 		icon: detectTab( value ) === 'icon' ? value : '',
 		svg: detectTab( value ) === 'svg' ? value : '',
 		image: detectTab( value ) === 'image' ? value : '',
+		number: detectTab( value ) === 'number' ? value : 'number:1',
 	} );
 
 	// Synchronize if parent changes value externally
@@ -44,8 +46,18 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 
 	const handleTabChange = ( tab ) => {
 		setActiveTab( tab );
-		const nextVal = cached[ tab ] || '';
+		const nextVal = cached[ tab ] || ( tab === 'number' ? 'number:1' : '' );
+		if ( tab === 'number' && ! cached.number ) {
+			setCached( ( prev ) => ( { ...prev, number: 'number:1' } ) );
+		}
 		onChange( nextVal );
+	};
+
+	const handleNumberChange = ( numStr ) => {
+		const clean = ( numStr || '' ).replace( /^number:/, '' );
+		const formatted = clean ? `number:${ clean }` : '';
+		setCached( ( prev ) => ( { ...prev, number: formatted } ) );
+		onChange( formatted );
 	};
 
 	const handleIconSelect = ( iconKey ) => {
@@ -91,7 +103,7 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 
 	return (
 		<BaseControl label={ label } help={ help } className="gravisain-icon-picker-control" style={ { marginBottom: '20px' } }>
-			{ /* Subtabs: ICON | SVG | IMAGE */ }
+			{ /* Subtabs: ICON | SVG | IMAGE | NUMBER */ }
 			<div
 				className="gravisain-icon-subtabs"
 				style={ {
@@ -105,6 +117,7 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 					{ id: 'icon', label: __( 'ICON', 'gravisain' ) },
 					{ id: 'svg', label: __( 'SVG', 'gravisain' ) },
 					{ id: 'image', label: __( 'IMAGE', 'gravisain' ) },
+					{ id: 'number', label: __( 'NUMBER', 'gravisain' ) },
 				].map( ( tab ) => {
 					const isActive = activeTab === tab.id;
 					return (
@@ -360,11 +373,88 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 				</div>
 			) }
 
+			{ /* TAB 4: NUMBER */ }
+			{ activeTab === 'number' && (
+				<div className="gravisain-subtab-number-content">
+					<div style={ { display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' } }>
+						<div
+							style={ {
+								width: '42px',
+								height: '42px',
+								minWidth: '42px',
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+								border: '1px solid #cbd5e1',
+								borderRadius: '6px',
+								background: '#f8fafc',
+								color: '#4f46e5',
+								fontWeight: 700,
+								fontSize: '18px',
+								userSelect: 'none',
+							} }
+							title={ __( 'Number Preview', 'gravisain' ) }
+						>
+							{ ( typeof value === 'string' ? value.replace( /^number:/, '' ) : '' ) || '—' }
+						</div>
+
+						<div style={ { flex: 1, minWidth: 0 } }>
+							<TextControl
+								value={
+									typeof value === 'string' && value.startsWith( 'number:' )
+										? value.replace( /^number:/, '' )
+										: ( /^\d+$/.test( value ) && ! ICONS[ value ] ? value : ( value ? value.replace( /^number:/, '' ) : '' ) )
+								}
+								onChange={ ( val ) => handleNumberChange( val ) }
+								placeholder={ __( 'e.g. 1, 2, 01, A...', 'gravisain' ) }
+								style={ { margin: 0 } }
+							/>
+						</div>
+
+						{ value && (
+							<Button isDestructive isLink onClick={ handleClear } style={ { fontSize: '12px', padding: 0 } }>
+								{ __( 'Remove', 'gravisain' ) }
+							</Button>
+						) }
+					</div>
+
+					<div style={ { marginTop: '8px' } }>
+						<span style={ { fontSize: '11px', color: '#64748b', fontWeight: 500, display: 'block', marginBottom: '6px' } }>
+							{ __( 'Quick Presets:', 'gravisain' ) }
+						</span>
+						<div style={ { display: 'flex', flexWrap: 'wrap', gap: '6px' } }>
+							{ [ '1', '2', '3', '4', '5', '6', '01', '02', '03' ].map( ( preset ) => {
+								const currentVal = typeof value === 'string' ? value.replace( /^number:/, '' ) : '';
+								const isSelected = currentVal === preset;
+								return (
+									<Button
+										key={ preset }
+										variant={ isSelected ? 'primary' : 'secondary' }
+										isSmall
+										onClick={ () => handleNumberChange( preset ) }
+										style={ {
+											minWidth: '32px',
+											justifyContent: 'center',
+											fontWeight: 600,
+											fontSize: '12px',
+											padding: '2px 8px',
+										} }
+									>
+										{ preset }
+									</Button>
+								);
+							} ) }
+						</div>
+					</div>
+				</div>
+			) }
+
 			{ /* Scoped inline style ensuring SVGs in picker button and items render with exact dimensions */ }
 			<style>{ `
 				.gravisain-icon-picker-button svg,
 				.gravisain-icon-item svg,
-				.gravisain-subtab-svg-content svg {
+				.gravisain-subtab-svg-content svg,
+				.gravisain-subtab-number-content svg {
 					width: 100% !important;
 					height: 100% !important;
 					max-width: 100% !important;
@@ -382,6 +472,11 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 				.gravisain-icon-item svg[stroke],
 				.gravisain-subtab-svg-content svg[stroke] {
 					fill: none !important;
+				}
+				.gravisain-icon-picker-button svg text,
+				.gravisain-subtab-number-content svg text {
+					stroke: none !important;
+					fill: currentColor !important;
 				}
 			` }</style>
 		</BaseControl>

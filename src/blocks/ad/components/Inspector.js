@@ -1,11 +1,14 @@
 import { __ } from '@wordpress/i18n';
 import { InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { PanelBody, RangeControl, SelectControl, TextControl, TextareaControl, ToggleControl, TabPanel, Button } from '@wordpress/components';
+import { PanelBody, RangeControl, SelectControl, TextControl, ToggleControl, TabPanel, Button } from '@wordpress/components';
 
 export default function Inspector( { attributes, setAttributes } ) {
 	const {
 		adType,
-		adCode,
+		adSenseClient,
+		adSenseSlot,
+		adSenseFormat,
+		adSenseResponsive,
 		bannerId,
 		bannerUrl,
 		bannerAlt,
@@ -22,7 +25,6 @@ export default function Inspector( { attributes, setAttributes } ) {
 		margin = {},
 		anchor,
 		customClassName,
-		customCSS,
 	} = attributes;
 
 	const alignmentOptions = [
@@ -52,23 +54,46 @@ export default function Inspector( { attributes, setAttributes } ) {
 								<PanelBody title={ __( 'Advertisement Type', 'gravisain-blocks' ) } initialOpen={ true }>
 									<SelectControl
 										label={ __( 'Type', 'gravisain-blocks' ) }
-										value={ adType }
+										value={ adType === 'code' ? 'adsense' : adType }
 										options={ [
-											{ label: __( 'Ad Network Code (AdSense, Ezoic, etc.)', 'gravisain-blocks' ), value: 'code' },
+											{ label: __( 'Google AdSense (Official)', 'gravisain-blocks' ), value: 'adsense' },
 											{ label: __( 'Image Banner', 'gravisain-blocks' ), value: 'banner' },
 										] }
 										onChange={ ( value ) => setAttributes( { adType: value } ) }
 									/>
 								</PanelBody>
 
-								{ adType === 'code' ? (
-									<PanelBody title={ __( 'Ad Code', 'gravisain-blocks' ) } initialOpen={ true }>
-										<TextareaControl
-											label={ __( 'Ad Network Code', 'gravisain-blocks' ) }
-											value={ adCode }
-											onChange={ ( value ) => setAttributes( { adCode: value } ) }
-											help={ __( 'Paste the full ad snippet from Google AdSense or your ad network, including <script> and <ins> tags. The code is rendered on the frontend so scripts are preserved.', 'gravisain-blocks' ) }
-											rows={ 8 }
+								{ ( adType === 'adsense' || adType === 'code' ) ? (
+									<PanelBody title={ __( 'AdSense Settings', 'gravisain-blocks' ) } initialOpen={ true }>
+										<TextControl
+											label={ __( 'Publisher ID (data-ad-client)', 'gravisain-blocks' ) }
+											value={ adSenseClient }
+											onChange={ ( value ) => setAttributes( { adSenseClient: value } ) }
+											placeholder="ca-pub-0000000000000000"
+											help={ __( 'Enter your Google AdSense Publisher ID (e.g. ca-pub-1234567890123456).', 'gravisain-blocks' ) }
+										/>
+										<TextControl
+											label={ __( 'Ad Slot ID (data-ad-slot)', 'gravisain-blocks' ) }
+											value={ adSenseSlot }
+											onChange={ ( value ) => setAttributes( { adSenseSlot: value } ) }
+											placeholder="1234567890"
+											help={ __( 'Enter your Google AdSense Ad Slot ID (e.g. 1234567890).', 'gravisain-blocks' ) }
+										/>
+										<SelectControl
+											label={ __( 'Ad Format', 'gravisain-blocks' ) }
+											value={ adSenseFormat || 'auto' }
+											options={ [
+												{ label: __( 'Auto (Responsive)', 'gravisain-blocks' ), value: 'auto' },
+												{ label: __( 'Rectangle', 'gravisain-blocks' ), value: 'rectangle' },
+												{ label: __( 'Horizontal', 'gravisain-blocks' ), value: 'horizontal' },
+												{ label: __( 'Vertical', 'gravisain-blocks' ), value: 'vertical' },
+											] }
+											onChange={ ( value ) => setAttributes( { adSenseFormat: value } ) }
+										/>
+										<ToggleControl
+											label={ __( 'Full-Width Responsive', 'gravisain-blocks' ) }
+											checked={ adSenseResponsive !== false }
+											onChange={ ( value ) => setAttributes( { adSenseResponsive: value } ) }
 										/>
 									</PanelBody>
 								) : (
@@ -148,21 +173,21 @@ export default function Inspector( { attributes, setAttributes } ) {
 							<>
 								<PanelBody title={ __( 'Alignment', 'gravisain-blocks' ) } initialOpen={ true }>
 									<SelectControl
-										label={ __( 'Alignment (Desktop)', 'gravisain-blocks' ) }
+										label={ __( 'Desktop Alignment', 'gravisain-blocks' ) }
 										value={ alignment }
 										options={ alignmentOptions }
 										onChange={ ( value ) => setAttributes( { alignment: value } ) }
 									/>
 									<SelectControl
-										label={ __( 'Alignment (Tablet)', 'gravisain-blocks' ) }
+										label={ __( 'Tablet Alignment', 'gravisain-blocks' ) }
 										value={ alignmentTablet }
-										options={ [ { label: __( 'Inherit', 'gravisain-blocks' ), value: '' }, ...alignmentOptions ] }
+										options={ [ { label: __( 'Inherit Desktop', 'gravisain-blocks' ), value: '' }, ...alignmentOptions ] }
 										onChange={ ( value ) => setAttributes( { alignmentTablet: value } ) }
 									/>
 									<SelectControl
-										label={ __( 'Alignment (Mobile)', 'gravisain-blocks' ) }
+										label={ __( 'Mobile Alignment', 'gravisain-blocks' ) }
 										value={ alignmentMobile }
-										options={ [ { label: __( 'Inherit', 'gravisain-blocks' ), value: '' }, ...alignmentOptions ] }
+										options={ [ { label: __( 'Inherit Tablet/Desktop', 'gravisain-blocks' ), value: '' }, ...alignmentOptions ] }
 										onChange={ ( value ) => setAttributes( { alignmentMobile: value } ) }
 									/>
 								</PanelBody>
@@ -173,8 +198,8 @@ export default function Inspector( { attributes, setAttributes } ) {
 										value={ maxWidth }
 										onChange={ ( value ) => setAttributes( { maxWidth: value } ) }
 										min={ 0 }
-										max={ 2000 }
-										help={ __( '0 = full width of the container.', 'gravisain-blocks' ) }
+										max={ 1920 }
+										help={ __( '0 = 100% full width of container.', 'gravisain-blocks' ) }
 									/>
 									<RangeControl
 										label={ __( 'Min Height (px)', 'gravisain-blocks' ) }
@@ -182,19 +207,20 @@ export default function Inspector( { attributes, setAttributes } ) {
 										onChange={ ( value ) => setAttributes( { minHeight: value } ) }
 										min={ 0 }
 										max={ 600 }
-										help={ __( 'Reserves space for the ad to reduce layout shift (improves Core Web Vitals). Use 0 to disable.', 'gravisain-blocks' ) }
+										help={ __( 'Prevents Cumulative Layout Shift (CLS) while ads load.', 'gravisain-blocks' ) }
 									/>
-									<RangeControl
-										label={ __( 'Border Radius (px)', 'gravisain-blocks' ) }
-										value={ borderRadius }
-										onChange={ ( value ) => setAttributes( { borderRadius: value } ) }
-										min={ 0 }
-										max={ 60 }
-										help={ __( 'Applies to image banners only.', 'gravisain-blocks' ) }
-									/>
+									{ adType === 'banner' && (
+										<RangeControl
+											label={ __( 'Border Radius (px)', 'gravisain-blocks' ) }
+											value={ borderRadius }
+											onChange={ ( value ) => setAttributes( { borderRadius: value } ) }
+											min={ 0 }
+											max={ 50 }
+										/>
+									) }
 								</PanelBody>
 
-								<PanelBody title={ __( 'Margin', 'gravisain-blocks' ) } initialOpen={ false }>
+								<PanelBody title={ __( 'Margin (Spacing)', 'gravisain-blocks' ) } initialOpen={ false }>
 									<RangeControl
 										label={ __( 'Top', 'gravisain-blocks' ) }
 										value={ parseInt( margin.top, 10 ) || 0 }
@@ -241,13 +267,6 @@ export default function Inspector( { attributes, setAttributes } ) {
 									value={ customClassName }
 									onChange={ ( value ) => setAttributes( { customClassName: value } ) }
 								/>
-								<TextareaControl
-									label={ __( 'Additional CSS', 'gravisain-blocks' ) }
-									help={ __( 'Add your own CSS to customize the appearance of this block. You do not need to include a CSS selector, just add the property and value, e.g. color: red;.', 'gravisain-blocks' ) }
-									value={ customCSS }
-									onChange={ ( value ) => setAttributes( { customCSS: value } ) }
-									rows={ 4 }
-								/>
 							</PanelBody>
 						) }
 					</div>
@@ -256,4 +275,3 @@ export default function Inspector( { attributes, setAttributes } ) {
 		</InspectorControls>
 	);
 }
-

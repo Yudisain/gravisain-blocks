@@ -6,29 +6,36 @@
 	// We apply the grid layout directly to the wrapper and assume direct children are the testimonials.
 	// However, if the editor adds an extra div, we must handle it.
 	
-	&.layout-grid,
-	&.layout-grid > .block-editor-inner-blocks > .block-editor-block-list__layout {
+	&.layout-grid {
 		display: grid;
-		grid-template-columns: repeat(var(--testi-cols-mobile, 1), 1fr);
+		grid-template-columns: repeat(var(--testi-cols-mobile, 1), minmax(0, 1fr));
 		gap: var(--testi-gap-mobile, 10px);
 
 		@media (min-width: 768px) {
-			grid-template-columns: repeat(var(--testi-cols-tablet, 2), 1fr);
+			grid-template-columns: repeat(var(--testi-cols-tablet, 2), minmax(0, 1fr));
 			gap: var(--testi-gap-tablet, 15px);
 		}
 
 		@media (min-width: 1024px) {
-			grid-template-columns: repeat(var(--testi-cols-desktop, 3), 1fr);
+			grid-template-columns: repeat(var(--testi-cols-desktop, 3), minmax(0, 1fr));
 			gap: var(--testi-gap-desktop, 20px);
 		}
+	}
+
+	// Reset testimonial margin inside grid container
+	.gravisain-testimonial {
+		margin: 0;
 	}
 
 	// Make sure child elements take full height to match grid row height
 	.wp-block-gravisain-testimonial {
 		height: 100%;
+		display: flex;
+		flex-direction: column;
 		
 		> div {
 			height: 100%;
+			flex: 1 1 auto;
 		}
 	}
 }

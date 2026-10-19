@@ -1,36 +1,43 @@
 import { SVG, Rect } from '@wordpress/components';
 
 const iconProps = { fill: 'currentColor', height: '60' };
+const svgProps = {
+	viewBox: '0 0 120 60',
+	width: '100%',
+	height: '100%',
+	xmlns: 'http://www.w3.org/2000/svg',
+	style: { width: '100%', height: '100%', display: 'block' }
+};
 
 const Icon100 = (
-	<SVG viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+	<SVG { ...svgProps }>
 		<Rect x="0" y="0" width="120" { ...iconProps } />
 	</SVG>
 );
 
 const Icon50_50 = (
-	<SVG viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+	<SVG { ...svgProps }>
 		<Rect x="0" y="0" width="59" { ...iconProps } />
 		<Rect x="61" y="0" width="59" { ...iconProps } />
 	</SVG>
 );
 
 const Icon66_33 = (
-	<SVG viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+	<SVG { ...svgProps }>
 		<Rect x="0" y="0" width="79" { ...iconProps } />
 		<Rect x="81" y="0" width="39" { ...iconProps } />
 	</SVG>
 );
 
 const Icon33_66 = (
-	<SVG viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+	<SVG { ...svgProps }>
 		<Rect x="0" y="0" width="39" { ...iconProps } />
 		<Rect x="41" y="0" width="79" { ...iconProps } />
 	</SVG>
 );
 
 const Icon33_33_33 = (
-	<SVG viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+	<SVG { ...svgProps }>
 		<Rect x="0" y="0" width="39" { ...iconProps } />
 		<Rect x="41" y="0" width="38" { ...iconProps } />
 		<Rect x="81" y="0" width="39" { ...iconProps } />
@@ -38,7 +45,7 @@ const Icon33_33_33 = (
 );
 
 const Icon50_25_25 = (
-	<SVG viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+	<SVG { ...svgProps }>
 		<Rect x="0" y="0" width="58" { ...iconProps } />
 		<Rect x="60" y="0" width="29" { ...iconProps } />
 		<Rect x="91" y="0" width="29" { ...iconProps } />
@@ -46,7 +53,7 @@ const Icon50_25_25 = (
 );
 
 const Icon25_25_50 = (
-	<SVG viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+	<SVG { ...svgProps }>
 		<Rect x="0" y="0" width="29" { ...iconProps } />
 		<Rect x="30" y="0" width="29" { ...iconProps } />
 		<Rect x="61" y="0" width="59" { ...iconProps } />
@@ -54,7 +61,7 @@ const Icon25_25_50 = (
 );
 
 const Icon25_50_25 = (
-	<SVG viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+	<SVG { ...svgProps }>
 		<Rect x="0" y="0" width="29" { ...iconProps } />
 		<Rect x="31" y="0" width="58" { ...iconProps } />
 		<Rect x="91" y="0" width="29" { ...iconProps } />
@@ -62,7 +69,7 @@ const Icon25_50_25 = (
 );
 
 const Icon25_x4 = (
-	<SVG viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+	<SVG { ...svgProps }>
 		<Rect x="0" y="0" width="29" { ...iconProps } />
 		<Rect x="30" y="0" width="29" { ...iconProps } />
 		<Rect x="61" y="0" width="29" { ...iconProps } />
@@ -71,7 +78,7 @@ const Icon25_x4 = (
 );
 
 const Icon20_x5 = (
-	<SVG viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+	<SVG { ...svgProps }>
 		<Rect x="0" y="0" width="23" { ...iconProps } />
 		<Rect x="25" y="0" width="23" { ...iconProps } />
 		<Rect x="50" y="0" width="23" { ...iconProps } />
@@ -81,7 +88,7 @@ const Icon20_x5 = (
 );
 
 const Icon16_x6 = (
-	<SVG viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+	<SVG { ...svgProps }>
 		<Rect x="0" y="0" width="18" { ...iconProps } />
 		<Rect x="20" y="0" width="18" { ...iconProps } />
 		<Rect x="40" y="0" width="18" { ...iconProps } />

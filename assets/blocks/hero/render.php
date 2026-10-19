@@ -78,18 +78,57 @@ $format_font_family = function( ?string $font ): ?string {
 	return '"' . esc_attr( $font ) . '", sans-serif';
 };
 
-$typo_vars = function( string $prefix, array $t ) use ( $typo_var, $format_font_family ): array {
+/**
+ * Sanitize font weight to only allow numeric 100-900 or valid CSS keywords.
+ */
+$sanitize_font_weight = function( $fw ): ?string {
+	if ( empty( $fw ) ) {
+		return null;
+	}
+	$fw = trim( (string) $fw );
+	if ( preg_match( '/^(normal|bold|bolder|lighter|[1-9]00)$/i', $fw ) ) {
+		return strtolower( $fw );
+	}
+	return null;
+};
+
+/**
+ * Sanitize a CSS color value (hex, rgb/rgba, hsl/hsla, var(), or keyword).
+ */
+$sanitize_css_color = function( $color ): ?string {
+	if ( ! is_string( $color ) ) {
+		return null;
+	}
+	$color = trim( $color );
+	if ( '' === $color || false !== strpos( $color, 'gradient' ) ) {
+		return null;
+	}
+	if ( preg_match( '/^#([0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/', $color ) ) {
+		return $color;
+	}
+	if ( preg_match( '/^(rgba?|hsla?)\(\s*([0-9]{1,3}%?|[0-9]*\.?[0-9]+)\s*,\s*([0-9]{1,3}%?|[0-9]*\.?[0-9]+)\s*,\s*([0-9]{1,3}%?|[0-9]*\.?[0-9]+)(\s*,\s*([0-9]*\.?[0-9]+%?))?\s*\)$/i', $color ) ) {
+		return $color;
+	}
+	if ( preg_match( '/^var\(--[a-zA-Z0-9_-]+\)$/', $color ) ) {
+		return $color;
+	}
+	$named = [ 'transparent', 'currentcolor', 'inherit', 'initial', 'black', 'silver', 'gray', 'white', 'maroon', 'red', 'purple', 'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'teal', 'aqua', 'orange' ];
+	if ( in_array( strtolower( $color ), $named, true ) ) {
+		return strtolower( $color );
+	}
+	return null;
+};
+
+$typo_vars = function( string $prefix, array $t ) use ( $typo_var, $format_font_family, $sanitize_font_weight ): array {
 	$vars = [];
 	$ff = $format_font_family( $t['fontFamily'] ?? null );
 	if ( $ff ) $vars[ "--gravisain-hero-{$prefix}-ff" ] = $ff;
 	$v = $typo_var( $t['fontSize'] ?? null, true );  if ( $v ) $vars[ "--gravisain-hero-{$prefix}-fs" ] = $v;
-	$v = $t['fontWeight'] ?? null;                    if ( $v ) $vars[ "--gravisain-hero-{$prefix}-fw" ] = $v;
+	$v = $sanitize_font_weight( $t['fontWeight'] ?? null ); if ( $v ) $vars[ "--gravisain-hero-{$prefix}-fw" ] = $v;
 	$v = $typo_var( $t['lineHeight'] ?? null );       if ( $v ) $vars[ "--gravisain-hero-{$prefix}-lh" ] = $v;
 	$v = $typo_var( $t['letterSpacing'] ?? null, true ); if ( $v ) $vars[ "--gravisain-hero-{$prefix}-ls" ] = $v;
 	return $vars;
 };
-
-$solid_color = fn( $c ) => ( is_string( $c ) && false !== strpos( $c, 'gradient' ) ) ? null : ( $c ?: null );
 
 // ── Attributes ────────────────────────────────────────────────────────────────
 
@@ -106,9 +145,9 @@ $inner_max_w        = $attributes['innerContainerMaxWidth'] ?? '';
 $anchor             = $attributes['anchor']              ?? '';
 $custom_class       = $attributes['customClassName']     ?? '';
 
-$title_color        = $solid_color( $attributes['titleColor']       ?? '' );
-$eyebrow_color      = $solid_color( $attributes['eyebrowColor']     ?? '' );
-$desc_color         = $solid_color( $attributes['descriptionColor'] ?? '' );
+$title_color        = $sanitize_css_color( $attributes['titleColor']       ?? '' );
+$eyebrow_color      = $sanitize_css_color( $attributes['eyebrowColor']     ?? '' );
+$desc_color         = $sanitize_css_color( $attributes['descriptionColor'] ?? '' );
 
 $padding     = $attributes['padding']      ?? null;
 $pad_tab     = $attributes['paddingTablet'] ?? null;
@@ -170,18 +209,30 @@ $css_vars = array_merge( $css_vars,
 );
 
 // Button colors, border-radius, and padding from button object
-if ( ! empty( $primary_btn['color'] ) )           $css_vars['--gravisain-hero-btn1-color']  = $primary_btn['color'];
-if ( ! empty( $primary_btn['backgroundColor'] ) ) $css_vars['--gravisain-hero-btn1-bg']     = $primary_btn['backgroundColor'];
+if ( ! empty( $primary_btn['color'] ) ) {
+	$btn1_c = $sanitize_css_color( $primary_btn['color'] );
+	if ( $btn1_c ) $css_vars['--gravisain-hero-btn1-color'] = $btn1_c;
+}
+if ( ! empty( $primary_btn['backgroundColor'] ) ) {
+	$btn1_bg = $sanitize_css_color( $primary_btn['backgroundColor'] );
+	if ( $btn1_bg ) $css_vars['--gravisain-hero-btn1-bg'] = $btn1_bg;
+}
 if ( isset( $primary_btn['borderRadius'] ) && $primary_btn['borderRadius'] !== '' && $primary_btn['borderRadius'] !== null ) {
-	$css_vars['--gravisain-hero-btn1-radius'] = $primary_btn['borderRadius'] . 'px';
+	$css_vars['--gravisain-hero-btn1-radius'] = intval( $primary_btn['borderRadius'] ) . 'px';
 }
 foreach ( $sides as $s ) {
 	$v = $spacing( $primary_btn['padding'] ?? null, $s );
 	if ( $v ) $css_vars[ "--gravisain-hero-btn1-p{$s[0]}" ] = $v;
 }
 
-if ( ! empty( $secondary_btn['color'] ) )           $css_vars['--gravisain-hero-btn2-color'] = $secondary_btn['color'];
-if ( ! empty( $secondary_btn['backgroundColor'] ) ) $css_vars['--gravisain-hero-btn2-bg']    = $secondary_btn['backgroundColor'];
+if ( ! empty( $secondary_btn['color'] ) ) {
+	$btn2_c = $sanitize_css_color( $secondary_btn['color'] );
+	if ( $btn2_c ) $css_vars['--gravisain-hero-btn2-color'] = $btn2_c;
+}
+if ( ! empty( $secondary_btn['backgroundColor'] ) ) {
+	$btn2_bg = $sanitize_css_color( $secondary_btn['backgroundColor'] );
+	if ( $btn2_bg ) $css_vars['--gravisain-hero-btn2-bg'] = $btn2_bg;
+}
 if ( isset( $secondary_btn['borderRadius'] ) && $secondary_btn['borderRadius'] !== '' && $secondary_btn['borderRadius'] !== null ) {
 	$css_vars['--gravisain-hero-btn2-radius'] = $secondary_btn['borderRadius'] . 'px';
 }

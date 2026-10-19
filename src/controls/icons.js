@@ -87,6 +87,18 @@ export function getIconMarkup( iconValue, defaultKey = 'check' ) {
 	if ( ! val || typeof val !== 'string' ) return null;
 
 	const trimmed = val.trim();
+	if ( trimmed.startsWith( 'number:' ) || ( /^\d+$/.test( trimmed ) && ! ICONS[ trimmed ] ) ) {
+		const num = trimmed.replace( /^number:/, '' ).trim();
+		const safeNum = num.replace( /[<>&"']/g, '' );
+		if ( ! safeNum ) return null;
+		const len = safeNum.length;
+		const fontSize = len <= 1 ? 16 : ( len === 2 ? 13 : ( len === 3 ? 10 : 8 ) );
+		return {
+			type: 'svg',
+			content: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><text x="50%" y="54%" dominant-baseline="central" text-anchor="middle" font-size="${ fontSize }" font-weight="700" stroke="none" fill="currentColor" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">${ safeNum }</text></svg>`,
+			number: safeNum,
+		};
+	}
 	if ( trimmed.startsWith( '<svg' ) || trimmed.startsWith( '<SVG' ) ) {
 		return { type: 'svg', content: trimmed };
 	}

@@ -8,7 +8,9 @@ export default function Edit( props ) {
 	const { attributes, setAttributes } = props;
 	const {
 		adType,
-		adCode,
+		adSenseClient,
+		adSenseSlot,
+		adSenseFormat,
 		bannerUrl,
 		bannerAlt,
 		bannerLink,
@@ -22,6 +24,9 @@ export default function Edit( props ) {
 		minHeight,
 		borderRadius,
 	} = attributes;
+
+	const isAdSense = adType === 'adsense' || adType === 'code';
+	const isBanner = adType === 'banner';
 
 	const previewDeviceType = useSelect( ( select ) => {
 		const editorDevice = select( 'core/editor' )?.getDeviceType?.();
@@ -55,8 +60,7 @@ export default function Edit( props ) {
 		},
 	} );
 
-	const isBanner = adType === 'banner';
-	const isEmpty = isBanner ? ! bannerUrl : ! adCode;
+	const isEmpty = isBanner ? ! bannerUrl : ( ! adSenseClient || ! adSenseSlot );
 
 	const renderLabel = () =>
 		showLabel && adLabel ? <div className="gravisain-ad-label">{ adLabel }</div> : null;
@@ -102,15 +106,15 @@ export default function Edit( props ) {
 					) : (
 						<div className="gravisain-ad-placeholder">
 							<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="gravisain-ad-placeholder-icon">
-								<path d="M3 11l13-5.5v13L3 13v-2z"></path>
-								<path d="M6.5 12v5.2a1 1 0 001 1h1.2a1 1 0 001-1V12"></path>
-								<path d="M18.5 9.2c1.4.7 2 1.6 2 2.8s-.6 2.1-2 2.8"></path>
+								<rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+								<line x1="8" y1="21" x2="16" y2="21"></line>
+								<line x1="12" y1="17" x2="12" y2="21"></line>
 							</svg>
 							<span className="gravisain-ad-placeholder-title">
-								{ __( 'Advertisement / Ad Space', 'gravisain-blocks' ) }
+								{ __( 'Google AdSense Ad Space', 'gravisain-blocks' ) }
 							</span>
 							<span className="gravisain-ad-placeholder-text">
-								{ __( 'Paste your ad network code (e.g. Google AdSense) in the block settings.', 'gravisain-blocks' ) }
+								{ __( 'Configure your Publisher ID and Slot ID in the block settings to activate this ad unit.', 'gravisain-blocks' ) }
 							</span>
 						</div>
 					) }
@@ -119,7 +123,7 @@ export default function Edit( props ) {
 		);
 	}
 
-	// Editor preview (does not execute live ad scripts to keep the editor fast & clean).
+	// Editor preview (visual placeholder without running live third-party scripts).
 	return (
 		<>
 			<Inspector { ...props } />
@@ -140,9 +144,29 @@ export default function Edit( props ) {
 							<img src={ bannerUrl } alt={ bannerAlt } className="gravisain-ad-banner-image" />
 						)
 					) : (
-						<div className="gravisain-ad-code-preview">
-							<span className="gravisain-ad-code-preview-badge">{ __( 'Ad Code', 'gravisain-blocks' ) }</span>
-							<code>{ adCode.length > 240 ? `${ adCode.slice( 0, 240 ) }…` : adCode }</code>
+						<div className="gravisain-ad-unit-preview">
+							<div className="gravisain-ad-unit-badge">
+								<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+									<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h2v2h-2v-2zm0-10h2v8h-2V6z"/>
+								</svg>
+								{ __( 'Google AdSense Unit', 'gravisain-blocks' ) }
+							</div>
+							<div className="gravisain-ad-unit-info">
+								<div className="gravisain-ad-unit-row">
+									<span className="gravisain-ad-unit-label">{ __( 'Publisher:', 'gravisain-blocks' ) }</span>
+									<span className="gravisain-ad-unit-val">{ adSenseClient }</span>
+								</div>
+								<div className="gravisain-ad-unit-row">
+									<span className="gravisain-ad-unit-label">{ __( 'Slot ID:', 'gravisain-blocks' ) }</span>
+									<span className="gravisain-ad-unit-val">{ adSenseSlot }</span>
+								</div>
+								{ adSenseFormat && (
+									<div className="gravisain-ad-unit-row">
+										<span className="gravisain-ad-unit-label">{ __( 'Format:', 'gravisain-blocks' ) }</span>
+										<span className="gravisain-ad-unit-val">{ adSenseFormat }</span>
+									</div>
+								) }
+							</div>
 						</div>
 					) }
 				</div>

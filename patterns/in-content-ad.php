@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $gravisain_ad_attributes = [
 	'alignment'    => 'center',
 	'maxWidth'     => 728,
+	'minHeight'    => 90,
 	'borderRadius' => 8,
 	'margin'       => [ 'top' => '32px', 'bottom' => '32px' ],
 	'showLabel'    => true,
@@ -27,6 +28,6 @@ return [
 	'slug'        => 'gravisain-blocks/in-content-ad',
 	'title'       => __( 'In-Content Advertisement Banner', 'gravisain-blocks' ),
 	'categories'  => [ 'gravisain-sections' ],
-	'description' => __( 'A centered advertisement slot with an "Advertisement" label. Upload your own banner image, or switch the block to "Ad Network Code" mode to paste your Google AdSense snippet.', 'gravisain-blocks' ),
+	'description' => __( 'A centered advertisement slot with an "Advertisement" label. Upload your own banner image, or switch the block to Google AdSense mode to configure your Publisher ID and Slot ID.', 'gravisain-blocks' ),
 	'content'     => '<!-- wp:gravisain/ad ' . wp_json_encode( $gravisain_ad_attributes ) . ' /-->',
 ];

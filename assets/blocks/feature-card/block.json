@@ -26,7 +26,7 @@
     },
     "iconSymbol": {
       "type": "string",
-      "default": "star"
+      "default": ""
     },
     "iconPosition": {
       "type": "string",

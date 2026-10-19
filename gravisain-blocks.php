@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Gravisain Blocks
  * Description: Official Gutenberg Block Patterns, Block Styles, and Content Library for the Gravisain WordPress Theme.
- * Version: 1.0.0
+ * Version: 1.0.0.1
  * Author: Gravisain Studio
  * Author URI: https://undagital.com/
  * Text Domain: gravisain-blocks
@@ -38,7 +38,7 @@ if ( version_compare( PHP_VERSION, '7.4.0', '<' ) ) {
 }
 
 // Define plugin constants.
-define( 'GRAVISAIN_BLOCKS_VERSION', '1.0.0' );
+define( 'GRAVISAIN_BLOCKS_VERSION', '1.0.0.1' );
 define( 'GRAVISAIN_BLOCKS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GRAVISAIN_BLOCKS_URL', plugin_dir_url( __FILE__ ) );
 

@@ -12,9 +12,11 @@ import {
 } from '@wordpress/components';
 import ColorControl from '../../../controls/ColorControl';
 import IconPickerControl from '../../../controls/IconPickerControl';
+import LayoutPresets from './LayoutPresets';
 
 export default function Inspector( { attributes, setAttributes } ) {
 	const {
+		layoutPreset,
 		icon,
 		iconType,
 		mediaType,
@@ -94,6 +96,19 @@ export default function Inspector( { attributes, setAttributes } ) {
 					if ( tab.name === 'general' ) {
 						return (
 							<>
+								<PanelBody title={ __( 'Quick Layout Presets', 'gravisain' ) } initialOpen={ true }>
+									<LayoutPresets
+										layoutPreset={ layoutPreset }
+										textAlign={ textAlign }
+										onSelectPreset={ ( preset ) => {
+											setAttributes( {
+												layoutPreset: preset.id,
+												...preset.values,
+											} );
+										} }
+									/>
+								</PanelBody>
+
 								<PanelBody title={ __( 'Media / Icon Settings', 'gravisain' ) }>
 									<IconPickerControl
 										label={ __( 'Icon or Image', 'gravisain' ) }

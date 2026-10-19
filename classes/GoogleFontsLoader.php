@@ -70,9 +70,6 @@ class GoogleFontsLoader {
 	 * @return void
 	 */
 	public function register(): void {
-		// Preconnect for faster font delivery.
-		add_action( 'wp_head', [ $this, 'add_google_fonts_preconnect' ], 2 );
-
 		// Enqueue fonts early in wp_head on frontend.
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_frontend_fonts' ], 20 );
 
@@ -151,6 +148,9 @@ class GoogleFontsLoader {
 		}
 
 		if ( ! empty( $this->fonts ) ) {
+			// Preconnect only when Google Fonts are actively detected on this page.
+			add_action( 'wp_head', [ $this, 'add_google_fonts_preconnect' ], 2 );
+
 			$url = $this->get_google_fonts_url( array_keys( $this->fonts ) );
 			if ( $url ) {
 				wp_enqueue_style( 'gravisain-blocks-google-fonts', $url, [], defined( 'GRAVISAIN_BLOCKS_VERSION' ) ? GRAVISAIN_BLOCKS_VERSION : '1.0.0' );
