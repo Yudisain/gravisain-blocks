@@ -6,12 +6,12 @@
 		margin-left: auto;
 		margin-right: auto;
 		
+		img.gravisain-vector-image,
+		img,
 		svg {
 			width: 100%;
 			height: auto;
 			display: block;
-			fill: var(--gravisain-vector-fill, currentColor);
-			stroke: var(--gravisain-vector-stroke, none);
 		}
 	}
 	

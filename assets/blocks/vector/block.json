@@ -6,7 +6,7 @@
   "title": "Vector Graphics",
   "category": "gravisain-blocks",
   "icon": "art",
-  "description": "Insert raw SVG graphics for high-performance visuals.",
+  "description": "Insert vector graphics (SVG) from the media library for high-performance visuals.",
   "keywords": [
     "vector",
     "svg",
@@ -21,21 +21,21 @@
     ]
   },
   "attributes": {
-    "svgCode": {
+    "mediaId": {
+      "type": "number",
+      "default": 0
+    },
+    "mediaUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "mediaAlt": {
       "type": "string",
       "default": ""
     },
     "maxWidth": {
       "type": "number",
       "default": 300
-    },
-    "fillColor": {
-      "type": "string",
-      "default": "currentColor"
-    },
-    "strokeColor": {
-      "type": "string",
-      "default": "none"
     }
   },
   "textdomain": "gravisain-blocks",

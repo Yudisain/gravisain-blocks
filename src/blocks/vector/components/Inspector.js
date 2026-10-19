@@ -1,41 +1,63 @@
 import { __ } from '@wordpress/i18n';
-import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextareaControl, TextControl, RangeControl } from '@wordpress/components';
+import { InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import { PanelBody, RangeControl, TextControl, Button } from '@wordpress/components';
 
 export default function Inspector( { attributes, setAttributes } ) {
-	const { svgCode, maxWidth, fillColor, strokeColor } = attributes;
+	const { mediaId, mediaUrl, mediaAlt, maxWidth } = attributes;
 
 	return (
 		<InspectorControls>
-			<PanelBody title={ __( 'Vector Settings', 'gravisain-blocks' ) } initialOpen={ true }>
-				<TextareaControl
-					label={ __( 'SVG Code', 'gravisain-blocks' ) }
-					value={ svgCode }
-					onChange={ ( value ) => setAttributes( { svgCode: value } ) }
-					help={ __( 'Paste raw SVG code here.', 'gravisain-blocks' ) }
-					rows={ 6 }
-				/>
+			<PanelBody title={ __( 'Vector Media', 'gravisain-blocks' ) } initialOpen={ true }>
+				<MediaUploadCheck>
+					<MediaUpload
+						onSelect={ ( media ) =>
+							setAttributes( {
+								mediaId: media.id,
+								mediaUrl: media.url,
+								mediaAlt: media.alt || '',
+							} )
+						}
+						allowedTypes={ [ 'image', 'image/svg+xml' ] }
+						value={ mediaId }
+						render={ ( { open } ) => (
+							mediaUrl ? (
+								<div style={ { display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '12px' } }>
+									<Button variant="secondary" onClick={ open } style={ { flex: 1, justifyContent: 'center' } }>
+										{ __( 'Replace Vector', 'gravisain-blocks' ) }
+									</Button>
+									<Button
+										isDestructive
+										variant="secondary"
+										onClick={ () => setAttributes( { mediaId: 0, mediaUrl: '', mediaAlt: '' } ) }
+										style={ { justifyContent: 'center' } }
+									>
+										{ __( 'Remove', 'gravisain-blocks' ) }
+									</Button>
+								</div>
+							) : (
+								<Button variant="primary" onClick={ open } style={ { width: '100%', justifyContent: 'center', marginBottom: '12px' } }>
+									{ __( 'Select Vector / SVG', 'gravisain-blocks' ) }
+								</Button>
+							)
+						) }
+					/>
+				</MediaUploadCheck>
+
+				{ mediaUrl && (
+					<TextControl
+						label={ __( 'Alt Text (Alternative Text)', 'gravisain-blocks' ) }
+						value={ mediaAlt }
+						onChange={ ( value ) => setAttributes( { mediaAlt: value } ) }
+						help={ __( 'Describe the vector graphic for screen readers and accessibility.', 'gravisain-blocks' ) }
+					/>
+				) }
+
 				<RangeControl
 					label={ __( 'Max Width (px)', 'gravisain-blocks' ) }
 					value={ maxWidth }
 					onChange={ ( value ) => setAttributes( { maxWidth: value } ) }
 					min={ 10 }
 					max={ 2000 }
-				/>
-			</PanelBody>
-
-			<PanelBody title={ __( 'Colors', 'gravisain-blocks' ) } initialOpen={ true }>
-				<TextControl
-					label={ __( 'Fill Color', 'gravisain-blocks' ) }
-					value={ fillColor }
-					onChange={ ( value ) => setAttributes( { fillColor: value } ) }
-					help={ __( 'Use "currentColor" to inherit text color, or a specific hex like #ff0000', 'gravisain-blocks' ) }
-				/>
-				<TextControl
-					label={ __( 'Stroke Color', 'gravisain-blocks' ) }
-					value={ strokeColor }
-					onChange={ ( value ) => setAttributes( { strokeColor: value } ) }
-					help={ __( 'Default is "none"', 'gravisain-blocks' ) }
 				/>
 			</PanelBody>
 		</InspectorControls>
