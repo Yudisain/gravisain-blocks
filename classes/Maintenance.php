@@ -71,6 +71,7 @@ class Maintenance {
 
 		// 1. Enable Toggle.
 		$wp_customize->add_setting( 'gravisain_maintenance_enabled', [
+			'type'              => 'option',
 			'default'           => false,
 			'sanitize_callback' => [ $this, 'sanitize_checkbox' ],
 			'transport'         => 'refresh',
@@ -86,11 +87,12 @@ class Maintenance {
 
 		// Active callback helper to show options only when enabled.
 		$is_enabled = function() {
-			return (bool) get_theme_mod( 'gravisain_maintenance_enabled', false );
+			return (bool) get_option( 'gravisain_maintenance_enabled', false );
 		};
 
 		// 2. Mode Type (Maintenance vs Coming Soon).
 		$wp_customize->add_setting( 'gravisain_maintenance_mode', [
+			'type'              => 'option',
 			'default'           => 'maintenance',
 			'sanitize_callback' => 'sanitize_key',
 			'transport'         => 'refresh',
@@ -111,6 +113,7 @@ class Maintenance {
 
 		// 3. Bypass Roles.
 		$wp_customize->add_setting( 'gravisain_maintenance_bypass_role', [
+			'type'              => 'option',
 			'default'           => 'manage_options',
 			'sanitize_callback' => 'sanitize_key',
 			'transport'         => 'refresh',
@@ -132,6 +135,7 @@ class Maintenance {
 
 		// 4. Content Source.
 		$wp_customize->add_setting( 'gravisain_maintenance_source', [
+			'type'              => 'option',
 			'default'           => 'default',
 			'sanitize_callback' => 'sanitize_key',
 			'transport'         => 'refresh',
@@ -152,6 +156,7 @@ class Maintenance {
 
 		// 5. Custom Page Selector.
 		$wp_customize->add_setting( 'gravisain_maintenance_page_id', [
+			'type'              => 'option',
 			'default'           => 0,
 			'sanitize_callback' => 'absint',
 			'transport'         => 'refresh',
@@ -171,13 +176,14 @@ class Maintenance {
 			'settings'        => 'gravisain_maintenance_page_id',
 			'type'            => 'select',
 			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'custom_page' === get_theme_mod( 'gravisain_maintenance_source', 'default' );
+				return $is_enabled() && 'custom_page' === get_option( 'gravisain_maintenance_source', 'default' );
 			},
 			'choices'         => $pages_choices,
 		] );
 
 		// 6. Separator: Default Template Customization.
 		$wp_customize->add_setting( 'gravisain_maintenance_default_section_title', [
+			'type'              => 'option',
 			'default'           => '',
 			'sanitize_callback' => 'sanitize_text_field',
 		] );
@@ -188,13 +194,14 @@ class Maintenance {
 				'section'         => 'gravisain_maintenance_section',
 				'settings'        => 'gravisain_maintenance_default_section_title',
 				'active_callback' => function() use ( $is_enabled ) {
-					return $is_enabled() && 'default' === get_theme_mod( 'gravisain_maintenance_source', 'default' );
+					return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
 				},
 			] ) );
 		}
 
 		// 7. Headline.
 		$wp_customize->add_setting( 'gravisain_maintenance_headline', [
+			'type'              => 'option',
 			'default'           => __( 'Under Maintenance', 'gravisain-blocks' ),
 			'sanitize_callback' => 'sanitize_text_field',
 			'transport'         => 'refresh',
@@ -206,12 +213,13 @@ class Maintenance {
 			'settings'        => 'gravisain_maintenance_headline',
 			'type'            => 'text',
 			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_theme_mod( 'gravisain_maintenance_source', 'default' );
+				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
 			},
 		] );
 
 		// 8. Description.
 		$wp_customize->add_setting( 'gravisain_maintenance_message', [
+			'type'              => 'option',
 			'default'           => __( 'We are currently updating our website to bring you a better experience. Please check back soon!', 'gravisain-blocks' ),
 			'sanitize_callback' => 'sanitize_textarea_field',
 			'transport'         => 'refresh',
@@ -223,12 +231,13 @@ class Maintenance {
 			'settings'        => 'gravisain_maintenance_message',
 			'type'            => 'textarea',
 			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_theme_mod( 'gravisain_maintenance_source', 'default' );
+				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
 			},
 		] );
 
 		// 9. Background Color.
 		$wp_customize->add_setting( 'gravisain_maintenance_bg_color', [
+			'type'              => 'option',
 			'default'           => '#0f172a',
 			'sanitize_callback' => 'sanitize_hex_color',
 			'transport'         => 'refresh',
@@ -239,12 +248,13 @@ class Maintenance {
 			'section'         => 'gravisain_maintenance_section',
 			'settings'        => 'gravisain_maintenance_bg_color',
 			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_theme_mod( 'gravisain_maintenance_source', 'default' );
+				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
 			},
 		] ) );
 
 		// 10. Text Color.
 		$wp_customize->add_setting( 'gravisain_maintenance_text_color', [
+			'type'              => 'option',
 			'default'           => '#f8fafc',
 			'sanitize_callback' => 'sanitize_hex_color',
 			'transport'         => 'refresh',
@@ -255,12 +265,13 @@ class Maintenance {
 			'section'         => 'gravisain_maintenance_section',
 			'settings'        => 'gravisain_maintenance_text_color',
 			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_theme_mod( 'gravisain_maintenance_source', 'default' );
+				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
 			},
 		] ) );
 
 		// 11. Accent Color.
 		$wp_customize->add_setting( 'gravisain_maintenance_accent_color', [
+			'type'              => 'option',
 			'default'           => '#3b82f6',
 			'sanitize_callback' => 'sanitize_hex_color',
 			'transport'         => 'refresh',
@@ -271,12 +282,13 @@ class Maintenance {
 			'section'         => 'gravisain_maintenance_section',
 			'settings'        => 'gravisain_maintenance_accent_color',
 			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_theme_mod( 'gravisain_maintenance_source', 'default' );
+				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
 			},
 		] ) );
 
 		// 12. Show Logo.
 		$wp_customize->add_setting( 'gravisain_maintenance_show_logo', [
+			'type'              => 'option',
 			'default'           => true,
 			'sanitize_callback' => [ $this, 'sanitize_checkbox' ],
 			'transport'         => 'refresh',
@@ -288,12 +300,13 @@ class Maintenance {
 			'settings'        => 'gravisain_maintenance_show_logo',
 			'type'            => 'checkbox',
 			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_theme_mod( 'gravisain_maintenance_source', 'default' );
+				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
 			},
 		] );
 
 		// 13. Enable Countdown.
 		$wp_customize->add_setting( 'gravisain_maintenance_enable_countdown', [
+			'type'              => 'option',
 			'default'           => false,
 			'sanitize_callback' => [ $this, 'sanitize_checkbox' ],
 			'transport'         => 'refresh',
@@ -305,12 +318,13 @@ class Maintenance {
 			'settings'        => 'gravisain_maintenance_enable_countdown',
 			'type'            => 'checkbox',
 			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_theme_mod( 'gravisain_maintenance_source', 'default' );
+				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
 			},
 		] );
 
 		// 14. Countdown Target Date.
 		$wp_customize->add_setting( 'gravisain_maintenance_countdown_date', [
+			'type'              => 'option',
 			'default'           => '',
 			'sanitize_callback' => 'sanitize_text_field',
 			'transport'         => 'refresh',
@@ -324,7 +338,7 @@ class Maintenance {
 			'include_time'    => true,
 			'allow_past_date' => true, // Allow selecting past date for testing expiration if needed
 			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_theme_mod( 'gravisain_maintenance_source', 'default' ) && get_theme_mod( 'gravisain_maintenance_enable_countdown', false );
+				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' ) && get_option( 'gravisain_maintenance_enable_countdown', false );
 			},
 		] ) );
 	}
@@ -346,14 +360,14 @@ class Maintenance {
 	 */
 	public function intercept_request(): void {
 		// 1. Check if Maintenance Mode is enabled.
-		if ( ! get_theme_mod( 'gravisain_maintenance_enabled', false ) ) {
+		if ( ! get_option( 'gravisain_maintenance_enabled', false ) ) {
 			return;
 		}
 
 		// If countdown is enabled, check if the target date & time has already passed.
 		// If it has passed, bypass maintenance mode to automatically open the site.
-		if ( get_theme_mod( 'gravisain_maintenance_enable_countdown', false ) ) {
-			$countdown_date = get_theme_mod( 'gravisain_maintenance_countdown_date', '' );
+		if ( get_option( 'gravisain_maintenance_enable_countdown', false ) ) {
+			$countdown_date = get_option( 'gravisain_maintenance_countdown_date', '' );
 			if ( ! empty( $countdown_date ) ) {
 				try {
 					$date = new \DateTime( $countdown_date, wp_timezone() );
@@ -399,13 +413,13 @@ class Maintenance {
 		}
 
 		// 3. User Capability Bypass check.
-		$required_cap = get_theme_mod( 'gravisain_maintenance_bypass_role', 'manage_options' );
+		$required_cap = get_option( 'gravisain_maintenance_bypass_role', 'manage_options' );
 		if ( current_user_can( $required_cap ) ) {
 			return;
 		}
 
 		// 4. Handle HTTP Status Code headers.
-		$mode = get_theme_mod( 'gravisain_maintenance_mode', 'maintenance' );
+		$mode = get_option( 'gravisain_maintenance_mode', 'maintenance' );
 		if ( 'maintenance' === $mode ) {
 			// Send 503 status code with Retry-After header.
 			status_header( 503 );
@@ -415,11 +429,12 @@ class Maintenance {
 			// Coming soon - send 200 status code to allow indexing.
 			status_header( 200 );
 			header( 'Content-Type: text/html; charset=utf-8' );
+			header( 'Retry-After: 86400' );
 		}
 
 		// 5. Render Source Content.
-		$source  = get_theme_mod( 'gravisain_maintenance_source', 'default' );
-		$page_id = (int) get_theme_mod( 'gravisain_maintenance_page_id', 0 );
+		$source  = get_option( 'gravisain_maintenance_source', 'default' );
+		$page_id = (int) get_option( 'gravisain_maintenance_page_id', 0 );
 
 		if ( 'custom_page' === $source && $page_id > 0 ) {
 			$this->render_custom_page( $page_id );
@@ -464,13 +479,13 @@ class Maintenance {
 	 * @return void
 	 */
 	private function render_default_template(): void {
-		$headline = get_theme_mod( 'gravisain_maintenance_headline', __( 'Under Maintenance', 'gravisain-blocks' ) );
-		$message  = get_theme_mod( 'gravisain_maintenance_message', __( 'We are currently updating our website to bring you a better experience. Please check back soon!', 'gravisain-blocks' ) );
-		$bg_color = get_theme_mod( 'gravisain_maintenance_bg_color', '#0f172a' );
-		$text_color   = get_theme_mod( 'gravisain_maintenance_text_color', '#f8fafc' );
-		$accent_color = get_theme_mod( 'gravisain_maintenance_accent_color', '#3b82f6' );
+		$headline = get_option( 'gravisain_maintenance_headline', __( 'Under Maintenance', 'gravisain-blocks' ) );
+		$message  = get_option( 'gravisain_maintenance_message', __( 'We are currently updating our website to bring you a better experience. Please check back soon!', 'gravisain-blocks' ) );
+		$bg_color = get_option( 'gravisain_maintenance_bg_color', '#0f172a' );
+		$text_color   = get_option( 'gravisain_maintenance_text_color', '#f8fafc' );
+		$accent_color = get_option( 'gravisain_maintenance_accent_color', '#3b82f6' );
 		
-		$show_logo = get_theme_mod( 'gravisain_maintenance_show_logo', true );
+		$show_logo = get_option( 'gravisain_maintenance_show_logo', true );
 		$logo_url  = '';
 		if ( $show_logo && function_exists( 'has_custom_logo' ) && has_custom_logo() ) {
 			$custom_logo_id = get_theme_mod( 'custom_logo' );
@@ -480,8 +495,8 @@ class Maintenance {
 			}
 		}
 
-		$show_countdown = get_theme_mod( 'gravisain_maintenance_enable_countdown', false );
-		$countdown_date = get_theme_mod( 'gravisain_maintenance_countdown_date', '' );
+		$show_countdown = get_option( 'gravisain_maintenance_enable_countdown', false );
+		$countdown_date = get_option( 'gravisain_maintenance_countdown_date', '' );
 		$countdown_ts   = 0;
 		if ( $show_countdown && ! empty( $countdown_date ) ) {
 			try {

@@ -104,6 +104,36 @@ In compliance with WordPress.org Guidelines #1 and #4 (GPL & Open Source Transpa
   2. Install dependencies: `npm install`
   3. Compile assets: `npm run build`
 
+== Copyright and Licenses ==
+
+This plugin bundles and uses the following third-party libraries, icon sets, and assets in compliance with their respective open-source licenses:
+
+1. DotLottie Player Component
+* Source: https://github.com/dotlottie/player-component
+* Author: LottieFiles / dotLottie
+* Copyright: 2023-2024 LottieFiles
+* License: Apache License 2.0
+* License URI: https://www.apache.org/licenses/LICENSE-2.0
+
+2. Lucide Icons
+* Source: https://lucide.dev (https://github.com/lucide-icons/lucide)
+* Author: Lucide Contributors
+* Copyright: 2022-2024 Lucide Project
+* License: ISC License
+* License URI: https://github.com/lucide-icons/lucide/blob/main/LICENSE
+
+3. Simple Icons (Brand & Social Marks)
+* Source: https://simpleicons.org (https://github.com/simple-icons/simple-icons)
+* Author: Simple Icons Contributors
+* License: Creative Commons Zero v1.0 Universal (CC0 1.0)
+* License URI: https://creativecommons.org/publicdomain/zero/1.0/
+
+4. Starter Template Demonstration Photography
+* Source: https://unsplash.com
+* Authors: Unsplash Community Photographers
+* License: Unsplash License (Free to use for commercial and non-commercial purposes)
+* License URI: https://unsplash.com/license
+
 == Changelog ==
 
 = 1.0.0 =

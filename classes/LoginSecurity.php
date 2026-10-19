@@ -80,8 +80,8 @@ class LoginSecurity {
 		// Track failed login attempts.
 		add_action( 'wp_login_failed', [ $this, 'on_failed_login' ], 10, 1 );
 
-		// Redirect to Homepage after logout to prevent 404 on hidden/protected wp-login.php.
-		add_action( 'wp_logout', [ $this, 'redirect_after_logout' ], 100 );
+		// Optional graceful logout redirect filter.
+		add_filter( 'logout_redirect', [ $this, 'filter_logout_redirect' ], 10, 3 );
 
 		// Redirect direct visits to wp-login.php to Homepage.
 		add_action( 'login_init', [ $this, 'redirect_direct_login' ], 1 );
@@ -99,7 +99,7 @@ class LoginSecurity {
 		}
 
 		// 2. Setting toggle check.
-		$enabled = (bool) get_theme_mod( 'gravisain_turnstile_enabled', get_option( 'gravisain_turnstile_enabled', false ) );
+		$enabled = (bool) get_option( 'gravisain_turnstile_enabled', false );
 		if ( ! $enabled ) {
 			return false;
 		}
@@ -124,7 +124,7 @@ class LoginSecurity {
 			return (string) GRAVISAIN_TURNSTILE_SITE_KEY;
 		}
 
-		$key = get_theme_mod( 'gravisain_turnstile_site_key', get_option( 'gravisain_turnstile_site_key', '' ) );
+		$key = get_option( 'gravisain_turnstile_site_key', '' );
 		return is_string( $key ) ? trim( $key ) : '';
 	}
 
@@ -138,7 +138,7 @@ class LoginSecurity {
 			return (string) GRAVISAIN_TURNSTILE_SECRET_KEY;
 		}
 
-		$key = get_theme_mod( 'gravisain_turnstile_secret_key', get_option( 'gravisain_turnstile_secret_key', '' ) );
+		$key = get_option( 'gravisain_turnstile_secret_key', '' );
 		return is_string( $key ) ? trim( $key ) : '';
 	}
 
@@ -148,7 +148,7 @@ class LoginSecurity {
 	 * @return string
 	 */
 	public function get_widget_theme(): string {
-		$theme = get_theme_mod( 'gravisain_turnstile_theme', get_option( 'gravisain_turnstile_theme', 'auto' ) );
+		$theme = get_option( 'gravisain_turnstile_theme', 'auto' );
 		return in_array( $theme, [ 'auto', 'light', 'dark' ], true ) ? $theme : 'auto';
 	}
 
@@ -158,7 +158,7 @@ class LoginSecurity {
 	 * @return string 'fail_open' or 'strict'
 	 */
 	public function get_fail_mode(): string {
-		$mode = get_theme_mod( 'gravisain_turnstile_fail_mode', get_option( 'gravisain_turnstile_fail_mode', 'fail_open' ) );
+		$mode = get_option( 'gravisain_turnstile_fail_mode', 'fail_open' );
 		return 'strict' === $mode ? 'strict' : 'fail_open';
 	}
 
@@ -172,7 +172,7 @@ class LoginSecurity {
 			return (string) GRAVISAIN_TURNSTILE_BYPASS_KEY;
 		}
 
-		$key = get_theme_mod( 'gravisain_turnstile_bypass_key', get_option( 'gravisain_turnstile_bypass_key', '' ) );
+		$key = get_option( 'gravisain_turnstile_bypass_key', '' );
 		return is_string( $key ) ? trim( $key ) : '';
 	}
 
@@ -549,7 +549,7 @@ class LoginSecurity {
 	 * @return void
 	 */
 	private function notify_admin_of_outage( string $username, string $ip, string $reason ): void {
-		$should_notify = (bool) get_theme_mod( 'gravisain_turnstile_notify_admin', get_option( 'gravisain_turnstile_notify_admin', false ) );
+		$should_notify = (bool) get_option( 'gravisain_turnstile_notify_admin', false );
 		if ( ! $should_notify ) {
 			return;
 		}
@@ -685,18 +685,27 @@ class LoginSecurity {
 	}
 
 	/**
-	 * Redirect to Homepage after logout to prevent 404 on hidden or protected login URLs.
+	 * Filter logout redirect URL gracefully without abrupt script termination.
 	 *
-	 * @return void
+	 * @param string                $redirect_to           Default redirect URL (wp-login.php?loggedout=true).
+	 * @param string                $requested_redirect_to User-requested redirect URL via $_REQUEST['redirect_to'].
+	 * @param \WP_User|\WP_Error    $user                  User logging out.
+	 * @return string Redirect destination URL.
 	 */
-	public function redirect_after_logout(): void {
-		$redirect_enabled = (bool) get_theme_mod( 'gravisain_turnstile_logout_redirect', get_option( 'gravisain_turnstile_logout_redirect', true ) );
+	public function filter_logout_redirect( string $redirect_to, string $requested_redirect_to, $user ): string {
+		// 1. Feature must be explicitly enabled by admin (opt-in, default false).
+		$redirect_enabled = (bool) get_option( 'gravisain_turnstile_logout_redirect', false );
 		if ( ! $redirect_enabled ) {
-			return;
+			return $redirect_to;
 		}
 
-		wp_safe_redirect( home_url( '/' ) );
-		exit;
+		// 2. Respect explicit redirect_to requested by other plugins/forms.
+		if ( ! empty( $requested_redirect_to ) ) {
+			return $redirect_to;
+		}
+
+		// 3. Gracefully return homepage URL without calling exit;.
+		return home_url( '/' );
 	}
 
 	/**
@@ -705,7 +714,7 @@ class LoginSecurity {
 	 * @return void
 	 */
 	public function redirect_direct_login(): void {
-		$redirect_enabled = (bool) get_theme_mod( 'gravisain_turnstile_direct_login_redirect', get_option( 'gravisain_turnstile_direct_login_redirect', false ) );
+		$redirect_enabled = (bool) get_option( 'gravisain_turnstile_direct_login_redirect', false );
 		if ( ! $redirect_enabled ) {
 			return;
 		}
@@ -770,6 +779,7 @@ class LoginSecurity {
 
 		// 1. Enable Toggle.
 		$wp_customize->add_setting( 'gravisain_turnstile_enabled', [
+			'type'              => 'option',
 			'default'           => false,
 			'sanitize_callback' => [ $this, 'sanitize_checkbox' ],
 			'transport'         => 'refresh',
@@ -784,11 +794,12 @@ class LoginSecurity {
 		] );
 
 		$is_enabled = function() {
-			return (bool) get_theme_mod( 'gravisain_turnstile_enabled', false );
+			return (bool) get_option( 'gravisain_turnstile_enabled', false );
 		};
 
 		// 2. Site Key.
 		$wp_customize->add_setting( 'gravisain_turnstile_site_key', [
+			'type'              => 'option',
 			'default'           => '',
 			'sanitize_callback' => 'sanitize_text_field',
 			'transport'         => 'refresh',
@@ -805,6 +816,7 @@ class LoginSecurity {
 
 		// 3. Secret Key.
 		$wp_customize->add_setting( 'gravisain_turnstile_secret_key', [
+			'type'              => 'option',
 			'default'           => '',
 			'sanitize_callback' => 'sanitize_text_field',
 			'transport'         => 'refresh',
@@ -821,6 +833,7 @@ class LoginSecurity {
 
 		// 4. Widget Theme.
 		$wp_customize->add_setting( 'gravisain_turnstile_theme', [
+			'type'              => 'option',
 			'default'           => 'auto',
 			'sanitize_callback' => 'sanitize_key',
 			'transport'         => 'refresh',
@@ -841,6 +854,7 @@ class LoginSecurity {
 
 		// 5. Fallback Mode (Anti-Lockout).
 		$wp_customize->add_setting( 'gravisain_turnstile_fail_mode', [
+			'type'              => 'option',
 			'default'           => 'fail_open',
 			'sanitize_callback' => 'sanitize_key',
 			'transport'         => 'refresh',
@@ -861,6 +875,7 @@ class LoginSecurity {
 
 		// 6. Emergency Bypass Key.
 		$wp_customize->add_setting( 'gravisain_turnstile_bypass_key', [
+			'type'              => 'option',
 			'default'           => '',
 			'sanitize_callback' => 'sanitize_text_field',
 			'transport'         => 'refresh',
@@ -877,6 +892,7 @@ class LoginSecurity {
 
 		// 7. Admin Email Notification on Outage Fallback.
 		$wp_customize->add_setting( 'gravisain_turnstile_notify_admin', [
+			'type'              => 'option',
 			'default'           => false,
 			'sanitize_callback' => [ $this, 'sanitize_checkbox' ],
 			'transport'         => 'refresh',
@@ -893,7 +909,8 @@ class LoginSecurity {
 
 		// 8. Logout Redirect to Homepage.
 		$wp_customize->add_setting( 'gravisain_turnstile_logout_redirect', [
-			'default'           => true,
+			'type'              => 'option',
+			'default'           => false,
 			'sanitize_callback' => [ $this, 'sanitize_checkbox' ],
 			'transport'         => 'refresh',
 		] );
@@ -908,6 +925,7 @@ class LoginSecurity {
 
 		// 9. Direct wp-login.php Access Redirect to Homepage.
 		$wp_customize->add_setting( 'gravisain_turnstile_direct_login_redirect', [
+			'type'              => 'option',
 			'default'           => false,
 			'sanitize_callback' => [ $this, 'sanitize_checkbox' ],
 			'transport'         => 'refresh',
@@ -1038,29 +1056,18 @@ class LoginSecurity {
 			update_option( 'gravisain_turnstile_logout_redirect', $logout_redirect );
 			update_option( 'gravisain_turnstile_direct_login_redirect', $direct_login_redirect );
 
-			// Also sync with theme_mods if Gravisain theme is active for seamless Customizer compatibility.
-			set_theme_mod( 'gravisain_turnstile_enabled', $enabled );
-			set_theme_mod( 'gravisain_turnstile_site_key', $site_key );
-			set_theme_mod( 'gravisain_turnstile_secret_key', $secret_key );
-			set_theme_mod( 'gravisain_turnstile_theme', $theme );
-			set_theme_mod( 'gravisain_turnstile_fail_mode', $fail_mode );
-			set_theme_mod( 'gravisain_turnstile_bypass_key', $bypass_key );
-			set_theme_mod( 'gravisain_turnstile_notify_admin', $notify_admin );
-			set_theme_mod( 'gravisain_turnstile_logout_redirect', $logout_redirect );
-			set_theme_mod( 'gravisain_turnstile_direct_login_redirect', $direct_login_redirect );
-
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved successfully.', 'gravisain-blocks' ) . '</p></div>';
 		}
 
-		$enabled         = (bool) get_option( 'gravisain_turnstile_enabled', get_theme_mod( 'gravisain_turnstile_enabled', false ) );
-		$site_key        = (string) get_option( 'gravisain_turnstile_site_key', get_theme_mod( 'gravisain_turnstile_site_key', '' ) );
-		$secret_key      = (string) get_option( 'gravisain_turnstile_secret_key', get_theme_mod( 'gravisain_turnstile_secret_key', '' ) );
-		$theme           = (string) get_option( 'gravisain_turnstile_theme', get_theme_mod( 'gravisain_turnstile_theme', 'auto' ) );
-		$fail_mode       = (string) get_option( 'gravisain_turnstile_fail_mode', get_theme_mod( 'gravisain_turnstile_fail_mode', 'fail_open' ) );
-		$bypass_key      = (string) get_option( 'gravisain_turnstile_bypass_key', get_theme_mod( 'gravisain_turnstile_bypass_key', '' ) );
-		$notify_admin          = (bool) get_option( 'gravisain_turnstile_notify_admin', get_theme_mod( 'gravisain_turnstile_notify_admin', false ) );
-		$logout_redirect       = (bool) get_option( 'gravisain_turnstile_logout_redirect', get_theme_mod( 'gravisain_turnstile_logout_redirect', true ) );
-		$direct_login_redirect = (bool) get_option( 'gravisain_turnstile_direct_login_redirect', get_theme_mod( 'gravisain_turnstile_direct_login_redirect', false ) );
+		$enabled               = (bool) get_option( 'gravisain_turnstile_enabled', false );
+		$site_key              = (string) get_option( 'gravisain_turnstile_site_key', '' );
+		$secret_key            = (string) get_option( 'gravisain_turnstile_secret_key', '' );
+		$theme                 = (string) get_option( 'gravisain_turnstile_theme', 'auto' );
+		$fail_mode             = (string) get_option( 'gravisain_turnstile_fail_mode', 'fail_open' );
+		$bypass_key            = (string) get_option( 'gravisain_turnstile_bypass_key', '' );
+		$notify_admin          = (bool) get_option( 'gravisain_turnstile_notify_admin', false );
+		$logout_redirect       = (bool) get_option( 'gravisain_turnstile_logout_redirect', false );
+		$direct_login_redirect = (bool) get_option( 'gravisain_turnstile_direct_login_redirect', false );
 
 		?>
 		<div class="wrap" style="max-width: 900px; margin-top: 24px;">

@@ -28,6 +28,20 @@ function gravisain_blocks_uninstall_cleanup(): void {
 		'gravisain_turnstile_notify_admin',
 		'gravisain_turnstile_logout_redirect',
 		'gravisain_turnstile_direct_login_redirect',
+		'gravisain_maintenance_enabled',
+		'gravisain_maintenance_mode',
+		'gravisain_maintenance_bypass_role',
+		'gravisain_maintenance_source',
+		'gravisain_maintenance_page_id',
+		'gravisain_maintenance_default_section_title',
+		'gravisain_maintenance_headline',
+		'gravisain_maintenance_message',
+		'gravisain_maintenance_bg_color',
+		'gravisain_maintenance_text_color',
+		'gravisain_maintenance_accent_color',
+		'gravisain_maintenance_show_logo',
+		'gravisain_maintenance_enable_countdown',
+		'gravisain_maintenance_countdown_date',
 	];
 
 	$transients_to_delete = [
@@ -37,11 +51,28 @@ function gravisain_blocks_uninstall_cleanup(): void {
 	];
 
 	$delete_items = function () use ( $options_to_delete, $transients_to_delete ): void {
+		global $wpdb;
+
+		// 1. Delete defined static options.
 		foreach ( $options_to_delete as $option ) {
 			delete_option( $option );
 		}
+
+		// 2. Delete static transients.
 		foreach ( $transients_to_delete as $transient ) {
 			delete_transient( $transient );
+		}
+
+		// 3. Delete all dynamic transients (e.g. IP-based rate-limits, lockout hashes, outage alerts, and versioned registry caches).
+		if ( isset( $wpdb->options ) ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct database query is necessary during uninstall to clean up dynamic wildcard transients without loading individual keys.
+			$wpdb->query(
+				$wpdb->prepare(
+					"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is safely provided by core $wpdb->options.
+					$wpdb->esc_like( '_transient_gravisain_' ) . '%',
+					$wpdb->esc_like( '_transient_timeout_gravisain_' ) . '%'
+				)
+			);
 		}
 	};
 
