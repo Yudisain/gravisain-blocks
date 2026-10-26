@@ -103,6 +103,15 @@ class PatternRegistry {
 		if ( file_exists( $path ) ) {
 			$content = file_get_contents( $path );
 			if ( false !== $content && ! empty( $content ) ) {
+				$template_images_url = GRAVISAIN_BLOCKS_URL . 'starter-templates/' . $safe_slug . '/images/';
+				$content             = str_replace( '##GRAVISAIN_TEMPLATE_URL##', $template_images_url, $content );
+				$content             = str_replace( '##GRAVISAIN_BLOCKS_URL##', GRAVISAIN_BLOCKS_URL, $content );
+				$content             = preg_replace(
+					'#https?://[^/\s"\']+/fintech/wp-content/uploads/sites/\d+/\d{4}/\d{2}/#',
+					$template_images_url,
+					$content
+				);
+
 				return self::normalize_content( $content );
 			}
 		}

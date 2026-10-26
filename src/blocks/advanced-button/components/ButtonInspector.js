@@ -82,17 +82,17 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 				tabs={ [
 					{
 						name: 'layout',
-						title: __( 'Layout', 'gravisain' ),
+						title: __( 'Layout', 'gravisain-blocks' ),
 						className: 'gravisain-tab-layout',
 					},
 					{
 						name: 'style',
-						title: __( 'Style', 'gravisain' ),
+						title: __( 'Style', 'gravisain-blocks' ),
 						className: 'gravisain-tab-style',
 					},
 					{
 						name: 'advanced',
-						title: __( 'Advanced', 'gravisain' ),
+						title: __( 'Advanced', 'gravisain-blocks' ),
 						className: 'gravisain-tab-advanced',
 					}
 				] }
@@ -101,30 +101,30 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 					<div className="gravisain-tab-content">
 						{ tab.name === 'layout' && (
 							<>
-								<PanelBody title={ __( 'Action Button', 'gravisain' ) } initialOpen={ true }>
+								<PanelBody title={ __( 'Action Button', 'gravisain-blocks' ) } initialOpen={ true }>
 									<TextControl
-										label={ __( 'Button Text', 'gravisain' ) }
+										label={ __( 'Button Text', 'gravisain-blocks' ) }
 										value={ text }
 										onChange={ ( val ) => setAttributes( { text: val } ) }
 									/>
 									<TextControl
-										label={ __( 'Button URL', 'gravisain' ) }
+										label={ __( 'Button URL', 'gravisain-blocks' ) }
 										value={ url }
 										placeholder="https://..."
 										onChange={ ( val ) => setAttributes( { url: val } ) }
 									/>
 									<ToggleControl
-										label={ __( 'Open in new tab', 'gravisain' ) }
+										label={ __( 'Open in new tab', 'gravisain-blocks' ) }
 										checked={ newTab }
 										onChange={ ( val ) => setAttributes( { newTab: val } ) }
 									/>
 									<ToggleControl
-										label={ __( 'Add rel="nofollow"', 'gravisain' ) }
+										label={ __( 'Add rel="nofollow"', 'gravisain-blocks' ) }
 										checked={ noFollow }
 										onChange={ ( val ) => setAttributes( { noFollow: val } ) }
 									/>
 
-									<BaseControl label={ __( 'Button Width', 'gravisain' ) } style={ { marginTop: '16px' } }>
+									<BaseControl label={ __( 'Button Width', 'gravisain-blocks' ) } style={ { marginTop: '16px' } }>
 										<ButtonGroup style={ { width: '100%', display: 'flex', marginTop: '6px' } }>
 											<Button
 												isPrimary={ buttonWidth === 'auto' }
@@ -132,7 +132,7 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 												onClick={ () => setAttributes( { buttonWidth: 'auto' } ) }
 												style={ { flex: 1, justifyContent: 'center', fontWeight: 600 } }
 											>
-												{ __( 'AUTO', 'gravisain' ) }
+												{ __( 'AUTO', 'gravisain-blocks' ) }
 											</Button>
 											<Button
 												isPrimary={ buttonWidth === 'fixed' }
@@ -140,7 +140,7 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 												onClick={ () => setAttributes( { buttonWidth: 'fixed' } ) }
 												style={ { flex: 1, justifyContent: 'center', fontWeight: 600 } }
 											>
-												{ __( 'FIXED', 'gravisain' ) }
+												{ __( 'FIXED', 'gravisain-blocks' ) }
 											</Button>
 											<Button
 												isPrimary={ buttonWidth === 'full' }
@@ -148,13 +148,13 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 												onClick={ () => setAttributes( { buttonWidth: 'full' } ) }
 												style={ { flex: 1, justifyContent: 'center', fontWeight: 600 } }
 											>
-												{ __( 'FULL', 'gravisain' ) }
+												{ __( 'FULL', 'gravisain-blocks' ) }
 											</Button>
 										</ButtonGroup>
 										{ buttonWidth === 'fixed' && (
 											<div style={ { marginTop: '10px' } }>
 												<RangeControl
-													label={ __( 'Custom Width (px)', 'gravisain' ) }
+													label={ __( 'Custom Width (px)', 'gravisain-blocks' ) }
 													value={ customWidth || 200 }
 													onChange={ ( val ) => setAttributes( { customWidth: val } ) }
 													min={ 50 }
@@ -165,25 +165,25 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 									</BaseControl>
 								</PanelBody>
 
-								<PanelBody title={ __( 'Icon & Accessibility', 'gravisain' ) } initialOpen={ false }>
+								<PanelBody title={ __( 'Icon & Accessibility', 'gravisain-blocks' ) } initialOpen={ false }>
 									<IconPickerControl
-										label={ __( 'Select Icon', 'gravisain' ) }
+										label={ __( 'Select Icon', 'gravisain-blocks' ) }
 										value={ icon }
 										onChange={ ( val ) => setAttributes( { icon: val } ) }
 									/>
 									{ icon && (
 										<>
 											<SelectControl
-												label={ __( 'Icon Position', 'gravisain' ) }
+												label={ __( 'Icon Position', 'gravisain-blocks' ) }
 												value={ iconPosition }
 												options={ [
-													{ label: __( 'Left', 'gravisain' ), value: 'left' },
-													{ label: __( 'Right', 'gravisain' ), value: 'right' },
+													{ label: __( 'Left', 'gravisain-blocks' ), value: 'left' },
+													{ label: __( 'Right', 'gravisain-blocks' ), value: 'right' },
 												] }
 												onChange={ ( val ) => setAttributes( { iconPosition: val } ) }
 											/>
 											<RangeControl
-												label={ __( 'Icon Spacing (px)', 'gravisain' ) }
+												label={ __( 'Icon Spacing (px)', 'gravisain-blocks' ) }
 												value={ iconSpacing !== undefined ? iconSpacing : 8 }
 												onChange={ ( val ) => setAttributes( { iconSpacing: val } ) }
 												min={ 0 }
@@ -192,11 +192,11 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 										</>
 									) }
 									<TextControl
-										label={ __( 'Title for screen readers (aria-label)', 'gravisain' ) }
+										label={ __( 'Title for screen readers (aria-label)', 'gravisain-blocks' ) }
 										value={ ariaLabel }
 										placeholder={ text }
 										onChange={ ( val ) => setAttributes( { ariaLabel: val } ) }
-										help={ __( 'If no title added, screen readers will read the button text.', 'gravisain' ) }
+										help={ __( 'If no title added, screen readers will read the button text.', 'gravisain-blocks' ) }
 									/>
 								</PanelBody>
 							</>
@@ -204,24 +204,24 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 
 						{ tab.name === 'style' && (
 							<>
-								<PanelBody title={ __( 'Button Style & Size', 'gravisain' ) } initialOpen={ true }>
+								<PanelBody title={ __( 'Button Style & Size', 'gravisain-blocks' ) } initialOpen={ true }>
 									<SelectControl
-										label={ __( 'Button Style', 'gravisain' ) }
+										label={ __( 'Button Style', 'gravisain-blocks' ) }
 										value={ buttonStyle }
 										options={ [
-											{ label: __( 'Filled', 'gravisain' ), value: 'fill' },
-											{ label: __( 'Outline', 'gravisain' ), value: 'outline' },
+											{ label: __( 'Filled', 'gravisain-blocks' ), value: 'fill' },
+											{ label: __( 'Outline', 'gravisain-blocks' ), value: 'outline' },
 										] }
 										onChange={ handleStyleChange }
 									/>
 
-									<BaseControl label={ __( 'Button Size', 'gravisain' ) } style={ { marginTop: '16px' } }>
+									<BaseControl label={ __( 'Button Size', 'gravisain-blocks' ) } style={ { marginTop: '16px' } }>
 										<ButtonGroup style={ { width: '100%', display: 'flex', marginTop: '6px' } }>
 											{ [
 												{ label: 'SM', value: 'sm' },
 												{ label: 'MD', value: 'md' },
 												{ label: 'LG', value: 'lg' },
-												{ label: __( 'Custom', 'gravisain' ), value: 'custom' },
+												{ label: __( 'Custom', 'gravisain-blocks' ), value: 'custom' },
 											].map( ( sz ) => (
 												<Button
 													key={ sz.value }
@@ -250,7 +250,7 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 									{ buttonSize === 'custom' && (
 										<div style={ { marginTop: '16px' } }>
 											<SpacingControl
-												label={ __( 'Custom Padding', 'gravisain' ) }
+												label={ __( 'Custom Padding', 'gravisain-blocks' ) }
 												value={ padding }
 												onChange={ ( val ) => setAttributes( { padding: val } ) }
 											/>
@@ -258,39 +258,39 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 									) }
 								</PanelBody>
 
-								<PanelBody title={ __( 'Button Colors', 'gravisain' ) } initialOpen={ true }>
+								<PanelBody title={ __( 'Button Colors', 'gravisain-blocks' ) } initialOpen={ true }>
 									<div style={ { display: 'flex', borderBottom: '1px solid #e2e8f0', marginBottom: '16px' } }>
 										<Button
 											variant={ colorTab === 'initial' ? 'primary' : 'tertiary' }
 											onClick={ () => setColorTab( 'initial' ) }
 											style={ { flex: 1, justifyContent: 'center', borderRadius: 0 } }
 										>
-											{ __( 'Initial', 'gravisain' ) }
+											{ __( 'Initial', 'gravisain-blocks' ) }
 										</Button>
 										<Button
 											variant={ colorTab === 'hover' ? 'primary' : 'tertiary' }
 											onClick={ () => setColorTab( 'hover' ) }
 											style={ { flex: 1, justifyContent: 'center', borderRadius: 0 } }
 										>
-											{ __( 'Hover', 'gravisain' ) }
+											{ __( 'Hover', 'gravisain-blocks' ) }
 										</Button>
 									</div>
 
 									{ colorTab === 'initial' ? (
 										<>
 											<ColorControl
-												label={ __( 'Font Color', 'gravisain' ) }
+												label={ __( 'Font Color', 'gravisain-blocks' ) }
 												value={ textColor }
 												onChange={ ( val ) => setAttributes( { textColor: val } ) }
 												disableGradient={ true }
 											/>
 											<ColorControl
-												label={ __( 'Background Color', 'gravisain' ) }
+												label={ __( 'Background Color', 'gravisain-blocks' ) }
 												value={ backgroundColor }
 												onChange={ ( val ) => setAttributes( { backgroundColor: val } ) }
 											/>
 											<ColorControl
-												label={ __( 'Border Color', 'gravisain' ) }
+												label={ __( 'Border Color', 'gravisain-blocks' ) }
 												value={ borderColor }
 												onChange={ ( val ) => setAttributes( { borderColor: val } ) }
 												disableGradient={ true }
@@ -299,18 +299,18 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 									) : (
 										<>
 											<ColorControl
-												label={ __( 'Font Color (Hover)', 'gravisain' ) }
+												label={ __( 'Font Color (Hover)', 'gravisain-blocks' ) }
 												value={ hoverTextColor }
 												onChange={ ( val ) => setAttributes( { hoverTextColor: val } ) }
 												disableGradient={ true }
 											/>
 											<ColorControl
-												label={ __( 'Background Color (Hover)', 'gravisain' ) }
+												label={ __( 'Background Color (Hover)', 'gravisain-blocks' ) }
 												value={ hoverBackgroundColor }
 												onChange={ ( val ) => setAttributes( { hoverBackgroundColor: val } ) }
 											/>
 											<ColorControl
-												label={ __( 'Border Color (Hover)', 'gravisain' ) }
+												label={ __( 'Border Color (Hover)', 'gravisain-blocks' ) }
 												value={ hoverBorderColor }
 												onChange={ ( val ) => setAttributes( { hoverBorderColor: val } ) }
 												disableGradient={ true }
@@ -319,8 +319,8 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 									) }
 								</PanelBody>
 
-								<PanelBody title={ __( 'Border & Shape', 'gravisain' ) } initialOpen={ false }>
-									<BaseControl label={ __( 'Border Style', 'gravisain' ) }>
+								<PanelBody title={ __( 'Border & Shape', 'gravisain-blocks' ) } initialOpen={ false }>
+									<BaseControl label={ __( 'Border Style', 'gravisain-blocks' ) }>
 										<ButtonGroup style={ { width: '100%', display: 'flex', marginTop: '6px' } }>
 											{ [
 												{ label: 'None', value: 'none' },
@@ -343,7 +343,7 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 
 									{ borderStyle !== 'none' && (
 										<RangeControl
-											label={ __( 'Border Width (px)', 'gravisain' ) }
+											label={ __( 'Border Width (px)', 'gravisain-blocks' ) }
 											value={ borderWidth || 0 }
 											onChange={ ( val ) => setAttributes( { borderWidth: val } ) }
 											min={ 0 }
@@ -352,24 +352,24 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 									) }
 
 									<RangeControl
-										label={ __( 'Border Radius (px)', 'gravisain' ) }
+										label={ __( 'Border Radius (px)', 'gravisain-blocks' ) }
 										value={ borderRadius ?? 9999 }
 										onChange={ ( val ) => setAttributes( { borderRadius: val } ) }
 										min={ 0 }
 										max={ 100 }
-										help={ __( '9999px = Pill / Oval bawaan Gravisain.', 'gravisain' ) }
+										help={ __( '9999px = Pill / Oval bawaan Gravisain.', 'gravisain-blocks' ) }
 									/>
 								</PanelBody>
 
-								<PanelBody title={ __( 'Button Typography', 'gravisain' ) } initialOpen={ false }>
-									<BaseControl label={ __( 'Letter Case', 'gravisain' ) }>
+								<PanelBody title={ __( 'Button Typography', 'gravisain-blocks' ) } initialOpen={ false }>
+									<BaseControl label={ __( 'Letter Case', 'gravisain-blocks' ) }>
 										<ButtonGroup style={ { display: 'flex', gap: '4px', marginTop: '6px', marginBottom: '14px' } }>
 											<Button
 												isPrimary={ ! textTransform || textTransform === 'none' }
 												isSecondary={ textTransform && textTransform !== 'none' }
 												onClick={ () => setAttributes( { textTransform: 'none' } ) }
 												style={ { flex: 1, justifyContent: 'center' } }
-												title={ __( 'None', 'gravisain' ) }
+												title={ __( 'None', 'gravisain-blocks' ) }
 											>
 												—
 											</Button>
@@ -378,7 +378,7 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 												isSecondary={ textTransform !== 'uppercase' }
 												onClick={ () => setAttributes( { textTransform: 'uppercase' } ) }
 												style={ { flex: 1, justifyContent: 'center', fontWeight: 700 } }
-												title={ __( 'Uppercase', 'gravisain' ) }
+												title={ __( 'Uppercase', 'gravisain-blocks' ) }
 											>
 												AB
 											</Button>
@@ -387,7 +387,7 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 												isSecondary={ textTransform !== 'lowercase' }
 												onClick={ () => setAttributes( { textTransform: 'lowercase' } ) }
 												style={ { flex: 1, justifyContent: 'center', fontStyle: 'italic' } }
-												title={ __( 'Lowercase', 'gravisain' ) }
+												title={ __( 'Lowercase', 'gravisain-blocks' ) }
 											>
 												ab
 											</Button>
@@ -396,7 +396,7 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 												isSecondary={ textTransform !== 'capitalize' }
 												onClick={ () => setAttributes( { textTransform: 'capitalize' } ) }
 												style={ { flex: 1, justifyContent: 'center' } }
-												title={ __( 'Capitalize', 'gravisain' ) }
+												title={ __( 'Capitalize', 'gravisain-blocks' ) }
 											>
 												Ab
 											</Button>
@@ -404,7 +404,7 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 									</BaseControl>
 
 									<TypographyControl
-										label={ __( 'Typography', 'gravisain' ) }
+										label={ __( 'Typography', 'gravisain-blocks' ) }
 										value={ typography }
 										onChange={ ( val ) => setAttributes( { typography: val } ) }
 									/>
@@ -414,17 +414,17 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 
 						{ tab.name === 'advanced' && (
 							<>
-								<PanelBody title={ __( 'Spacing & Margin Controls', 'gravisain' ) } initialOpen={ true }>
+								<PanelBody title={ __( 'Spacing & Margin Controls', 'gravisain-blocks' ) } initialOpen={ true }>
 									<ResponsiveTabControl>
 										{ ( currentDevice ) => (
 											<>
 												<SpacingControl
-													label={ __( 'Button Padding', 'gravisain' ) }
+													label={ __( 'Button Padding', 'gravisain-blocks' ) }
 													value={ getResponsiveAttr( 'padding', currentDevice ) }
 													onChange={ ( val ) => setResponsiveAttr( 'padding', val, currentDevice ) }
 												/>
 												<SpacingControl
-													label={ __( 'Button Margin', 'gravisain' ) }
+													label={ __( 'Button Margin', 'gravisain-blocks' ) }
 													value={ getResponsiveAttr( 'margin', currentDevice ) }
 													onChange={ ( val ) => setResponsiveAttr( 'margin', val, currentDevice ) }
 												/>
@@ -433,37 +433,37 @@ export default function ButtonInspector( { attributes, setAttributes } ) {
 									</ResponsiveTabControl>
 								</PanelBody>
 
-								<PanelBody title={ __( 'Effects', 'gravisain' ) } initialOpen={ true }>
+								<PanelBody title={ __( 'Effects', 'gravisain-blocks' ) } initialOpen={ true }>
 									<SelectControl
-										label={ __( 'Hover Effect', 'gravisain' ) }
+										label={ __( 'Hover Effect', 'gravisain-blocks' ) }
 										value={ hoverEffect }
 										options={ [
-											{ label: __( 'None', 'gravisain' ), value: 'none' },
-											{ label: __( 'Scale Up', 'gravisain' ), value: 'scale' },
-											{ label: __( 'Lift Up', 'gravisain' ), value: 'lift' },
+											{ label: __( 'None', 'gravisain-blocks' ), value: 'none' },
+											{ label: __( 'Scale Up', 'gravisain-blocks' ), value: 'scale' },
+											{ label: __( 'Lift Up', 'gravisain-blocks' ), value: 'lift' },
 										] }
 										onChange={ ( val ) => setAttributes( { hoverEffect: val } ) }
 									/>
 									<ToggleControl
-										label={ __( 'Add Shadow', 'gravisain' ) }
+										label={ __( 'Add Shadow', 'gravisain-blocks' ) }
 										checked={ shadow }
 										onChange={ ( val ) => setAttributes( { shadow: val } ) }
 									/>
 								</PanelBody>
-								<PanelBody title={ __( 'Advanced Settings', 'gravisain' ) } initialOpen={ false }>
+								<PanelBody title={ __( 'Advanced Settings', 'gravisain-blocks' ) } initialOpen={ false }>
 									<TextControl
-										label={ __( 'HTML Anchor', 'gravisain' ) }
-										help={ __( 'Enter a unique anchor identifier.', 'gravisain' ) }
+										label={ __( 'HTML Anchor', 'gravisain-blocks' ) }
+										help={ __( 'Enter a unique anchor identifier.', 'gravisain-blocks' ) }
 										value={ anchor }
 										onChange={ ( val ) => setAttributes( { anchor: val } ) }
 									/>
 									<TextControl
-										label={ __( 'Additional CSS class(es)', 'gravisain' ) }
+										label={ __( 'Additional CSS class(es)', 'gravisain-blocks' ) }
 										value={ customClassName }
 										onChange={ ( val ) => setAttributes( { customClassName: val } ) }
 									/>
 									<TextareaControl
-										label={ __( 'Additional CSS', 'gravisain' ) }
+										label={ __( 'Additional CSS', 'gravisain-blocks' ) }
 										value={ customCSS }
 										onChange={ ( val ) => setAttributes( { customCSS: val } ) }
 										rows={ 4 }

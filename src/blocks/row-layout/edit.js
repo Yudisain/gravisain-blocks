@@ -317,7 +317,7 @@ export default function Edit( props ) {
 							textAlign: 'center',
 						} }
 					>
-						{ __( 'SELECT YOUR LAYOUT', 'gravisain' ) }
+						{ __( 'SELECT YOUR LAYOUT', 'gravisain-blocks' ) }
 					</div>
 					<div 
 						className="gravisain-row-setup-grid"
@@ -373,12 +373,14 @@ export default function Edit( props ) {
 				</style>
 			) }
 			<TagName { ...blockProps }>
-				<SpacingVisualizer 
-					attributes={ attributes } 
-					setAttributes={ setAttributes } 
-					isSelected={ props.isSelected } 
-					blockRef={ blockRef }
-				/>
+				{ props.isSelected && (
+					<SpacingVisualizer 
+						attributes={ attributes } 
+						setAttributes={ setAttributes } 
+						isSelected={ props.isSelected } 
+						blockRef={ blockRef }
+					/>
+				) }
 				{ topShapeDivider?.type && topShapeDivider.type !== 'none' && SHAPES[ topShapeDivider.type ] && (
 					<div 
 						className="gravisain-shape-divider gravisain-shape-top"

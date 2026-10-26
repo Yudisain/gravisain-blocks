@@ -1,171 +1,164 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "gravisain/advanced-button",
-  "version": "1.0.0",
-  "title": "Advanced Button",
-  "category": "gravisain-blocks",
-  "icon": "button",
-  "description": "A highly customizable button block.",
-  "parent": [
-    "gravisain/buttons"
-  ],
-  "supports": {
-    "html": false,
-    "anchor": false,
-    "customClassName": false,
-    "customCSS": false,
-    "__experimentalCustomCSS": false
-  },
-  "attributes": {
-    "anchor": {
-      "type": "string",
-      "default": ""
-    },
-    "customClassName": {
-      "type": "string",
-      "default": ""
-    },
-    "customCSS": {
-      "type": "string",
-      "default": ""
-    },
-    "text": {
-      "type": "string",
-      "default": "Click Here"
-    },
-    "url": {
-      "type": "string",
-      "default": ""
-    },
-    "newTab": {
-      "type": "boolean",
-      "default": false
-    },
-    "icon": {
-      "type": "string",
-      "default": ""
-    },
-    "iconPosition": {
-      "type": "string",
-      "default": "left"
-    },
-    "backgroundColor": {
-      "type": "string",
-      "default": "var(--wp--preset--color--primary)"
-    },
-    "textColor": {
-      "type": "string",
-      "default": "#ffffff"
-    },
-    "hoverBackgroundColor": {
-      "type": "string",
-      "default": "var(--wp--preset--color--secondary)"
-    },
-    "hoverTextColor": {
-      "type": "string",
-      "default": "#ffffff"
-    },
-    "borderRadius": {
-      "type": "number",
-      "default": 4
-    },
-    "padding": {
-      "type": "object",
-      "default": {
-        "top": "12px",
-        "right": "24px",
-        "bottom": "12px",
-        "left": "24px"
-      }
-    },
-    "paddingTablet": {
-      "type": "object",
-      "default": {}
-    },
-    "paddingMobile": {
-      "type": "object",
-      "default": {}
-    },
-    "margin": {
-      "type": "object",
-      "default": {}
-    },
-    "marginTablet": {
-      "type": "object",
-      "default": {}
-    },
-    "marginMobile": {
-      "type": "object",
-      "default": {}
-    },
-    "borderWidth": {
-      "type": "number",
-      "default": 0
-    },
-    "borderColor": {
-      "type": "string",
-      "default": "transparent"
-    },
-    "hoverBorderColor": {
-      "type": "string",
-      "default": "transparent"
-    },
-    "hoverEffect": {
-      "type": "string",
-      "default": "none"
-    },
-    "shadow": {
-      "type": "boolean",
-      "default": false
-    },
-    "noFollow": {
-      "type": "boolean",
-      "default": false
-    },
-    "ariaLabel": {
-      "type": "string",
-      "default": ""
-    },
-    "buttonStylePreset": {
-      "type": "string",
-      "default": "fill"
-    },
-    "buttonSize": {
-      "type": "string",
-      "default": "md"
-    },
-    "buttonWidth": {
-      "type": "string",
-      "default": "auto"
-    },
-    "customWidth": {
-      "type": "number",
-      "default": 200
-    },
-    "iconSpacing": {
-      "type": "number",
-      "default": 8
-    },
-    "typography": {
-      "type": "object",
-      "default": {}
-    },
-    "textTransform": {
-      "type": "string",
-      "default": "none"
-    },
-    "buttonStyle": {
-      "type": "string",
-      "default": "fill"
-    },
-    "borderStyle": {
-      "type": "string",
-      "default": "none"
-    }
-  },
-  "textdomain": "gravisain",
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/advanced-button",
+	"version": "1.0.0",
+	"title": "Advanced Button",
+	"category": "gravisain-blocks",
+	"icon": "button",
+	"description": "A highly customizable button block.",
+	"parent": [ "gravisain/buttons" ],
+	"supports": {
+		"html": false,
+		"anchor": false,
+		"customClassName": false,
+		"customCSS": false,
+		"__experimentalCustomCSS": false
+	},
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"customClassName": {
+			"type": "string",
+			"default": ""
+		},
+		"customCSS": {
+			"type": "string",
+			"default": ""
+		},
+		"text": {
+			"type": "string",
+			"default": "Click Here"
+		},
+		"url": {
+			"type": "string",
+			"default": ""
+		},
+		"newTab": {
+			"type": "boolean",
+			"default": false
+		},
+		"icon": {
+			"type": "string",
+			"default": ""
+		},
+		"iconPosition": {
+			"type": "string",
+			"default": "left"
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "var(--wp--preset--color--primary)"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"hoverBackgroundColor": {
+			"type": "string",
+			"default": "var(--wp--preset--color--secondary)"
+		},
+		"hoverTextColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"borderRadius": {
+			"type": "number",
+			"default": 4
+		},
+		"padding": {
+			"type": "object",
+			"default": { "top": "12px", "right": "24px", "bottom": "12px", "left": "24px" }
+		},
+		"paddingTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"paddingMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"margin": {
+			"type": "object",
+			"default": {}
+		},
+		"marginTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"marginMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"borderWidth": {
+			"type": "number",
+			"default": 0
+		},
+		"borderColor": {
+			"type": "string",
+			"default": "transparent"
+		},
+		"hoverBorderColor": {
+			"type": "string",
+			"default": "transparent"
+		},
+		"hoverEffect": {
+			"type": "string",
+			"default": "none"
+		},
+		"shadow": {
+			"type": "boolean",
+			"default": false
+		},
+		"noFollow": {
+			"type": "boolean",
+			"default": false
+		},
+		"ariaLabel": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonStylePreset": {
+			"type": "string",
+			"default": "fill"
+		},
+		"buttonSize": {
+			"type": "string",
+			"default": "md"
+		},
+		"buttonWidth": {
+			"type": "string",
+			"default": "auto"
+		},
+		"customWidth": {
+			"type": "number",
+			"default": 200
+		},
+		"iconSpacing": {
+			"type": "number",
+			"default": 8
+		},
+		"typography": {
+			"type": "object",
+			"default": {}
+		},
+		"textTransform": {
+			"type": "string",
+			"default": "none"
+		},
+		"buttonStyle": {
+			"type": "string",
+			"default": "fill"
+		},
+		"borderStyle": {
+			"type": "string",
+			"default": "none"
+		}
+	},
+	"textdomain": "gravisain-blocks",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
 }

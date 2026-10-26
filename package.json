@@ -1,17 +1,21 @@
 {
   "name": "gravisain-blocks",
   "version": "1.0.0",
+  "undagitalVersion": "0.5.0",
   "description": "Gravisain Blocks & Gutenberg Pattern Library Companion Plugin",
   "private": true,
   "scripts": {
     "build": "wp-scripts build --webpack-src-dir=src/blocks --output-path=assets/blocks",
     "start": "wp-scripts start --webpack-src-dir=src/blocks --output-path=assets/blocks",
-    "blocks:zip": "powershell -ExecutionPolicy Bypass -File scripts/zip-plugin.ps1",
+    "blocks:zip": "powershell -ExecutionPolicy Bypass -File scripts/zip-plugin.ps1 -Channel both",
+    "zip:wporg": "powershell -ExecutionPolicy Bypass -File scripts/zip-plugin.ps1 -Channel wporg",
+    "zip:undagital": "powershell -ExecutionPolicy Bypass -File scripts/zip-plugin.ps1 -Channel undagital",
     "theme:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain/scripts/zip-theme.ps1",
     "studio:zip": "powershell -ExecutionPolicy Bypass -File ../gravisain-studio/scripts/zip-plugin.ps1",
     "news:zip": "powershell -ExecutionPolicy Bypass -File ../gravinews/scripts/zip-plugin.ps1",
     "all:zip": "npm run blocks:zip && npm run theme:zip && npm run studio:zip && npm run news:zip",
     "set-version": "node scripts/set-version.js",
+    "set-version:undagital": "node scripts/set-version.js --undagital",
     "bump": "node scripts/set-version.js"
   },
   "devDependencies": {

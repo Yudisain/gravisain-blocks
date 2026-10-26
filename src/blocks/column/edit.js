@@ -186,13 +186,15 @@ export default function Edit( props ) {
 		<>
 			<ColumnInspector { ...props } />
 			<div { ...blockProps }>
-				<SpacingVisualizer
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					isSelected={ isSelected }
-					blockRef={ ref }
-					prefix="col"
-				/>
+				{ isSelected && (
+					<SpacingVisualizer
+						attributes={ attributes }
+						setAttributes={ setAttributes }
+						isSelected={ isSelected }
+						blockRef={ ref }
+						prefix="col"
+					/>
+				) }
 				<div { ...innerBlocksProps } />
 				<ColumnResizer clientId={ clientId } />
 			</div>

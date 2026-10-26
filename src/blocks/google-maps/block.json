@@ -7,7 +7,7 @@
 	"category": "gravisain-blocks",
 	"icon": "location-alt",
 	"description": "Embed an interactive Google Map with custom location query, zoom levels, and styling without needing an API key.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
 		"html": false,
 		"anchor": false,

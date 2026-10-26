@@ -2,14 +2,17 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "gravisain/testimonial",
-	"version": "1.1.0",
+	"version": "1.0.0",
 	"title": "Testimonial Card",
 	"category": "gravisain-blocks",
 	"icon": "format-quote",
 	"description": "Display a beautiful customer review or testimonial card with ratings and author profile.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
-		"align": ["wide", "full"],
+		"align": [
+			"wide",
+			"full"
+		],
 		"html": false
 	},
 	"attributes": {

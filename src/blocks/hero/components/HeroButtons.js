@@ -11,7 +11,7 @@ export default function HeroButtons( { attributes, setAttributes } ) {
 					tagName="span"
 					value={ primaryButton.text }
 					onChange={ ( value ) => setAttributes( { primaryButton: { ...primaryButton, text: value } } ) }
-					placeholder={ __( 'Primary Button', 'gravisain' ) }
+					placeholder={ __( 'Primary Button', 'gravisain-blocks' ) }
 				/>
 			</div>
 			
@@ -20,7 +20,7 @@ export default function HeroButtons( { attributes, setAttributes } ) {
 					tagName="span"
 					value={ secondaryButton.text }
 					onChange={ ( value ) => setAttributes( { secondaryButton: { ...secondaryButton, text: value } } ) }
-					placeholder={ __( 'Secondary Button', 'gravisain' ) }
+					placeholder={ __( 'Secondary Button', 'gravisain-blocks' ) }
 				/>
 			</div>
 		</div>

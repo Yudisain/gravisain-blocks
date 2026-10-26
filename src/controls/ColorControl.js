@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n';
+import { useState } from '@wordpress/element';
 import { BaseControl, GradientPicker, Button, Dropdown } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { SketchPicker } from 'react-color';
@@ -29,7 +30,7 @@ export default function ColorControl( { label, value, onChange, help, disableGra
 	}, [] );
 
 	const isGradient = typeof value === 'string' && value.includes( 'gradient' );
-	const [ mode, setMode ] = wp.element.useState( isGradient ? 'gradient' : 'solid' );
+	const [ mode, setMode ] = useState( isGradient ? 'gradient' : 'solid' );
 
 	const presetColors = colors.map( c => c.color );
 
@@ -75,13 +76,13 @@ export default function ColorControl( { label, value, onChange, help, disableGra
 						/>
 						<div style={{ padding: '10px', borderTop: '1px solid #eee', textAlign: 'center' }}>
 							<Button isSmall variant="secondary" onClick={ () => onChange( undefined ) }>
-								{ __( 'Clear', 'gravisain' ) }
+								{ __( 'Clear', 'gravisain-blocks' ) }
 							</Button>
 						</div>
 					</div>
 				) }
 			/>
-			{ !disableGradient && <span style={{ fontSize: '12px', color: '#757575' }}>{ value ? value : __( 'Select color', 'gravisain' ) }</span> }
+			{ !disableGradient && <span style={{ fontSize: '12px', color: '#757575' }}>{ value ? value : __( 'Select color', 'gravisain-blocks' ) }</span> }
 		</div>
 	);
 
@@ -122,7 +123,7 @@ export default function ColorControl( { label, value, onChange, help, disableGra
 					</div>
 				) }
 			/>
-			{ !disableGradient && <span style={{ fontSize: '12px', color: '#757575' }}>{ value ? (value.length > 20 ? value.substring(0, 20) + '...' : value) : __( 'Select gradient', 'gravisain' ) }</span> }
+			{ !disableGradient && <span style={{ fontSize: '12px', color: '#757575' }}>{ value ? (value.length > 20 ? value.substring(0, 20) + '...' : value) : __( 'Select gradient', 'gravisain-blocks' ) }</span> }
 		</div>
 	);
 
@@ -144,14 +145,14 @@ export default function ColorControl( { label, value, onChange, help, disableGra
 						style={{ height: '24px', padding: '0 8px', fontSize: '12px', minWidth: 0 }}
 						onClick={ () => setMode( 'solid' ) }
 					>
-						{ __( 'Solid', 'gravisain' ) }
+						{ __( 'Solid', 'gravisain-blocks' ) }
 					</Button>
 					<Button
 						variant={ mode === 'gradient' ? 'primary' : 'tertiary' }
 						style={{ height: '24px', padding: '0 8px', fontSize: '12px', minWidth: 0 }}
 						onClick={ () => setMode( 'gradient' ) }
 					>
-						{ __( 'Gradient', 'gravisain' ) }
+						{ __( 'Gradient', 'gravisain-blocks' ) }
 					</Button>
 				</div>
 			</div>

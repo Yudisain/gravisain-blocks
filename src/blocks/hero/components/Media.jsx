@@ -34,7 +34,7 @@ export default function Media({ attributes, setAttributes }) {
 									className="replace-media-button"
 									style={{ position: 'absolute', bottom: '10px', right: '10px' }}
 								>
-									{__('Replace Media', 'gravisain')}
+									{__('Replace Media', 'gravisain-blocks')}
 								</Button>
 							)}
 						/>
@@ -45,7 +45,7 @@ export default function Media({ attributes, setAttributes }) {
 					onSelect={onSelectMedia}
 					allowedTypes={['image', 'video']}
 					multiple={false}
-					labels={{ title: __('Hero Media', 'gravisain') }}
+					labels={{ title: __('Hero Media', 'gravisain-blocks') }}
 				/>
 			)}
 		</div>

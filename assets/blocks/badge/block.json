@@ -1,174 +1,167 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "gravisain/badge",
-  "version": "1.0.0",
-  "title": "Badge / Status Pill",
-  "category": "gravisain-blocks",
-  "icon": "tag",
-  "description": "Modern pill badge with live status dot, blinking pulse animation, icon, and custom styling.",
-  "keywords": [
-    "badge",
-    "pill",
-    "tag",
-    "status",
-    "pulse",
-    "announcement"
-  ],
-  "textdomain": "gravisain",
-  "supports": {
-    "html": false,
-    "anchor": false,
-    "customClassName": false,
-    "customCSS": false,
-    "__experimentalCustomCSS": false
-  },
-  "attributes": {
-    "text": {
-      "type": "string",
-      "default": "Next-Gen WordPress Theme & Gutenberg Blocks"
-    },
-    "showDot": {
-      "type": "boolean",
-      "default": true
-    },
-    "dotColor": {
-      "type": "string",
-      "default": "#10b981"
-    },
-    "dotPulse": {
-      "type": "boolean",
-      "default": true
-    },
-    "dotPulseSpeed": {
-      "type": "number",
-      "default": 1.8
-    },
-    "dotSize": {
-      "type": "number",
-      "default": 8
-    },
-    "link": {
-      "type": "string",
-      "default": ""
-    },
-    "linkTarget": {
-      "type": "string",
-      "default": "_self"
-    },
-    "alignment": {
-      "type": "string",
-      "default": "left"
-    },
-    "alignmentTablet": {
-      "type": "string",
-      "default": ""
-    },
-    "alignmentMobile": {
-      "type": "string",
-      "default": ""
-    },
-    "fontFamily": {
-      "type": "string",
-      "default": ""
-    },
-    "fontSize": {
-      "type": "number",
-      "default": 13
-    },
-    "fontSizeTablet": {
-      "type": "number"
-    },
-    "fontSizeMobile": {
-      "type": "number"
-    },
-    "fontWeight": {
-      "type": "string",
-      "default": "600"
-    },
-    "fontStyle": {
-      "type": "string",
-      "default": "normal"
-    },
-    "lineHeight": {
-      "type": "string",
-      "default": "1.4"
-    },
-    "letterSpacing": {
-      "type": "string",
-      "default": "0px"
-    },
-    "textColor": {
-      "type": "string",
-      "default": "#1e293b"
-    },
-    "backgroundColor": {
-      "type": "string",
-      "default": "#ffffff"
-    },
-    "borderWidth": {
-      "type": "number",
-      "default": 1
-    },
-    "borderColor": {
-      "type": "string",
-      "default": "rgba(226, 232, 240, 0.9)"
-    },
-    "borderStyle": {
-      "type": "string",
-      "default": "solid"
-    },
-    "borderRadius": {
-      "type": "number",
-      "default": 9999
-    },
-    "hasShadow": {
-      "type": "boolean",
-      "default": true
-    },
-    "padding": {
-      "type": "object",
-      "default": {
-        "top": 6,
-        "right": 16,
-        "bottom": 6,
-        "left": 12
-      }
-    },
-    "paddingTablet": {
-      "type": "object",
-      "default": {}
-    },
-    "paddingMobile": {
-      "type": "object",
-      "default": {}
-    },
-    "margin": {
-      "type": "object",
-      "default": {}
-    },
-    "marginTablet": {
-      "type": "object",
-      "default": {}
-    },
-    "marginMobile": {
-      "type": "object",
-      "default": {}
-    },
-    "anchor": {
-      "type": "string",
-      "default": ""
-    },
-    "customClassName": {
-      "type": "string",
-      "default": ""
-    },
-    "customCSS": {
-      "type": "string",
-      "default": ""
-    }
-  },
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/badge",
+	"version": "1.0.0",
+	"title": "Badge / Status Pill",
+	"category": "gravisain-blocks",
+	"icon": "tag",
+	"description": "Modern pill badge with live status dot, blinking pulse animation, icon, and custom styling.",
+	"keywords": ["badge", "pill", "tag", "status", "pulse", "announcement"],
+	"textdomain": "gravisain-blocks",
+	"supports": {
+		"html": false,
+		"anchor": false,
+		"customClassName": false,
+		"customCSS": false,
+		"__experimentalCustomCSS": false
+	},
+	"attributes": {
+		"text": {
+			"type": "string",
+			"default": "Next-Gen WordPress Theme & Gutenberg Blocks"
+		},
+		"showDot": {
+			"type": "boolean",
+			"default": true
+		},
+		"dotColor": {
+			"type": "string",
+			"default": "#10b981"
+		},
+		"dotPulse": {
+			"type": "boolean",
+			"default": true
+		},
+		"dotPulseSpeed": {
+			"type": "number",
+			"default": 1.8
+		},
+		"dotSize": {
+			"type": "number",
+			"default": 8
+		},
+		"link": {
+			"type": "string",
+			"default": ""
+		},
+		"linkTarget": {
+			"type": "string",
+			"default": "_self"
+		},
+		"alignment": {
+			"type": "string",
+			"default": "left"
+		},
+		"alignmentTablet": {
+			"type": "string",
+			"default": ""
+		},
+		"alignmentMobile": {
+			"type": "string",
+			"default": ""
+		},
+		"fontFamily": {
+			"type": "string",
+			"default": ""
+		},
+		"fontSize": {
+			"type": "number",
+			"default": 13
+		},
+		"fontSizeTablet": {
+			"type": "number"
+		},
+		"fontSizeMobile": {
+			"type": "number"
+		},
+		"fontWeight": {
+			"type": "string",
+			"default": "600"
+		},
+		"fontStyle": {
+			"type": "string",
+			"default": "normal"
+		},
+		"lineHeight": {
+			"type": "string",
+			"default": "1.4"
+		},
+		"letterSpacing": {
+			"type": "string",
+			"default": "0px"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "#1e293b"
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"borderWidth": {
+			"type": "number",
+			"default": 1
+		},
+		"borderColor": {
+			"type": "string",
+			"default": "rgba(226, 232, 240, 0.9)"
+		},
+		"borderStyle": {
+			"type": "string",
+			"default": "solid"
+		},
+		"borderRadius": {
+			"type": "number",
+			"default": 9999
+		},
+		"hasShadow": {
+			"type": "boolean",
+			"default": true
+		},
+		"padding": {
+			"type": "object",
+			"default": {
+				"top": 6,
+				"right": 16,
+				"bottom": 6,
+				"left": 12
+			}
+		},
+		"paddingTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"paddingMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"margin": {
+			"type": "object",
+			"default": {}
+		},
+		"marginTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"marginMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"customClassName": {
+			"type": "string",
+			"default": ""
+		},
+		"customCSS": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
 }

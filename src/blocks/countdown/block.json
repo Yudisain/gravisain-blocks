@@ -7,7 +7,7 @@
 	"category": "gravisain-blocks",
 	"icon": "clock",
 	"description": "Create urgency with an interactive countdown timer showing days, hours, minutes, and seconds.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
 		"html": false,
 		"anchor": false,

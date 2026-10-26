@@ -198,7 +198,7 @@ export default function Edit( props ) {
 							className="gravisain-info-box-eyebrow"
 							value={ eyebrow }
 							onChange={ ( val ) => setAttributes( { eyebrow: val } ) }
-							placeholder={ __( 'EYEBROW LABEL', 'gravisain' ) }
+							placeholder={ __( 'EYEBROW LABEL', 'gravisain-blocks' ) }
 						/>
 					) }
 
@@ -207,7 +207,7 @@ export default function Edit( props ) {
 						className="gravisain-info-box-title"
 						value={ title }
 						onChange={ ( val ) => setAttributes( { title: val } ) }
-						placeholder={ __( 'Info Box Title...', 'gravisain' ) }
+						placeholder={ __( 'Info Box Title...', 'gravisain-blocks' ) }
 					/>
 
 					<RichText
@@ -215,7 +215,7 @@ export default function Edit( props ) {
 						className="gravisain-info-box-desc"
 						value={ description }
 						onChange={ ( val ) => setAttributes( { description: val } ) }
-						placeholder={ __( 'Write description here...', 'gravisain' ) }
+						placeholder={ __( 'Write description here...', 'gravisain-blocks' ) }
 					/>
 
 					{ showLink && (
@@ -224,7 +224,7 @@ export default function Edit( props ) {
 							className="gravisain-info-box-link"
 							value={ linkText }
 							onChange={ ( val ) => setAttributes( { linkText: val } ) }
-							placeholder={ __( 'Link text...', 'gravisain' ) }
+							placeholder={ __( 'Link text...', 'gravisain-blocks' ) }
 						/>
 					) }
 				</div>

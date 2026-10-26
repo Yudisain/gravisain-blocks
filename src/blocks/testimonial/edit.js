@@ -94,7 +94,7 @@ export default function Edit( props ) {
 					className="gravisain-testimonial__quote"
 					value={ quote }
 					onChange={ ( value ) => setAttributes( { quote: value } ) }
-					placeholder={ __( 'Enter testimonial text...', 'gravisain' ) }
+					placeholder={ __( 'Enter testimonial text...', 'gravisain-blocks' ) }
 				/>
 
 				<div className="gravisain-testimonial__author-box">
@@ -113,7 +113,7 @@ export default function Edit( props ) {
 											onClick={ open }
 										>
 											{ ! avatarUrl ? (
-												__( 'Upload Avatar', 'gravisain' )
+												__( 'Upload Avatar', 'gravisain-blocks' )
 											) : (
 												<img
 													src={ avatarUrl }
@@ -136,14 +136,14 @@ export default function Edit( props ) {
 							className="gravisain-testimonial__author-name"
 							value={ authorName }
 							onChange={ ( value ) => setAttributes( { authorName: value } ) }
-							placeholder={ __( 'Author Name', 'gravisain' ) }
+							placeholder={ __( 'Author Name', 'gravisain-blocks' ) }
 						/>
 						<RichText
 							tagName="span"
 							className="gravisain-testimonial__author-role"
 							value={ authorRole }
 							onChange={ ( value ) => setAttributes( { authorRole: value } ) }
-							placeholder={ __( 'Company / Role', 'gravisain' ) }
+							placeholder={ __( 'Company / Role', 'gravisain-blocks' ) }
 						/>
 					</div>
 				</div>

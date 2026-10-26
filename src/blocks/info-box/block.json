@@ -2,14 +2,17 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "gravisain/info-box",
-	"version": "1.1.0",
+	"version": "1.0.0",
 	"title": "Info Box / Icon Card",
 	"category": "gravisain-blocks",
 	"icon": "info",
 	"description": "Versatile card with icon/badge/image, heading, description, and link.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
-		"align": ["wide", "full"],
+		"align": [
+			"wide",
+			"full"
+		],
 		"html": false
 	},
 	"attributes": {

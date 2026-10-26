@@ -7,7 +7,7 @@
 	"category": "gravisain-blocks",
 	"icon": "star-filled",
 	"description": "Insert a customizable, scalable SVG vector icon from our clean outline library.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
 		"html": false,
 		"anchor": false,

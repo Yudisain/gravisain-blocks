@@ -583,7 +583,7 @@ class LoginSecurity {
 		$time = time();
 		$ip   = $this->get_client_ip();
 		$hash = wp_hash( 'gravisain_time_' . $time . '_' . $ip, 'nonce' );
-		return base64_encode( $time . '|' . $hash );
+		return rawurlencode( $time . '|' . $hash );
 	}
 
 	/**
@@ -598,8 +598,8 @@ class LoginSecurity {
 			return false;
 		}
 
-		$decoded = base64_decode( $token, true );
-		if ( false === $decoded || false === strpos( $decoded, '|' ) ) {
+		$decoded = rawurldecode( $token );
+		if ( empty( $decoded ) || false === strpos( $decoded, '|' ) ) {
 			return false;
 		}
 

@@ -7,7 +7,7 @@
 	"category": "gravisain-blocks",
 	"icon": "feedback",
 	"description": "Create customizable contact and lead generation forms with built-in validation and styling.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
 		"html": false,
 		"anchor": false,

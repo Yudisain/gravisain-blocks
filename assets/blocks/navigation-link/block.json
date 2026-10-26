@@ -1,38 +1,36 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "gravisain/navigation-link",
-  "version": "1.0.0",
-  "title": "Navigation Link",
-  "category": "gravisain-blocks",
-  "icon": "admin-links",
-  "description": "Add a link to your navigation menu.",
-  "parent": [
-    "gravisain/navigation"
-  ],
-  "supports": {
-    "html": false,
-    "reusable": false,
-    "customClassName": false
-  },
-  "attributes": {
-    "label": {
-      "type": "string"
-    },
-    "url": {
-      "type": "string"
-    },
-    "opensInNewTab": {
-      "type": "boolean",
-      "default": false
-    },
-    "isActive": {
-      "type": "boolean",
-      "default": false
-    }
-  },
-  "textdomain": "gravisain-blocks",
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/navigation-link",
+	"version": "1.0.0",
+	"title": "Navigation Link",
+	"category": "gravisain-blocks",
+	"icon": "admin-links",
+	"description": "Add a link to your navigation menu.",
+	"parent": [ "gravisain/navigation" ],
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"customClassName": false
+	},
+	"attributes": {
+		"label": {
+			"type": "string"
+		},
+		"url": {
+			"type": "string"
+		},
+		"opensInNewTab": {
+			"type": "boolean",
+			"default": false
+		},
+		"isActive": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"textdomain": "gravisain-blocks",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
 }

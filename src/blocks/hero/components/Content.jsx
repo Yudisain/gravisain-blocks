@@ -46,7 +46,7 @@ export default function Content({ attributes, setAttributes }) {
 				className="hero-eyebrow"
 				value={eyebrow}
 				onChange={(val) => setAttributes({ eyebrow: val })}
-				placeholder={__('Enter eyebrow text...', 'gravisain')}
+				placeholder={__('Enter eyebrow text...', 'gravisain-blocks')}
 			/>
 			
 			<RichText
@@ -54,7 +54,7 @@ export default function Content({ attributes, setAttributes }) {
 				className="hero-title"
 				value={title}
 				onChange={(val) => setAttributes({ title: val })}
-				placeholder={__('Enter hero title...', 'gravisain')}
+				placeholder={__('Enter hero title...', 'gravisain-blocks')}
 			/>
 
 			<RichText
@@ -62,7 +62,7 @@ export default function Content({ attributes, setAttributes }) {
 				className="hero-description"
 				value={description}
 				onChange={(val) => setAttributes({ description: val })}
-				placeholder={__('Enter hero description...', 'gravisain')}
+				placeholder={__('Enter hero description...', 'gravisain-blocks')}
 			/>
 
 			<div className={`hero-button-group ${activeAlign} has-btn-align-${activeAlign}`}>
@@ -72,7 +72,7 @@ export default function Content({ attributes, setAttributes }) {
 						className={`gravisain-button gravisain-button--${primaryButton.style} primary-btn`}
 						value={primaryButton.text}
 						onChange={(val) => setAttributes({ primaryButton: { ...primaryButton, text: val } })}
-						placeholder={__('Primary Action', 'gravisain')}
+						placeholder={__('Primary Action', 'gravisain-blocks')}
 						allowedFormats={ [ 'core/bold', 'core/italic' ] }
 					/>
 					{ activeLink === 'primary' && (
@@ -95,7 +95,7 @@ export default function Content({ attributes, setAttributes }) {
 						className={`gravisain-button gravisain-button--${secondaryButton.style} secondary-btn`}
 						value={secondaryButton.text}
 						onChange={(val) => setAttributes({ secondaryButton: { ...secondaryButton, text: val } })}
-						placeholder={__('Secondary Action', 'gravisain')}
+						placeholder={__('Secondary Action', 'gravisain-blocks')}
 						allowedFormats={ [ 'core/bold', 'core/italic' ] }
 					/>
 					{ activeLink === 'secondary' && (

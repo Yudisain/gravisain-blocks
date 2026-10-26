@@ -1,81 +1,73 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "gravisain/navigation",
-  "version": "1.0.0",
-  "title": "Advanced Navigation",
-  "category": "gravisain-blocks",
-  "icon": "menu",
-  "description": "Create a responsive, customizable navigation menu.",
-  "keywords": [
-    "menu",
-    "navigation",
-    "links",
-    "nav"
-  ],
-  "supports": {
-    "html": false,
-    "align": [
-      "wide",
-      "full"
-    ]
-  },
-  "attributes": {
-    "layout": {
-      "type": "string",
-      "default": "horizontal"
-    },
-    "alignment": {
-      "type": "string",
-      "default": "left"
-    },
-    "linkColor": {
-      "type": "string",
-      "default": "#334155"
-    },
-    "linkHoverColor": {
-      "type": "string",
-      "default": "#2563eb"
-    },
-    "linkActiveColor": {
-      "type": "string",
-      "default": "#2563eb"
-    },
-    "linkBackground": {
-      "type": "string",
-      "default": "transparent"
-    },
-    "linkHoverBackground": {
-      "type": "string",
-      "default": "transparent"
-    },
-    "linkActiveBackground": {
-      "type": "string",
-      "default": "transparent"
-    },
-    "fontFamily": {
-      "type": "string",
-      "default": ""
-    },
-    "fontSize": {
-      "type": "number",
-      "default": 16
-    },
-    "fontWeight": {
-      "type": "string",
-      "default": "500"
-    },
-    "itemSpacing": {
-      "type": "number",
-      "default": 24
-    },
-    "typography": {
-      "type": "object",
-      "default": {}
-    }
-  },
-  "textdomain": "gravisain-blocks",
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/navigation",
+	"version": "1.0.0",
+	"title": "Advanced Navigation",
+	"category": "gravisain-blocks",
+	"icon": "menu",
+	"description": "Create a responsive, customizable navigation menu.",
+	"keywords": [ "menu", "navigation", "links", "nav" ],
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ]
+	},
+	"attributes": {
+		"layout": {
+			"type": "string",
+			"default": "horizontal"
+		},
+		"alignment": {
+			"type": "string",
+			"default": "left"
+		},
+		"linkColor": {
+			"type": "string",
+			"default": "#334155"
+		},
+		"linkHoverColor": {
+			"type": "string",
+			"default": "#2563eb"
+		},
+		"linkActiveColor": {
+			"type": "string",
+			"default": "#2563eb"
+		},
+		"linkBackground": {
+			"type": "string",
+			"default": "transparent"
+		},
+		"linkHoverBackground": {
+			"type": "string",
+			"default": "transparent"
+		},
+		"linkActiveBackground": {
+			"type": "string",
+			"default": "transparent"
+		},
+		"fontFamily": {
+			"type": "string",
+			"default": ""
+		},
+		"fontSize": {
+			"type": "number",
+			"default": 16
+		},
+		"fontWeight": {
+			"type": "string",
+			"default": "500"
+		},
+		"itemSpacing": {
+			"type": "number",
+			"default": 24
+		},
+		"typography": {
+			"type": "object",
+			"default": {}
+		}
+	},
+	"textdomain": "gravisain-blocks",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
 }

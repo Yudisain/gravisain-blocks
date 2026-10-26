@@ -66,17 +66,17 @@ export default function Inspector( {
 				tabs={ [
 					{
 						name: 'general',
-						title: __( 'General', 'gravisain' ),
+						title: __( 'General', 'gravisain-blocks' ),
 						className: 'gravisain-tab-general',
 					},
 					{
 						name: 'style',
-						title: __( 'Style', 'gravisain' ),
+						title: __( 'Style', 'gravisain-blocks' ),
 						className: 'gravisain-tab-style',
 					},
 					{
 						name: 'advanced',
-						title: __( 'Advanced', 'gravisain' ),
+						title: __( 'Advanced', 'gravisain-blocks' ),
 						className: 'gravisain-tab-advanced',
 					},
 				] }
@@ -84,9 +84,9 @@ export default function Inspector( {
 				{ ( tab ) => {
 					if ( tab.name === 'general' ) {
 						return (
-							<PanelBody title={ __( 'Text Settings', 'gravisain' ) }>
+							<PanelBody title={ __( 'Text Settings', 'gravisain-blocks' ) }>
 								<SelectControl
-									label={ __( 'HTML Tag', 'gravisain' ) }
+									label={ __( 'HTML Tag', 'gravisain-blocks' ) }
 									value={ htmlTag }
 									options={ [
 										{ label: 'Paragraph <p>', value: 'p' },
@@ -127,11 +127,11 @@ export default function Inspector( {
 					if ( tab.name === 'style' ) {
 						return (
 							<>
-								<PanelBody title={ __( 'Typography', 'gravisain' ) }>
+								<PanelBody title={ __( 'Typography', 'gravisain-blocks' ) }>
 									<ResponsiveTabControl activeDevice={ device } onChangeDevice={ onDeviceChange }>
 										{ ( currentDevice ) => (
 											<TypographyControl
-												label={ __( 'Text Typography', 'gravisain' ) }
+												label={ __( 'Text Typography', 'gravisain-blocks' ) }
 												value={{
 													fontFamily: fontFamily,
 													fontSize: getResponsiveAttr('fontSize', currentDevice),
@@ -154,7 +154,7 @@ export default function Inspector( {
 										) }
 									</ResponsiveTabControl>
 									<SelectControl
-										label={ __( 'Text Transform', 'gravisain' ) }
+										label={ __( 'Text Transform', 'gravisain-blocks' ) }
 										value={ textTransform }
 										options={ [
 											{ label: 'None', value: 'none' },
@@ -168,9 +168,9 @@ export default function Inspector( {
 									/>
 								</PanelBody>
 
-								<PanelBody title={ __( 'Color & Gradient Styling', 'gravisain' ) }>
+								<PanelBody title={ __( 'Color & Gradient Styling', 'gravisain-blocks' ) }>
 									<ToggleControl
-										label={ __( 'Enable Text Gradient Effect', 'gravisain' ) }
+										label={ __( 'Enable Text Gradient Effect', 'gravisain-blocks' ) }
 										checked={ enableTextGradient }
 										onChange={ ( value ) =>
 											setAttributes( { enableTextGradient: value } )
@@ -180,7 +180,7 @@ export default function Inspector( {
 										<>
 											<div style={ { marginBottom: 16 } }>
 												<p style={ { marginBottom: 8, fontWeight: 600 } }>
-													{ __( 'Text Color', 'gravisain' ) }
+													{ __( 'Text Color', 'gravisain-blocks' ) }
 												</p>
 												<ColorControl
 													value={ textColor }
@@ -194,7 +194,7 @@ export default function Inspector( {
 											</div>
 											<div style={ { marginBottom: 16 } }>
 												<p style={ { marginBottom: 8, fontWeight: 600 } }>
-													{ __( 'Highlight Text Color', 'gravisain' ) }
+													{ __( 'Highlight Text Color', 'gravisain-blocks' ) }
 												</p>
 												<ColorControl
 													value={ highlightColor }
@@ -209,7 +209,7 @@ export default function Inspector( {
 										</>
 									) : (
 										<TextControl
-											label={ __( 'CSS Linear Gradient', 'gravisain' ) }
+											label={ __( 'CSS Linear Gradient', 'gravisain-blocks' ) }
 											value={ textGradient }
 											onChange={ ( value ) =>
 												setAttributes( { textGradient: value } )
@@ -224,17 +224,17 @@ export default function Inspector( {
 
 					if ( tab.name === 'advanced' ) {
 						return (
-							<PanelBody title={ __( 'Spacing & Margin Controls', 'gravisain' ) }>
+							<PanelBody title={ __( 'Spacing & Margin Controls', 'gravisain-blocks' ) }>
 								<ResponsiveTabControl>
 									{ ( currentDevice ) => (
 										<>
 											<SpacingControl
-												label={ __( 'Padding', 'gravisain' ) }
+												label={ __( 'Padding', 'gravisain-blocks' ) }
 												value={ getResponsiveAttr('padding', currentDevice) }
 												onChange={ ( val ) => setResponsiveAttr('padding', val, currentDevice) }
 											/>
 											<SpacingControl
-												label={ __( 'Margin', 'gravisain' ) }
+												label={ __( 'Margin', 'gravisain-blocks' ) }
 												value={ getResponsiveAttr('margin', currentDevice) }
 												onChange={ ( val ) => setResponsiveAttr('margin', val, currentDevice) }
 											/>
@@ -242,14 +242,14 @@ export default function Inspector( {
 									) }
 								</ResponsiveTabControl>
 								<TextControl
-									label={ __( 'HTML Anchor', 'gravisain' ) }
-									help={ __( 'Enter a word or two — without spaces — to make a unique web address just for this block, called an "anchor".', 'gravisain' ) }
+									label={ __( 'HTML Anchor', 'gravisain-blocks' ) }
+									help={ __( 'Enter a word or two — without spaces — to make a unique web address just for this block, called an "anchor".', 'gravisain-blocks' ) }
 									value={ anchor }
 									onChange={ ( value ) => setAttributes( { anchor: value } ) }
 								/>
 								<TextControl
-									label={ __( 'Additional CSS class(es)', 'gravisain' ) }
-									help={ __( 'Separate multiple classes with spaces.', 'gravisain' ) }
+									label={ __( 'Additional CSS class(es)', 'gravisain-blocks' ) }
+									help={ __( 'Separate multiple classes with spaces.', 'gravisain-blocks' ) }
 									value={ customClassName }
 									onChange={ ( value ) => setAttributes( { customClassName: value } ) }
 								/>

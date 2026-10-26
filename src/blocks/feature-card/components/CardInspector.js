@@ -44,17 +44,17 @@ export default function CardInspector( { attributes, setAttributes } ) {
 				tabs={ [
 					{
 						name: 'general',
-						title: __( 'General', 'gravisain' ),
+						title: __( 'General', 'gravisain-blocks' ),
 						className: 'gravisain-tab-general',
 					},
 					{
 						name: 'style',
-						title: __( 'Style', 'gravisain' ),
+						title: __( 'Style', 'gravisain-blocks' ),
 						className: 'gravisain-tab-style',
 					},
 					{
 						name: 'advanced',
-						title: __( 'Advanced', 'gravisain' ),
+						title: __( 'Advanced', 'gravisain-blocks' ),
 						className: 'gravisain-tab-advanced',
 					},
 				] }
@@ -63,43 +63,43 @@ export default function CardInspector( { attributes, setAttributes } ) {
 					if ( tab.name === 'general' ) {
 						return (
 							<>
-								<PanelBody title={ __( 'Icon & Layout Settings', 'gravisain' ) }>
+								<PanelBody title={ __( 'Icon & Layout Settings', 'gravisain-blocks' ) }>
 									<IconPickerControl
-										label={ __( 'Icon', 'gravisain' ) }
+										label={ __( 'Icon', 'gravisain-blocks' ) }
 										value={ icon }
 										onChange={ ( value ) => setAttributes( { icon: value, iconSymbol: value } ) }
 									/>
 									<SelectControl
-										label={ __( 'Icon Position Layout', 'gravisain' ) }
+										label={ __( 'Icon Position Layout', 'gravisain-blocks' ) }
 										value={ iconPosition }
 										options={ [
-											{ label: __( 'Top (Stacked)', 'gravisain' ), value: 'top' },
-											{ label: __( 'Left (Side-by-side)', 'gravisain' ), value: 'left' },
-											{ label: __( 'Right (Side-by-side)', 'gravisain' ), value: 'right' },
+											{ label: __( 'Top (Stacked)', 'gravisain-blocks' ), value: 'top' },
+											{ label: __( 'Left (Side-by-side)', 'gravisain-blocks' ), value: 'left' },
+											{ label: __( 'Right (Side-by-side)', 'gravisain-blocks' ), value: 'right' },
 										] }
 										onChange={ ( value ) => setAttributes( { iconPosition: value } ) }
 									/>
 									<SelectControl
-										label={ __( 'Text Alignment', 'gravisain' ) }
+										label={ __( 'Text Alignment', 'gravisain-blocks' ) }
 										value={ textAlign }
 										options={ [
-											{ label: __( 'Left', 'gravisain' ), value: 'left' },
-											{ label: __( 'Center', 'gravisain' ), value: 'center' },
-											{ label: __( 'Right', 'gravisain' ), value: 'right' },
+											{ label: __( 'Left', 'gravisain-blocks' ), value: 'left' },
+											{ label: __( 'Center', 'gravisain-blocks' ), value: 'center' },
+											{ label: __( 'Right', 'gravisain-blocks' ), value: 'right' },
 										] }
 										onChange={ ( value ) => setAttributes( { textAlign: value } ) }
 									/>
 								</PanelBody>
 
-								<PanelBody title={ __( 'Hover Animation', 'gravisain' ) }>
+								<PanelBody title={ __( 'Hover Animation', 'gravisain-blocks' ) }>
 									<SelectControl
-										label={ __( 'Card Hover Effect', 'gravisain' ) }
+										label={ __( 'Card Hover Effect', 'gravisain-blocks' ) }
 										value={ hoverEffect }
 										options={ [
-											{ label: __( 'Lift Up (Shadow Boost)', 'gravisain' ), value: 'lift' },
-											{ label: __( 'Scale Up Slightly', 'gravisain' ), value: 'scale' },
-											{ label: __( 'Border Glow', 'gravisain' ), value: 'border-glow' },
-											{ label: __( 'None', 'gravisain' ), value: 'none' },
+											{ label: __( 'Lift Up (Shadow Boost)', 'gravisain-blocks' ), value: 'lift' },
+											{ label: __( 'Scale Up Slightly', 'gravisain-blocks' ), value: 'scale' },
+											{ label: __( 'Border Glow', 'gravisain-blocks' ), value: 'border-glow' },
+											{ label: __( 'None', 'gravisain-blocks' ), value: 'none' },
 										] }
 										onChange={ ( value ) => setAttributes( { hoverEffect: value } ) }
 									/>
@@ -111,23 +111,23 @@ export default function CardInspector( { attributes, setAttributes } ) {
 					if ( tab.name === 'style' ) {
 						return (
 							<>
-								<PanelBody title={ __( 'Icon Box Styling', 'gravisain' ) }>
+								<PanelBody title={ __( 'Icon Box Styling', 'gravisain-blocks' ) }>
 									<RangeControl
-										label={ __( 'Icon Font Size (px)', 'gravisain' ) }
+										label={ __( 'Icon Font Size (px)', 'gravisain-blocks' ) }
 										value={ iconSize }
 										onChange={ ( value ) => setAttributes( { iconSize: value } ) }
 										min={ 16 }
 										max={ 64 }
 									/>
 									<RangeControl
-										label={ __( 'Icon Box Wrapper Size (px)', 'gravisain' ) }
+										label={ __( 'Icon Box Wrapper Size (px)', 'gravisain-blocks' ) }
 										value={ iconBoxSize }
 										onChange={ ( value ) => setAttributes( { iconBoxSize: value } ) }
 										min={ 32 }
 										max={ 120 }
 									/>
 									<RangeControl
-										label={ __( 'Icon Box Border Radius (px)', 'gravisain' ) }
+										label={ __( 'Icon Box Border Radius (px)', 'gravisain-blocks' ) }
 										value={ iconRadius }
 										onChange={ ( value ) => setAttributes( { iconRadius: value } ) }
 										min={ 0 }
@@ -135,7 +135,7 @@ export default function CardInspector( { attributes, setAttributes } ) {
 									/>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Icon Color', 'gravisain' ) }
+											{ __( 'Icon Color', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ iconColor }
@@ -144,7 +144,7 @@ export default function CardInspector( { attributes, setAttributes } ) {
 									</div>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Icon Background Color', 'gravisain' ) }
+											{ __( 'Icon Background Color', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ iconBackgroundColor }
@@ -153,9 +153,9 @@ export default function CardInspector( { attributes, setAttributes } ) {
 									</div>
 								</PanelBody>
 
-								<PanelBody title={ __( 'Typography & Colors', 'gravisain' ) }>
+								<PanelBody title={ __( 'Typography & Colors', 'gravisain-blocks' ) }>
 									<RangeControl
-										label={ __( 'Title Font Size (px)', 'gravisain' ) }
+										label={ __( 'Title Font Size (px)', 'gravisain-blocks' ) }
 										value={ titleFontSize }
 										onChange={ ( value ) => setAttributes( { titleFontSize: value } ) }
 										min={ 14 }
@@ -163,7 +163,7 @@ export default function CardInspector( { attributes, setAttributes } ) {
 									/>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Title Color', 'gravisain' ) }
+											{ __( 'Title Color', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ titleColor }
@@ -172,7 +172,7 @@ export default function CardInspector( { attributes, setAttributes } ) {
 									</div>
 
 									<RangeControl
-										label={ __( 'Description Font Size (px)', 'gravisain' ) }
+										label={ __( 'Description Font Size (px)', 'gravisain-blocks' ) }
 										value={ descriptionFontSize }
 										onChange={ ( value ) => setAttributes( { descriptionFontSize: value } ) }
 										min={ 12 }
@@ -180,7 +180,7 @@ export default function CardInspector( { attributes, setAttributes } ) {
 									/>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Description Color', 'gravisain' ) }
+											{ __( 'Description Color', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ descriptionColor }
@@ -194,10 +194,10 @@ export default function CardInspector( { attributes, setAttributes } ) {
 
 					if ( tab.name === 'advanced' ) {
 						return (
-							<PanelBody title={ __( 'Card Background, Border & Spacing', 'gravisain' ) }>
+							<PanelBody title={ __( 'Card Background, Border & Spacing', 'gravisain-blocks' ) }>
 								<div style={ { marginBottom: 16 } }>
 									<p style={ { marginBottom: 8, fontWeight: 600 } }>
-										{ __( 'Card Background Color', 'gravisain' ) }
+										{ __( 'Card Background Color', 'gravisain-blocks' ) }
 									</p>
 									<ColorControl
 										value={ cardBackgroundColor }
@@ -206,7 +206,7 @@ export default function CardInspector( { attributes, setAttributes } ) {
 								</div>
 								<div style={ { marginBottom: 16 } }>
 									<p style={ { marginBottom: 8, fontWeight: 600 } }>
-										{ __( 'Card Border Color', 'gravisain' ) }
+										{ __( 'Card Border Color', 'gravisain-blocks' ) }
 									</p>
 									<ColorControl
 										value={ cardBorderColor }
@@ -214,42 +214,42 @@ export default function CardInspector( { attributes, setAttributes } ) {
 									/>
 								</div>
 								<RangeControl
-									label={ __( 'Border Width (px)', 'gravisain' ) }
+									label={ __( 'Border Width (px)', 'gravisain-blocks' ) }
 									value={ cardBorderWidth }
 									onChange={ ( value ) => setAttributes( { cardBorderWidth: value } ) }
 									min={ 0 }
 									max={ 10 }
 								/>
 								<RangeControl
-									label={ __( 'Border Radius (px)', 'gravisain' ) }
+									label={ __( 'Border Radius (px)', 'gravisain-blocks' ) }
 									value={ cardBorderRadius }
 									onChange={ ( value ) => setAttributes( { cardBorderRadius: value } ) }
 									min={ 0 }
 									max={ 60 }
 								/>
 								<RangeControl
-									label={ __( 'Padding Top (px)', 'gravisain' ) }
+									label={ __( 'Padding Top (px)', 'gravisain-blocks' ) }
 									value={ cardPaddingTop }
 									onChange={ ( value ) => setAttributes( { cardPaddingTop: value } ) }
 									min={ 0 }
 									max={ 100 }
 								/>
 								<RangeControl
-									label={ __( 'Padding Bottom (px)', 'gravisain' ) }
+									label={ __( 'Padding Bottom (px)', 'gravisain-blocks' ) }
 									value={ cardPaddingBottom }
 									onChange={ ( value ) => setAttributes( { cardPaddingBottom: value } ) }
 									min={ 0 }
 									max={ 100 }
 								/>
 								<RangeControl
-									label={ __( 'Padding Left (px)', 'gravisain' ) }
+									label={ __( 'Padding Left (px)', 'gravisain-blocks' ) }
 									value={ cardPaddingLeft }
 									onChange={ ( value ) => setAttributes( { cardPaddingLeft: value } ) }
 									min={ 0 }
 									max={ 100 }
 								/>
 								<RangeControl
-									label={ __( 'Padding Right (px)', 'gravisain' ) }
+									label={ __( 'Padding Right (px)', 'gravisain-blocks' ) }
 									value={ cardPaddingRight }
 									onChange={ ( value ) => setAttributes( { cardPaddingRight: value } ) }
 									min={ 0 }

@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { BaseControl, Button, TextControl, TextareaControl, Popover, Tooltip } from '@wordpress/components';
+import { BaseControl, Button, TextControl, Popover, Tooltip } from '@wordpress/components';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { useState, useEffect } from '@wordpress/element';
 import { ICONS, getIconMarkup } from './icons';
@@ -9,7 +9,6 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 		if ( ! val || typeof val !== 'string' ) return 'icon';
 		const trimmed = val.trim();
 		if ( trimmed.startsWith( 'number:' ) || ( /^\d+$/.test( trimmed ) && ! ICONS[ trimmed ] ) ) return 'number';
-		if ( trimmed.startsWith( '<svg' ) || trimmed.startsWith( '<SVG' ) ) return 'svg';
 		if (
 			trimmed.startsWith( 'http://' ) ||
 			trimmed.startsWith( 'https://' ) ||
@@ -28,7 +27,6 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 	// Local cache for values when switching between tabs
 	const [ cached, setCached ] = useState( {
 		icon: detectTab( value ) === 'icon' ? value : '',
-		svg: detectTab( value ) === 'svg' ? value : '',
 		image: detectTab( value ) === 'image' ? value : '',
 		number: detectTab( value ) === 'number' ? value : 'number:1',
 	} );
@@ -66,11 +64,6 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 		setIsPopoverVisible( false );
 	};
 
-	const handleSvgChange = ( svgStr ) => {
-		setCached( ( prev ) => ( { ...prev, svg: svgStr } ) );
-		onChange( svgStr );
-	};
-
 	const handleImageSelect = ( media ) => {
 		const url = media?.url || '';
 		setCached( ( prev ) => ( { ...prev, image: url } ) );
@@ -87,12 +80,6 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 		key.toLowerCase().includes( search.toLowerCase() )
 	);
 
-	const isSvgVal = Boolean(
-		value &&
-		typeof value === 'string' &&
-		( value.trim().startsWith( '<svg' ) || value.trim().startsWith( '<SVG' ) )
-	);
-
 	const isImageVal = Boolean(
 		value &&
 		typeof value === 'string' &&
@@ -103,7 +90,7 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 
 	return (
 		<BaseControl label={ label } help={ help } className="gravisain-icon-picker-control" style={ { marginBottom: '20px' } }>
-			{ /* Subtabs: ICON | SVG | IMAGE | NUMBER */ }
+			{ /* Subtabs: ICON | IMAGE | NUMBER */ }
 			<div
 				className="gravisain-icon-subtabs"
 				style={ {
@@ -114,10 +101,9 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 				} }
 			>
 				{ [
-					{ id: 'icon', label: __( 'ICON', 'gravisain' ) },
-					{ id: 'svg', label: __( 'SVG', 'gravisain' ) },
-					{ id: 'image', label: __( 'IMAGE', 'gravisain' ) },
-					{ id: 'number', label: __( 'NUMBER', 'gravisain' ) },
+					{ id: 'icon', label: __( 'ICON', 'gravisain-blocks' ) },
+					{ id: 'image', label: __( 'IMAGE', 'gravisain-blocks' ) },
+					{ id: 'number', label: __( 'NUMBER', 'gravisain-blocks' ) },
 				].map( ( tab ) => {
 					const isActive = activeTab === tab.id;
 					return (
@@ -170,7 +156,7 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 								color: '#0f172a',
 								cursor: 'pointer',
 							} }
-							title={ __( 'Choose Icon', 'gravisain' ) }
+							title={ __( 'Choose Icon', 'gravisain-blocks' ) }
 						>
 							{ value && currentMarkup && currentMarkup.type === 'svg' ? (
 								<div
@@ -195,7 +181,7 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 								onClick={ () => setIsPopoverVisible( ! isPopoverVisible ) }
 								style={ { alignSelf: 'flex-start', fontSize: '12px', fontWeight: 500 } }
 							>
-								{ value ? __( 'Change Icon', 'gravisain' ) : __( 'Select Icon', 'gravisain' ) }
+								{ value ? __( 'Change Icon', 'gravisain-blocks' ) : __( 'Select Icon', 'gravisain-blocks' ) }
 							</Button>
 							{ value && (
 								<span style={ { fontSize: '11px', color: '#64748b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }>
@@ -206,7 +192,7 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 
 						{ value && (
 							<Button isDestructive isLink onClick={ handleClear } style={ { fontSize: '12px' } }>
-								{ __( 'Remove', 'gravisain' ) }
+								{ __( 'Remove', 'gravisain-blocks' ) }
 							</Button>
 						) }
 					</div>
@@ -219,10 +205,10 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 							style={ { padding: '16px', width: '300px' } }
 						>
 							<TextControl
-								label={ __( 'Search Icon', 'gravisain' ) }
+								label={ __( 'Search Icon', 'gravisain-blocks' ) }
 								value={ search }
 								onChange={ ( val ) => setSearch( val ) }
-								placeholder={ __( 'Search icons...', 'gravisain' ) }
+								placeholder={ __( 'Search icons...', 'gravisain-blocks' ) }
 							/>
 
 							<div
@@ -269,7 +255,7 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 									) )
 								) : (
 									<p style={ { gridColumn: '1 / -1', textAlign: 'center', margin: '12px 0', color: '#64748b', fontSize: '12px' } }>
-										{ __( 'No icons found.', 'gravisain' ) }
+										{ __( 'No icons found.', 'gravisain-blocks' ) }
 									</p>
 								) }
 							</div>
@@ -278,54 +264,13 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 				</div>
 			) }
 
-			{ /* TAB 2: RAW SVG */ }
-			{ activeTab === 'svg' && (
-				<div className="gravisain-subtab-svg-content">
-					<TextareaControl
-						label={ __( 'SVG Code', 'gravisain' ) }
-						value={ isSvgVal ? value : '' }
-						onChange={ handleSvgChange }
-						rows={ 4 }
-						placeholder={ '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor">...</svg>' }
-						help={ __( 'Paste raw SVG code here.', 'gravisain' ) }
-					/>
-
-					{ isSvgVal && (
-						<div style={ { marginTop: '10px', display: 'flex', alignItems: 'center', gap: '12px' } }>
-							<div
-								style={ {
-									width: '42px',
-									height: '42px',
-									border: '1px solid #cbd5e1',
-									borderRadius: '6px',
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'center',
-									padding: '6px',
-									background: '#f8fafc',
-									overflow: 'hidden',
-								} }
-							>
-								<div
-									dangerouslySetInnerHTML={ { __html: value } }
-									style={ { width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center' } }
-								/>
-							</div>
-							<Button isDestructive isLink onClick={ handleClear } style={ { fontSize: '12px' } }>
-								{ __( 'Clear SVG', 'gravisain' ) }
-							</Button>
-						</div>
-					) }
-				</div>
-			) }
-
-			{ /* TAB 3: IMAGE */ }
+			{ /* TAB 2: IMAGE */ }
 			{ activeTab === 'image' && (
 				<div className="gravisain-subtab-image-content">
 					<MediaUploadCheck>
 						<MediaUpload
 							onSelect={ handleImageSelect }
-							allowedTypes={ [ 'image' ] }
+							allowedTypes={ [ 'image', 'image/svg+xml' ] }
 							render={ ( { open } ) => (
 								<>
 									{ isImageVal ? (
@@ -350,10 +295,10 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 												/>
 											</div>
 											<Button variant="secondary" isSmall onClick={ open } style={ { fontSize: '12px' } }>
-												{ __( 'Replace Image', 'gravisain' ) }
+												{ __( 'Replace Image', 'gravisain-blocks' ) }
 											</Button>
 											<Button isDestructive isLink onClick={ handleClear } style={ { marginLeft: 'auto', fontSize: '12px' } }>
-												{ __( 'Remove', 'gravisain' ) }
+												{ __( 'Remove', 'gravisain-blocks' ) }
 											</Button>
 										</div>
 									) : (
@@ -363,7 +308,7 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 											style={ { width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '6px' } }
 										>
 											<span className="dashicons dashicons-upload" style={ { fontSize: '16px', lineHeight: '16px', width: '16px', height: '16px' } }></span>
-											{ __( 'Select / Upload Image', 'gravisain' ) }
+											{ __( 'Select / Upload Image', 'gravisain-blocks' ) }
 										</Button>
 									) }
 								</>
@@ -393,7 +338,7 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 								fontSize: '18px',
 								userSelect: 'none',
 							} }
-							title={ __( 'Number Preview', 'gravisain' ) }
+							title={ __( 'Number Preview', 'gravisain-blocks' ) }
 						>
 							{ ( typeof value === 'string' ? value.replace( /^number:/, '' ) : '' ) || '—' }
 						</div>
@@ -406,21 +351,21 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 										: ( /^\d+$/.test( value ) && ! ICONS[ value ] ? value : ( value ? value.replace( /^number:/, '' ) : '' ) )
 								}
 								onChange={ ( val ) => handleNumberChange( val ) }
-								placeholder={ __( 'e.g. 1, 2, 01, A...', 'gravisain' ) }
+								placeholder={ __( 'e.g. 1, 2, 01, A...', 'gravisain-blocks' ) }
 								style={ { margin: 0 } }
 							/>
 						</div>
 
 						{ value && (
 							<Button isDestructive isLink onClick={ handleClear } style={ { fontSize: '12px', padding: 0 } }>
-								{ __( 'Remove', 'gravisain' ) }
+								{ __( 'Remove', 'gravisain-blocks' ) }
 							</Button>
 						) }
 					</div>
 
 					<div style={ { marginTop: '8px' } }>
 						<span style={ { fontSize: '11px', color: '#64748b', fontWeight: 500, display: 'block', marginBottom: '6px' } }>
-							{ __( 'Quick Presets:', 'gravisain' ) }
+							{ __( 'Quick Presets:', 'gravisain-blocks' ) }
 						</span>
 						<div style={ { display: 'flex', flexWrap: 'wrap', gap: '6px' } }>
 							{ [ '1', '2', '3', '4', '5', '6', '01', '02', '03' ].map( ( preset ) => {
@@ -453,7 +398,6 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 			<style>{ `
 				.gravisain-icon-picker-button svg,
 				.gravisain-icon-item svg,
-				.gravisain-subtab-svg-content svg,
 				.gravisain-subtab-number-content svg {
 					width: 100% !important;
 					height: 100% !important;
@@ -469,8 +413,7 @@ export default function IconPickerControl( { label, value, onChange, help } ) {
 				   because the icon grid is rendered inside a <Popover> portal that relocates these
 				   elements to document.body, where that ancestor does not exist. */
 				.gravisain-icon-picker-button svg[stroke],
-				.gravisain-icon-item svg[stroke],
-				.gravisain-subtab-svg-content svg[stroke] {
+				.gravisain-icon-item svg[stroke] {
 					fill: none !important;
 				}
 				.gravisain-icon-picker-button svg text,

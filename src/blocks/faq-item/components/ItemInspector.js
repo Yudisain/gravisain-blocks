@@ -45,17 +45,17 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 				tabs={ [
 					{
 						name: 'general',
-						title: __( 'General', 'gravisain' ),
+						title: __( 'General', 'gravisain-blocks' ),
 						className: 'gravisain-tab-general',
 					},
 					{
 						name: 'style',
-						title: __( 'Style', 'gravisain' ),
+						title: __( 'Style', 'gravisain-blocks' ),
 						className: 'gravisain-tab-style',
 					},
 					{
 						name: 'advanced',
-						title: __( 'Advanced', 'gravisain' ),
+						title: __( 'Advanced', 'gravisain-blocks' ),
 						className: 'gravisain-tab-advanced',
 					},
 				] }
@@ -63,24 +63,24 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 				{ ( tab ) => {
 					if ( tab.name === 'general' ) {
 						return (
-							<PanelBody title={ __( 'FAQ State & Icon', 'gravisain' ) }>
+							<PanelBody title={ __( 'FAQ State & Icon', 'gravisain-blocks' ) }>
 								<ToggleControl
-									label={ __( 'Open by default', 'gravisain' ) }
+									label={ __( 'Open by default', 'gravisain-blocks' ) }
 									checked={ isOpen }
 									onChange={ ( value ) => setAttributes( { isOpen: value } ) }
 								/>
 								<SelectControl
-									label={ __( 'Accordion Icon Type', 'gravisain' ) }
+									label={ __( 'Accordion Icon Type', 'gravisain-blocks' ) }
 									value={ iconType || 'inherit' }
 									options={ [
-										{ label: __( 'Inherit from Accordion (Default)', 'gravisain' ), value: 'inherit' },
-										{ label: __( 'Arrow Down / Up', 'gravisain' ), value: 'arrow-down-alt2' },
-										{ label: __( 'Chevron Down / Up', 'gravisain' ), value: 'arrow-down' },
-										{ label: __( 'Plus / Minus (+ / -)', 'gravisain' ), value: 'plus' },
-										{ label: __( 'None (No Icon)', 'gravisain' ), value: 'none' },
+										{ label: __( 'Inherit from Accordion (Default)', 'gravisain-blocks' ), value: 'inherit' },
+										{ label: __( 'Arrow Down / Up', 'gravisain-blocks' ), value: 'arrow-down-alt2' },
+										{ label: __( 'Chevron Down / Up', 'gravisain-blocks' ), value: 'arrow-down' },
+										{ label: __( 'Plus / Minus (+ / -)', 'gravisain-blocks' ), value: 'plus' },
+										{ label: __( 'None (No Icon)', 'gravisain-blocks' ), value: 'none' },
 									] }
 									onChange={ ( value ) => setAttributes( { iconType: value } ) }
-									help={ __( 'Leave as "Inherit" to follow the global icon chosen on the parent FAQ Accordion container.', 'gravisain' ) }
+									help={ __( 'Leave as "Inherit" to follow the global icon chosen on the parent FAQ Accordion container.', 'gravisain-blocks' ) }
 								/>
 							</PanelBody>
 						);
@@ -89,9 +89,9 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 					if ( tab.name === 'style' ) {
 						return (
 							<>
-								<PanelBody title={ __( 'Question Header Styling', 'gravisain' ) }>
+								<PanelBody title={ __( 'Question Header Styling', 'gravisain-blocks' ) }>
 									<RangeControl
-										label={ __( 'Question Font Size (px)', 'gravisain' ) }
+										label={ __( 'Question Font Size (px)', 'gravisain-blocks' ) }
 										value={ questionFontSize }
 										onChange={ ( value ) => setAttributes( { questionFontSize: value } ) }
 										min={ 14 }
@@ -99,7 +99,7 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 									/>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Question Color (Closed / Normal)', 'gravisain' ) }
+											{ __( 'Question Color (Closed / Normal)', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ questionColorNormal }
@@ -108,7 +108,7 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 									</div>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Question Color (Open / Active)', 'gravisain' ) }
+											{ __( 'Question Color (Open / Active)', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ questionColorActive }
@@ -117,7 +117,7 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 									</div>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Header Background (Closed)', 'gravisain' ) }
+											{ __( 'Header Background (Closed)', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ headerBgNormal }
@@ -126,7 +126,7 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 									</div>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Header Background (Open)', 'gravisain' ) }
+											{ __( 'Header Background (Open)', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ headerBgActive }
@@ -135,19 +135,19 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 									</div>
 								</PanelBody>
 
-								<PanelBody title={ __( 'Toggle Icon & Answer Styling', 'gravisain' ) }>
+								<PanelBody title={ __( 'Toggle Icon & Answer Styling', 'gravisain-blocks' ) }>
 									<RangeControl
-										label={ __( 'Icon Size (px)', 'gravisain' ) }
+										label={ __( 'Icon Size (px)', 'gravisain-blocks' ) }
 										value={ iconSize }
 										onChange={ ( value ) => setAttributes( { iconSize: value } ) }
 										min={ 14 }
 										max={ 48 }
 										allowReset={ true }
-										help={ __( 'Leave empty or click reset to inherit Global Icon Size from Accordion.', 'gravisain' ) }
+										help={ __( 'Leave empty or click reset to inherit Global Icon Size from Accordion.', 'gravisain-blocks' ) }
 									/>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Icon Color (Closed)', 'gravisain' ) }
+											{ __( 'Icon Color (Closed)', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ iconColorNormal }
@@ -157,7 +157,7 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 									</div>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Icon Color (Open)', 'gravisain' ) }
+											{ __( 'Icon Color (Open)', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ iconColorActive }
@@ -167,7 +167,7 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 									</div>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Answer Content Background', 'gravisain' ) }
+											{ __( 'Answer Content Background', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ contentBg }
@@ -182,15 +182,15 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 					if ( tab.name === 'advanced' ) {
 						return (
 							<>
-								<PanelBody title={ __( 'Card Border & Shadow', 'gravisain' ) }>
+								<PanelBody title={ __( 'Card Border & Shadow', 'gravisain-blocks' ) }>
 									<ToggleControl
-										label={ __( 'Enable Card Shadow (Open state)', 'gravisain' ) }
+										label={ __( 'Enable Card Shadow (Open state)', 'gravisain-blocks' ) }
 										checked={ boxShadow }
 										onChange={ ( value ) => setAttributes( { boxShadow: value } ) }
 									/>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Border Color (Closed)', 'gravisain' ) }
+											{ __( 'Border Color (Closed)', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ borderColorNormal }
@@ -199,7 +199,7 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 									</div>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Border Color (Open)', 'gravisain' ) }
+											{ __( 'Border Color (Open)', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ borderColorActive }
@@ -207,14 +207,14 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 										/>
 									</div>
 									<RangeControl
-										label={ __( 'Border Width (px)', 'gravisain' ) }
+										label={ __( 'Border Width (px)', 'gravisain-blocks' ) }
 										value={ borderWidth }
 										onChange={ ( value ) => setAttributes( { borderWidth: value } ) }
 										min={ 0 }
 										max={ 6 }
 									/>
 									<RangeControl
-										label={ __( 'Border Radius (px)', 'gravisain' ) }
+										label={ __( 'Border Radius (px)', 'gravisain-blocks' ) }
 										value={ borderRadius }
 										onChange={ ( value ) => setAttributes( { borderRadius: value } ) }
 										min={ 0 }
@@ -222,33 +222,33 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 									/>
 								</PanelBody>
 
-								<PanelBody title={ __( 'Custom Padding', 'gravisain' ) }>
+								<PanelBody title={ __( 'Custom Padding', 'gravisain-blocks' ) }>
 									<p style={ { fontWeight: 600, marginBottom: 8 } }>
-										{ __( 'Header Padding', 'gravisain' ) }
+										{ __( 'Header Padding', 'gravisain-blocks' ) }
 									</p>
 									<RangeControl
-										label={ __( 'Header Padding Top (px)', 'gravisain' ) }
+										label={ __( 'Header Padding Top (px)', 'gravisain-blocks' ) }
 										value={ headerPaddingTop }
 										onChange={ ( value ) => setAttributes( { headerPaddingTop: value } ) }
 										min={ 0 }
 										max={ 80 }
 									/>
 									<RangeControl
-										label={ __( 'Header Padding Bottom (px)', 'gravisain' ) }
+										label={ __( 'Header Padding Bottom (px)', 'gravisain-blocks' ) }
 										value={ headerPaddingBottom }
 										onChange={ ( value ) => setAttributes( { headerPaddingBottom: value } ) }
 										min={ 0 }
 										max={ 80 }
 									/>
 									<RangeControl
-										label={ __( 'Header Padding Left (px)', 'gravisain' ) }
+										label={ __( 'Header Padding Left (px)', 'gravisain-blocks' ) }
 										value={ headerPaddingLeft }
 										onChange={ ( value ) => setAttributes( { headerPaddingLeft: value } ) }
 										min={ 0 }
 										max={ 80 }
 									/>
 									<RangeControl
-										label={ __( 'Header Padding Right (px)', 'gravisain' ) }
+										label={ __( 'Header Padding Right (px)', 'gravisain-blocks' ) }
 										value={ headerPaddingRight }
 										onChange={ ( value ) => setAttributes( { headerPaddingRight: value } ) }
 										min={ 0 }
@@ -256,31 +256,31 @@ export default function ItemInspector( { attributes, setAttributes } ) {
 									/>
 
 									<p style={ { fontWeight: 600, margin: '16px 0 8px 0' } }>
-										{ __( 'Answer Content Padding', 'gravisain' ) }
+										{ __( 'Answer Content Padding', 'gravisain-blocks' ) }
 									</p>
 									<RangeControl
-										label={ __( 'Content Padding Top (px)', 'gravisain' ) }
+										label={ __( 'Content Padding Top (px)', 'gravisain-blocks' ) }
 										value={ contentPaddingTop }
 										onChange={ ( value ) => setAttributes( { contentPaddingTop: value } ) }
 										min={ 0 }
 										max={ 80 }
 									/>
 									<RangeControl
-										label={ __( 'Content Padding Bottom (px)', 'gravisain' ) }
+										label={ __( 'Content Padding Bottom (px)', 'gravisain-blocks' ) }
 										value={ contentPaddingBottom }
 										onChange={ ( value ) => setAttributes( { contentPaddingBottom: value } ) }
 										min={ 0 }
 										max={ 80 }
 									/>
 									<RangeControl
-										label={ __( 'Content Padding Left (px)', 'gravisain' ) }
+										label={ __( 'Content Padding Left (px)', 'gravisain-blocks' ) }
 										value={ contentPaddingLeft }
 										onChange={ ( value ) => setAttributes( { contentPaddingLeft: value } ) }
 										min={ 0 }
 										max={ 80 }
 									/>
 									<RangeControl
-										label={ __( 'Content Padding Right (px)', 'gravisain' ) }
+										label={ __( 'Content Padding Right (px)', 'gravisain-blocks' ) }
 										value={ contentPaddingRight }
 										onChange={ ( value ) => setAttributes( { contentPaddingRight: value } ) }
 										min={ 0 }

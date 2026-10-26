@@ -35,16 +35,16 @@ export default function Inspector( { attributes, setAttributes } ) {
 				className="gravisain-inspector-tabs"
 				activeClass="active-tab"
 				tabs={ [
-					{ name: 'general', title: __( 'General', 'gravisain' ), className: 'gravisain-tab-general' },
-					{ name: 'style', title: __( 'Style', 'gravisain' ), className: 'gravisain-tab-style' },
-					{ name: 'advanced', title: __( 'Advanced', 'gravisain' ), className: 'gravisain-tab-advanced' },
+					{ name: 'general', title: __( 'General', 'gravisain-blocks' ), className: 'gravisain-tab-general' },
+					{ name: 'style', title: __( 'Style', 'gravisain-blocks' ), className: 'gravisain-tab-style' },
+					{ name: 'advanced', title: __( 'Advanced', 'gravisain-blocks' ), className: 'gravisain-tab-advanced' },
 				] }
 			>
 				{ ( tab ) => (
 					<div className="gravisain-tab-content">
 						{ tab.name === 'general' && (
 							<>
-								<PanelBody title={ __( 'Image Settings', 'gravisain' ) } initialOpen={ true }>
+								<PanelBody title={ __( 'Image Settings', 'gravisain-blocks' ) } initialOpen={ true }>
 									<div style={ { marginBottom: '16px' } }>
 										<MediaUploadCheck>
 											<MediaUpload
@@ -61,7 +61,7 @@ export default function Inspector( { attributes, setAttributes } ) {
 																		onClick={ open }
 																		style={ { flex: 1, justifyContent: 'center' } }
 																	>
-																		{ __( 'Replace Image', 'gravisain' ) }
+																		{ __( 'Replace Image', 'gravisain-blocks' ) }
 																	</Button>
 																	<Button
 																		isDestructive
@@ -69,12 +69,12 @@ export default function Inspector( { attributes, setAttributes } ) {
 																		onClick={ () => setAttributes( { id: 0, url: '', alt: '', focalPoint: { x: 0.5, y: 0.5 } } ) }
 																		style={ { justifyContent: 'center' } }
 																	>
-																		{ __( 'Remove', 'gravisain' ) }
+																		{ __( 'Remove', 'gravisain-blocks' ) }
 																	</Button>
 																</div>
 																<div className="gravisain-focal-point-wrapper" style={ { marginBottom: '20px' } }>
 																	<FocalPointPicker
-																		label={ __( 'Focal Point (Click & Drag)', 'gravisain' ) }
+																		label={ __( 'Focal Point (Click & Drag)', 'gravisain-blocks' ) }
 																		url={ url }
 																		value={ focalPoint }
 																		onChange={ ( newFocalPoint ) => setAttributes( { focalPoint: newFocalPoint } ) }
@@ -87,7 +87,7 @@ export default function Inspector( { attributes, setAttributes } ) {
 																onClick={ open }
 																style={ { width: '100%', justifyContent: 'center' } }
 															>
-																{ __( 'Select Image', 'gravisain' ) }
+																{ __( 'Select Image', 'gravisain-blocks' ) }
 															</Button>
 														) }
 													</>
@@ -97,10 +97,10 @@ export default function Inspector( { attributes, setAttributes } ) {
 									</div>
 
 									<TextControl
-										label={ __( 'Alt Text (Alternative Text)', 'gravisain' ) }
+										label={ __( 'Alt Text (Alternative Text)', 'gravisain-blocks' ) }
 										value={ alt }
 										onChange={ ( val ) => setAttributes( { alt: val } ) }
-										help={ __( 'Describe the purpose of the image for screen readers and SEO.', 'gravisain' ) }
+										help={ __( 'Describe the purpose of the image for screen readers and SEO.', 'gravisain-blocks' ) }
 									/>
 
 									<ResponsiveTabControl>
@@ -108,13 +108,13 @@ export default function Inspector( { attributes, setAttributes } ) {
 											if ( device === 'tablet' ) {
 												return (
 													<SelectControl
-														label={ __( 'Tablet Alignment', 'gravisain' ) }
+														label={ __( 'Tablet Alignment', 'gravisain-blocks' ) }
 														value={ alignmentTablet }
 														options={ [
-															{ label: __( 'Inherit', 'gravisain' ), value: '' },
-															{ label: __( 'Left', 'gravisain' ), value: 'left' },
-															{ label: __( 'Center', 'gravisain' ), value: 'center' },
-															{ label: __( 'Right', 'gravisain' ), value: 'right' },
+															{ label: __( 'Inherit', 'gravisain-blocks' ), value: '' },
+															{ label: __( 'Left', 'gravisain-blocks' ), value: 'left' },
+															{ label: __( 'Center', 'gravisain-blocks' ), value: 'center' },
+															{ label: __( 'Right', 'gravisain-blocks' ), value: 'right' },
 														] }
 														onChange={ ( val ) => setAttributes( { alignmentTablet: val } ) }
 													/>
@@ -123,13 +123,13 @@ export default function Inspector( { attributes, setAttributes } ) {
 											if ( device === 'mobile' ) {
 												return (
 													<SelectControl
-														label={ __( 'Mobile Alignment', 'gravisain' ) }
+														label={ __( 'Mobile Alignment', 'gravisain-blocks' ) }
 														value={ alignmentMobile }
 														options={ [
-															{ label: __( 'Inherit', 'gravisain' ), value: '' },
-															{ label: __( 'Left', 'gravisain' ), value: 'left' },
-															{ label: __( 'Center', 'gravisain' ), value: 'center' },
-															{ label: __( 'Right', 'gravisain' ), value: 'right' },
+															{ label: __( 'Inherit', 'gravisain-blocks' ), value: '' },
+															{ label: __( 'Left', 'gravisain-blocks' ), value: 'left' },
+															{ label: __( 'Center', 'gravisain-blocks' ), value: 'center' },
+															{ label: __( 'Right', 'gravisain-blocks' ), value: 'right' },
 														] }
 														onChange={ ( val ) => setAttributes( { alignmentMobile: val } ) }
 													/>
@@ -137,12 +137,12 @@ export default function Inspector( { attributes, setAttributes } ) {
 											}
 											return (
 												<SelectControl
-													label={ __( 'Desktop Alignment', 'gravisain' ) }
+													label={ __( 'Desktop Alignment', 'gravisain-blocks' ) }
 													value={ alignment }
 													options={ [
-														{ label: __( 'Left', 'gravisain' ), value: 'left' },
-														{ label: __( 'Center', 'gravisain' ), value: 'center' },
-														{ label: __( 'Right', 'gravisain' ), value: 'right' },
+														{ label: __( 'Left', 'gravisain-blocks' ), value: 'left' },
+														{ label: __( 'Center', 'gravisain-blocks' ), value: 'center' },
+														{ label: __( 'Right', 'gravisain-blocks' ), value: 'right' },
 													] }
 													onChange={ ( val ) => setAttributes( { alignment: val } ) }
 												/>
@@ -151,19 +151,19 @@ export default function Inspector( { attributes, setAttributes } ) {
 									</ResponsiveTabControl>
 								</PanelBody>
 
-								<PanelBody title={ __( 'Link Settings', 'gravisain' ) } initialOpen={ false }>
+								<PanelBody title={ __( 'Link Settings', 'gravisain-blocks' ) } initialOpen={ false }>
 									<TextControl
-										label={ __( 'Link URL', 'gravisain' ) }
+										label={ __( 'Link URL', 'gravisain-blocks' ) }
 										value={ link }
 										onChange={ ( val ) => setAttributes( { link: val } ) }
 										placeholder="https://"
 									/>
 									<SelectControl
-										label={ __( 'Link Target', 'gravisain' ) }
+										label={ __( 'Link Target', 'gravisain-blocks' ) }
 										value={ linkTarget }
 										options={ [
-											{ label: __( 'Same Window', 'gravisain' ), value: '_self' },
-											{ label: __( 'New Tab', 'gravisain' ), value: '_blank' },
+											{ label: __( 'Same Window', 'gravisain-blocks' ), value: '_self' },
+											{ label: __( 'New Tab', 'gravisain-blocks' ), value: '_blank' },
 										] }
 										onChange={ ( val ) => setAttributes( { linkTarget: val } ) }
 									/>
@@ -173,35 +173,35 @@ export default function Inspector( { attributes, setAttributes } ) {
 
 						{ tab.name === 'style' && (
 							<>
-								<PanelBody title={ __( 'Aspect Ratio & Fit', 'gravisain' ) } initialOpen={ true }>
+								<PanelBody title={ __( 'Aspect Ratio & Fit', 'gravisain-blocks' ) } initialOpen={ true }>
 									<SelectControl
-										label={ __( 'Aspect Ratio', 'gravisain' ) }
+										label={ __( 'Aspect Ratio', 'gravisain-blocks' ) }
 										value={ aspectRatio }
 										options={ [
-											{ label: __( 'Auto (Original)', 'gravisain' ), value: 'auto' },
-											{ label: __( '16:9 (Landscape)', 'gravisain' ), value: '16/9' },
-											{ label: __( '4:3 (Standard)', 'gravisain' ), value: '4/3' },
-											{ label: __( '1:1 (Square)', 'gravisain' ), value: '1/1' },
-											{ label: __( '3:4 (Portrait)', 'gravisain' ), value: '3/4' },
+											{ label: __( 'Auto (Original)', 'gravisain-blocks' ), value: 'auto' },
+											{ label: __( '16:9 (Landscape)', 'gravisain-blocks' ), value: '16/9' },
+											{ label: __( '4:3 (Standard)', 'gravisain-blocks' ), value: '4/3' },
+											{ label: __( '1:1 (Square)', 'gravisain-blocks' ), value: '1/1' },
+											{ label: __( '3:4 (Portrait)', 'gravisain-blocks' ), value: '3/4' },
 										] }
 										onChange={ ( val ) => setAttributes( { aspectRatio: val } ) }
 									/>
 									{ aspectRatio !== 'auto' && (
 										<>
 											<SelectControl
-												label={ __( 'Object Fit', 'gravisain' ) }
+												label={ __( 'Object Fit', 'gravisain-blocks' ) }
 												value={ objectFit }
 												options={ [
-													{ label: __( 'Cover', 'gravisain' ), value: 'cover' },
-													{ label: __( 'Contain', 'gravisain' ), value: 'contain' },
-													{ label: __( 'Fill', 'gravisain' ), value: 'fill' },
+													{ label: __( 'Cover', 'gravisain-blocks' ), value: 'cover' },
+													{ label: __( 'Contain', 'gravisain-blocks' ), value: 'contain' },
+													{ label: __( 'Fill', 'gravisain-blocks' ), value: 'fill' },
 												] }
 												onChange={ ( val ) => setAttributes( { objectFit: val } ) }
 											/>
 											{ url && objectFit === 'cover' && (
 												<div style={ { marginTop: '16px' } }>
 													<FocalPointPicker
-														label={ __( 'Focal Point (Cropped Focus)', 'gravisain' ) }
+														label={ __( 'Focal Point (Cropped Focus)', 'gravisain-blocks' ) }
 														url={ url }
 														value={ focalPoint }
 														onChange={ ( newFocalPoint ) => setAttributes( { focalPoint: newFocalPoint } ) }
@@ -212,16 +212,16 @@ export default function Inspector( { attributes, setAttributes } ) {
 									) }
 								</PanelBody>
 
-								<PanelBody title={ __( 'Borders & Shadow', 'gravisain' ) } initialOpen={ false }>
+								<PanelBody title={ __( 'Borders & Shadow', 'gravisain-blocks' ) } initialOpen={ false }>
 									<RangeControl
-										label={ __( 'Border Radius (px)', 'gravisain' ) }
+										label={ __( 'Border Radius (px)', 'gravisain-blocks' ) }
 										value={ borderRadius }
 										onChange={ ( val ) => setAttributes( { borderRadius: val } ) }
 										min={ 0 }
 										max={ 100 }
 									/>
 									<RangeControl
-										label={ __( 'Border Width (px)', 'gravisain' ) }
+										label={ __( 'Border Width (px)', 'gravisain-blocks' ) }
 										value={ borderWidth }
 										onChange={ ( val ) => setAttributes( { borderWidth: val } ) }
 										min={ 0 }
@@ -230,17 +230,17 @@ export default function Inspector( { attributes, setAttributes } ) {
 									{ borderWidth > 0 && (
 										<>
 											<SelectControl
-												label={ __( 'Border Style', 'gravisain' ) }
+												label={ __( 'Border Style', 'gravisain-blocks' ) }
 												value={ borderStyle }
 												options={ [
-													{ label: __( 'Solid', 'gravisain' ), value: 'solid' },
-													{ label: __( 'Dashed', 'gravisain' ), value: 'dashed' },
-													{ label: __( 'Dotted', 'gravisain' ), value: 'dotted' },
+													{ label: __( 'Solid', 'gravisain-blocks' ), value: 'solid' },
+													{ label: __( 'Dashed', 'gravisain-blocks' ), value: 'dashed' },
+													{ label: __( 'Dotted', 'gravisain-blocks' ), value: 'dotted' },
 												] }
 												onChange={ ( val ) => setAttributes( { borderStyle: val } ) }
 											/>
 											<ColorControl
-												label={ __( 'Border Color', 'gravisain' ) }
+												label={ __( 'Border Color', 'gravisain-blocks' ) }
 												value={ borderColor }
 												onChange={ ( val ) => setAttributes( { borderColor: val } ) }
 												disableGradient={ true }
@@ -248,26 +248,26 @@ export default function Inspector( { attributes, setAttributes } ) {
 										</>
 									) }
 									<SelectControl
-										label={ __( 'Box Shadow', 'gravisain' ) }
+										label={ __( 'Box Shadow', 'gravisain-blocks' ) }
 										value={ boxShadow }
 										options={ [
-											{ label: __( 'None', 'gravisain' ), value: 'none' },
-											{ label: __( 'Small', 'gravisain' ), value: '0 2px 4px rgba(0,0,0,0.1)' },
-											{ label: __( 'Medium', 'gravisain' ), value: '0 4px 12px rgba(0,0,0,0.15)' },
-											{ label: __( 'Large', 'gravisain' ), value: '0 8px 24px rgba(0,0,0,0.2)' },
+											{ label: __( 'None', 'gravisain-blocks' ), value: 'none' },
+											{ label: __( 'Small', 'gravisain-blocks' ), value: '0 2px 4px rgba(0,0,0,0.1)' },
+											{ label: __( 'Medium', 'gravisain-blocks' ), value: '0 4px 12px rgba(0,0,0,0.15)' },
+											{ label: __( 'Large', 'gravisain-blocks' ), value: '0 8px 24px rgba(0,0,0,0.2)' },
 										] }
 										onChange={ ( val ) => setAttributes( { boxShadow: val } ) }
 									/>
 								</PanelBody>
 
-								<PanelBody title={ __( 'Color Overlay', 'gravisain' ) } initialOpen={ false }>
+								<PanelBody title={ __( 'Color Overlay', 'gravisain-blocks' ) } initialOpen={ false }>
 									<ColorControl
-										label={ __( 'Overlay Color', 'gravisain' ) }
+										label={ __( 'Overlay Color', 'gravisain-blocks' ) }
 										value={ overlayColor }
 										onChange={ ( val ) => setAttributes( { overlayColor: val } ) }
 									/>
 									<RangeControl
-										label={ __( 'Overlay Opacity (%)', 'gravisain' ) }
+										label={ __( 'Overlay Opacity (%)', 'gravisain-blocks' ) }
 										value={ overlayOpacity }
 										onChange={ ( val ) => setAttributes( { overlayOpacity: val } ) }
 										min={ 0 }
@@ -278,22 +278,22 @@ export default function Inspector( { attributes, setAttributes } ) {
 						) }
 
 						{ tab.name === 'advanced' && (
-							<PanelBody title={ __( 'Advanced Settings', 'gravisain' ) } initialOpen={ true }>
+							<PanelBody title={ __( 'Advanced Settings', 'gravisain-blocks' ) } initialOpen={ true }>
 								<TextControl
-									label={ __( 'HTML Anchor', 'gravisain' ) }
-									help={ __( 'Enter a word or two — without spaces — to make a unique web address just for this block, called an "anchor". Then, you\'ll be able to link directly to this section of your page.', 'gravisain' ) }
+									label={ __( 'HTML Anchor', 'gravisain-blocks' ) }
+									help={ __( 'Enter a word or two — without spaces — to make a unique web address just for this block, called an "anchor". Then, you\'ll be able to link directly to this section of your page.', 'gravisain-blocks' ) }
 									value={ anchor }
 									onChange={ ( val ) => setAttributes( { anchor: val } ) }
 								/>
 								<TextControl
-									label={ __( 'Additional CSS class(es)', 'gravisain' ) }
-									help={ __( 'Separate multiple classes with spaces.', 'gravisain' ) }
+									label={ __( 'Additional CSS class(es)', 'gravisain-blocks' ) }
+									help={ __( 'Separate multiple classes with spaces.', 'gravisain-blocks' ) }
 									value={ customClassName }
 									onChange={ ( val ) => setAttributes( { customClassName: val } ) }
 								/>
 								<TextareaControl
-									label={ __( 'Additional CSS', 'gravisain' ) }
-									help={ __( 'Add your own CSS to customize the appearance of this block. You do not need to include a CSS selector, just add the property and value, e.g. color: red;.', 'gravisain' ) }
+									label={ __( 'Additional CSS', 'gravisain-blocks' ) }
+									help={ __( 'Add your own CSS to customize the appearance of this block. You do not need to include a CSS selector, just add the property and value, e.g. color: red;.', 'gravisain-blocks' ) }
 									value={ customCSS }
 									onChange={ ( val ) => setAttributes( { customCSS: val } ) }
 									rows={ 4 }

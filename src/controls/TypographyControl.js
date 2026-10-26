@@ -4,7 +4,7 @@ import { BaseControl, ComboboxControl, SelectControl, RangeControl } from '@word
 import googleFonts from './google-fonts.json';
 
 const systemFonts = [
-	{ label: __('Default / Inherit', 'gravisain'), value: '' },
+	{ label: __('Default / Inherit', 'gravisain-blocks'), value: '' },
 	{ label: 'System Stack (-apple-system, Segoe UI)', value: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' },
 	{ label: 'Arial, sans-serif', value: 'Arial, sans-serif' },
 	{ label: 'Helvetica, sans-serif', value: 'Helvetica, sans-serif' },
@@ -70,17 +70,41 @@ const otherGoogleFontOptions = Object.keys(googleFonts)
 
 const allFontOptions = [...systemFonts, ...popularGoogleFontOptions, ...otherGoogleFontOptions];
 
+const ResetIcon = () => (
+	<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+		<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+		<path d="M3 3v5h5" />
+	</svg>
+);
+
 export default function TypographyControl({ label, value = {}, onChange }) {
 	const { fontFamily, fontSize, fontStyle, fontWeight, lineHeight, letterSpacing } = value;
 	const currentFontStyle = fontStyle || value?.style || 'normal';
 	const [ filterValue, setFilterValue ] = useState( '' );
 
+	const hasActiveValues = Boolean(
+		fontFamily ||
+		( fontSize !== undefined && fontSize !== null && fontSize !== '' ) ||
+		( fontWeight && fontWeight !== 'inherit' && fontWeight !== '' ) ||
+		( lineHeight !== undefined && lineHeight !== null && lineHeight !== '' ) ||
+		( letterSpacing !== undefined && letterSpacing !== null && letterSpacing !== '' ) ||
+		( currentFontStyle && currentFontStyle !== 'normal' )
+	);
+
 	const handleChange = (key, newValue) => {
-		if (key === 'fontStyle') {
-			onChange({ ...value, fontStyle: newValue, style: newValue });
+		const updated = { ...value };
+		if ( newValue === undefined || newValue === null || newValue === '' ) {
+			delete updated[ key ];
+			if ( key === 'fontStyle' ) delete updated.style;
 		} else {
-			onChange({ ...value, [key]: newValue });
+			updated[ key ] = newValue;
+			if ( key === 'fontStyle' ) updated.style = newValue;
 		}
+		onChange( updated );
+	};
+
+	const handleResetAll = () => {
+		onChange( {} );
 	};
 
 	const parseNumber = (val) => {
@@ -140,27 +164,55 @@ export default function TypographyControl({ label, value = {}, onChange }) {
 	`;
 
 	return (
-		<BaseControl label={label} className="gravisain-typography-control">
+		<BaseControl className="gravisain-typography-control">
 			<style>{ inlineStyles }</style>
+			{ label && (
+				<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+					<span style={{ fontSize: '11px', fontWeight: 500, textTransform: 'uppercase', color: '#1e1e1e' }}>{ label }</span>
+					{ hasActiveValues && (
+						<button
+							type="button"
+							className="gravisain-typography-reset-btn"
+							onClick={ handleResetAll }
+							title={ __( 'Reset Typography', 'gravisain-blocks' ) }
+							style={{
+								background: 'transparent',
+								border: 'none',
+								cursor: 'pointer',
+								display: 'inline-flex',
+								alignItems: 'center',
+								gap: '4px',
+								padding: '2px 6px',
+								color: '#757575',
+								fontSize: '11px',
+								borderRadius: '2px',
+							}}
+						>
+							<ResetIcon />
+							<span>{ __( 'Reset', 'gravisain-blocks' ) }</span>
+						</button>
+					) }
+				</div>
+			) }
 			<div style={{ paddingLeft: '10px', borderLeft: '2px solid #e2e4e7', marginBottom: '15px' }}>
 				<ComboboxControl
-					label={__('Font Family', 'gravisain')}
+					label={__('Font Family', 'gravisain-blocks')}
 					value={fontFamily || ''}
 					options={displayedOptions}
 					onFilterValueChange={(filter) => setFilterValue(filter)}
 					onChange={(val) => handleChange('fontFamily', val || '')}
 					allowReset={true}
-					placeholder={__('Search fonts...', 'gravisain')}
+					placeholder={__('Search fonts...', 'gravisain-blocks')}
 				/>
 				
 				<div style={{ marginTop: '10px' }}>
 					<SelectControl
-						label={__('Font Style', 'gravisain')}
+						label={__('Font Style', 'gravisain-blocks')}
 						value={currentFontStyle}
 						options={[
-							{ label: __('Normal', 'gravisain'), value: 'normal' },
-							{ label: __('Italic', 'gravisain'), value: 'italic' },
-							{ label: __('Oblique', 'gravisain'), value: 'oblique' },
+							{ label: __('Normal', 'gravisain-blocks'), value: 'normal' },
+							{ label: __('Italic', 'gravisain-blocks'), value: 'italic' },
+							{ label: __('Oblique', 'gravisain-blocks'), value: 'oblique' },
 						]}
 						onChange={(val) => handleChange('fontStyle', val)}
 						__next40pxDefaultSize={false}
@@ -169,22 +221,23 @@ export default function TypographyControl({ label, value = {}, onChange }) {
 
 				<div style={{ marginTop: '10px' }}>
 					<RangeControl
-						label={__('Size (px)', 'gravisain')}
+						label={__('Size (px)', 'gravisain-blocks')}
 						value={parseNumber(fontSize)}
 						onChange={(val) => handleChange('fontSize', val)}
 						min={8}
 						max={120}
 						allowReset
+						resetFallbackValue={undefined}
 						__next40pxDefaultSize={false}
 					/>
 				</div>
 				
 				<div style={{ marginTop: '10px' }}>
 					<SelectControl
-						label={__('Weight', 'gravisain')}
+						label={__('Weight', 'gravisain-blocks')}
 						value={fontWeight || ''}
 						options={[
-							{ label: __('Inherit', 'gravisain'), value: '' },
+							{ label: __('Inherit', 'gravisain-blocks'), value: '' },
 							{ label: 'Normal', value: 'normal' },
 							{ label: 'Bold', value: 'bold' },
 							{ label: '100', value: '100' },
@@ -204,25 +257,27 @@ export default function TypographyControl({ label, value = {}, onChange }) {
 
 				<div style={{ marginTop: '10px' }}>
 					<RangeControl
-						label={__('Line Height', 'gravisain')}
+						label={__('Line Height', 'gravisain-blocks')}
 						value={parseNumber(lineHeight)}
 						onChange={(val) => handleChange('lineHeight', val)}
 						min={0.5}
 						max={3}
 						step={0.1}
 						allowReset
+						resetFallbackValue={undefined}
 						__next40pxDefaultSize={false}
 					/>
 				</div>
 				<div style={{ marginTop: '10px' }}>
 					<RangeControl
-						label={__('Letter Spacing (px)', 'gravisain')}
+						label={__('Letter Spacing (px)', 'gravisain-blocks')}
 						value={parseNumber(letterSpacing)}
 						onChange={(val) => handleChange('letterSpacing', val)}
 						min={-5}
 						max={15}
 						step={0.1}
 						allowReset
+						resetFallbackValue={undefined}
 						__next40pxDefaultSize={false}
 					/>
 				</div>

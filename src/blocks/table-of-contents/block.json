@@ -7,7 +7,7 @@
 	"category": "gravisain-blocks",
 	"icon": "editor-ul",
 	"description": "Automatically generate a table of contents from headings inside your page or article.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
 		"html": false,
 		"anchor": false,

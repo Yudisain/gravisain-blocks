@@ -53,14 +53,14 @@ export default function BackgroundControl( {
 	};
 
 	const sizeOptions = [
-		{ label: __( 'Cover', 'gravisain' ), value: 'cover' },
-		{ label: __( 'Contain', 'gravisain' ), value: 'contain' },
-		{ label: __( 'Auto', 'gravisain' ), value: 'auto' },
+		{ label: __( 'Cover', 'gravisain-blocks' ), value: 'cover' },
+		{ label: __( 'Contain', 'gravisain-blocks' ), value: 'contain' },
+		{ label: __( 'Auto', 'gravisain-blocks' ), value: 'auto' },
 	];
 
 	const attachmentOptions = [
-		{ label: __( 'Scroll', 'gravisain' ), value: 'scroll' },
-		{ label: __( 'Fixed (Parallax)', 'gravisain' ), value: 'fixed' },
+		{ label: __( 'Scroll', 'gravisain-blocks' ), value: 'scroll' },
+		{ label: __( 'Fixed (Parallax)', 'gravisain-blocks' ), value: 'fixed' },
 	];
 
 	const removeImage = () => {
@@ -72,7 +72,7 @@ export default function BackgroundControl( {
 			{ ( backgroundImage?.url || inheritedImage?.url ) ? (
 				<div style={{ marginBottom: '16px' }}>
 					<FocalPointPicker
-						label={ __( 'Background Image', 'gravisain' ) }
+						label={ __( 'Background Image', 'gravisain-blocks' ) }
 						url={ backgroundImage?.url || inheritedImage?.url }
 						value={ focalPoint }
 						onChange={ handleFocalPointChange }
@@ -80,7 +80,7 @@ export default function BackgroundControl( {
 					
 					{ !backgroundImage?.url && inheritedImage?.url && (
 						<div style={{ fontSize: '12px', color: '#64748b', marginTop: '8px', marginBottom: '8px', fontStyle: 'italic' }}>
-							{ __( 'Inheriting image from larger device.', 'gravisain' ) }
+							{ __( 'Inheriting image from larger device.', 'gravisain-blocks' ) }
 						</div>
 					) }
 
@@ -92,40 +92,40 @@ export default function BackgroundControl( {
 								value={ backgroundImage?.id }
 								render={ ( { open } ) => (
 									<Button isSecondary onClick={ open } style={{ flex: 1, justifyContent: 'center' }}>
-										{ backgroundImage?.url ? __( 'Replace Image', 'gravisain' ) : __( 'Override Image', 'gravisain' ) }
+										{ backgroundImage?.url ? __( 'Replace Image', 'gravisain-blocks' ) : __( 'Override Image', 'gravisain-blocks' ) }
 									</Button>
 								) }
 							/>
 						</MediaUploadCheck>
 						{ backgroundImage?.url && (
 							<Button isDestructive isLink onClick={ removeImage } style={{ flex: 1, justifyContent: 'center' }}>
-								{ __( 'Remove', 'gravisain' ) }
+								{ __( 'Remove', 'gravisain-blocks' ) }
 							</Button>
 						) }
 					</div>
 
 					<SelectControl
-						label={ __( 'Size', 'gravisain' ) }
+						label={ __( 'Size', 'gravisain-blocks' ) }
 						value={ backgroundSize }
 						options={ sizeOptions }
 						onChange={ onChangeSize }
 					/>
 					<SelectControl
-						label={ __( 'Attachment', 'gravisain' ) }
+						label={ __( 'Attachment', 'gravisain-blocks' ) }
 						value={ backgroundAttachment }
 						options={ attachmentOptions }
 						onChange={ onChangeAttachment }
 					/>
 				</div>
 			) : (
-				<BaseControl label={ __( 'Background Image', 'gravisain' ) } className="gravisain-background-image-control">
+				<BaseControl label={ __( 'Background Image', 'gravisain-blocks' ) } className="gravisain-background-image-control">
 					<MediaUploadCheck>
 						<MediaUpload
 							onSelect={ ( media ) => onChangeImage( { id: media.id, url: media.url } ) }
 							allowedTypes={ [ 'image' ] }
 							render={ ( { open } ) => (
 								<Button isPrimary onClick={ open } style={{ justifyContent: 'center', width: '100%' }}>
-									{ __( 'Select Image', 'gravisain' ) }
+									{ __( 'Select Image', 'gravisain-blocks' ) }
 								</Button>
 							) }
 						/>
@@ -136,14 +136,14 @@ export default function BackgroundControl( {
 			<hr style={{ margin: '20px 0' }} />
 
 			<ColorControl
-				label={ __( 'Background Overlay', 'gravisain' ) }
+				label={ __( 'Background Overlay', 'gravisain-blocks' ) }
 				value={ backgroundOverlay }
 				onChange={ onChangeOverlay }
 			/>
 
 			{ backgroundOverlay && (
 				<RangeControl
-					label={ __( 'Overlay Opacity', 'gravisain' ) }
+					label={ __( 'Overlay Opacity', 'gravisain-blocks' ) }
 					value={ backgroundOverlayOpacity }
 					onChange={ onChangeOverlayOpacity }
 					min={ 0 }

@@ -116,13 +116,15 @@ export default function Edit( props ) {
 		<>
 			<Inspector { ...props } />
 			<section { ...blockProps }>
-				<SpacingVisualizer
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					isSelected={ isSelected }
-					blockRef={ blockRef }
-					prefix="container"
-				/>
+				{ isSelected && (
+					<SpacingVisualizer
+						attributes={ attributes }
+						setAttributes={ setAttributes }
+						isSelected={ isSelected }
+						blockRef={ blockRef }
+						prefix="container"
+					/>
+				) }
 				<div className="gravisain-container-inner">
 					<InnerBlocks />
 				</div>

@@ -10,10 +10,10 @@ export default function HeroMedia( { attributes } ) {
 	return (
 		<div className="gravisain-hero__media">
 			{ media.url ? (
-				<img src={ media.url } alt={ __( 'Hero Media', 'gravisain' ) } />
+				<img src={ media.url } alt={ __( 'Hero Media', 'gravisain-blocks' ) } />
 			) : (
 				<div className="gravisain-hero__media-placeholder">
-					{ __( 'Media Placeholder', 'gravisain' ) }
+					{ __( 'Media Placeholder', 'gravisain-blocks' ) }
 				</div>
 			) }
 		</div>

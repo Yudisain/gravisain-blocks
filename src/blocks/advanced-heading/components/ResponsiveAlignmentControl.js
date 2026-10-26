@@ -68,14 +68,14 @@ export default function ResponsiveAlignmentControl( {
 		<div className="gravisain-responsive-align-control">
 			<div className="gravisain-responsive-align-control__header">
 				<span className="gravisain-responsive-align-control__label">
-					{ __( 'Text Alignment', 'gravisain' ) }
+					{ __( 'Text Alignment', 'gravisain-blocks' ) }
 				</span>
 				<div className="gravisain-responsive-align-control__devices">
 					<button
 						type="button"
 						className={ `gravisain-device-btn ${ device === 'desktop' ? 'is-active' : '' }` }
 						onClick={ () => switchDevice( 'desktop' ) }
-						title={ __( 'Desktop', 'gravisain' ) }
+						title={ __( 'Desktop', 'gravisain-blocks' ) }
 					>
 						<DesktopIcon />
 					</button>
@@ -83,7 +83,7 @@ export default function ResponsiveAlignmentControl( {
 						type="button"
 						className={ `gravisain-device-btn ${ device === 'tablet' ? 'is-active' : '' }` }
 						onClick={ () => switchDevice( 'tablet' ) }
-						title={ __( 'Tablet', 'gravisain' ) }
+						title={ __( 'Tablet', 'gravisain-blocks' ) }
 					>
 						<TabletIcon />
 					</button>
@@ -91,7 +91,7 @@ export default function ResponsiveAlignmentControl( {
 						type="button"
 						className={ `gravisain-device-btn ${ device === 'mobile' ? 'is-active' : '' }` }
 						onClick={ () => switchDevice( 'mobile' ) }
-						title={ __( 'Mobile', 'gravisain' ) }
+						title={ __( 'Mobile', 'gravisain-blocks' ) }
 					>
 						<MobileIcon />
 					</button>
@@ -102,7 +102,7 @@ export default function ResponsiveAlignmentControl( {
 					type="button"
 					className={ `gravisain-align-btn ${ currentAlign === 'left' ? 'is-active' : '' }` }
 					onClick={ () => handleAlignChange( 'left' ) }
-					title={ __( 'Left', 'gravisain' ) }
+					title={ __( 'Left', 'gravisain-blocks' ) }
 				>
 					<AlignLeftIcon />
 				</button>
@@ -110,7 +110,7 @@ export default function ResponsiveAlignmentControl( {
 					type="button"
 					className={ `gravisain-align-btn ${ currentAlign === 'center' ? 'is-active' : '' }` }
 					onClick={ () => handleAlignChange( 'center' ) }
-					title={ __( 'Center', 'gravisain' ) }
+					title={ __( 'Center', 'gravisain-blocks' ) }
 				>
 					<AlignCenterIcon />
 				</button>
@@ -118,7 +118,7 @@ export default function ResponsiveAlignmentControl( {
 					type="button"
 					className={ `gravisain-align-btn ${ currentAlign === 'right' ? 'is-active' : '' }` }
 					onClick={ () => handleAlignChange( 'right' ) }
-					title={ __( 'Right', 'gravisain' ) }
+					title={ __( 'Right', 'gravisain-blocks' ) }
 				>
 					<AlignRightIcon />
 				</button>

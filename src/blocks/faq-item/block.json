@@ -2,13 +2,15 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "gravisain/faq-item",
-	"version": "1.1.0",
+	"version": "1.0.0",
 	"title": "FAQ Item",
 	"category": "gravisain-blocks",
 	"icon": "arrow-down-alt2",
 	"description": "An individual FAQ item with customizable question, answer, icons, and state styling.",
-	"textdomain": "gravisain",
-	"parent": [ "gravisain/faq-accordion" ],
+	"textdomain": "gravisain-blocks",
+	"parent": [
+		"gravisain/faq-accordion"
+	],
 	"usesContext": [
 		"gravisain/faqIconType",
 		"gravisain/faqIconSize",

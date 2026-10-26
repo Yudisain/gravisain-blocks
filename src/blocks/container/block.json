@@ -2,14 +2,17 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "gravisain/container",
-	"version": "1.1.0",
+	"version": "1.0.0",
 	"title": "Section / Container",
 	"category": "gravisain-blocks",
 	"icon": "layout",
 	"description": "Flexible section wrapper with width, min-height, vertical alignment, and background styling.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
-		"align": ["wide", "full"],
+		"align": [
+			"wide",
+			"full"
+		],
 		"html": false,
 		"anchor": true,
 		"color": {
@@ -51,27 +54,57 @@
 		},
 		"padding": {
 			"type": "object",
-			"default": { "top": "", "right": "", "bottom": "", "left": "" }
+			"default": {
+				"top": "",
+				"right": "",
+				"bottom": "",
+				"left": ""
+			}
 		},
 		"paddingTablet": {
 			"type": "object",
-			"default": { "top": "", "right": "", "bottom": "", "left": "" }
+			"default": {
+				"top": "",
+				"right": "",
+				"bottom": "",
+				"left": ""
+			}
 		},
 		"paddingMobile": {
 			"type": "object",
-			"default": { "top": "", "right": "", "bottom": "", "left": "" }
+			"default": {
+				"top": "",
+				"right": "",
+				"bottom": "",
+				"left": ""
+			}
 		},
 		"margin": {
 			"type": "object",
-			"default": { "top": "", "right": "", "bottom": "", "left": "" }
+			"default": {
+				"top": "",
+				"right": "",
+				"bottom": "",
+				"left": ""
+			}
 		},
 		"marginTablet": {
 			"type": "object",
-			"default": { "top": "", "right": "", "bottom": "", "left": "" }
+			"default": {
+				"top": "",
+				"right": "",
+				"bottom": "",
+				"left": ""
+			}
 		},
 		"marginMobile": {
 			"type": "object",
-			"default": { "top": "", "right": "", "bottom": "", "left": "" }
+			"default": {
+				"top": "",
+				"right": "",
+				"bottom": "",
+				"left": ""
+			}
 		},
 		"isSticky": {
 			"type": "boolean",

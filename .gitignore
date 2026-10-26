@@ -10,3 +10,5 @@ starter-templates/
 build/
 .agents/
 WP-ORG-REVIEW.md
+classes/Updater.php
+Project_Status_Blocks.md

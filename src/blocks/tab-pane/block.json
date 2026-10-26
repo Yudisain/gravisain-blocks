@@ -8,7 +8,7 @@
 	"parent": [ "gravisain/tabs" ],
 	"icon": "welcome-add-page",
 	"description": "Content area for an individual tab.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"usesContext": [ "gravisain/activeTab" ],
 	"supports": {
 		"html": false,

@@ -134,14 +134,14 @@ export default function Edit( props ) {
 						className="gravisain-feature-card__title"
 						value={ title }
 						onChange={ ( value ) => setAttributes( { title: value } ) }
-						placeholder={ __( 'Feature Title', 'gravisain' ) }
+						placeholder={ __( 'Feature Title', 'gravisain-blocks' ) }
 					/>
 					<RichText
 						tagName="p"
 						className="gravisain-feature-card__description"
 						value={ description }
 						onChange={ ( value ) => setAttributes( { description: value } ) }
-						placeholder={ __( 'Feature description...', 'gravisain' ) }
+						placeholder={ __( 'Feature description...', 'gravisain-blocks' ) }
 					/>
 				</div>
 			</div>

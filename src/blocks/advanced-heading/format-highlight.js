@@ -3,7 +3,7 @@ import { registerFormatType, toggleFormat } from '@wordpress/rich-text';
 import { RichTextToolbarButton } from '@wordpress/block-editor';
 
 const name = 'gravisain/highlight';
-const title = __( 'Highlight Text', 'gravisain' );
+const title = __( 'Highlight Text', 'gravisain-blocks' );
 
 const HighlightIcon = (
 	<svg

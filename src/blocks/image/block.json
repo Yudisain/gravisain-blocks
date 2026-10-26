@@ -7,7 +7,7 @@
 	"category": "gravisain-blocks",
 	"icon": "format-image",
 	"description": "Insert an advanced image with aspect ratios, overlays, borders, shadows, and captions.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
 		"html": false,
 		"anchor": false,

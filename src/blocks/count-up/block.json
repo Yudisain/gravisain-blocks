@@ -7,7 +7,7 @@
 	"category": "gravisain-blocks",
 	"icon": "performance",
 	"description": "An animated number counter for statistics, achievements, and metrics when scrolled into view.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
 		"html": false,
 		"anchor": false,

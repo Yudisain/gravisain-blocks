@@ -107,6 +107,32 @@ $sanitize_css_color = function( $color ): ?string {
 	return null;
 };
 
+/**
+ * Sanitize a CSS gradient value to prevent declaration injection.
+ */
+$sanitize_css_gradient = function( $gradient ): ?string {
+	if ( ! is_string( $gradient ) ) {
+		return null;
+	}
+	$gradient = trim( $gradient );
+	if ( '' === $gradient ) {
+		return null;
+	}
+	// Reject characters and expressions that permit declaration or script injection.
+	if ( preg_match( '/[;{}<>"\'\\\\]|expression|javascript|url\s*\(/i', $gradient ) ) {
+		return null;
+	}
+	// Must match valid gradient function pattern.
+	if ( ! preg_match( '/^(repeating-)?(linear|radial|conic)-gradient\s*\([a-zA-Z0-9_#%,.\s()+-]+\)$/i', $gradient ) ) {
+		return null;
+	}
+	// Ensure balanced parentheses.
+	if ( substr_count( $gradient, '(' ) !== substr_count( $gradient, ')' ) ) {
+		return null;
+	}
+	return $gradient;
+};
+
 // ── Attribute extraction ─────────────────────────────────────────────────────
 
 $heading_tag     = $attributes['headingTag']          ?? 'h2';
@@ -372,9 +398,10 @@ $heading_style_parts[] = 'text-align:' . esc_attr( $text_align );
 $heading_style_parts[] = 'font-weight:' . esc_attr( $font_weight ?: '800' );
 $heading_style_parts[] = 'text-transform:' . esc_attr( $text_transform ?: 'none' );
 
-if ( $enable_gradient && $text_gradient ) {
+$sanitized_text_gradient = ( $enable_gradient && $text_gradient ) ? $sanitize_css_gradient( $text_gradient ) : null;
+if ( $sanitized_text_gradient ) {
 	$heading_style_parts[] = 'color:transparent';
-	$heading_style_parts[] = 'background-image:' . esc_attr( $text_gradient );
+	$heading_style_parts[] = 'background-image:' . $sanitized_text_gradient;
 	$heading_style_parts[] = '-webkit-background-clip:text';
 	$heading_style_parts[] = 'background-clip:text';
 } else {

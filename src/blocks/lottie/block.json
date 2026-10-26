@@ -7,7 +7,7 @@
 	"category": "gravisain-blocks",
 	"icon": "video-alt3",
 	"description": "Embed rich, lightweight JSON Lottie animations with interactive triggers like hover, scroll, and click.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
 		"html": false,
 		"anchor": false,

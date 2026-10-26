@@ -2,12 +2,12 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "gravisain/hero",
-	"version": "1.0.1",
+	"version": "1.0.0",
 	"title": "Hero Section",
 	"category": "gravisain-blocks",
 	"icon": "cover-image",
 	"description": "Premium Hero section block.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"attributes": {
 		"align": {
 			"type": "string",
@@ -20,10 +20,6 @@
 		"layout": {
 			"type": "string",
 			"default": "1-column"
-		},
-		"textAlign": {
-			"type": "string",
-			"default": ""
 		},
 		"textAlign": {
 			"type": "string",
@@ -204,7 +200,11 @@
 	"style": "file:./style-index.css",
 	"render": "file:./render.php",
 	"supports": {
-		"align": ["center", "wide", "full"],
+		"align": [
+			"center",
+			"wide",
+			"full"
+		],
 		"html": false,
 		"anchor": false,
 		"customClassName": false,

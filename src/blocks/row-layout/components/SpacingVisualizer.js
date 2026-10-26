@@ -4,10 +4,6 @@ import { useSelect } from '@wordpress/data';
 import './SpacingVisualizer.scss';
 
 export default function SpacingVisualizer( { attributes, setAttributes, isSelected, blockRef, prefix } ) {
-	if ( ! isSelected ) {
-		return null;
-	}
-
 	const previewDeviceType = useSelect( ( select ) => {
 		const editorDevice = select( 'core/editor' )?.getDeviceType?.();
 		const postDevice = select( 'core/edit-post' )?.__experimentalGetPreviewDeviceType?.();
@@ -198,6 +194,10 @@ export default function SpacingVisualizer( { attributes, setAttributes, isSelect
 			</div>
 		);
 	};
+
+	if ( ! isSelected ) {
+		return null;
+	}
 
 	return (
 		<div className={`gravisain-spacing-visualizer ${isDragging ? 'is-dragging-active' : ''}`} ref={visualizerRef}>

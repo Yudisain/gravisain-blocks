@@ -1,235 +1,235 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "gravisain/advanced-heading",
-  "version": "1.1.0",
-  "title": "Advanced Heading",
-  "category": "gravisain-blocks",
-  "icon": "heading",
-  "description": "Advanced Heading featuring 3-tab inspector (General, Style, Advanced), typography controls, gradient text, eyebrow, and decorative divider.",
-  "textdomain": "gravisain",
-  "supports": {
-    "align": [
-      "left",
-      "center",
-      "right",
-      "wide",
-      "full"
-    ],
-    "html": false,
-    "anchor": false,
-    "customClassName": false,
-    "customCSS": false,
-    "__experimentalCustomCSS": false
-  },
-  "attributes": {
-    "anchor": {
-      "type": "string",
-      "default": ""
-    },
-    "customClassName": {
-      "type": "string",
-      "default": ""
-    },
-    "customCSS": {
-      "type": "string",
-      "default": ""
-    },
-    "headingTag": {
-      "type": "string",
-      "default": "h2"
-    },
-    "textAlign": {
-      "type": "string",
-      "default": "left"
-    },
-    "textAlignTablet": {
-      "type": "string",
-      "default": ""
-    },
-    "textAlignMobile": {
-      "type": "string",
-      "default": ""
-    },
-    "fontFamily": {
-      "type": "string",
-      "default": ""
-    },
-    "eyebrow": {
-      "type": "string",
-      "default": ""
-    },
-    "eyebrowPosition": {
-      "type": "string",
-      "default": "above"
-    },
-    "eyebrowColor": {
-      "type": "string",
-      "default": ""
-    },
-    "eyebrowTypography": {
-      "type": "object",
-      "default": {}
-    },
-    "eyebrowTypographyTablet": {
-      "type": "object",
-      "default": {}
-    },
-    "eyebrowTypographyMobile": {
-      "type": "object",
-      "default": {}
-    },
-    "content": {
-      "type": "string",
-      "default": "Enterprise Grade Architecture"
-    },
-    "titleColor": {
-      "type": "string",
-      "default": ""
-    },
-    "titleTypography": {
-      "type": "object",
-      "default": {}
-    },
-    "titleTypographyTablet": {
-      "type": "object",
-      "default": {}
-    },
-    "titleTypographyMobile": {
-      "type": "object",
-      "default": {}
-    },
-    "description": {
-      "type": "string",
-      "default": ""
-    },
-    "descriptionColor": {
-      "type": "string",
-      "default": ""
-    },
-    "descriptionTypography": {
-      "type": "object",
-      "default": {}
-    },
-    "descriptionTypographyTablet": {
-      "type": "object",
-      "default": {}
-    },
-    "descriptionTypographyMobile": {
-      "type": "object",
-      "default": {}
-    },
-    "fontSize": {
-      "type": "number",
-      "default": 32
-    },
-    "fontSizeTablet": {
-      "type": "number"
-    },
-    "fontSizeMobile": {
-      "type": "number"
-    },
-    "fontWeight": {
-      "type": "string",
-      "default": "800"
-    },
-    "lineHeight": {
-      "type": "string",
-      "default": "1.25"
-    },
-    "lineHeightTablet": {
-      "type": "string"
-    },
-    "lineHeightMobile": {
-      "type": "string"
-    },
-    "letterSpacing": {
-      "type": "string",
-      "default": "0px"
-    },
-    "letterSpacingTablet": {
-      "type": "string"
-    },
-    "letterSpacingMobile": {
-      "type": "string"
-    },
-    "textTransform": {
-      "type": "string",
-      "default": "none"
-    },
-    "textColor": {
-      "type": "string",
-      "default": "#0f172a"
-    },
-    "highlightColor": {
-      "type": "string",
-      "default": "#2563eb"
-    },
-    "enableTextGradient": {
-      "type": "boolean",
-      "default": false
-    },
-    "textGradient": {
-      "type": "string",
-      "default": "linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)"
-    },
-    "showDivider": {
-      "type": "boolean",
-      "default": false
-    },
-    "dividerWidth": {
-      "type": "number",
-      "default": 48
-    },
-    "dividerHeight": {
-      "type": "number",
-      "default": 4
-    },
-    "dividerColor": {
-      "type": "string",
-      "default": "#2563eb"
-    },
-    "dividerStyle": {
-      "type": "string",
-      "default": "solid"
-    },
-    "dividerFlip": {
-      "type": "boolean",
-      "default": false
-    },
-    "dividerSpacing": {
-      "type": "number",
-      "default": 14
-    },
-    "padding": {
-      "type": "object"
-    },
-    "paddingTablet": {
-      "type": "object"
-    },
-    "paddingMobile": {
-      "type": "object"
-    },
-    "margin": {
-      "type": "object"
-    },
-    "marginTablet": {
-      "type": "object"
-    },
-    "marginMobile": {
-      "type": "object"
-    },
-    "maxWidth": {
-      "type": "string",
-      "default": "100%"
-    },
-    "breakoutPadding": {
-      "type": "boolean",
-      "default": false
-    }
-  },
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css",
-  "render": "file:./render.php"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/advanced-heading",
+	"version": "1.0.0",
+	"title": "Advanced Heading",
+	"category": "gravisain-blocks",
+	"icon": "heading",
+	"description": "Advanced Heading featuring 3-tab inspector (General, Style, Advanced), typography controls, gradient text, eyebrow, and decorative divider.",
+	"textdomain": "gravisain-blocks",
+	"supports": {
+		"align": [
+			"left",
+			"center",
+			"right",
+			"wide",
+			"full"
+		],
+		"html": false,
+		"anchor": false,
+		"customClassName": false,
+		"customCSS": false,
+		"__experimentalCustomCSS": false
+	},
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"customClassName": {
+			"type": "string",
+			"default": ""
+		},
+		"customCSS": {
+			"type": "string",
+			"default": ""
+		},
+		"headingTag": {
+			"type": "string",
+			"default": "h2"
+		},
+		"textAlign": {
+			"type": "string",
+			"default": "left"
+		},
+		"textAlignTablet": {
+			"type": "string",
+			"default": ""
+		},
+		"textAlignMobile": {
+			"type": "string",
+			"default": ""
+		},
+		"fontFamily": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrowPosition": {
+			"type": "string",
+			"default": "above"
+		},
+		"eyebrowColor": {
+			"type": "string",
+			"default": ""
+		},
+		"eyebrowTypography": {
+			"type": "object",
+			"default": {}
+		},
+		"eyebrowTypographyTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"eyebrowTypographyMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"content": {
+			"type": "string",
+			"default": "Enterprise Grade Architecture"
+		},
+		"titleColor": {
+			"type": "string",
+			"default": ""
+		},
+		"titleTypography": {
+			"type": "object",
+			"default": {}
+		},
+		"titleTypographyTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"titleTypographyMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"description": {
+			"type": "string",
+			"default": ""
+		},
+		"descriptionColor": {
+			"type": "string",
+			"default": ""
+		},
+		"descriptionTypography": {
+			"type": "object",
+			"default": {}
+		},
+		"descriptionTypographyTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"descriptionTypographyMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"fontSize": {
+			"type": "number",
+			"default": 32
+		},
+		"fontSizeTablet": {
+			"type": "number"
+		},
+		"fontSizeMobile": {
+			"type": "number"
+		},
+		"fontWeight": {
+			"type": "string",
+			"default": "800"
+		},
+		"lineHeight": {
+			"type": "string",
+			"default": "1.25"
+		},
+		"lineHeightTablet": {
+			"type": "string"
+		},
+		"lineHeightMobile": {
+			"type": "string"
+		},
+		"letterSpacing": {
+			"type": "string",
+			"default": "0px"
+		},
+		"letterSpacingTablet": {
+			"type": "string"
+		},
+		"letterSpacingMobile": {
+			"type": "string"
+		},
+		"textTransform": {
+			"type": "string",
+			"default": "none"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "#0f172a"
+		},
+		"highlightColor": {
+			"type": "string",
+			"default": "#2563eb"
+		},
+		"enableTextGradient": {
+			"type": "boolean",
+			"default": false
+		},
+		"textGradient": {
+			"type": "string",
+			"default": "linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)"
+		},
+		"showDivider": {
+			"type": "boolean",
+			"default": false
+		},
+		"dividerWidth": {
+			"type": "number",
+			"default": 48
+		},
+		"dividerHeight": {
+			"type": "number",
+			"default": 4
+		},
+		"dividerColor": {
+			"type": "string",
+			"default": "#2563eb"
+		},
+		"dividerStyle": {
+			"type": "string",
+			"default": "solid"
+		},
+		"dividerFlip": {
+			"type": "boolean",
+			"default": false
+		},
+		"dividerSpacing": {
+			"type": "number",
+			"default": 14
+		},
+		"padding": {
+			"type": "object"
+		},
+		"paddingTablet": {
+			"type": "object"
+		},
+		"paddingMobile": {
+			"type": "object"
+		},
+		"margin": {
+			"type": "object"
+		},
+		"marginTablet": {
+			"type": "object"
+		},
+		"marginMobile": {
+			"type": "object"
+		},
+		"maxWidth": {
+			"type": "string",
+			"default": "100%"
+		},
+		"breakoutPadding": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
 }

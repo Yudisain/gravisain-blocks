@@ -70,7 +70,7 @@ export default function Edit( props ) {
 					className="gravisain-count-up-title"
 					value={ title }
 					onChange={ ( val ) => setAttributes( { title: val } ) }
-					placeholder={ __( 'Metric Title...', 'gravisain' ) }
+					placeholder={ __( 'Metric Title...', 'gravisain-blocks' ) }
 				/>
 			</div>
 		</>

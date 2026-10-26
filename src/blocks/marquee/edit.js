@@ -57,13 +57,13 @@ export default function Edit( props ) {
 
 			<div { ...blockProps }>
 				<div className="gravisain-marquee-editor-badge">
-					<span>{ __( '⚡ Marquee Track (Editing Mode)', 'gravisain' ) }</span>
+					<span>{ __( '⚡ Marquee Track (Editing Mode)', 'gravisain-blocks' ) }</span>
 				</div>
 				<div className="gravisain-marquee-editor-track">
 					<InnerBlocks
 						orientation="horizontal"
 						templateLock={ false }
-						placeholder={ __( 'Add items (logos, images, headings, icons) to scroll...', 'gravisain' ) }
+						placeholder={ __( 'Add items (logos, images, headings, icons) to scroll...', 'gravisain-blocks' ) }
 					/>
 				</div>
 			</div>

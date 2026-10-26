@@ -256,8 +256,8 @@
 		margin-block-end: var(--gravisain-margin-bottom-tablet, var(--gravisain-margin-bottom));
 		margin-inline-start: var(--gravisain-margin-left-tablet, var(--gravisain-margin-left));
 
-		background-color: var(--gravisain-bg-color-tablet, var(--gravisain-bg-color));
-		background-image: var(--gravisain-bg-gradient-tablet, var(--gravisain-bg-gradient, var(--gravisain-bg-image-tablet, var(--gravisain-bg-image))));
+		background-color: var(--gravisain-bg-color-tablet, var(--gravisain-bg-color)) !important;
+		background-image: var(--gravisain-bg-gradient-tablet, var(--gravisain-bg-gradient, var(--gravisain-bg-image-tablet, var(--gravisain-bg-image)))) !important;
 		background-position: var(--gravisain-bg-position-tablet, var(--gravisain-bg-position));
 		background-size: var(--gravisain-bg-size-tablet, var(--gravisain-bg-size));
 		background-attachment: var(--gravisain-bg-attachment-tablet, var(--gravisain-bg-attachment));
@@ -295,8 +295,8 @@
 		margin-block-end: var(--gravisain-margin-bottom-mobile, var(--gravisain-margin-bottom-tablet, var(--gravisain-margin-bottom)));
 		margin-inline-start: var(--gravisain-margin-left-mobile, var(--gravisain-margin-left-tablet, var(--gravisain-margin-left)));
 
-		background-color: var(--gravisain-bg-color-mobile, var(--gravisain-bg-color-tablet, var(--gravisain-bg-color)));
-		background-image: var(--gravisain-bg-gradient-mobile, var(--gravisain-bg-gradient-tablet, var(--gravisain-bg-gradient, var(--gravisain-bg-image-mobile, var(--gravisain-bg-image-tablet, var(--gravisain-bg-image))))));
+		background-color: var(--gravisain-bg-color-mobile, var(--gravisain-bg-color-tablet, var(--gravisain-bg-color))) !important;
+		background-image: var(--gravisain-bg-gradient-mobile, var(--gravisain-bg-gradient-tablet, var(--gravisain-bg-gradient, var(--gravisain-bg-image-mobile, var(--gravisain-bg-image-tablet, var(--gravisain-bg-image)))))) !important;
 		background-position: var(--gravisain-bg-position-mobile, var(--gravisain-bg-position-tablet, var(--gravisain-bg-position)));
 		background-size: var(--gravisain-bg-size-mobile, var(--gravisain-bg-size-tablet, var(--gravisain-bg-size)));
 		background-attachment: var(--gravisain-bg-attachment-mobile, var(--gravisain-bg-attachment-tablet, var(--gravisain-bg-attachment)));

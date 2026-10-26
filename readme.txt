@@ -131,8 +131,8 @@ This plugin bundles and uses the following third-party libraries, icon sets, and
 4. Starter Template Demonstration Photography
 * Source: https://unsplash.com
 * Authors: Unsplash Community Photographers
-* License: Unsplash License (Free to use for commercial and non-commercial purposes)
-* License URI: https://unsplash.com/license
+* License: Unsplash License (Free to use for commercial and non-commercial purposes, per Unsplash Terms)
+* License URI: https://unsplash.com/terms
 
 == Changelog ==
 

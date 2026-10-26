@@ -1,91 +1,40 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "gravisain/icon",
-  "version": "1.0.0",
-  "title": "Icon",
-  "category": "gravisain-blocks",
-  "icon": "star-filled",
-  "description": "Insert a customizable, scalable SVG vector icon from our clean outline library.",
-  "textdomain": "gravisain",
-  "supports": {
-    "html": false,
-    "anchor": false,
-    "customClassName": false,
-    "customCSS": false,
-    "__experimentalCustomCSS": false
-  },
-  "attributes": {
-    "icon": {
-      "type": "string",
-      "default": "star"
-    },
-    "size": {
-      "type": "number",
-      "default": 48
-    },
-    "sizeTablet": {
-      "type": "number",
-      "default": 40
-    },
-    "sizeMobile": {
-      "type": "number",
-      "default": 32
-    },
-    "color": {
-      "type": "string",
-      "default": "#4f46e5"
-    },
-    "hoverColor": {
-      "type": "string",
-      "default": ""
-    },
-    "backgroundColor": {
-      "type": "string",
-      "default": ""
-    },
-    "padding": {
-      "type": "number",
-      "default": 0
-    },
-    "borderRadius": {
-      "type": "number",
-      "default": 0
-    },
-    "link": {
-      "type": "string",
-      "default": ""
-    },
-    "linkTarget": {
-      "type": "string",
-      "default": "_self"
-    },
-    "alignment": {
-      "type": "string",
-      "default": "center"
-    },
-    "alignmentTablet": {
-      "type": "string",
-      "default": ""
-    },
-    "alignmentMobile": {
-      "type": "string",
-      "default": ""
-    },
-    "anchor": {
-      "type": "string",
-      "default": ""
-    },
-    "customClassName": {
-      "type": "string",
-      "default": ""
-    },
-    "customCSS": {
-      "type": "string",
-      "default": ""
-    }
-  },
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/icon",
+	"version": "1.0.0",
+	"title": "Icon",
+	"category": "gravisain-blocks",
+	"icon": "star-filled",
+	"description": "Insert a customizable, scalable SVG vector icon from our clean outline library.",
+	"textdomain": "gravisain-blocks",
+	"supports": {
+		"html": false,
+		"anchor": false,
+		"customClassName": false,
+		"customCSS": false,
+		"__experimentalCustomCSS": false
+	},
+	"attributes": {
+		"icon": { "type": "string", "default": "star" },
+		"size": { "type": "number", "default": 48 },
+		"sizeTablet": { "type": "number", "default": 40 },
+		"sizeMobile": { "type": "number", "default": 32 },
+		"color": { "type": "string", "default": "#4f46e5" },
+		"hoverColor": { "type": "string", "default": "" },
+		"backgroundColor": { "type": "string", "default": "" },
+		"padding": { "type": "number", "default": 0 },
+		"borderRadius": { "type": "number", "default": 0 },
+		"link": { "type": "string", "default": "" },
+		"linkTarget": { "type": "string", "default": "_self" },
+		"alignment": { "type": "string", "default": "center" },
+		"alignmentTablet": { "type": "string", "default": "" },
+		"alignmentMobile": { "type": "string", "default": "" },
+		"anchor": { "type": "string", "default": "" },
+		"customClassName": { "type": "string", "default": "" },
+		"customCSS": { "type": "string", "default": "" }
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
 }

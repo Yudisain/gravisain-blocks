@@ -1,77 +1,77 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "gravisain/video-popup",
-  "version": "0.1.0",
-  "title": "Video Popup",
-  "category": "gravisain-blocks",
-  "icon": "video-alt3",
-  "description": "Add an image or button that opens a video (YouTube, Vimeo, or MP4) in a lightbox popup.",
-  "keywords": [
-    "video",
-    "popup",
-    "lightbox",
-    "youtube",
-    "vimeo"
-  ],
-  "supports": {
-    "html": false,
-    "align": [
-      "wide",
-      "full"
-    ]
-  },
-  "attributes": {
-    "videoUrl": {
-      "type": "string",
-      "default": ""
-    },
-    "videoType": {
-      "type": "string",
-      "default": "youtube"
-    },
-    "thumbnailUrl": {
-      "type": "string",
-      "default": ""
-    },
-    "thumbnailId": {
-      "type": "number",
-      "default": 0
-    },
-    "thumbnailFocalPoint": {
-      "type": "object",
-      "default": {
-        "x": 0.5,
-        "y": 0.5
-      }
-    },
-    "playIconStyle": {
-      "type": "string",
-      "default": "solid"
-    },
-    "playIconColor": {
-      "type": "string",
-      "default": "#ffffff"
-    },
-    "overlayColor": {
-      "type": "string",
-      "default": "rgba(0, 0, 0, 0.8)"
-    },
-    "aspectRatio": {
-      "type": "string",
-      "default": "16/9"
-    },
-    "borderRadius": {
-      "type": "number",
-      "default": 12
-    },
-    "anchor": {
-      "type": "string",
-      "default": ""
-    }
-  },
-  "textdomain": "gravisain-blocks",
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/video-popup",
+	"version": "1.0.0",
+	"title": "Video Popup",
+	"category": "gravisain-blocks",
+	"icon": "video-alt3",
+	"description": "Add an image or button that opens a video (YouTube, Vimeo, or MP4) in a lightbox popup.",
+	"keywords": [
+		"video",
+		"popup",
+		"lightbox",
+		"youtube",
+		"vimeo"
+	],
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		]
+	},
+	"attributes": {
+		"videoUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"videoType": {
+			"type": "string",
+			"default": "youtube"
+		},
+		"thumbnailUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"thumbnailId": {
+			"type": "number",
+			"default": 0
+		},
+		"thumbnailFocalPoint": {
+			"type": "object",
+			"default": {
+				"x": 0.5,
+				"y": 0.5
+			}
+		},
+		"playIconStyle": {
+			"type": "string",
+			"default": "solid"
+		},
+		"playIconColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"overlayColor": {
+			"type": "string",
+			"default": "rgba(0, 0, 0, 0.8)"
+		},
+		"aspectRatio": {
+			"type": "string",
+			"default": "16/9"
+		},
+		"borderRadius": {
+			"type": "number",
+			"default": 12
+		},
+		"anchor": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"textdomain": "gravisain-blocks",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
 }

@@ -7,7 +7,7 @@
 	"category": "gravisain-blocks",
 	"icon": "chart-bar",
 	"description": "Display skills, metrics, and completion goals with a smooth animated progress bar.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
 		"html": false,
 		"anchor": false,

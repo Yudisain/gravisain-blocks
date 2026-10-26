@@ -2,15 +2,23 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "gravisain/posts",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"title": "Posts Grid",
 	"category": "gravisain-blocks",
 	"icon": "grid-view",
 	"description": "Display a grid or list of posts, pages, or custom post types.",
-	"keywords": [ "posts", "grid", "loop", "query" ],
+	"keywords": [
+		"posts",
+		"grid",
+		"loop",
+		"query"
+	],
 	"supports": {
 		"html": false,
-		"align": [ "wide", "full" ]
+		"align": [
+			"wide",
+			"full"
+		]
 	},
 	"attributes": {
 		"postType": {
@@ -23,11 +31,19 @@
 		},
 		"columns": {
 			"type": "object",
-			"default": { "desktop": 3, "tablet": 2, "mobile": 1 }
+			"default": {
+				"desktop": 3,
+				"tablet": 2,
+				"mobile": 1
+			}
 		},
 		"gap": {
 			"type": "object",
-			"default": { "desktop": 20, "tablet": 15, "mobile": 10 }
+			"default": {
+				"desktop": 20,
+				"tablet": 15,
+				"mobile": 10
+			}
 		},
 		"showImage": {
 			"type": "boolean",

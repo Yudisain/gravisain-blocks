@@ -14,8 +14,8 @@ import { DesktopIcon, TabletIcon, MobileIcon } from './icons';
 export default function StickyControl( {
 	attributes,
 	setAttributes,
-	panelTitle = __( 'Sticky Settings', 'gravisain' ),
-	helpText = __( 'This will stick the section to viewport for the height of outer container.', 'gravisain' ),
+	panelTitle = __( 'Sticky Settings', 'gravisain-blocks' ),
+	helpText = __( 'This will stick the section to viewport for the height of outer container.', 'gravisain-blocks' ),
 	initialOpen = false,
 } ) {
 	const {
@@ -88,7 +88,7 @@ export default function StickyControl( {
 	return (
 		<PanelBody title={ panelTitle } initialOpen={ !!isSticky || initialOpen }>
 			<ToggleControl
-				label={ __( 'Make sticky', 'gravisain' ) }
+				label={ __( 'Make sticky', 'gravisain-blocks' ) }
 				help={ helpText }
 				checked={ !!isSticky }
 				onChange={ ( val ) => setAttributes( { isSticky: val } ) }
@@ -115,13 +115,13 @@ export default function StickyControl( {
 								marginBottom: '8px',
 							} }
 						>
-							{ __( 'Enable Sticky On', 'gravisain' ) }
+							{ __( 'Enable Sticky On', 'gravisain-blocks' ) }
 						</span>
 						<div style={ { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px' } }>
 							<button
 								type="button"
 								onClick={ () => setAttributes( { stickyDesktop: stickyDesktop !== undefined ? !stickyDesktop : false } ) }
-								title={ __( 'Toggle sticky on desktop screens', 'gravisain' ) }
+								title={ __( 'Toggle sticky on desktop screens', 'gravisain-blocks' ) }
 								style={ {
 									display: 'inline-flex',
 									alignItems: 'center',
@@ -140,12 +140,12 @@ export default function StickyControl( {
 								} }
 							>
 								<DesktopIcon />
-								<span>{ __( 'Desktop', 'gravisain' ) }</span>
+								<span>{ __( 'Desktop', 'gravisain-blocks' ) }</span>
 							</button>
 							<button
 								type="button"
 								onClick={ () => setAttributes( { stickyTablet: stickyTablet !== undefined ? !stickyTablet : false } ) }
-								title={ __( 'Toggle sticky on tablet screens', 'gravisain' ) }
+								title={ __( 'Toggle sticky on tablet screens', 'gravisain-blocks' ) }
 								style={ {
 									display: 'inline-flex',
 									alignItems: 'center',
@@ -164,12 +164,12 @@ export default function StickyControl( {
 								} }
 							>
 								<TabletIcon />
-								<span>{ __( 'Tablet', 'gravisain' ) }</span>
+								<span>{ __( 'Tablet', 'gravisain-blocks' ) }</span>
 							</button>
 							<button
 								type="button"
 								onClick={ () => setAttributes( { stickyMobile: stickyMobile !== undefined ? !stickyMobile : true } ) }
-								title={ __( 'Toggle sticky on mobile screens', 'gravisain' ) }
+								title={ __( 'Toggle sticky on mobile screens', 'gravisain-blocks' ) }
 								style={ {
 									display: 'inline-flex',
 									alignItems: 'center',
@@ -188,7 +188,7 @@ export default function StickyControl( {
 								} }
 							>
 								<MobileIcon />
-								<span>{ __( 'Mobile', 'gravisain' ) }</span>
+								<span>{ __( 'Mobile', 'gravisain-blocks' ) }</span>
 							</button>
 						</div>
 					</div>
@@ -212,13 +212,13 @@ export default function StickyControl( {
 								letterSpacing: '0.3px',
 							} }
 						>
-							{ __( 'Sticky Header Offset', 'gravisain' ) }
+							{ __( 'Sticky Header Offset', 'gravisain-blocks' ) }
 						</span>
 						<div style={ { display: 'flex', alignItems: 'center', gap: '4px' } }>
 							<button
 								type="button"
 								onClick={ handleReset }
-								title={ __( 'Reset Offset', 'gravisain' ) }
+								title={ __( 'Reset Offset', 'gravisain-blocks' ) }
 								style={ {
 									display: 'inline-flex',
 									alignItems: 'center',
@@ -242,7 +242,7 @@ export default function StickyControl( {
 							<button
 								type="button"
 								onClick={ () => switchDevice( 'desktop' ) }
-								title={ __( 'Desktop', 'gravisain' ) }
+								title={ __( 'Desktop', 'gravisain-blocks' ) }
 								style={ {
 									display: 'inline-flex',
 									alignItems: 'center',
@@ -263,7 +263,7 @@ export default function StickyControl( {
 							<button
 								type="button"
 								onClick={ () => switchDevice( 'tablet' ) }
-								title={ __( 'Tablet', 'gravisain' ) }
+								title={ __( 'Tablet', 'gravisain-blocks' ) }
 								style={ {
 									display: 'inline-flex',
 									alignItems: 'center',
@@ -284,7 +284,7 @@ export default function StickyControl( {
 							<button
 								type="button"
 								onClick={ () => switchDevice( 'mobile' ) }
-								title={ __( 'Mobile', 'gravisain' ) }
+								title={ __( 'Mobile', 'gravisain-blocks' ) }
 								style={ {
 									display: 'inline-flex',
 									alignItems: 'center',

@@ -128,7 +128,7 @@ export default function Inspector( { attributes, setAttributes, defaultLogoUrl }
 											value={ attributes.customTitle }
 											placeholder={ __( 'Leave empty to use Site Title', 'gravisain-blocks' ) }
 											onChange={ ( val ) => setAttributes( { customTitle: val } ) }
-											help={ __( 'Ketuk langsung teks di kanvas atau ubah di sini.', 'gravisain-blocks' ) }
+											help={ __( 'Edit directly on canvas or change here.', 'gravisain-blocks' ) }
 										/>
 									) }
 

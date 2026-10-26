@@ -84,6 +84,11 @@ class Plugin {
 			LoginSecurity::get_instance();
 		}
 
+		// Initialize Early Access Updater if present (Undagital Standalone builds)
+		if ( class_exists( Updater::class ) ) {
+			Updater::init();
+		}
+
 		add_action( 'admin_menu', [ $this, 'register_admin_menu' ] );
 		add_filter( 'parent_file', [ $this, 'filter_parent_file' ] );
 		add_filter( 'submenu_file', [ $this, 'filter_submenu_file' ] );

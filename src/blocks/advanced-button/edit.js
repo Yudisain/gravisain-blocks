@@ -238,7 +238,7 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 						className="gravisain-btn-text"
 						value={ text }
 						onChange={ ( val ) => setAttributes( { text: val } ) }
-						placeholder={ __( 'Button text...', 'gravisain' ) }
+						placeholder={ __( 'Button text...', 'gravisain-blocks' ) }
 						allowedFormats={ [ 'core/bold', 'core/italic' ] }
 					/>
 

@@ -97,6 +97,32 @@ $sanitize_css_color = function( $color ): ?string {
 	return null;
 };
 
+/**
+ * Sanitize a CSS gradient value to prevent declaration injection.
+ */
+$sanitize_css_gradient = function( $gradient ): ?string {
+	if ( ! is_string( $gradient ) ) {
+		return null;
+	}
+	$gradient = trim( $gradient );
+	if ( '' === $gradient ) {
+		return null;
+	}
+	// Reject characters and expressions that permit declaration or script injection.
+	if ( preg_match( '/[;{}<>"\'\\\\]|expression|javascript|url\s*\(/i', $gradient ) ) {
+		return null;
+	}
+	// Must match valid gradient function pattern.
+	if ( ! preg_match( '/^(repeating-)?(linear|radial|conic)-gradient\s*\([a-zA-Z0-9_#%,.\s()+-]+\)$/i', $gradient ) ) {
+		return null;
+	}
+	// Ensure balanced parentheses.
+	if ( substr_count( $gradient, '(' ) !== substr_count( $gradient, ')' ) ) {
+		return null;
+	}
+	return $gradient;
+};
+
 // ── Attributes ───────────────────────────────────────────────────────────────
 
 $html_tag       = $attributes['htmlTag']              ?? 'p';
@@ -231,9 +257,10 @@ $inner_parts[] = 'font-weight:' . esc_attr( $font_weight ?: '400' );
 $inner_parts[] = 'text-transform:' . esc_attr( $text_transform ?: 'none' );
 $inner_parts[] = '--gravisain-highlight-color:' . esc_attr( $highlight_clr );
 
-if ( $enable_grad && $text_gradient ) {
+$sanitized_text_gradient = ( $enable_grad && $text_gradient ) ? $sanitize_css_gradient( $text_gradient ) : null;
+if ( $sanitized_text_gradient ) {
 	$inner_parts[] = 'color:transparent';
-	$inner_parts[] = 'background-image:' . esc_attr( $text_gradient );
+	$inner_parts[] = 'background-image:' . $sanitized_text_gradient;
 	$inner_parts[] = '-webkit-background-clip:text';
 	$inner_parts[] = 'background-clip:text';
 } else {

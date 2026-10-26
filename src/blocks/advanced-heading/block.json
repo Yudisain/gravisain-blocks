@@ -2,14 +2,20 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "gravisain/advanced-heading",
-	"version": "1.1.0",
+	"version": "1.0.0",
 	"title": "Advanced Heading",
 	"category": "gravisain-blocks",
 	"icon": "heading",
 	"description": "Advanced Heading featuring 3-tab inspector (General, Style, Advanced), typography controls, gradient text, eyebrow, and decorative divider.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
-		"align": ["left", "center", "right", "wide", "full"],
+		"align": [
+			"left",
+			"center",
+			"right",
+			"wide",
+			"full"
+		],
 		"html": false,
 		"anchor": false,
 		"customClassName": false,

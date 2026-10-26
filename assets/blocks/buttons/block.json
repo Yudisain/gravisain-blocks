@@ -1,97 +1,94 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "gravisain/buttons",
-  "version": "1.0.0",
-  "title": "Advanced Buttons",
-  "category": "gravisain-blocks",
-  "icon": "button",
-  "description": "A wrapper for advanced buttons.",
-  "supports": {
-    "html": false,
-    "align": [
-      "wide",
-      "full"
-    ],
-    "anchor": false,
-    "customClassName": false,
-    "customCSS": false,
-    "__experimentalCustomCSS": false
-  },
-  "attributes": {
-    "anchor": {
-      "type": "string",
-      "default": ""
-    },
-    "customClassName": {
-      "type": "string",
-      "default": ""
-    },
-    "customCSS": {
-      "type": "string",
-      "default": ""
-    },
-    "layout": {
-      "type": "string",
-      "default": "horizontal"
-    },
-    "layoutTablet": {
-      "type": "string",
-      "default": ""
-    },
-    "layoutMobile": {
-      "type": "string",
-      "default": ""
-    },
-    "justifyContent": {
-      "type": "string",
-      "default": "flex-start"
-    },
-    "justifyContentTablet": {
-      "type": "string",
-      "default": ""
-    },
-    "justifyContentMobile": {
-      "type": "string",
-      "default": ""
-    },
-    "gap": {
-      "type": "number",
-      "default": 16
-    },
-    "gapTablet": {
-      "type": "number"
-    },
-    "gapMobile": {
-      "type": "number"
-    },
-    "padding": {
-      "type": "object",
-      "default": {}
-    },
-    "paddingTablet": {
-      "type": "object",
-      "default": {}
-    },
-    "paddingMobile": {
-      "type": "object",
-      "default": {}
-    },
-    "margin": {
-      "type": "object",
-      "default": {}
-    },
-    "marginTablet": {
-      "type": "object",
-      "default": {}
-    },
-    "marginMobile": {
-      "type": "object",
-      "default": {}
-    }
-  },
-  "textdomain": "gravisain",
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/buttons",
+	"version": "1.0.0",
+	"title": "Advanced Buttons",
+	"category": "gravisain-blocks",
+	"icon": "button",
+	"description": "A wrapper for advanced buttons.",
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ],
+		"anchor": false,
+		"customClassName": false,
+		"customCSS": false,
+		"__experimentalCustomCSS": false
+	},
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"customClassName": {
+			"type": "string",
+			"default": ""
+		},
+		"customCSS": {
+			"type": "string",
+			"default": ""
+		},
+		"layout": {
+			"type": "string",
+			"default": "horizontal"
+		},
+		"layoutTablet": {
+			"type": "string",
+			"default": ""
+		},
+		"layoutMobile": {
+			"type": "string",
+			"default": ""
+		},
+		"justifyContent": {
+			"type": "string",
+			"default": "flex-start"
+		},
+		"justifyContentTablet": {
+			"type": "string",
+			"default": ""
+		},
+		"justifyContentMobile": {
+			"type": "string",
+			"default": ""
+		},
+		"gap": {
+			"type": "number",
+			"default": 16
+		},
+		"gapTablet": {
+			"type": "number"
+		},
+		"gapMobile": {
+			"type": "number"
+		},
+		"padding": {
+			"type": "object",
+			"default": {}
+		},
+		"paddingTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"paddingMobile": {
+			"type": "object",
+			"default": {}
+		},
+		"margin": {
+			"type": "object",
+			"default": {}
+		},
+		"marginTablet": {
+			"type": "object",
+			"default": {}
+		},
+		"marginMobile": {
+			"type": "object",
+			"default": {}
+		}
+	},
+	"textdomain": "gravisain-blocks",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
 }

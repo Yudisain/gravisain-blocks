@@ -12,7 +12,7 @@ export default function HeroContent( { attributes, setAttributes } ) {
 				className="gravisain-hero__eyebrow"
 				value={ eyebrow }
 				onChange={ ( value ) => setAttributes( { eyebrow: value } ) }
-				placeholder={ __( 'Add eyebrow text...', 'gravisain' ) }
+				placeholder={ __( 'Add eyebrow text...', 'gravisain-blocks' ) }
 			/>
 			
 			<RichText
@@ -20,7 +20,7 @@ export default function HeroContent( { attributes, setAttributes } ) {
 				className="gravisain-hero__title"
 				value={ title }
 				onChange={ ( value ) => setAttributes( { title: value } ) }
-				placeholder={ __( 'Hero Title', 'gravisain' ) }
+				placeholder={ __( 'Hero Title', 'gravisain-blocks' ) }
 			/>
 			
 			<RichText
@@ -28,7 +28,7 @@ export default function HeroContent( { attributes, setAttributes } ) {
 				className="gravisain-hero__description"
 				value={ description }
 				onChange={ ( value ) => setAttributes( { description: value } ) }
-				placeholder={ __( 'Hero description...', 'gravisain' ) }
+				placeholder={ __( 'Hero description...', 'gravisain-blocks' ) }
 			/>
 			
 			<HeroButtons attributes={attributes} setAttributes={setAttributes} />

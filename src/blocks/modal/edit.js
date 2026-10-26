@@ -54,7 +54,7 @@ export default function Edit( props ) {
 								tagName="span"
 								value={ triggerText }
 								onChange={ ( val ) => setAttributes( { triggerText: val } ) }
-								placeholder={ __( 'Button text...', 'gravisain' ) }
+								placeholder={ __( 'Button text...', 'gravisain-blocks' ) }
 							/>
 						</button>
 					) : (
@@ -63,7 +63,7 @@ export default function Edit( props ) {
 								tagName="span"
 								value={ triggerText }
 								onChange={ ( val ) => setAttributes( { triggerText: val } ) }
-								placeholder={ __( 'Link text...', 'gravisain' ) }
+								placeholder={ __( 'Link text...', 'gravisain-blocks' ) }
 							/>
 						</a>
 					) }
@@ -75,7 +75,7 @@ export default function Edit( props ) {
 						onClick={ () => setIsPreviewOpen( ! isPreviewOpen ) }
 						icon={ isPreviewOpen ? 'visibility' : 'hidden' }
 					>
-						{ isPreviewOpen ? __( 'Hide Modal Content', 'gravisain' ) : __( 'Edit Modal Content', 'gravisain' ) }
+						{ isPreviewOpen ? __( 'Hide Modal Content', 'gravisain-blocks' ) : __( 'Edit Modal Content', 'gravisain-blocks' ) }
 					</Button>
 				</div>
 
@@ -87,7 +87,7 @@ export default function Edit( props ) {
 								className="gravisain-modal-title"
 								value={ modalTitle }
 								onChange={ ( val ) => setAttributes( { modalTitle: val } ) }
-								placeholder={ __( 'Modal Title...', 'gravisain' ) }
+								placeholder={ __( 'Modal Title...', 'gravisain-blocks' ) }
 							/>
 							<span className="gravisain-modal-close-preview dashicons dashicons-no-alt" />
 						</div>

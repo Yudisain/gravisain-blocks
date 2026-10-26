@@ -57,35 +57,35 @@ export default function Edit( props ) {
 						className="gravisain-form-title"
 						value={ formTitle }
 						onChange={ ( val ) => setAttributes( { formTitle: val } ) }
-						placeholder={ __( 'Form Title...', 'gravisain' ) }
+						placeholder={ __( 'Form Title...', 'gravisain-blocks' ) }
 					/>
 
 					<div className="gravisain-form-fields">
 						{ showName && (
 							<div className="gravisain-form-group">
-								<label>{ __( 'Your Name', 'gravisain' ) } *</label>
-								<input type="text" placeholder={ __( 'John Doe', 'gravisain' ) } disabled />
+								<label>{ __( 'Your Name', 'gravisain-blocks' ) } *</label>
+								<input type="text" placeholder={ __( 'John Doe', 'gravisain-blocks' ) } disabled />
 							</div>
 						) }
 
 						{ showEmail && (
 							<div className="gravisain-form-group">
-								<label>{ __( 'Your Email Address', 'gravisain' ) } *</label>
-								<input type="email" placeholder={ __( 'john@example.com', 'gravisain' ) } disabled />
+								<label>{ __( 'Your Email Address', 'gravisain-blocks' ) } *</label>
+								<input type="email" placeholder={ __( 'john@example.com', 'gravisain-blocks' ) } disabled />
 							</div>
 						) }
 
 						{ showSubject && (
 							<div className="gravisain-form-group">
-								<label>{ __( 'Subject', 'gravisain' ) }</label>
-								<input type="text" placeholder={ __( 'How can we help you?', 'gravisain' ) } disabled />
+								<label>{ __( 'Subject', 'gravisain-blocks' ) }</label>
+								<input type="text" placeholder={ __( 'How can we help you?', 'gravisain-blocks' ) } disabled />
 							</div>
 						) }
 
 						{ showMessage && (
 							<div className="gravisain-form-group">
-								<label>{ __( 'Message', 'gravisain' ) } *</label>
-								<textarea rows={ 4 } placeholder={ __( 'Type your message here...', 'gravisain' ) } disabled />
+								<label>{ __( 'Message', 'gravisain-blocks' ) } *</label>
+								<textarea rows={ 4 } placeholder={ __( 'Type your message here...', 'gravisain-blocks' ) } disabled />
 							</div>
 						) }
 
@@ -95,7 +95,7 @@ export default function Edit( props ) {
 									tagName="span"
 									value={ submitButtonText }
 									onChange={ ( val ) => setAttributes( { submitButtonText: val } ) }
-									placeholder={ __( 'Send Message...', 'gravisain' ) }
+									placeholder={ __( 'Send Message...', 'gravisain-blocks' ) }
 								/>
 							</button>
 						</div>

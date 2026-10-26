@@ -59,7 +59,12 @@ export default function save( { attributes } ) {
 	if ( customClassName ) wrapperClass += ' ' + customClassName;
 
 	const isBgGradient = typeof backgroundColor === 'string' && ( backgroundColor.includes( 'gradient' ) || backgroundColor.includes( 'radial' ) || backgroundColor.includes( 'linear' ) );
+	const isBgGradientTablet = typeof backgroundColorTablet === 'string' && ( backgroundColorTablet.includes( 'gradient' ) || backgroundColorTablet.includes( 'radial' ) || backgroundColorTablet.includes( 'linear' ) );
+	const isBgGradientMobile = typeof backgroundColorMobile === 'string' && ( backgroundColorMobile.includes( 'gradient' ) || backgroundColorMobile.includes( 'radial' ) || backgroundColorMobile.includes( 'linear' ) );
+
 	const desktopBgImage = backgroundImage?.url ? `url(${backgroundImage.url})` : undefined;
+	const tabletBgImage = backgroundImageTablet?.url ? `url(${backgroundImageTablet.url})` : undefined;
+	const mobileBgImage = backgroundImageMobile?.url ? `url(${backgroundImageMobile.url})` : undefined;
 
 	const blockProps = useBlockProps.save( {
 		id: anchor || undefined,
@@ -76,25 +81,17 @@ export default function save( { attributes } ) {
 			'--gravisain-gap-compensation-tablet': columns > 1 && rowGapTablet !== undefined ? `calc(${rowGapTablet}px * ${columns - 1} / ${columns})` : undefined,
 			'--gravisain-gap-compensation-mobile': columns > 1 && rowGapMobile !== undefined ? `calc(${rowGapMobile}px * ${columns - 1} / ${columns})` : undefined,
 			
-			...( backgroundColor ? (
-				isBgGradient
-					? { backgroundImage: desktopBgImage ? `${desktopBgImage}, ${backgroundColor}` : backgroundColor }
-					: { backgroundColor: backgroundColor, backgroundImage: desktopBgImage || undefined }
-			) : {
-				backgroundImage: desktopBgImage || undefined
-			} ),
-
 			'--gravisain-bg-color': !isBgGradient ? ( backgroundColor || undefined ) : undefined,
-			'--gravisain-bg-color-tablet': typeof backgroundColorTablet === 'string' && !backgroundColorTablet.includes('gradient') ? backgroundColorTablet : undefined,
-			'--gravisain-bg-color-mobile': typeof backgroundColorMobile === 'string' && !backgroundColorMobile.includes('gradient') ? backgroundColorMobile : undefined,
+			'--gravisain-bg-color-tablet': typeof backgroundColorTablet === 'string' && backgroundColorTablet ? ( !isBgGradientTablet ? backgroundColorTablet : 'transparent' ) : undefined,
+			'--gravisain-bg-color-mobile': typeof backgroundColorMobile === 'string' && backgroundColorMobile ? ( !isBgGradientMobile ? backgroundColorMobile : 'transparent' ) : undefined,
 
-			'--gravisain-bg-gradient': isBgGradient ? backgroundColor : undefined,
-			'--gravisain-bg-gradient-tablet': typeof backgroundColorTablet === 'string' && backgroundColorTablet.includes('gradient') ? backgroundColorTablet : undefined,
-			'--gravisain-bg-gradient-mobile': typeof backgroundColorMobile === 'string' && backgroundColorMobile.includes('gradient') ? backgroundColorMobile : undefined,
+			'--gravisain-bg-gradient': isBgGradient ? ( desktopBgImage ? `${desktopBgImage}, ${backgroundColor}` : backgroundColor ) : undefined,
+			'--gravisain-bg-gradient-tablet': typeof backgroundColorTablet === 'string' && backgroundColorTablet ? ( isBgGradientTablet ? ( tabletBgImage ? `${tabletBgImage}, ${backgroundColorTablet}` : backgroundColorTablet ) : 'none' ) : undefined,
+			'--gravisain-bg-gradient-mobile': typeof backgroundColorMobile === 'string' && backgroundColorMobile ? ( isBgGradientMobile ? ( mobileBgImage ? `${mobileBgImage}, ${backgroundColorMobile}` : backgroundColorMobile ) : 'none' ) : undefined,
 			
 			'--gravisain-bg-image': desktopBgImage,
-			'--gravisain-bg-image-tablet': backgroundImageTablet?.url ? `url(${backgroundImageTablet.url})` : undefined,
-			'--gravisain-bg-image-mobile': backgroundImageMobile?.url ? `url(${backgroundImageMobile.url})` : undefined,
+			'--gravisain-bg-image-tablet': tabletBgImage,
+			'--gravisain-bg-image-mobile': mobileBgImage,
 			
 			'--gravisain-bg-position': backgroundPosition || undefined,
 			'--gravisain-bg-position-tablet': backgroundPositionTablet || undefined,

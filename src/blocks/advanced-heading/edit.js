@@ -499,7 +499,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						style={ eyebrowStyle }
 						value={ eyebrow }
 						onChange={ ( val ) => setAttributes( { eyebrow: val } ) }
-						placeholder={ __( 'Eyebrow text...', 'gravisain' ) }
+						placeholder={ __( 'Eyebrow text...', 'gravisain-blocks' ) }
 					/>
 				) }
 
@@ -509,7 +509,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					style={ headingStyle }
 					value={ content }
 					onChange={ ( val ) => setAttributes( { content: val } ) }
-					placeholder={ __( 'Write heading title here...', 'gravisain' ) }
+					placeholder={ __( 'Write heading title here...', 'gravisain-blocks' ) }
 				/>
 
 				{ eyebrowPosition === 'below' && (
@@ -629,7 +629,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					style={ descriptionStyle }
 					value={ description }
 					onChange={ ( val ) => setAttributes( { description: val } ) }
-					placeholder={ __( 'Write description here (optional)...', 'gravisain' ) }
+					placeholder={ __( 'Write description here (optional)...', 'gravisain-blocks' ) }
 				/>
 			</div>
 		</>

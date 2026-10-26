@@ -7,7 +7,7 @@
 	"category": "gravisain-blocks",
 	"icon": "editor-table",
 	"description": "Build responsive comparison tables and pricing plans with highlighted columns, headers, and striped rows.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
 		"html": false,
 		"anchor": false,

@@ -44,12 +44,12 @@ export default function ButtonsInspector( { attributes, setAttributes } ) {
 				tabs={ [
 					{
 						name: 'general',
-						title: __( 'General', 'gravisain' ),
+						title: __( 'General', 'gravisain-blocks' ),
 						className: 'gravisain-tab-general',
 					},
 					{
 						name: 'advanced',
-						title: __( 'Advanced', 'gravisain' ),
+						title: __( 'Advanced', 'gravisain-blocks' ),
 						className: 'gravisain-tab-advanced',
 					}
 				] }
@@ -57,7 +57,7 @@ export default function ButtonsInspector( { attributes, setAttributes } ) {
 				{ ( tab ) => (
 					<div className="gravisain-tab-content">
 						{ tab.name === 'general' && (
-							<PanelBody title={ __( 'Buttons Layout', 'gravisain' ) } initialOpen={ true }>
+							<PanelBody title={ __( 'Buttons Layout', 'gravisain-blocks' ) } initialOpen={ true }>
 								<ResponsiveTabControl>
 									{ ( currentDevice ) => {
 										if ( currentDevice === 'tablet' ) {
@@ -65,36 +65,36 @@ export default function ButtonsInspector( { attributes, setAttributes } ) {
 											return (
 												<>
 													<SelectControl
-														label={ __( 'Layout', 'gravisain' ) }
+														label={ __( 'Layout', 'gravisain-blocks' ) }
 														value={ layoutTablet }
 														options={ [
 															{ 
-																label: `${ __( 'Inherit from Desktop', 'gravisain' ) } (${ layout === 'vertical' ? __( 'Vertical', 'gravisain' ) : __( 'Horizontal', 'gravisain' ) })`, 
+																label: `${ __( 'Inherit from Desktop', 'gravisain-blocks' ) } (${ layout === 'vertical' ? __( 'Vertical', 'gravisain-blocks' ) : __( 'Horizontal', 'gravisain-blocks' ) })`, 
 																value: '' 
 															},
-															{ label: __( 'Horizontal', 'gravisain' ), value: 'horizontal' },
-															{ label: __( 'Vertical', 'gravisain' ), value: 'vertical' },
+															{ label: __( 'Horizontal', 'gravisain-blocks' ), value: 'horizontal' },
+															{ label: __( 'Vertical', 'gravisain-blocks' ), value: 'vertical' },
 														] }
 														onChange={ ( val ) => setAttributes( { layoutTablet: val } ) }
 													/>
 
 													{ effectiveTabletLayout === 'horizontal' && (
 														<SelectControl
-															label={ __( 'Justify Content', 'gravisain' ) }
+															label={ __( 'Justify Content', 'gravisain-blocks' ) }
 															value={ justifyContentTablet }
 															options={ [
-																{ label: __( 'Inherit from Desktop', 'gravisain' ), value: '' },
-																{ label: __( 'Start', 'gravisain' ), value: 'flex-start' },
-																{ label: __( 'Center', 'gravisain' ), value: 'center' },
-																{ label: __( 'End', 'gravisain' ), value: 'flex-end' },
-																{ label: __( 'Space Between', 'gravisain' ), value: 'space-between' },
+																{ label: __( 'Inherit from Desktop', 'gravisain-blocks' ), value: '' },
+																{ label: __( 'Start', 'gravisain-blocks' ), value: 'flex-start' },
+																{ label: __( 'Center', 'gravisain-blocks' ), value: 'center' },
+																{ label: __( 'End', 'gravisain-blocks' ), value: 'flex-end' },
+																{ label: __( 'Space Between', 'gravisain-blocks' ), value: 'space-between' },
 															] }
 															onChange={ ( val ) => setAttributes( { justifyContentTablet: val } ) }
 														/>
 													) }
 
 													<RangeControl
-														label={ __( 'Gap (px)', 'gravisain' ) }
+														label={ __( 'Gap (px)', 'gravisain-blocks' ) }
 														value={ gapTablet !== undefined && gapTablet !== '' ? gapTablet : undefined }
 														placeholder={ gap !== undefined ? String( gap ) : '16' }
 														onChange={ ( val ) => setAttributes( { gapTablet: val } ) }
@@ -112,36 +112,36 @@ export default function ButtonsInspector( { attributes, setAttributes } ) {
 											return (
 												<>
 													<SelectControl
-														label={ __( 'Layout', 'gravisain' ) }
+														label={ __( 'Layout', 'gravisain-blocks' ) }
 														value={ layoutMobile }
 														options={ [
 															{ 
-																label: `${ __( 'Inherit from Above', 'gravisain' ) } (${ inheritedLayout === 'vertical' ? __( 'Vertical', 'gravisain' ) : __( 'Horizontal', 'gravisain' ) })`, 
+																label: `${ __( 'Inherit from Above', 'gravisain-blocks' ) } (${ inheritedLayout === 'vertical' ? __( 'Vertical', 'gravisain-blocks' ) : __( 'Horizontal', 'gravisain-blocks' ) })`, 
 																value: '' 
 															},
-															{ label: __( 'Horizontal', 'gravisain' ), value: 'horizontal' },
-															{ label: __( 'Vertical', 'gravisain' ), value: 'vertical' },
+															{ label: __( 'Horizontal', 'gravisain-blocks' ), value: 'horizontal' },
+															{ label: __( 'Vertical', 'gravisain-blocks' ), value: 'vertical' },
 														] }
 														onChange={ ( val ) => setAttributes( { layoutMobile: val } ) }
 													/>
 
 													{ effectiveMobileLayout === 'horizontal' && (
 														<SelectControl
-															label={ __( 'Justify Content', 'gravisain' ) }
+															label={ __( 'Justify Content', 'gravisain-blocks' ) }
 															value={ justifyContentMobile }
 															options={ [
-																{ label: __( 'Inherit from Above', 'gravisain' ), value: '' },
-																{ label: __( 'Start', 'gravisain' ), value: 'flex-start' },
-																{ label: __( 'Center', 'gravisain' ), value: 'center' },
-																{ label: __( 'End', 'gravisain' ), value: 'flex-end' },
-																{ label: __( 'Space Between', 'gravisain' ), value: 'space-between' },
+																{ label: __( 'Inherit from Above', 'gravisain-blocks' ), value: '' },
+																{ label: __( 'Start', 'gravisain-blocks' ), value: 'flex-start' },
+																{ label: __( 'Center', 'gravisain-blocks' ), value: 'center' },
+																{ label: __( 'End', 'gravisain-blocks' ), value: 'flex-end' },
+																{ label: __( 'Space Between', 'gravisain-blocks' ), value: 'space-between' },
 															] }
 															onChange={ ( val ) => setAttributes( { justifyContentMobile: val } ) }
 														/>
 													) }
 
 													<RangeControl
-														label={ __( 'Gap (px)', 'gravisain' ) }
+														label={ __( 'Gap (px)', 'gravisain-blocks' ) }
 														value={ gapMobile !== undefined && gapMobile !== '' ? gapMobile : undefined }
 														placeholder={ gapTablet !== undefined && gapTablet !== '' ? String( gapTablet ) : ( gap !== undefined ? String( gap ) : '16' ) }
 														onChange={ ( val ) => setAttributes( { gapMobile: val } ) }
@@ -157,31 +157,31 @@ export default function ButtonsInspector( { attributes, setAttributes } ) {
 										return (
 											<>
 												<SelectControl
-													label={ __( 'Layout', 'gravisain' ) }
+													label={ __( 'Layout', 'gravisain-blocks' ) }
 													value={ layout }
 													options={ [
-														{ label: __( 'Horizontal', 'gravisain' ), value: 'horizontal' },
-														{ label: __( 'Vertical', 'gravisain' ), value: 'vertical' },
+														{ label: __( 'Horizontal', 'gravisain-blocks' ), value: 'horizontal' },
+														{ label: __( 'Vertical', 'gravisain-blocks' ), value: 'vertical' },
 													] }
 													onChange={ ( val ) => setAttributes( { layout: val } ) }
 												/>
 
 												{ layout === 'horizontal' && (
 													<SelectControl
-														label={ __( 'Justify Content', 'gravisain' ) }
+														label={ __( 'Justify Content', 'gravisain-blocks' ) }
 														value={ justifyContent }
 														options={ [
-															{ label: __( 'Start', 'gravisain' ), value: 'flex-start' },
-															{ label: __( 'Center', 'gravisain' ), value: 'center' },
-															{ label: __( 'End', 'gravisain' ), value: 'flex-end' },
-															{ label: __( 'Space Between', 'gravisain' ), value: 'space-between' },
+															{ label: __( 'Start', 'gravisain-blocks' ), value: 'flex-start' },
+															{ label: __( 'Center', 'gravisain-blocks' ), value: 'center' },
+															{ label: __( 'End', 'gravisain-blocks' ), value: 'flex-end' },
+															{ label: __( 'Space Between', 'gravisain-blocks' ), value: 'space-between' },
 														] }
 														onChange={ ( val ) => setAttributes( { justifyContent: val } ) }
 													/>
 												) }
 
 												<RangeControl
-													label={ __( 'Gap (px)', 'gravisain' ) }
+													label={ __( 'Gap (px)', 'gravisain-blocks' ) }
 													value={ gap }
 													onChange={ ( val ) => setAttributes( { gap: val } ) }
 													min={ 0 }
@@ -196,17 +196,17 @@ export default function ButtonsInspector( { attributes, setAttributes } ) {
 
 						{ tab.name === 'advanced' && (
 							<>
-								<PanelBody title={ __( 'Spacing & Margin Controls', 'gravisain' ) } initialOpen={ true }>
+								<PanelBody title={ __( 'Spacing & Margin Controls', 'gravisain-blocks' ) } initialOpen={ true }>
 									<ResponsiveTabControl>
 										{ ( currentDevice ) => (
 											<>
 												<SpacingControl
-													label={ __( 'Wrapper Padding', 'gravisain' ) }
+													label={ __( 'Wrapper Padding', 'gravisain-blocks' ) }
 													value={ getResponsiveAttr( 'padding', currentDevice ) }
 													onChange={ ( val ) => setResponsiveAttr( 'padding', val, currentDevice ) }
 												/>
 												<SpacingControl
-													label={ __( 'Wrapper Margin', 'gravisain' ) }
+													label={ __( 'Wrapper Margin', 'gravisain-blocks' ) }
 													value={ getResponsiveAttr( 'margin', currentDevice ) }
 													onChange={ ( val ) => setResponsiveAttr( 'margin', val, currentDevice ) }
 												/>
@@ -215,22 +215,22 @@ export default function ButtonsInspector( { attributes, setAttributes } ) {
 									</ResponsiveTabControl>
 								</PanelBody>
 
-								<PanelBody title={ __( 'Advanced Settings', 'gravisain' ) } initialOpen={ false }>
+								<PanelBody title={ __( 'Advanced Settings', 'gravisain-blocks' ) } initialOpen={ false }>
 									<TextControl
-										label={ __( 'HTML Anchor', 'gravisain' ) }
-										help={ __( 'Enter a word or two — without spaces — to make a unique web address just for this block, called an "anchor". Then, you\'ll be able to link directly to this section of your page.', 'gravisain' ) }
+										label={ __( 'HTML Anchor', 'gravisain-blocks' ) }
+										help={ __( 'Enter a word or two — without spaces — to make a unique web address just for this block, called an "anchor". Then, you\'ll be able to link directly to this section of your page.', 'gravisain-blocks' ) }
 										value={ anchor }
 										onChange={ ( val ) => setAttributes( { anchor: val } ) }
 									/>
 									<TextControl
-										label={ __( 'Additional CSS class(es)', 'gravisain' ) }
-										help={ __( 'Separate multiple classes with spaces.', 'gravisain' ) }
+										label={ __( 'Additional CSS class(es)', 'gravisain-blocks' ) }
+										help={ __( 'Separate multiple classes with spaces.', 'gravisain-blocks' ) }
 										value={ customClassName }
 										onChange={ ( val ) => setAttributes( { customClassName: val } ) }
 									/>
 									<TextareaControl
-										label={ __( 'Additional CSS', 'gravisain' ) }
-										help={ __( 'Add your own CSS to customize the appearance of this block. You do not need to include a CSS selector, just add the property and value, e.g. color: red;.', 'gravisain' ) }
+										label={ __( 'Additional CSS', 'gravisain-blocks' ) }
+										help={ __( 'Add your own CSS to customize the appearance of this block. You do not need to include a CSS selector, just add the property and value, e.g. color: red;.', 'gravisain-blocks' ) }
 										value={ customCSS }
 										onChange={ ( val ) => setAttributes( { customCSS: val } ) }
 										rows={ 4 }

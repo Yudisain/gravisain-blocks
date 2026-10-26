@@ -1,45 +1,37 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "gravisain/vector",
-  "version": "1.0.0",
-  "title": "Vector Graphics",
-  "category": "gravisain-blocks",
-  "icon": "art",
-  "description": "Insert vector graphics (SVG) from the media library for high-performance visuals.",
-  "keywords": [
-    "vector",
-    "svg",
-    "image",
-    "graphic"
-  ],
-  "supports": {
-    "html": false,
-    "align": [
-      "wide",
-      "full"
-    ]
-  },
-  "attributes": {
-    "mediaId": {
-      "type": "number",
-      "default": 0
-    },
-    "mediaUrl": {
-      "type": "string",
-      "default": ""
-    },
-    "mediaAlt": {
-      "type": "string",
-      "default": ""
-    },
-    "maxWidth": {
-      "type": "number",
-      "default": 300
-    }
-  },
-  "textdomain": "gravisain-blocks",
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/vector",
+	"version": "1.0.0",
+	"title": "Vector Graphics",
+	"category": "gravisain-blocks",
+	"icon": "art",
+	"description": "Insert vector graphics (SVG) from the media library for high-performance visuals.",
+	"keywords": [ "vector", "svg", "image", "graphic" ],
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ]
+	},
+	"attributes": {
+		"mediaId": {
+			"type": "number",
+			"default": 0
+		},
+		"mediaUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"mediaAlt": {
+			"type": "string",
+			"default": ""
+		},
+		"maxWidth": {
+			"type": "number",
+			"default": 300
+		}
+	},
+	"textdomain": "gravisain-blocks",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
 }

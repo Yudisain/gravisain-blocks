@@ -103,7 +103,7 @@ export default function Edit( props ) {
 						className="gravisain-faq-item__question"
 						value={ question }
 						onChange={ ( value ) => setAttributes( { question: value } ) }
-						placeholder={ __( 'Enter question...', 'gravisain' ) }
+						placeholder={ __( 'Enter question...', 'gravisain-blocks' ) }
 					/>
 					{ effectiveIconType !== 'none' && (
 						<span className="gravisain-faq-item__icon">

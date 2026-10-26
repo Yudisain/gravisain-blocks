@@ -18,17 +18,17 @@ export default function Inspector({ attributes, setAttributes }) {
 				tabs={[
 					{
 						name: 'general',
-						title: __('General', 'gravisain'),
+						title: __('General', 'gravisain-blocks'),
 						className: 'gravisain-tab-general',
 					},
 					{
 						name: 'style',
-						title: __('Style', 'gravisain'),
+						title: __('Style', 'gravisain-blocks'),
 						className: 'gravisain-tab-style',
 					},
 					{
 						name: 'advanced',
-						title: __('Advanced', 'gravisain'),
+						title: __('Advanced', 'gravisain-blocks'),
 						className: 'gravisain-tab-advanced',
 					},
 				]}

@@ -35,7 +35,7 @@ export default function Edit( props ) {
 						extracted.push( {
 							clientId: block.clientId,
 							level,
-							content: block.attributes.content || __( '(Empty Heading)', 'gravisain' ),
+							content: block.attributes.content || __( '(Empty Heading)', 'gravisain-blocks' ),
 						} );
 					}
 				}
@@ -79,7 +79,7 @@ export default function Edit( props ) {
 						className="gravisain-toc-title"
 						value={ title }
 						onChange={ ( val ) => setAttributes( { title: val } ) }
-						placeholder={ __( 'Table of Contents...', 'gravisain' ) }
+						placeholder={ __( 'Table of Contents...', 'gravisain-blocks' ) }
 					/>
 					{ collapsible && (
 						<span className="gravisain-toc-toggle dashicons dashicons-arrow-up-alt2" />
@@ -89,7 +89,7 @@ export default function Edit( props ) {
 				<div className="gravisain-toc-content">
 					{ headings.length === 0 ? (
 						<p className="gravisain-toc-empty">
-							{ __( 'Add heading blocks (H2, H3, H4) to generate a table of contents.', 'gravisain' ) }
+							{ __( 'Add heading blocks (H2, H3, H4) to generate a table of contents.', 'gravisain-blocks' ) }
 						</p>
 					) : (
 						<ListTag className="gravisain-toc-list">

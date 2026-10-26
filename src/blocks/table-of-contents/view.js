@@ -61,7 +61,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 			const link = document.createElement( 'a' );
 			link.href = `#${ id }`;
-			link.innerHTML = heading.innerHTML;
+			link.textContent = heading.textContent;
 
 			if ( smooth ) {
 				link.addEventListener( 'click', ( e ) => {

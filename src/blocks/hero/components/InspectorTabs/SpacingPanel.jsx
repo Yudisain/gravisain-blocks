@@ -18,17 +18,17 @@ export default function SpacingPanel({ attributes, setAttributes }) {
 	};
 
 	return (
-		<PanelBody title={__('Spacing & Margin', 'gravisain')} initialOpen={false}>
+		<PanelBody title={__('Spacing & Margin', 'gravisain-blocks')} initialOpen={false}>
 			<ResponsiveTabControl>
 				{(currentDevice) => (
 					<>
 						<SpacingControl
-							label={__('Padding', 'gravisain')}
+							label={__('Padding', 'gravisain-blocks')}
 							value={getResponsiveAttr('padding', currentDevice)}
 							onChange={(val) => setResponsiveAttr('padding', val, currentDevice)}
 						/>
 						<SpacingControl
-							label={__('Margin', 'gravisain')}
+							label={__('Margin', 'gravisain-blocks')}
 							value={getResponsiveAttr('margin', currentDevice)}
 							onChange={(val) => setResponsiveAttr('margin', val, currentDevice)}
 							allowNegative={true}

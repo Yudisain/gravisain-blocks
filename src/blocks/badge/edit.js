@@ -267,7 +267,7 @@ export default function Edit( props ) {
 						className="gravisain-badge-text"
 						value={ text }
 						onChange={ ( val ) => setAttributes( { text: val } ) }
-						placeholder={ __( 'Badge text...', 'gravisain' ) }
+						placeholder={ __( 'Badge text...', 'gravisain-blocks' ) }
 						allowedFormats={ [ 'core/bold', 'core/italic', 'core/text-color' ] }
 					/>
 				</div>

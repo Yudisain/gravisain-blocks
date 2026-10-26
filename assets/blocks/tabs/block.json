@@ -1,98 +1,98 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "gravisain/tabs",
-  "version": "1.1.0",
-  "title": "Tabs",
-  "category": "gravisain-blocks",
-  "icon": "index-card",
-  "description": "Organize content into interactive tabs with customizable styles and responsive layouts.",
-  "textdomain": "gravisain",
-  "supports": {
-    "html": false,
-    "anchor": false,
-    "customClassName": false,
-    "customCSS": false,
-    "__experimentalCustomCSS": false
-  },
-  "providesContext": {
-    "gravisain/activeTab": "activeTab"
-  },
-  "attributes": {
-    "tabTitles": {
-      "type": "array",
-      "default": [
-        {
-          "title": "First Tab"
-        },
-        {
-          "title": "Second Tab"
-        }
-      ]
-    },
-    "activeTab": {
-      "type": "number",
-      "default": 0
-    },
-    "layout": {
-      "type": "string",
-      "default": "horizontal"
-    },
-    "tabAlignment": {
-      "type": "string",
-      "default": "left"
-    },
-    "headerBackgroundColor": {
-      "type": "string",
-      "default": "#f8fafc"
-    },
-    "activeTabColor": {
-      "type": "string",
-      "default": "#007cba"
-    },
-    "activeTabTextColor": {
-      "type": "string",
-      "default": "#ffffff"
-    },
-    "tabTextColor": {
-      "type": "string",
-      "default": "#333333"
-    },
-    "contentBackgroundColor": {
-      "type": "string",
-      "default": "#ffffff"
-    },
-    "contentPadding": {
-      "type": "number",
-      "default": 24
-    },
-    "borderRadius": {
-      "type": "number",
-      "default": 8
-    },
-    "borderWidth": {
-      "type": "number",
-      "default": 1
-    },
-    "borderColor": {
-      "type": "string",
-      "default": "#e2e8f0"
-    },
-    "anchor": {
-      "type": "string",
-      "default": ""
-    },
-    "customClassName": {
-      "type": "string",
-      "default": ""
-    },
-    "customCSS": {
-      "type": "string",
-      "default": ""
-    }
-  },
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css",
-  "viewScript": "file:./view.js"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/tabs",
+	"version": "1.0.0",
+	"title": "Tabs",
+	"category": "gravisain-blocks",
+	"icon": "index-card",
+	"description": "Organize content into interactive tabs with customizable styles and responsive layouts.",
+	"textdomain": "gravisain-blocks",
+	"supports": {
+		"html": false,
+		"anchor": false,
+		"customClassName": false,
+		"customCSS": false,
+		"__experimentalCustomCSS": false
+	},
+	"providesContext": {
+		"gravisain/activeTab": "activeTab"
+	},
+	"attributes": {
+		"tabTitles": {
+			"type": "array",
+			"default": [
+				{
+					"title": "First Tab"
+				},
+				{
+					"title": "Second Tab"
+				}
+			]
+		},
+		"activeTab": {
+			"type": "number",
+			"default": 0
+		},
+		"layout": {
+			"type": "string",
+			"default": "horizontal"
+		},
+		"tabAlignment": {
+			"type": "string",
+			"default": "left"
+		},
+		"headerBackgroundColor": {
+			"type": "string",
+			"default": "#f8fafc"
+		},
+		"activeTabColor": {
+			"type": "string",
+			"default": "#007cba"
+		},
+		"activeTabTextColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"tabTextColor": {
+			"type": "string",
+			"default": "#333333"
+		},
+		"contentBackgroundColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"contentPadding": {
+			"type": "number",
+			"default": 24
+		},
+		"borderRadius": {
+			"type": "number",
+			"default": 8
+		},
+		"borderWidth": {
+			"type": "number",
+			"default": 1
+		},
+		"borderColor": {
+			"type": "string",
+			"default": "#e2e8f0"
+		},
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"customClassName": {
+			"type": "string",
+			"default": ""
+		},
+		"customCSS": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js"
 }

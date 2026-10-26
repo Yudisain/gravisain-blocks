@@ -340,7 +340,7 @@ const inlineStyles = `
  * Standard Kadence-style Box Model Spacing Control for Margin & Padding
  */
 export default function SpacingControl( {
-	label = __( 'Padding', 'gravisain' ),
+	label = __( 'Padding', 'gravisain-blocks' ),
 	value,
 	onChange,
 	allowNegative = false,
@@ -508,7 +508,7 @@ export default function SpacingControl( {
 						type="button"
 						className={ `gravisain-action-btn ${ isLinked ? 'is-active' : '' }` }
 						onClick={ toggleLink }
-						title={ isLinked ? __( 'Unlink Values', 'gravisain' ) : __( 'Link Values', 'gravisain' ) }
+						title={ isLinked ? __( 'Unlink Values', 'gravisain-blocks' ) : __( 'Link Values', 'gravisain-blocks' ) }
 					>
 						{ isLinked ? <LinkIcon /> : <UnlinkIcon /> }
 					</button>
@@ -517,7 +517,7 @@ export default function SpacingControl( {
 						type="button"
 						className="gravisain-action-btn"
 						onClick={ handleReset }
-						title={ __( 'Reset Values', 'gravisain' ) }
+						title={ __( 'Reset Values', 'gravisain-blocks' ) }
 					>
 						<ResetIcon />
 					</button>
@@ -550,7 +550,7 @@ export default function SpacingControl( {
 						type="button"
 						className={ `gravisain-unit-btn ${ isUnitOpen ? 'is-open' : '' }` }
 						onClick={ () => setIsUnitOpen( ! isUnitOpen ) }
-						title={ __( 'Change Unit', 'gravisain' ) }
+						title={ __( 'Change Unit', 'gravisain-blocks' ) }
 					>
 						{ ( parsed.unit || 'px' ).toUpperCase() }
 					</button>
@@ -609,7 +609,7 @@ export default function SpacingControl( {
 							className="gravisain-reset-btn"
 							onClick={ () => handleSideChange( activeSide, '' ) }
 						>
-							{ __( 'Reset', 'gravisain' ) }
+							{ __( 'Reset', 'gravisain-blocks' ) }
 						</button>
 					</div>
 				</div>

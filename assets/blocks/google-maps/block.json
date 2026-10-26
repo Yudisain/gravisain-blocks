@@ -1,67 +1,34 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "gravisain/google-maps",
-  "version": "1.0.0",
-  "title": "Google Maps / Location",
-  "category": "gravisain-blocks",
-  "icon": "location-alt",
-  "description": "Embed an interactive Google Map with custom location query, zoom levels, and styling without needing an API key.",
-  "textdomain": "gravisain",
-  "supports": {
-    "html": false,
-    "anchor": false,
-    "customClassName": false,
-    "customCSS": false,
-    "__experimentalCustomCSS": false
-  },
-  "attributes": {
-    "location": {
-      "type": "string",
-      "default": "Jakarta, Indonesia"
-    },
-    "zoom": {
-      "type": "number",
-      "default": 14
-    },
-    "height": {
-      "type": "number",
-      "default": 400
-    },
-    "mapType": {
-      "type": "string",
-      "default": "m"
-    },
-    "borderRadius": {
-      "type": "number",
-      "default": 8
-    },
-    "borderWidth": {
-      "type": "number",
-      "default": 0
-    },
-    "borderColor": {
-      "type": "string",
-      "default": "#e2e8f0"
-    },
-    "boxShadow": {
-      "type": "string",
-      "default": "none"
-    },
-    "anchor": {
-      "type": "string",
-      "default": ""
-    },
-    "customClassName": {
-      "type": "string",
-      "default": ""
-    },
-    "customCSS": {
-      "type": "string",
-      "default": ""
-    }
-  },
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/google-maps",
+	"version": "1.0.0",
+	"title": "Google Maps / Location",
+	"category": "gravisain-blocks",
+	"icon": "location-alt",
+	"description": "Embed an interactive Google Map with custom location query, zoom levels, and styling without needing an API key.",
+	"textdomain": "gravisain-blocks",
+	"supports": {
+		"html": false,
+		"anchor": false,
+		"customClassName": false,
+		"customCSS": false,
+		"__experimentalCustomCSS": false
+	},
+	"attributes": {
+		"location": { "type": "string", "default": "Jakarta, Indonesia" },
+		"zoom": { "type": "number", "default": 14 },
+		"height": { "type": "number", "default": 400 },
+		"mapType": { "type": "string", "default": "m" },
+		"borderRadius": { "type": "number", "default": 8 },
+		"borderWidth": { "type": "number", "default": 0 },
+		"borderColor": { "type": "string", "default": "#e2e8f0" },
+		"boxShadow": { "type": "string", "default": "none" },
+		"anchor": { "type": "string", "default": "" },
+		"customClassName": { "type": "string", "default": "" },
+		"customCSS": { "type": "string", "default": "" }
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
 }

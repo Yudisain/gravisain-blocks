@@ -28,7 +28,7 @@ export default function ShapeDividerControl( { label, value = {}, onChange } ) {
 	return (
 		<BaseControl label={ label } className="gravisain-shape-divider-control" style={ { marginBottom: '24px' } }>
 			<SelectControl
-				label={ __( 'Shape', 'gravisain' ) }
+				label={ __( 'Shape', 'gravisain-blocks' ) }
 				value={ type }
 				options={ shapeOptions }
 				onChange={ ( val ) => updateSetting( 'type', val ) }
@@ -37,14 +37,14 @@ export default function ShapeDividerControl( { label, value = {}, onChange } ) {
 			{ type !== 'none' && (
 				<div style={ { marginTop: '16px' } }>
 					<ColorControl
-						label={ __( 'Shape Color', 'gravisain' ) }
+						label={ __( 'Shape Color', 'gravisain-blocks' ) }
 						value={ color }
 						onChange={ ( val ) => updateSetting( 'color', val ) }
 						disableGradient={ true }
 					/>
 					
 					<RangeControl
-						label={ __( 'Width (%)', 'gravisain' ) }
+						label={ __( 'Width (%)', 'gravisain-blocks' ) }
 						value={ width }
 						onChange={ ( val ) => updateSetting( 'width', val ) }
 						min={ 100 }
@@ -52,7 +52,7 @@ export default function ShapeDividerControl( { label, value = {}, onChange } ) {
 					/>
 
 					<RangeControl
-						label={ __( 'Height (px)', 'gravisain' ) }
+						label={ __( 'Height (px)', 'gravisain-blocks' ) }
 						value={ height }
 						onChange={ ( val ) => updateSetting( 'height', val ) }
 						min={ 10 }
@@ -61,12 +61,12 @@ export default function ShapeDividerControl( { label, value = {}, onChange } ) {
 
 					<div style={ { display: 'flex', gap: '16px' } }>
 						<ToggleControl
-							label={ __( 'Flip Horizontally', 'gravisain' ) }
+							label={ __( 'Flip Horizontally', 'gravisain-blocks' ) }
 							checked={ flipH }
 							onChange={ ( val ) => updateSetting( 'flipH', val ) }
 						/>
 						<ToggleControl
-							label={ __( 'Flip Vertically', 'gravisain' ) }
+							label={ __( 'Flip Vertically', 'gravisain-blocks' ) }
 							checked={ flipV }
 							onChange={ ( val ) => updateSetting( 'flipV', val ) }
 						/>

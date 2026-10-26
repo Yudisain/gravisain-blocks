@@ -95,9 +95,15 @@ export default function Inspector( {
 	};
 
 	const setResponsiveObj = ( baseName, val, currentDevice ) => {
-		if ( currentDevice === 'desktop' ) setAttributes( { [ baseName ]: val } );
-		if ( currentDevice === 'tablet' ) setAttributes( { [ `${ baseName }Tablet` ]: val } );
-		if ( currentDevice === 'mobile' ) setAttributes( { [ `${ baseName }Mobile` ]: val } );
+		const cleaned = { ...( val || {} ) };
+		Object.keys( cleaned ).forEach( ( k ) => {
+			if ( cleaned[ k ] === undefined || cleaned[ k ] === null || cleaned[ k ] === '' ) {
+				delete cleaned[ k ];
+			}
+		} );
+		if ( currentDevice === 'desktop' ) setAttributes( { [ baseName ]: cleaned } );
+		if ( currentDevice === 'tablet' ) setAttributes( { [ `${ baseName }Tablet` ]: cleaned } );
+		if ( currentDevice === 'mobile' ) setAttributes( { [ `${ baseName }Mobile` ]: cleaned } );
 	};
 
 	const getTitleTypography = ( currentDevice ) => {
@@ -117,12 +123,32 @@ export default function Inspector( {
 	const setTitleTypography = ( newVal, currentDevice ) => {
 		setResponsiveObj( 'titleTypography', newVal, currentDevice );
 		if ( currentDevice === 'desktop' ) {
-			if ( newVal.fontFamily !== undefined ) setAttributes( { fontFamily: newVal.fontFamily } );
-			if ( newVal.fontWeight !== undefined ) setAttributes( { fontWeight: newVal.fontWeight } );
+			setAttributes( {
+				fontFamily: newVal?.fontFamily || '',
+				fontWeight: newVal?.fontWeight || '',
+			} );
 		}
-		if ( newVal.fontSize !== undefined ) setResponsiveAttr( 'fontSize', newVal.fontSize, currentDevice );
-		if ( newVal.lineHeight !== undefined ) setResponsiveAttr( 'lineHeight', newVal.lineHeight !== undefined ? String( newVal.lineHeight ) : undefined, currentDevice );
-		if ( newVal.letterSpacing !== undefined ) setResponsiveAttr( 'letterSpacing', newVal.letterSpacing !== undefined ? String( newVal.letterSpacing ) : undefined, currentDevice );
+		setResponsiveAttr(
+			'fontSize',
+			newVal?.fontSize !== undefined && newVal?.fontSize !== null && newVal?.fontSize !== ''
+				? Number( newVal.fontSize )
+				: undefined,
+			currentDevice
+		);
+		setResponsiveAttr(
+			'lineHeight',
+			newVal?.lineHeight !== undefined && newVal?.lineHeight !== null && newVal?.lineHeight !== ''
+				? String( newVal.lineHeight )
+				: undefined,
+			currentDevice
+		);
+		setResponsiveAttr(
+			'letterSpacing',
+			newVal?.letterSpacing !== undefined && newVal?.letterSpacing !== null && newVal?.letterSpacing !== ''
+				? ( typeof newVal.letterSpacing === 'number' ? `${ newVal.letterSpacing }px` : newVal.letterSpacing )
+				: undefined,
+			currentDevice
+		);
 	};
 
 	return (
@@ -133,17 +159,17 @@ export default function Inspector( {
 				tabs={ [
 					{
 						name: 'general',
-						title: __( 'General', 'gravisain' ),
+						title: __( 'General', 'gravisain-blocks' ),
 						className: 'gravisain-tab-general',
 					},
 					{
 						name: 'style',
-						title: __( 'Style', 'gravisain' ),
+						title: __( 'Style', 'gravisain-blocks' ),
 						className: 'gravisain-tab-style',
 					},
 					{
 						name: 'advanced',
-						title: __( 'Advanced', 'gravisain' ),
+						title: __( 'Advanced', 'gravisain-blocks' ),
 						className: 'gravisain-tab-advanced',
 					},
 				] }
@@ -151,9 +177,9 @@ export default function Inspector( {
 				{ ( tab ) => {
 					if ( tab.name === 'general' ) {
 						return (
-							<PanelBody title={ __( 'Heading Content & Eyebrow', 'gravisain' ) }>
+							<PanelBody title={ __( 'Heading Content & Eyebrow', 'gravisain-blocks' ) }>
 								<SelectControl
-									label={ __( 'HTML Heading Tag', 'gravisain' ) }
+									label={ __( 'HTML Heading Tag', 'gravisain-blocks' ) }
 									value={ headingTag }
 									options={ [
 										{ label: 'H1 (Main Page SEO Title)', value: 'h1' },
@@ -187,35 +213,35 @@ export default function Inspector( {
 									}
 								/>
 								<SelectControl
-									label={ __( 'Eyebrow Position', 'gravisain' ) }
+									label={ __( 'Eyebrow Position', 'gravisain-blocks' ) }
 									value={ eyebrowPosition }
 									options={ [
-										{ label: __( 'Above Heading', 'gravisain' ), value: 'above' },
-										{ label: __( 'Below Heading', 'gravisain' ), value: 'below' },
+										{ label: __( 'Above Heading', 'gravisain-blocks' ), value: 'above' },
+										{ label: __( 'Below Heading', 'gravisain-blocks' ), value: 'below' },
 									] }
 									onChange={ ( value ) =>
 										setAttributes( { eyebrowPosition: value } )
 									}
 								/>
 								<TextControl
-									label={ __( 'Eyebrow Text (Optional)', 'gravisain' ) }
+									label={ __( 'Eyebrow Text (Optional)', 'gravisain-blocks' ) }
 									value={ eyebrow || '' }
 									onChange={ ( value ) => setAttributes( { eyebrow: value } ) }
-									placeholder={ __( 'e.g. NEXT-GENERATION ARCHITECTURE', 'gravisain' ) }
-									help={ __( 'Small uppercase badge/eyebrow displayed above or below the heading title.', 'gravisain' ) }
+									placeholder={ __( 'e.g. NEXT-GENERATION ARCHITECTURE', 'gravisain-blocks' ) }
+									help={ __( 'Small uppercase badge/eyebrow displayed above or below the heading title.', 'gravisain-blocks' ) }
 								/>
 								<ToggleControl
-									label={ __( 'Show Accent Line Divider', 'gravisain' ) }
+									label={ __( 'Show Accent Line Divider', 'gravisain-blocks' ) }
 									checked={ showDivider }
 									onChange={ ( value ) =>
 										setAttributes( { showDivider: value } )
 									}
 								/>
 								<TextareaControl
-									label={ __( 'Description Text (Optional)', 'gravisain' ) }
+									label={ __( 'Description Text (Optional)', 'gravisain-blocks' ) }
 									value={ description }
 									onChange={ ( value ) => setAttributes( { description: value } ) }
-									help={ __( 'Optional description text rendered below the heading.', 'gravisain' ) }
+									help={ __( 'Optional description text rendered below the heading.', 'gravisain-blocks' ) }
 									rows={ 3 }
 								/>
 							</PanelBody>
@@ -225,12 +251,12 @@ export default function Inspector( {
 					if ( tab.name === 'style' ) {
 						return (
 							<>
-								<PanelBody title={ __( 'Typography', 'gravisain' ) }>
+								<PanelBody title={ __( 'Typography', 'gravisain-blocks' ) }>
 									<div style={ { marginBottom: 24 } }>
-										<p style={ { marginBottom: 8, fontWeight: 600 } }>{ __( 'Title Typography', 'gravisain' ) }</p>
+										<p style={ { marginBottom: 8, fontWeight: 600 } }>{ __( 'Title Typography', 'gravisain-blocks' ) }</p>
 										{ ! enableTextGradient && (
 											<ColorControl
-												label={ __( 'Title Color', 'gravisain' ) }
+												label={ __( 'Title Color', 'gravisain-blocks' ) }
 												value={ titleColor || textColor }
 												onChange={ ( val ) => setAttributes( { titleColor: val, textColor: val || '#0f172a' } ) }
 												disableGradient={ true }
@@ -239,14 +265,14 @@ export default function Inspector( {
 										<ResponsiveTabControl activeDevice={ device } onChangeDevice={ onDeviceChange }>
 											{ ( currentDevice ) => (
 												<TypographyControl
-													label={ __( 'Typography', 'gravisain' ) }
+													label={ __( 'Typography', 'gravisain-blocks' ) }
 													value={ getTitleTypography( currentDevice ) }
 													onChange={ ( newVal ) => setTitleTypography( newVal, currentDevice ) }
 												/>
 											) }
 										</ResponsiveTabControl>
 										<SelectControl
-											label={ __( 'Text Transform', 'gravisain' ) }
+											label={ __( 'Text Transform', 'gravisain-blocks' ) }
 											value={ textTransform }
 											options={ [
 												{ label: 'None', value: 'none' },
@@ -261,9 +287,9 @@ export default function Inspector( {
 									</div>
 
 									<div style={ { marginBottom: 24, paddingTop: 16, borderTop: '1px solid #e0e0e0' } }>
-										<p style={ { marginBottom: 8, fontWeight: 600 } }>{ __( 'Eyebrow Typography', 'gravisain' ) }</p>
+										<p style={ { marginBottom: 8, fontWeight: 600 } }>{ __( 'Eyebrow Typography', 'gravisain-blocks' ) }</p>
 										<ColorControl
-											label={ __( 'Eyebrow Color', 'gravisain' ) }
+											label={ __( 'Eyebrow Color', 'gravisain-blocks' ) }
 											value={ eyebrowColor }
 											onChange={ ( val ) => setAttributes( { eyebrowColor: val } ) }
 											disableGradient={ true }
@@ -271,7 +297,7 @@ export default function Inspector( {
 										<ResponsiveTabControl activeDevice={ device } onChangeDevice={ onDeviceChange }>
 											{ ( currentDevice ) => (
 												<TypographyControl
-													label={ __( 'Typography', 'gravisain' ) }
+													label={ __( 'Typography', 'gravisain-blocks' ) }
 													value={ getResponsiveObj( 'eyebrowTypography', currentDevice ) }
 													onChange={ ( val ) => setResponsiveObj( 'eyebrowTypography', val, currentDevice ) }
 												/>
@@ -280,9 +306,9 @@ export default function Inspector( {
 									</div>
 
 									<div style={ { paddingTop: 16, borderTop: '1px solid #e0e0e0' } }>
-										<p style={ { marginBottom: 8, fontWeight: 600 } }>{ __( 'Description Typography', 'gravisain' ) }</p>
+										<p style={ { marginBottom: 8, fontWeight: 600 } }>{ __( 'Description Typography', 'gravisain-blocks' ) }</p>
 										<ColorControl
-											label={ __( 'Description Color', 'gravisain' ) }
+											label={ __( 'Description Color', 'gravisain-blocks' ) }
 											value={ descriptionColor }
 											onChange={ ( val ) => setAttributes( { descriptionColor: val } ) }
 											disableGradient={ true }
@@ -290,7 +316,7 @@ export default function Inspector( {
 										<ResponsiveTabControl activeDevice={ device } onChangeDevice={ onDeviceChange }>
 											{ ( currentDevice ) => (
 												<TypographyControl
-													label={ __( 'Typography', 'gravisain' ) }
+													label={ __( 'Typography', 'gravisain-blocks' ) }
 													value={ getResponsiveObj( 'descriptionTypography', currentDevice ) }
 													onChange={ ( val ) => setResponsiveObj( 'descriptionTypography', val, currentDevice ) }
 												/>
@@ -299,9 +325,9 @@ export default function Inspector( {
 									</div>
 								</PanelBody>
 
-								<PanelBody title={ __( 'Color & Gradient Styling', 'gravisain' ) }>
+								<PanelBody title={ __( 'Color & Gradient Styling', 'gravisain-blocks' ) }>
 									<ToggleControl
-										label={ __( 'Enable Text Gradient Effect', 'gravisain' ) }
+										label={ __( 'Enable Text Gradient Effect', 'gravisain-blocks' ) }
 										checked={ enableTextGradient }
 										onChange={ ( value ) =>
 											setAttributes( { enableTextGradient: value } )
@@ -311,7 +337,7 @@ export default function Inspector( {
 										<>
 											<div style={ { marginBottom: 16 } }>
 												<p style={ { marginBottom: 8, fontWeight: 600 } }>
-													{ __( 'Heading Text Color', 'gravisain' ) }
+													{ __( 'Heading Text Color', 'gravisain-blocks' ) }
 												</p>
 												<ColorControl
 													value={ titleColor || textColor }
@@ -326,7 +352,7 @@ export default function Inspector( {
 											</div>
 											<div style={ { marginBottom: 16 } }>
 												<p style={ { marginBottom: 8, fontWeight: 600 } }>
-													{ __( 'Highlight Text Color', 'gravisain' ) }
+													{ __( 'Highlight Text Color', 'gravisain-blocks' ) }
 												</p>
 												<ColorControl
 													value={ highlightColor }
@@ -341,7 +367,7 @@ export default function Inspector( {
 										</>
 									) : (
 										<TextControl
-											label={ __( 'CSS Linear Gradient', 'gravisain' ) }
+											label={ __( 'CSS Linear Gradient', 'gravisain-blocks' ) }
 											value={ textGradient }
 											onChange={ ( value ) =>
 												setAttributes( { textGradient: value } )
@@ -353,10 +379,10 @@ export default function Inspector( {
 
 								{ showDivider && (
 									<PanelBody
-										title={ __( 'Accent Divider Line Styling', 'gravisain' ) }
+										title={ __( 'Accent Divider Line Styling', 'gravisain-blocks' ) }
 									>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Divider Model / Style', 'gravisain' ) }
+											{ __( 'Divider Model / Style', 'gravisain-blocks' ) }
 										</p>
 										<div
 											style={ {
@@ -492,7 +518,7 @@ export default function Inspector( {
 										</div>
 
 										<SelectControl
-											label={ __( 'Select Model', 'gravisain' ) }
+											label={ __( 'Select Model', 'gravisain-blocks' ) }
 											value={ dividerStyle || 'solid' }
 											options={ DIVIDER_STYLES.map( ( s ) => ( {
 												label: s.label,
@@ -510,14 +536,14 @@ export default function Inspector( {
 
 										{ [ 'brush', 'brush-swoop', 'curved' ].includes( dividerStyle ) && (
 											<ToggleControl
-												label={ __( 'Flip Horizontally', 'gravisain' ) }
+												label={ __( 'Flip Horizontally', 'gravisain-blocks' ) }
 												checked={ !! dividerFlip }
 												onChange={ ( val ) => setAttributes( { dividerFlip: val } ) }
 											/>
 										) }
 
 										<RangeControl
-											label={ __( 'Divider Width (px)', 'gravisain' ) }
+											label={ __( 'Divider Width (px)', 'gravisain-blocks' ) }
 											value={ dividerWidth || 48 }
 											onChange={ ( value ) =>
 												setAttributes( { dividerWidth: value } )
@@ -526,7 +552,7 @@ export default function Inspector( {
 											max={ 600 }
 										/>
 										<RangeControl
-											label={ __( 'Divider Height / Thickness (px)', 'gravisain' ) }
+											label={ __( 'Divider Height / Thickness (px)', 'gravisain-blocks' ) }
 											value={ dividerHeight || 4 }
 											onChange={ ( value ) =>
 												setAttributes( { dividerHeight: value } )
@@ -535,7 +561,7 @@ export default function Inspector( {
 											max={ 40 }
 										/>
 										<RangeControl
-											label={ __( 'Margin Top / Spacing (px)', 'gravisain' ) }
+											label={ __( 'Margin Top / Spacing (px)', 'gravisain-blocks' ) }
 											value={ dividerSpacing !== undefined ? dividerSpacing : 14 }
 											onChange={ ( value ) =>
 												setAttributes( { dividerSpacing: value } )
@@ -544,7 +570,7 @@ export default function Inspector( {
 											max={ 60 }
 										/>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Divider Color', 'gravisain' ) }
+											{ __( 'Divider Color', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ dividerColor }
@@ -563,17 +589,17 @@ export default function Inspector( {
 
 					if ( tab.name === 'advanced' ) {
 						return (
-							<PanelBody title={ __( 'Spacing & Margin Controls', 'gravisain' ) }>
+							<PanelBody title={ __( 'Spacing & Margin Controls', 'gravisain-blocks' ) }>
 								<ResponsiveTabControl>
 									{ ( currentDevice ) => (
 										<>
 											<SpacingControl
-												label={ __( 'Padding', 'gravisain' ) }
+												label={ __( 'Padding', 'gravisain-blocks' ) }
 												value={ getResponsiveAttr('padding', currentDevice) }
 												onChange={ ( val ) => setResponsiveAttr('padding', val, currentDevice) }
 											/>
 											<SpacingControl
-												label={ __( 'Margin', 'gravisain' ) }
+												label={ __( 'Margin', 'gravisain-blocks' ) }
 												value={ getResponsiveAttr('margin', currentDevice) }
 												onChange={ ( val ) => setResponsiveAttr('margin', val, currentDevice) }
 											/>
@@ -581,35 +607,35 @@ export default function Inspector( {
 									) }
 								</ResponsiveTabControl>
 								<TextControl
-									label={ __( 'Max Width Container', 'gravisain' ) }
+									label={ __( 'Max Width Container', 'gravisain-blocks' ) }
 									value={ maxWidth }
 									onChange={ ( value ) =>
 										setAttributes( { maxWidth: value } )
 									}
 								/>
 								<ToggleControl
-									label={ __( 'Breakout Container Padding', 'gravisain' ) }
-									help={ __( 'Allows text aligned left/right to extend flush to the container edge, removing the default padding gap.', 'gravisain' ) }
+									label={ __( 'Breakout Container Padding', 'gravisain-blocks' ) }
+									help={ __( 'Allows text aligned left/right to extend flush to the container edge, removing the default padding gap.', 'gravisain-blocks' ) }
 									checked={ !! breakoutPadding }
 									onChange={ ( value ) =>
 										setAttributes( { breakoutPadding: value } )
 									}
 								/>
 								<TextControl
-									label={ __( 'HTML Anchor', 'gravisain' ) }
-									help={ __( 'Enter a word or two — without spaces — to make a unique web address just for this block, called an "anchor". Then, you\'ll be able to link directly to this section of your page.', 'gravisain' ) }
+									label={ __( 'HTML Anchor', 'gravisain-blocks' ) }
+									help={ __( 'Enter a word or two — without spaces — to make a unique web address just for this block, called an "anchor". Then, you\'ll be able to link directly to this section of your page.', 'gravisain-blocks' ) }
 									value={ anchor }
 									onChange={ ( value ) => setAttributes( { anchor: value } ) }
 								/>
 								<TextControl
-									label={ __( 'Additional CSS class(es)', 'gravisain' ) }
-									help={ __( 'Separate multiple classes with spaces.', 'gravisain' ) }
+									label={ __( 'Additional CSS class(es)', 'gravisain-blocks' ) }
+									help={ __( 'Separate multiple classes with spaces.', 'gravisain-blocks' ) }
 									value={ customClassName }
 									onChange={ ( value ) => setAttributes( { customClassName: value } ) }
 								/>
 								<TextareaControl
-									label={ __( 'Additional CSS', 'gravisain' ) }
-									help={ __( 'Add your own CSS to customize the appearance of this block. You do not need to include a CSS selector, just add the property and value, e.g. color: red;.', 'gravisain' ) }
+									label={ __( 'Additional CSS', 'gravisain-blocks' ) }
+									help={ __( 'Add your own CSS to customize the appearance of this block. You do not need to include a CSS selector, just add the property and value, e.g. color: red;.', 'gravisain-blocks' ) }
 									value={ customCSS }
 									onChange={ ( value ) => setAttributes( { customCSS: value } ) }
 									rows={ 4 }

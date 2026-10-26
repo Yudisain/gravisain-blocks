@@ -10,7 +10,7 @@ export default function MediaPanel({ attributes, setAttributes }) {
 	}
 
 	return (
-		<PanelBody title={__('Media (Foreground)', 'gravisain')} initialOpen={false}>
+		<PanelBody title={__('Media (Foreground)', 'gravisain-blocks')} initialOpen={false}>
 			<MediaUploadCheck>
 				<MediaUpload
 					onSelect={(mediaObj) => setAttributes({ media: { ...media, url: mediaObj.url, id: mediaObj.id, alt: mediaObj.alt || '' } })}
@@ -18,7 +18,7 @@ export default function MediaPanel({ attributes, setAttributes }) {
 					render={({ open }) => (
 						<div style={{ display: 'flex', gap: '8px', marginBottom: media.url ? '16px' : '0' }}>
 							<Button variant="secondary" onClick={open} style={{ flex: 1, justifyContent: 'center' }}>
-								{media.url ? __('Replace Media Image', 'gravisain') : __('Select Media Image', 'gravisain')}
+								{media.url ? __('Replace Media Image', 'gravisain-blocks') : __('Select Media Image', 'gravisain-blocks')}
 							</Button>
 							{media.url && (
 								<Button
@@ -26,7 +26,7 @@ export default function MediaPanel({ attributes, setAttributes }) {
 									isDestructive
 									onClick={() => setAttributes({ media: { ...media, url: '', focalPoint: { x: 0.5, y: 0.5 } } })}
 								>
-									{__('Remove', 'gravisain')}
+									{__('Remove', 'gravisain-blocks')}
 								</Button>
 							)}
 						</div>
@@ -36,7 +36,7 @@ export default function MediaPanel({ attributes, setAttributes }) {
 			{media.url && (
 				<div className="gravisain-focal-point-wrapper" style={{ marginBottom: 16 }}>
 					<FocalPointPicker
-						label={__('Focal Point (Foreground Image)', 'gravisain')}
+						label={__('Focal Point (Foreground Image)', 'gravisain-blocks')}
 						url={media.url}
 						value={media.focalPoint || { x: 0.5, y: 0.5 }}
 						onChange={(focalPoint) => setAttributes({ media: { ...media, focalPoint } })}

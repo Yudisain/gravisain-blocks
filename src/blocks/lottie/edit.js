@@ -83,10 +83,10 @@ export default function Edit( props ) {
 										<rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
 									</svg>
 									<div style={{ fontWeight: 600, fontSize: '15px', color: 'currentColor', marginBottom: '8px' }}>
-										{ __( 'Lottie Animation', 'gravisain' ) }
+										{ __( 'Lottie Animation', 'gravisain-blocks' ) }
 									</div>
 									<div style={{ fontSize: '13px', marginBottom: '16px' }}>
-										{ __( 'Click here to upload a JSON file.', 'gravisain' ) }
+										{ __( 'Click here to upload a JSON file.', 'gravisain-blocks' ) }
 									</div>
 								</div>
 							) }
@@ -104,7 +104,7 @@ export default function Edit( props ) {
 				<div className="gravisain-lottie-preview-box" style={ { width: `${ width }px`, height: `${ height }px` } }>
 					<div className="gravisain-lottie-badge">
 						<span className="dashicons dashicons-video-alt3" />
-						<span>{ __( 'Lottie Animation', 'gravisain' ) }</span>
+						<span>{ __( 'Lottie Animation', 'gravisain-blocks' ) }</span>
 						<small>{ trigger.toUpperCase() }</small>
 					</div>
 					<div className="gravisain-lottie-url">{ url }</div>

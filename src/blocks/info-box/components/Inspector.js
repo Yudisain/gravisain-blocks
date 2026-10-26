@@ -77,17 +77,17 @@ export default function Inspector( { attributes, setAttributes } ) {
 				tabs={ [
 					{
 						name: 'general',
-						title: __( 'General', 'gravisain' ),
+						title: __( 'General', 'gravisain-blocks' ),
 						className: 'gravisain-tab-general',
 					},
 					{
 						name: 'style',
-						title: __( 'Style', 'gravisain' ),
+						title: __( 'Style', 'gravisain-blocks' ),
 						className: 'gravisain-tab-style',
 					},
 					{
 						name: 'advanced',
-						title: __( 'Advanced', 'gravisain' ),
+						title: __( 'Advanced', 'gravisain-blocks' ),
 						className: 'gravisain-tab-advanced',
 					},
 				] }
@@ -96,7 +96,7 @@ export default function Inspector( { attributes, setAttributes } ) {
 					if ( tab.name === 'general' ) {
 						return (
 							<>
-								<PanelBody title={ __( 'Quick Layout Presets', 'gravisain' ) } initialOpen={ true }>
+								<PanelBody title={ __( 'Quick Layout Presets', 'gravisain-blocks' ) } initialOpen={ true }>
 									<LayoutPresets
 										layoutPreset={ layoutPreset }
 										textAlign={ textAlign }
@@ -109,9 +109,9 @@ export default function Inspector( { attributes, setAttributes } ) {
 									/>
 								</PanelBody>
 
-								<PanelBody title={ __( 'Media / Icon Settings', 'gravisain' ) }>
+								<PanelBody title={ __( 'Media / Icon Settings', 'gravisain-blocks' ) }>
 									<IconPickerControl
-										label={ __( 'Icon or Image', 'gravisain' ) }
+										label={ __( 'Icon or Image', 'gravisain-blocks' ) }
 										value={ currentIconValue }
 										onChange={ ( val ) => {
 											if ( ! val ) {
@@ -143,7 +143,7 @@ export default function Inspector( { attributes, setAttributes } ) {
 										<>
 											<div style={ { marginTop: 16 } }>
 												<FocalPointPicker
-													label={ __( 'Image Focal Point (Click & Drag)', 'gravisain' ) }
+													label={ __( 'Image Focal Point (Click & Drag)', 'gravisain-blocks' ) }
 													url={ activeImageUrl }
 													value={ imageFocalPoint || { x: 0.5, y: 0.5 } }
 													onChange={ ( val ) => setAttributes( { imageFocalPoint: val } ) }
@@ -154,51 +154,51 @@ export default function Inspector( { attributes, setAttributes } ) {
 								</PanelBody>
 
 								{ isImageSelected && (
-									<PanelBody title={ __( 'Image Settings', 'gravisain' ) } initialOpen={ true }>
+									<PanelBody title={ __( 'Image Settings', 'gravisain-blocks' ) } initialOpen={ true }>
 										<SelectControl
-											label={ __( 'Aspect Ratio', 'gravisain' ) }
+											label={ __( 'Aspect Ratio', 'gravisain-blocks' ) }
 											value={ imageAspectRatio || 'auto' }
 											options={ [
-												{ label: __( 'Auto (Original)', 'gravisain' ), value: 'auto' },
-												{ label: __( '1:1 (Square)', 'gravisain' ), value: '1/1' },
-												{ label: __( '16:9 (Landscape)', 'gravisain' ), value: '16/9' },
-												{ label: __( '4:3 (Standard)', 'gravisain' ), value: '4/3' },
-												{ label: __( '3:4 (Portrait)', 'gravisain' ), value: '3/4' },
+												{ label: __( 'Auto (Original)', 'gravisain-blocks' ), value: 'auto' },
+												{ label: __( '1:1 (Square)', 'gravisain-blocks' ), value: '1/1' },
+												{ label: __( '16:9 (Landscape)', 'gravisain-blocks' ), value: '16/9' },
+												{ label: __( '4:3 (Standard)', 'gravisain-blocks' ), value: '4/3' },
+												{ label: __( '3:4 (Portrait)', 'gravisain-blocks' ), value: '3/4' },
 											] }
 											onChange={ ( val ) => setAttributes( { imageAspectRatio: val } ) }
 										/>
 
 										<SelectControl
-											label={ __( 'Object Fit', 'gravisain' ) }
+											label={ __( 'Object Fit', 'gravisain-blocks' ) }
 											value={ imageObjectFit || 'cover' }
 											options={ [
-												{ label: __( 'Cover (Crop to fill)', 'gravisain' ), value: 'cover' },
-												{ label: __( 'Contain (Keep entire image)', 'gravisain' ), value: 'contain' },
-												{ label: __( 'Fill (Stretch to fit)', 'gravisain' ), value: 'fill' },
+												{ label: __( 'Cover (Crop to fill)', 'gravisain-blocks' ), value: 'cover' },
+												{ label: __( 'Contain (Keep entire image)', 'gravisain-blocks' ), value: 'contain' },
+												{ label: __( 'Fill (Stretch to fit)', 'gravisain-blocks' ), value: 'fill' },
 											] }
 											onChange={ ( val ) => setAttributes( { imageObjectFit: val } ) }
 										/>
 
 										<RangeControl
-											label={ __( 'Image Width (px - 0 for auto)', 'gravisain' ) }
+											label={ __( 'Image Width (px - 0 for auto)', 'gravisain-blocks' ) }
 											value={ imageWidth || 0 }
 											onChange={ ( val ) => setAttributes( { imageWidth: val } ) }
 											min={ 0 }
 											max={ 400 }
-											help={ __( 'Leave 0 to follow Icon Box Size or original image ratio.', 'gravisain' ) }
+											help={ __( 'Leave 0 to follow Icon Box Size or original image ratio.', 'gravisain-blocks' ) }
 										/>
 
 										<RangeControl
-											label={ __( 'Image Height (px - 0 for auto)', 'gravisain' ) }
+											label={ __( 'Image Height (px - 0 for auto)', 'gravisain-blocks' ) }
 											value={ imageHeight || 0 }
 											onChange={ ( val ) => setAttributes( { imageHeight: val } ) }
 											min={ 0 }
 											max={ 400 }
-											help={ __( 'Leave 0 to follow Icon Box Size.', 'gravisain' ) }
+											help={ __( 'Leave 0 to follow Icon Box Size.', 'gravisain-blocks' ) }
 										/>
 
 										<RangeControl
-											label={ __( 'Image Border Radius (px)', 'gravisain' ) }
+											label={ __( 'Image Border Radius (px)', 'gravisain-blocks' ) }
 											value={ imageBorderRadius || 0 }
 											onChange={ ( val ) => setAttributes( { imageBorderRadius: val } ) }
 											min={ 0 }
@@ -207,35 +207,35 @@ export default function Inspector( { attributes, setAttributes } ) {
 									</PanelBody>
 								) }
 
-								<PanelBody title={ __( 'Content Visibility & Links', 'gravisain' ) }>
+								<PanelBody title={ __( 'Content Visibility & Links', 'gravisain-blocks' ) }>
 									<ToggleControl
-										label={ __( 'Show Eyebrow Label', 'gravisain' ) }
+										label={ __( 'Show Eyebrow Label', 'gravisain-blocks' ) }
 										checked={ showEyebrow }
 										onChange={ ( val ) => setAttributes( { showEyebrow: val } ) }
 									/>
 									<ToggleControl
-										label={ __( 'Show Call to Action Link', 'gravisain' ) }
+										label={ __( 'Show Call to Action Link', 'gravisain-blocks' ) }
 										checked={ showLink }
 										onChange={ ( val ) => setAttributes( { showLink: val } ) }
 									/>
 									{ showLink && (
 										<TextControl
-											label={ __( 'Link URL', 'gravisain' ) }
+											label={ __( 'Link URL', 'gravisain-blocks' ) }
 											value={ linkUrl }
 											onChange={ ( val ) => setAttributes( { linkUrl: val } ) }
 										/>
 									) }
 								</PanelBody>
 
-								<PanelBody title={ __( 'Hover & Interactive Effects', 'gravisain' ) }>
+								<PanelBody title={ __( 'Hover & Interactive Effects', 'gravisain-blocks' ) }>
 									<SelectControl
-										label={ __( 'Card Hover Effect', 'gravisain' ) }
+										label={ __( 'Card Hover Effect', 'gravisain-blocks' ) }
 										value={ hoverEffect }
 										options={ [
-											{ label: __( 'Lift Up (Shadow Boost)', 'gravisain' ), value: 'lift' },
-											{ label: __( 'Scale Up Slightly', 'gravisain' ), value: 'scale' },
-											{ label: __( 'Border Glow', 'gravisain' ), value: 'border-glow' },
-											{ label: __( 'None', 'gravisain' ), value: 'none' },
+											{ label: __( 'Lift Up (Shadow Boost)', 'gravisain-blocks' ), value: 'lift' },
+											{ label: __( 'Scale Up Slightly', 'gravisain-blocks' ), value: 'scale' },
+											{ label: __( 'Border Glow', 'gravisain-blocks' ), value: 'border-glow' },
+											{ label: __( 'None', 'gravisain-blocks' ), value: 'none' },
 										] }
 										onChange={ ( val ) => setAttributes( { hoverEffect: val } ) }
 									/>
@@ -247,36 +247,36 @@ export default function Inspector( { attributes, setAttributes } ) {
 					if ( tab.name === 'style' ) {
 						return (
 							<>
-								<PanelBody title={ __( 'Alignment', 'gravisain' ) }>
+								<PanelBody title={ __( 'Alignment', 'gravisain-blocks' ) }>
 									<SelectControl
-										label={ __( 'Text Alignment', 'gravisain' ) }
+										label={ __( 'Text Alignment', 'gravisain-blocks' ) }
 										value={ textAlign }
 										options={ [
-											{ label: __( 'Left', 'gravisain' ), value: 'left' },
-											{ label: __( 'Center', 'gravisain' ), value: 'center' },
-											{ label: __( 'Right', 'gravisain' ), value: 'right' },
+											{ label: __( 'Left', 'gravisain-blocks' ), value: 'left' },
+											{ label: __( 'Center', 'gravisain-blocks' ), value: 'center' },
+											{ label: __( 'Right', 'gravisain-blocks' ), value: 'right' },
 										] }
 										onChange={ ( val ) => setAttributes( { textAlign: val } ) }
 									/>
 								</PanelBody>
 
-								<PanelBody title={ __( 'Media / Icon Styling', 'gravisain' ) }>
+								<PanelBody title={ __( 'Media / Icon Styling', 'gravisain-blocks' ) }>
 									<RangeControl
-										label={ __( 'Icon / Image Size (px)', 'gravisain' ) }
+										label={ __( 'Icon / Image Size (px)', 'gravisain-blocks' ) }
 										value={ iconSize }
 										onChange={ ( val ) => setAttributes( { iconSize: val } ) }
 										min={ 12 }
 										max={ 80 }
 									/>
 									<RangeControl
-										label={ __( 'Icon Box Size (px)', 'gravisain' ) }
+										label={ __( 'Icon Box Size (px)', 'gravisain-blocks' ) }
 										value={ iconBoxSize }
 										onChange={ ( val ) => setAttributes( { iconBoxSize: val } ) }
 										min={ 24 }
 										max={ 200 }
 									/>
 									<RangeControl
-										label={ __( 'Icon Box Border Radius (px)', 'gravisain' ) }
+										label={ __( 'Icon Box Border Radius (px)', 'gravisain-blocks' ) }
 										value={ iconRadius }
 										onChange={ ( val ) => setAttributes( { iconRadius: val } ) }
 										min={ 0 }
@@ -286,7 +286,7 @@ export default function Inspector( { attributes, setAttributes } ) {
 										<>
 											<div style={ { marginBottom: 16 } }>
 												<p style={ { marginBottom: 8, fontWeight: 600 } }>
-													{ __( 'Icon Color', 'gravisain' ) }
+													{ __( 'Icon Color', 'gravisain-blocks' ) }
 												</p>
 												<ColorControl
 													value={ iconColor }
@@ -295,7 +295,7 @@ export default function Inspector( { attributes, setAttributes } ) {
 											</div>
 											<div style={ { marginBottom: 16 } }>
 												<p style={ { marginBottom: 8, fontWeight: 600 } }>
-													{ __( 'Icon Background Color', 'gravisain' ) }
+													{ __( 'Icon Background Color', 'gravisain-blocks' ) }
 												</p>
 												<ColorControl
 													value={ iconBackgroundColor }
@@ -306,9 +306,9 @@ export default function Inspector( { attributes, setAttributes } ) {
 									) }
 								</PanelBody>
 
-								<PanelBody title={ __( 'Typography & Colors', 'gravisain' ) }>
+								<PanelBody title={ __( 'Typography & Colors', 'gravisain-blocks' ) }>
 									<RangeControl
-										label={ __( 'Title Font Size (px)', 'gravisain' ) }
+										label={ __( 'Title Font Size (px)', 'gravisain-blocks' ) }
 										value={ titleFontSize }
 										onChange={ ( val ) => setAttributes( { titleFontSize: val } ) }
 										min={ 14 }
@@ -316,7 +316,7 @@ export default function Inspector( { attributes, setAttributes } ) {
 									/>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Title Color', 'gravisain' ) }
+											{ __( 'Title Color', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ titleColor }
@@ -325,7 +325,7 @@ export default function Inspector( { attributes, setAttributes } ) {
 									</div>
 
 									<RangeControl
-										label={ __( 'Description Font Size (px)', 'gravisain' ) }
+										label={ __( 'Description Font Size (px)', 'gravisain-blocks' ) }
 										value={ descriptionFontSize }
 										onChange={ ( val ) => setAttributes( { descriptionFontSize: val } ) }
 										min={ 12 }
@@ -333,7 +333,7 @@ export default function Inspector( { attributes, setAttributes } ) {
 									/>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Description Color', 'gravisain' ) }
+											{ __( 'Description Color', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ descriptionColor }
@@ -344,7 +344,7 @@ export default function Inspector( { attributes, setAttributes } ) {
 									{ showEyebrow && (
 										<div style={ { marginBottom: 16 } }>
 											<p style={ { marginBottom: 8, fontWeight: 600 } }>
-												{ __( 'Eyebrow Color', 'gravisain' ) }
+												{ __( 'Eyebrow Color', 'gravisain-blocks' ) }
 											</p>
 											<ColorControl
 												value={ eyebrowColor }
@@ -356,7 +356,7 @@ export default function Inspector( { attributes, setAttributes } ) {
 									{ showLink && (
 										<div style={ { marginBottom: 16 } }>
 											<p style={ { marginBottom: 8, fontWeight: 600 } }>
-												{ __( 'Link Color', 'gravisain' ) }
+												{ __( 'Link Color', 'gravisain-blocks' ) }
 											</p>
 											<ColorControl
 												value={ linkColor }
@@ -366,10 +366,10 @@ export default function Inspector( { attributes, setAttributes } ) {
 									) }
 								</PanelBody>
 
-								<PanelBody title={ __( 'Card Background, Border & Spacing', 'gravisain' ) } initialOpen={ false }>
+								<PanelBody title={ __( 'Card Background, Border & Spacing', 'gravisain-blocks' ) } initialOpen={ false }>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Card Background Color', 'gravisain' ) }
+											{ __( 'Card Background Color', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ cardBackgroundColor }
@@ -378,7 +378,7 @@ export default function Inspector( { attributes, setAttributes } ) {
 									</div>
 									<div style={ { marginBottom: 16 } }>
 										<p style={ { marginBottom: 8, fontWeight: 600 } }>
-											{ __( 'Card Border Color', 'gravisain' ) }
+											{ __( 'Card Border Color', 'gravisain-blocks' ) }
 										</p>
 										<ColorControl
 											value={ cardBorderColor }
@@ -386,42 +386,42 @@ export default function Inspector( { attributes, setAttributes } ) {
 										/>
 									</div>
 									<RangeControl
-										label={ __( 'Border Width (px)', 'gravisain' ) }
+										label={ __( 'Border Width (px)', 'gravisain-blocks' ) }
 										value={ cardBorderWidth }
 										onChange={ ( val ) => setAttributes( { cardBorderWidth: val } ) }
 										min={ 0 }
 										max={ 10 }
 									/>
 									<RangeControl
-										label={ __( 'Border Radius (px)', 'gravisain' ) }
+										label={ __( 'Border Radius (px)', 'gravisain-blocks' ) }
 										value={ cardBorderRadius }
 										onChange={ ( val ) => setAttributes( { cardBorderRadius: val } ) }
 										min={ 0 }
 										max={ 60 }
 									/>
 									<RangeControl
-										label={ __( 'Padding Top (px)', 'gravisain' ) }
+										label={ __( 'Padding Top (px)', 'gravisain-blocks' ) }
 										value={ cardPaddingTop }
 										onChange={ ( val ) => setAttributes( { cardPaddingTop: val } ) }
 										min={ 0 }
 										max={ 100 }
 									/>
 									<RangeControl
-										label={ __( 'Padding Bottom (px)', 'gravisain' ) }
+										label={ __( 'Padding Bottom (px)', 'gravisain-blocks' ) }
 										value={ cardPaddingBottom }
 										onChange={ ( val ) => setAttributes( { cardPaddingBottom: val } ) }
 										min={ 0 }
 										max={ 100 }
 									/>
 									<RangeControl
-										label={ __( 'Padding Left (px)', 'gravisain' ) }
+										label={ __( 'Padding Left (px)', 'gravisain-blocks' ) }
 										value={ cardPaddingLeft }
 										onChange={ ( val ) => setAttributes( { cardPaddingLeft: val } ) }
 										min={ 0 }
 										max={ 100 }
 									/>
 									<RangeControl
-										label={ __( 'Padding Right (px)', 'gravisain' ) }
+										label={ __( 'Padding Right (px)', 'gravisain-blocks' ) }
 										value={ cardPaddingRight }
 										onChange={ ( val ) => setAttributes( { cardPaddingRight: val } ) }
 										min={ 0 }
@@ -434,22 +434,22 @@ export default function Inspector( { attributes, setAttributes } ) {
 
 					if ( tab.name === 'advanced' ) {
 						return (
-							<PanelBody title={ __( 'Advanced Settings', 'gravisain' ) } initialOpen={ true }>
+							<PanelBody title={ __( 'Advanced Settings', 'gravisain-blocks' ) } initialOpen={ true }>
 								<TextControl
-									label={ __( 'HTML Anchor', 'gravisain' ) }
-									help={ __( 'Enter a word or two — without spaces — to make a unique web address just for this block, called an "anchor". Then, you\'ll be able to link directly to this section of your page.', 'gravisain' ) }
+									label={ __( 'HTML Anchor', 'gravisain-blocks' ) }
+									help={ __( 'Enter a word or two — without spaces — to make a unique web address just for this block, called an "anchor". Then, you\'ll be able to link directly to this section of your page.', 'gravisain-blocks' ) }
 									value={ anchor || '' }
 									onChange={ ( val ) => setAttributes( { anchor: val } ) }
 								/>
 								<TextControl
-									label={ __( 'Additional CSS class(es)', 'gravisain' ) }
-									help={ __( 'Separate multiple classes with spaces.', 'gravisain' ) }
+									label={ __( 'Additional CSS class(es)', 'gravisain-blocks' ) }
+									help={ __( 'Separate multiple classes with spaces.', 'gravisain-blocks' ) }
 									value={ customClassName || '' }
 									onChange={ ( val ) => setAttributes( { customClassName: val } ) }
 								/>
 								<TextareaControl
-									label={ __( 'Additional CSS', 'gravisain' ) }
-									help={ __( 'Add your own CSS to customize the appearance of this block. You do not need to include a CSS selector, just add the property and value, e.g. color: red;.', 'gravisain' ) }
+									label={ __( 'Additional CSS', 'gravisain-blocks' ) }
+									help={ __( 'Add your own CSS to customize the appearance of this block. You do not need to include a CSS selector, just add the property and value, e.g. color: red;.', 'gravisain-blocks' ) }
 									value={ customCSS || '' }
 									onChange={ ( val ) => setAttributes( { customCSS: val } ) }
 									rows={ 4 }

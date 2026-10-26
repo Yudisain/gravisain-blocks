@@ -8,7 +8,7 @@
 	"icon": "tag",
 	"description": "Modern pill badge with live status dot, blinking pulse animation, icon, and custom styling.",
 	"keywords": ["badge", "pill", "tag", "status", "pulse", "announcement"],
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
 		"html": false,
 		"anchor": false,

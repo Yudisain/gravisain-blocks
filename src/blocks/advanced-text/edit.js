@@ -321,7 +321,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			<BlockControls>
 				<ToolbarDropdownMenu
 					text={ (htmlTag || 'p').toUpperCase() }
-					label={ __( 'Change HTML Tag', 'gravisain' ) }
+					label={ __( 'Change HTML Tag', 'gravisain-blocks' ) }
 					controls={ [
 						{ title: 'Paragraph <p>', value: 'p' },
 						{ title: 'Heading 1', value: 'h1' },
@@ -366,7 +366,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					style={ textStyle }
 					value={ content }
 					onChange={ ( val ) => setAttributes( { content: val } ) }
-					placeholder={ __( 'Write text here...', 'gravisain' ) }
+					placeholder={ __( 'Write text here...', 'gravisain-blocks' ) }
 				/>
 			</div>
 		</>

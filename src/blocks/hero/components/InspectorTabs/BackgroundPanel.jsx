@@ -7,15 +7,15 @@ export default function BackgroundPanel({ attributes, setAttributes }) {
 	const { background = {}, overlay = {} } = attributes;
 
 	return (
-		<PanelBody title={__('Background & Overlay', 'gravisain')} initialOpen={false}>
+		<PanelBody title={__('Background & Overlay', 'gravisain-blocks')} initialOpen={false}>
 			<ColorControl
-				label={__('Background Color', 'gravisain')}
+				label={__('Background Color', 'gravisain-blocks')}
 				value={background.color}
 				onChange={(color) => setAttributes({ background: { ...background, color } })}
 			/>
 			
 			<div style={{ marginBottom: 20 }}>
-				<p style={{ marginBottom: 12, fontWeight: 600 }}>{__('Background Image', 'gravisain')}</p>
+				<p style={{ marginBottom: 12, fontWeight: 600 }}>{__('Background Image', 'gravisain-blocks')}</p>
 				<MediaUploadCheck>
 					<MediaUpload
 						onSelect={(mediaObj) =>
@@ -25,7 +25,7 @@ export default function BackgroundPanel({ attributes, setAttributes }) {
 						render={({ open }) => (
 							<div style={{ display: 'flex', gap: '8px', marginBottom: background.image ? '16px' : '0' }}>
 								<Button variant="secondary" onClick={open} style={{ flex: 1, justifyContent: 'center' }}>
-									{background.image ? __('Replace Image', 'gravisain') : __('Select Image', 'gravisain')}
+									{background.image ? __('Replace Image', 'gravisain-blocks') : __('Select Image', 'gravisain-blocks')}
 								</Button>
 								{background.image && (
 									<Button
@@ -33,7 +33,7 @@ export default function BackgroundPanel({ attributes, setAttributes }) {
 										isDestructive
 										onClick={() => setAttributes({ background: { ...background, image: '', focalPoint: { x: 0.5, y: 0.5 } } })}
 									>
-										{__('Remove', 'gravisain')}
+										{__('Remove', 'gravisain-blocks')}
 									</Button>
 								)}
 							</div>
@@ -43,7 +43,7 @@ export default function BackgroundPanel({ attributes, setAttributes }) {
 				{background.image && (
 					<div className="gravisain-focal-point-wrapper" style={{ marginTop: 12 }}>
 						<FocalPointPicker
-							label={__('Focal Point (Background Position)', 'gravisain')}
+							label={__('Focal Point (Background Position)', 'gravisain-blocks')}
 							url={background.image}
 							value={background.focalPoint || { x: 0.5, y: 0.5 }}
 							onChange={(focalPoint) =>
@@ -55,12 +55,12 @@ export default function BackgroundPanel({ attributes, setAttributes }) {
 			</div>
 
 			<ColorControl
-				label={__('Overlay Color', 'gravisain')}
+				label={__('Overlay Color', 'gravisain-blocks')}
 				value={overlay.color}
 				onChange={(color) => setAttributes({ overlay: { ...overlay, color } })}
 			/>
 			<RangeControl
-				label={__('Overlay Opacity', 'gravisain')}
+				label={__('Overlay Opacity', 'gravisain-blocks')}
 				value={overlay.opacity ? overlay.opacity * 100 : 50}
 				onChange={(val) => setAttributes({ overlay: { ...overlay, opacity: val / 100 } })}
 				min={0}

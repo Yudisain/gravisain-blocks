@@ -1,202 +1,202 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "gravisain/info-box",
-  "version": "1.1.0",
-  "title": "Info Box / Icon Card",
-  "category": "gravisain-blocks",
-  "icon": "info",
-  "description": "Versatile card with icon/badge/image, heading, description, and link.",
-  "textdomain": "gravisain",
-  "supports": {
-    "align": [
-      "wide",
-      "full"
-    ],
-    "html": false
-  },
-  "attributes": {
-    "layoutPreset": {
-      "type": "string",
-      "default": "top-left"
-    },
-    "icon": {
-      "type": "string",
-      "default": ""
-    },
-    "iconType": {
-      "type": "string",
-      "default": "star"
-    },
-    "mediaType": {
-      "type": "string",
-      "default": "icon"
-    },
-    "dashicon": {
-      "type": "string",
-      "default": "star-filled"
-    },
-    "imageUrl": {
-      "type": "string",
-      "default": ""
-    },
-    "imageId": {
-      "type": "number",
-      "default": 0
-    },
-    "imageFocalPoint": {
-      "type": "object",
-      "default": {
-        "x": 0.5,
-        "y": 0.5
-      }
-    },
-    "imageWidth": {
-      "type": "number",
-      "default": 0
-    },
-    "imageHeight": {
-      "type": "number",
-      "default": 0
-    },
-    "imageAspectRatio": {
-      "type": "string",
-      "default": "auto"
-    },
-    "imageObjectFit": {
-      "type": "string",
-      "default": "cover"
-    },
-    "imageBorderRadius": {
-      "type": "number",
-      "default": 0
-    },
-    "iconSize": {
-      "type": "number",
-      "default": 24
-    },
-    "iconBoxSize": {
-      "type": "number",
-      "default": 48
-    },
-    "iconRadius": {
-      "type": "number",
-      "default": 10
-    },
-    "iconColor": {
-      "type": "string",
-      "default": "#2563eb"
-    },
-    "iconBackgroundColor": {
-      "type": "string",
-      "default": "rgba(37, 99, 235, 0.1)"
-    },
-    "textAlign": {
-      "type": "string",
-      "default": "left"
-    },
-    "eyebrow": {
-      "type": "string",
-      "default": "FEATURE"
-    },
-    "showEyebrow": {
-      "type": "boolean",
-      "default": true
-    },
-    "eyebrowColor": {
-      "type": "string",
-      "default": "#64748b"
-    },
-    "title": {
-      "type": "string",
-      "default": "Blazing Fast Performance"
-    },
-    "titleColor": {
-      "type": "string",
-      "default": "#0f172a"
-    },
-    "titleFontSize": {
-      "type": "number",
-      "default": 20
-    },
-    "description": {
-      "type": "string",
-      "default": "Engineered from the ground up for 100/100 Google PageSpeed scores and maximum Core Web Vitals efficiency."
-    },
-    "descriptionColor": {
-      "type": "string",
-      "default": "#475569"
-    },
-    "descriptionFontSize": {
-      "type": "number",
-      "default": 15
-    },
-    "linkText": {
-      "type": "string",
-      "default": "Learn more →"
-    },
-    "linkUrl": {
-      "type": "string",
-      "default": "#"
-    },
-    "showLink": {
-      "type": "boolean",
-      "default": true
-    },
-    "linkColor": {
-      "type": "string",
-      "default": "#2563eb"
-    },
-    "cardBackgroundColor": {
-      "type": "string",
-      "default": "#ffffff"
-    },
-    "cardBorderColor": {
-      "type": "string",
-      "default": "rgba(0, 0, 0, 0.08)"
-    },
-    "cardBorderWidth": {
-      "type": "number",
-      "default": 1
-    },
-    "cardBorderRadius": {
-      "type": "number",
-      "default": 12
-    },
-    "cardPaddingTop": {
-      "type": "number",
-      "default": 32
-    },
-    "cardPaddingBottom": {
-      "type": "number",
-      "default": 32
-    },
-    "cardPaddingLeft": {
-      "type": "number",
-      "default": 28
-    },
-    "cardPaddingRight": {
-      "type": "number",
-      "default": 28
-    },
-    "hoverEffect": {
-      "type": "string",
-      "default": "lift"
-    },
-    "anchor": {
-      "type": "string",
-      "default": ""
-    },
-    "customClassName": {
-      "type": "string",
-      "default": ""
-    },
-    "customCSS": {
-      "type": "string",
-      "default": ""
-    }
-  },
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "gravisain/info-box",
+	"version": "1.0.0",
+	"title": "Info Box / Icon Card",
+	"category": "gravisain-blocks",
+	"icon": "info",
+	"description": "Versatile card with icon/badge/image, heading, description, and link.",
+	"textdomain": "gravisain-blocks",
+	"supports": {
+		"align": [
+			"wide",
+			"full"
+		],
+		"html": false
+	},
+	"attributes": {
+		"layoutPreset": {
+			"type": "string",
+			"default": "top-left"
+		},
+		"icon": {
+			"type": "string",
+			"default": ""
+		},
+		"iconType": {
+			"type": "string",
+			"default": "star"
+		},
+		"mediaType": {
+			"type": "string",
+			"default": "icon"
+		},
+		"dashicon": {
+			"type": "string",
+			"default": "star-filled"
+		},
+		"imageUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"imageId": {
+			"type": "number",
+			"default": 0
+		},
+		"imageFocalPoint": {
+			"type": "object",
+			"default": {
+				"x": 0.5,
+				"y": 0.5
+			}
+		},
+		"imageWidth": {
+			"type": "number",
+			"default": 0
+		},
+		"imageHeight": {
+			"type": "number",
+			"default": 0
+		},
+		"imageAspectRatio": {
+			"type": "string",
+			"default": "auto"
+		},
+		"imageObjectFit": {
+			"type": "string",
+			"default": "cover"
+		},
+		"imageBorderRadius": {
+			"type": "number",
+			"default": 0
+		},
+		"iconSize": {
+			"type": "number",
+			"default": 24
+		},
+		"iconBoxSize": {
+			"type": "number",
+			"default": 48
+		},
+		"iconRadius": {
+			"type": "number",
+			"default": 10
+		},
+		"iconColor": {
+			"type": "string",
+			"default": "#2563eb"
+		},
+		"iconBackgroundColor": {
+			"type": "string",
+			"default": "rgba(37, 99, 235, 0.1)"
+		},
+		"textAlign": {
+			"type": "string",
+			"default": "left"
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": "FEATURE"
+		},
+		"showEyebrow": {
+			"type": "boolean",
+			"default": true
+		},
+		"eyebrowColor": {
+			"type": "string",
+			"default": "#64748b"
+		},
+		"title": {
+			"type": "string",
+			"default": "Blazing Fast Performance"
+		},
+		"titleColor": {
+			"type": "string",
+			"default": "#0f172a"
+		},
+		"titleFontSize": {
+			"type": "number",
+			"default": 20
+		},
+		"description": {
+			"type": "string",
+			"default": "Engineered from the ground up for 100/100 Google PageSpeed scores and maximum Core Web Vitals efficiency."
+		},
+		"descriptionColor": {
+			"type": "string",
+			"default": "#475569"
+		},
+		"descriptionFontSize": {
+			"type": "number",
+			"default": 15
+		},
+		"linkText": {
+			"type": "string",
+			"default": "Learn more →"
+		},
+		"linkUrl": {
+			"type": "string",
+			"default": "#"
+		},
+		"showLink": {
+			"type": "boolean",
+			"default": true
+		},
+		"linkColor": {
+			"type": "string",
+			"default": "#2563eb"
+		},
+		"cardBackgroundColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"cardBorderColor": {
+			"type": "string",
+			"default": "rgba(0, 0, 0, 0.08)"
+		},
+		"cardBorderWidth": {
+			"type": "number",
+			"default": 1
+		},
+		"cardBorderRadius": {
+			"type": "number",
+			"default": 12
+		},
+		"cardPaddingTop": {
+			"type": "number",
+			"default": 32
+		},
+		"cardPaddingBottom": {
+			"type": "number",
+			"default": 32
+		},
+		"cardPaddingLeft": {
+			"type": "number",
+			"default": 28
+		},
+		"cardPaddingRight": {
+			"type": "number",
+			"default": 28
+		},
+		"hoverEffect": {
+			"type": "string",
+			"default": "lift"
+		},
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"customClassName": {
+			"type": "string",
+			"default": ""
+		},
+		"customCSS": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
 }

@@ -7,7 +7,7 @@
 	"category": "gravisain-blocks",
 	"icon": "arrows-up-down",
 	"description": "Add responsive height spacing with an optional decorative divider between sections or blocks.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
 		"html": false,
 		"anchor": false,

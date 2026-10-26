@@ -34,11 +34,11 @@ export default function TypographyPanel({ attributes, setAttributes }) {
 	};
 
 	return (
-		<PanelBody title={__('Typography', 'gravisain')} initialOpen={false}>
+		<PanelBody title={__('Typography', 'gravisain-blocks')} initialOpen={false}>
 			<div style={{ marginBottom: 24 }}>
-				<p style={{ marginBottom: 8, fontWeight: 600 }}>{__('Title Typography', 'gravisain')}</p>
+				<p style={{ marginBottom: 8, fontWeight: 600 }}>{__('Title Typography', 'gravisain-blocks')}</p>
 				<ColorControl
-					label={__('Title Color', 'gravisain')}
+					label={__('Title Color', 'gravisain-blocks')}
 					value={titleColor}
 					onChange={(val) => setAttributes({ titleColor: val })}
 					disableGradient={true}
@@ -46,7 +46,7 @@ export default function TypographyPanel({ attributes, setAttributes }) {
 				<ResponsiveTabControl>
 					{(currentDevice) => (
 						<TypographyControl
-							label={__('Typography', 'gravisain')}
+							label={__('Typography', 'gravisain-blocks')}
 							value={getResponsiveAttr('titleTypography', currentDevice)}
 							onChange={(val) => setResponsiveAttr('titleTypography', val, currentDevice)}
 						/>
@@ -55,9 +55,9 @@ export default function TypographyPanel({ attributes, setAttributes }) {
 			</div>
 
 			<div style={{ marginBottom: 24, paddingTop: 16, borderTop: '1px solid #e0e0e0' }}>
-				<p style={{ marginBottom: 8, fontWeight: 600 }}>{__('Eyebrow Typography', 'gravisain')}</p>
+				<p style={{ marginBottom: 8, fontWeight: 600 }}>{__('Eyebrow Typography', 'gravisain-blocks')}</p>
 				<ColorControl
-					label={__('Eyebrow Color', 'gravisain')}
+					label={__('Eyebrow Color', 'gravisain-blocks')}
 					value={eyebrowColor}
 					onChange={(val) => setAttributes({ eyebrowColor: val })}
 					disableGradient={true}
@@ -65,7 +65,7 @@ export default function TypographyPanel({ attributes, setAttributes }) {
 				<ResponsiveTabControl>
 					{(currentDevice) => (
 						<TypographyControl
-							label={__('Typography', 'gravisain')}
+							label={__('Typography', 'gravisain-blocks')}
 							value={getResponsiveAttr('eyebrowTypography', currentDevice)}
 							onChange={(val) => setResponsiveAttr('eyebrowTypography', val, currentDevice)}
 						/>
@@ -74,9 +74,9 @@ export default function TypographyPanel({ attributes, setAttributes }) {
 			</div>
 
 			<div style={{ paddingTop: 16, borderTop: '1px solid #e0e0e0' }}>
-				<p style={{ marginBottom: 8, fontWeight: 600 }}>{__('Description Typography', 'gravisain')}</p>
+				<p style={{ marginBottom: 8, fontWeight: 600 }}>{__('Description Typography', 'gravisain-blocks')}</p>
 				<ColorControl
-					label={__('Description Color', 'gravisain')}
+					label={__('Description Color', 'gravisain-blocks')}
 					value={descriptionColor}
 					onChange={(val) => setAttributes({ descriptionColor: val })}
 					disableGradient={true}
@@ -84,7 +84,7 @@ export default function TypographyPanel({ attributes, setAttributes }) {
 				<ResponsiveTabControl>
 					{(currentDevice) => (
 						<TypographyControl
-							label={__('Typography', 'gravisain')}
+							label={__('Typography', 'gravisain-blocks')}
 							value={getResponsiveAttr('descriptionTypography', currentDevice)}
 							onChange={(val) => setResponsiveAttr('descriptionTypography', val, currentDevice)}
 						/>

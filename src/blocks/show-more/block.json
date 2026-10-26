@@ -2,15 +2,24 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "gravisain/show-more",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"title": "Show More",
 	"category": "gravisain-blocks",
 	"icon": "arrow-down-alt2",
 	"description": "Hide long content behind a 'Read More' button that expands when clicked.",
-	"keywords": [ "show more", "read more", "expand", "collapse", "accordion" ],
+	"keywords": [
+		"show more",
+		"read more",
+		"expand",
+		"collapse",
+		"accordion"
+	],
 	"supports": {
 		"html": false,
-		"align": [ "wide", "full" ]
+		"align": [
+			"wide",
+			"full"
+		]
 	},
 	"attributes": {
 		"previewHeight": {

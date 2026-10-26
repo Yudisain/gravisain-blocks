@@ -50,7 +50,7 @@ export default function Edit( props ) {
 						className="gravisain-progress-label"
 						value={ label }
 						onChange={ ( val ) => setAttributes( { label: val } ) }
-						placeholder={ __( 'Skill or Metric Label...', 'gravisain' ) }
+						placeholder={ __( 'Skill or Metric Label...', 'gravisain-blocks' ) }
 					/>
 					{ showPercentage && (
 						<span className="gravisain-progress-percentage">{ percentage }%</span>

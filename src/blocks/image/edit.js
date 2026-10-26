@@ -120,10 +120,10 @@ export default function Edit( props ) {
 										<polyline points="21 15 16 10 5 21"></polyline>
 									</svg>
 									<div style={{ fontWeight: 600, fontSize: '15px', color: 'currentColor', marginBottom: '8px' }}>
-										{ __( 'Advanced Image', 'gravisain' ) }
+										{ __( 'Advanced Image', 'gravisain-blocks' ) }
 									</div>
 									<div style={{ fontSize: '13px', marginBottom: '16px' }}>
-										{ __( 'Click here to select or upload an image.', 'gravisain' ) }
+										{ __( 'Click here to select or upload an image.', 'gravisain-blocks' ) }
 									</div>
 								</div>
 							) }
@@ -196,7 +196,7 @@ export default function Edit( props ) {
 						className="gravisain-image-caption"
 						value={ caption }
 						onChange={ ( val ) => setAttributes( { caption: val } ) }
-						placeholder={ __( 'Write a caption...', 'gravisain' ) }
+						placeholder={ __( 'Write a caption...', 'gravisain-blocks' ) }
 					/>
 				) }
 			</div>

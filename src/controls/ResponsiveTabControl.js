@@ -108,7 +108,7 @@ export default function ResponsiveTabControl( { children, activeDevice, onChange
 						type="button"
 						className={ `gravisain-device-btn ${ currentDevice === 'desktop' ? 'is-active' : '' }` }
 						onClick={ () => switchDevice( 'desktop' ) }
-						title={ __( 'Desktop', 'gravisain' ) }
+						title={ __( 'Desktop', 'gravisain-blocks' ) }
 					>
 						<DesktopIcon />
 					</button>
@@ -116,7 +116,7 @@ export default function ResponsiveTabControl( { children, activeDevice, onChange
 						type="button"
 						className={ `gravisain-device-btn ${ currentDevice === 'tablet' ? 'is-active' : '' }` }
 						onClick={ () => switchDevice( 'tablet' ) }
-						title={ __( 'Tablet', 'gravisain' ) }
+						title={ __( 'Tablet', 'gravisain-blocks' ) }
 					>
 						<TabletIcon />
 					</button>
@@ -124,7 +124,7 @@ export default function ResponsiveTabControl( { children, activeDevice, onChange
 						type="button"
 						className={ `gravisain-device-btn ${ currentDevice === 'mobile' ? 'is-active' : '' }` }
 						onClick={ () => switchDevice( 'mobile' ) }
-						title={ __( 'Mobile', 'gravisain' ) }
+						title={ __( 'Mobile', 'gravisain-blocks' ) }
 					>
 						<MobileIcon />
 					</button>

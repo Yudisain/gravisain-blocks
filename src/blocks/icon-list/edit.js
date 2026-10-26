@@ -220,7 +220,7 @@ export default function Edit( props ) {
 				...items,
 				{
 					id: newId,
-					text: __( 'New list item', 'gravisain' ),
+					text: __( 'New list item', 'gravisain-blocks' ),
 					icon: defaultIcon || 'check',
 					color: '',
 					background: '',
@@ -383,7 +383,7 @@ export default function Edit( props ) {
 										borderRadius: iconRadius ? `${ iconRadius }px` : undefined,
 										cursor: 'pointer',
 									} }
-									title={ __( 'Click to edit this icon in settings', 'gravisain' ) }
+									title={ __( 'Click to edit this icon in settings', 'gravisain-blocks' ) }
 								>
 									{ iconData && iconData.type === 'image' ? (
 										<img src={ iconData.src } alt="" />
@@ -399,11 +399,11 @@ export default function Edit( props ) {
 									className="gravisain-list-text"
 									value={ item.text }
 									onChange={ ( val ) => updateItem( index, 'text', val ) }
-									placeholder={ __( 'List item text...', 'gravisain' ) }
+									placeholder={ __( 'List item text...', 'gravisain-blocks' ) }
 								/>
 
 								<div className="gravisain-item-actions">
-									<Tooltip text={ __( 'Edit item settings', 'gravisain' ) }>
+									<Tooltip text={ __( 'Edit item settings', 'gravisain-blocks' ) }>
 										<Button
 											className="gravisain-action-btn gravisain-edit-item-btn"
 											isSmall
@@ -412,11 +412,11 @@ export default function Edit( props ) {
 												e.stopPropagation();
 												setSelectedItemIndex( index );
 											} }
-											aria-label={ __( 'Edit item settings', 'gravisain' ) }
+											aria-label={ __( 'Edit item settings', 'gravisain-blocks' ) }
 										/>
 									</Tooltip>
 									{ items.length > 1 && (
-										<Tooltip text={ __( 'Remove item', 'gravisain' ) }>
+										<Tooltip text={ __( 'Remove item', 'gravisain-blocks' ) }>
 											<Button
 												className="gravisain-action-btn gravisain-remove-item-btn"
 												isSmall
@@ -426,7 +426,7 @@ export default function Edit( props ) {
 													e.stopPropagation();
 													removeItem( index );
 												} }
-												aria-label={ __( 'Remove item', 'gravisain' ) }
+												aria-label={ __( 'Remove item', 'gravisain-blocks' ) }
 											/>
 										</Tooltip>
 									) }
@@ -438,7 +438,7 @@ export default function Edit( props ) {
 
 				<div className="gravisain-icon-list-add">
 					<Button variant="secondary" onClick={ addItem } icon="plus">
-						{ __( 'Add List Item', 'gravisain' ) }
+						{ __( 'Add List Item', 'gravisain-blocks' ) }
 					</Button>
 				</div>
 			</div>

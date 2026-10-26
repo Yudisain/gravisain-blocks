@@ -4,13 +4,39 @@ const path = require('path');
 const pluginDir = path.resolve(__dirname, '..');
 
 /**
- * Synchronize plugin version across all project files:
+ * Update Undagital Early Access version inside package.json.
+ * Keeps WP.org master files (gravisain-blocks.php, readme.txt) untouched.
+ *
+ * @param {string} newVersion Target version string (e.g. '0.5.1')
+ */
+function setUndagitalVersion(newVersion) {
+  if (!newVersion || !/^\d+\.\d+(\.\d+)*(-[a-zA-Z0-9.]+)?$/.test(newVersion.trim())) {
+    console.error(`❌ Format versi tidak valid: "${newVersion}". Contoh: 0.5.1`);
+    process.exit(1);
+  }
+
+  const ver = newVersion.trim();
+  const pkgPath = path.join(pluginDir, 'package.json');
+  if (fs.existsSync(pkgPath)) {
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+    pkg.undagitalVersion = ver;
+    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf8');
+    console.log(`\n✅ Versi Jalur Undagital (Early Access) diset ke: v${ver}`);
+    console.log(`   package.json -> "undagitalVersion": "${ver}"`);
+    console.log(`   Jalur resmi WP.org tetap di: v${pkg.version}`);
+    console.log(`   Siap dibuild dengan: npm run zip:undagital\n`);
+  }
+  return ver;
+}
+
+/**
+ * Synchronize plugin version across all official WP.org project files:
  * 1. gravisain-blocks.php (Plugin Header: * Version: X.Y.Z)
  * 2. gravisain-blocks.php (Constant: define( 'GRAVISAIN_BLOCKS_VERSION', 'X.Y.Z' ))
  * 3. readme.txt (Stable tag: X.Y.Z & Changelog entry)
  * 4. package.json (version property)
  *
- * @param {string} newVersion Target version string (e.g. '1.2.3')
+ * @param {string} newVersion Target version string (e.g. '1.0.0')
  */
 function syncVersion(newVersion) {
   if (!newVersion || !/^\d+\.\d+(\.\d+)*(-[a-zA-Z0-9.]+)?$/.test(newVersion.trim())) {
@@ -19,7 +45,7 @@ function syncVersion(newVersion) {
   }
 
   const ver = newVersion.trim();
-  console.log(`\n🔄 Menyeragamkan versi Gravisain Blocks ke: v${ver}...`);
+  console.log(`\n🔄 Menyeragamkan versi resmi (WP.org) Gravisain Blocks ke: v${ver}...`);
 
   // 1. Update gravisain-blocks.php
   const phpPath = path.join(pluginDir, 'gravisain-blocks.php');
@@ -78,23 +104,36 @@ function syncVersion(newVersion) {
     console.log(`  ✓ package.json (version: ${semverSafe}${semverSafe !== ver ? ' [SemVer-safe]' : ''})`);
   }
 
-  console.log(`✅ Seluruh file versi berhasil diseragamkan ke v${ver}!\n`);
+  console.log(`✅ Seluruh file versi resmi berhasil diseragamkan ke v${ver}!\n`);
   return ver;
 }
 
-// Allow running directly from CLI: node scripts/set-version.js 1.2.3
+// Allow running directly from CLI: node scripts/set-version.js 1.2.3 OR node scripts/set-version.js --undagital 0.5.1
 if (require.main === module) {
   const args = process.argv.slice(2).filter((arg) => arg !== '--');
-  const targetVer = args[0];
-  if (!targetVer) {
-    console.log('Penggunaan:');
-    console.log('  npm run set-version <nomor_versi>');
-    console.log('  node scripts/set-version.js <nomor_versi>');
-    console.log('\nContoh:');
-    console.log('  npm run set-version 1.2.3\n');
-    process.exit(1);
+  if (args[0] === '--undagital' || args[0] === '-u') {
+    const targetVer = args[1];
+    if (!targetVer) {
+      console.log('Penggunaan:');
+      console.log('  npm run set-version:undagital <nomor_versi>');
+      console.log('\nContoh:');
+      console.log('  npm run set-version:undagital 0.5.1\n');
+      process.exit(1);
+    }
+    setUndagitalVersion(targetVer);
+  } else {
+    const targetVer = args[0];
+    if (!targetVer) {
+      console.log('Penggunaan:');
+      console.log('  npm run set-version <nomor_versi>           (Untuk versi resmi WP.org)');
+      console.log('  npm run set-version:undagital <nomor_versi> (Untuk versi jalur Undagital)');
+      console.log('\nContoh:');
+      console.log('  npm run set-version 1.0.0');
+      console.log('  npm run set-version:undagital 0.5.1\n');
+      process.exit(1);
+    }
+    syncVersion(targetVer);
   }
-  syncVersion(targetVer);
 }
 
-module.exports = { syncVersion };
+module.exports = { syncVersion, setUndagitalVersion };

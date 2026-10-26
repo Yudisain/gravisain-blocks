@@ -119,6 +119,32 @@ $sanitize_css_color = function( $color ): ?string {
 	return null;
 };
 
+/**
+ * Sanitize a CSS gradient value to prevent declaration injection.
+ */
+$sanitize_css_gradient = function( $gradient ): ?string {
+	if ( ! is_string( $gradient ) ) {
+		return null;
+	}
+	$gradient = trim( $gradient );
+	if ( '' === $gradient ) {
+		return null;
+	}
+	// Reject characters and expressions that permit declaration or script injection.
+	if ( preg_match( '/[;{}<>"\'\\\\]|expression|javascript|url\s*\(/i', $gradient ) ) {
+		return null;
+	}
+	// Must match valid gradient function pattern.
+	if ( ! preg_match( '/^(repeating-)?(linear|radial|conic)-gradient\s*\([a-zA-Z0-9_#%,.\s()+-]+\)$/i', $gradient ) ) {
+		return null;
+	}
+	// Ensure balanced parentheses.
+	if ( substr_count( $gradient, '(' ) !== substr_count( $gradient, ')' ) ) {
+		return null;
+	}
+	return $gradient;
+};
+
 $typo_vars = function( string $prefix, array $t ) use ( $typo_var, $format_font_family, $sanitize_font_weight ): array {
 	$vars = [];
 	$ff = $format_font_family( $t['fontFamily'] ?? null );
@@ -293,9 +319,15 @@ if ( ! $is_align_full ) {
 $bg_parts = [];
 if ( ! empty( $background['color'] ) ) {
 	if ( false !== strpos( $background['color'], 'gradient' ) ) {
-		$bg_parts[] = 'background-image:' . esc_attr( $background['color'] );
+		$sanitized_bg_grad = $sanitize_css_gradient( $background['color'] );
+		if ( $sanitized_bg_grad ) {
+			$bg_parts[] = 'background-image:' . $sanitized_bg_grad;
+		}
 	} else {
-		$bg_parts[] = 'background-color:' . esc_attr( $background['color'] );
+		$sanitized_bg_color = $sanitize_css_color( $background['color'] );
+		if ( $sanitized_bg_color ) {
+			$bg_parts[] = 'background-color:' . $sanitized_bg_color;
+		}
 	}
 }
 if ( ! empty( $background['image'] ) ) {
@@ -309,8 +341,15 @@ if ( ! empty( $background['image'] ) ) {
 		$bg_parts[] = 'background-position:center center';
 	}
 }
-if ( ! empty( $background['gradient'] ) ) $bg_parts[] = 'background-image:' . esc_attr( $background['gradient'] );
-if ( $bg_parts ) $style_str .= ';' . implode( ';', $bg_parts );
+if ( ! empty( $background['gradient'] ) ) {
+	$sanitized_bg_grad = $sanitize_css_gradient( $background['gradient'] );
+	if ( $sanitized_bg_grad ) {
+		$bg_parts[] = 'background-image:' . $sanitized_bg_grad;
+	}
+}
+if ( $bg_parts ) {
+	$style_str .= ';' . implode( ';', $bg_parts );
+}
 
 // ── Classes ───────────────────────────────────────────────────────────────────
 
@@ -331,9 +370,17 @@ $id_attr = $anchor ? 'id="' . esc_attr( $anchor ) . '"' : '';
 $overlay_html = '';
 if ( ! empty( $overlay['color'] ) ) {
 	$ov_opacity = isset( $overlay['opacity'] ) ? (float) $overlay['opacity'] : 0.5;
-	$ov_prop    = false !== strpos( $overlay['color'], 'gradient' ) ? 'background-image:' : 'background-color:';
-	$overlay_html = '<div class="gravisain-section-overlay" style="' . $ov_prop
-		. esc_attr( $overlay['color'] ) . ';opacity:' . $ov_opacity . ';position:absolute;inset:0"></div>';
+	if ( false !== strpos( $overlay['color'], 'gradient' ) ) {
+		$sanitized_ov_color = $sanitize_css_gradient( $overlay['color'] );
+		$ov_prop            = 'background-image:';
+	} else {
+		$sanitized_ov_color = $sanitize_css_color( $overlay['color'] );
+		$ov_prop            = 'background-color:';
+	}
+	if ( $sanitized_ov_color ) {
+		$overlay_html = '<div class="gravisain-section-overlay" style="' . $ov_prop
+			. esc_attr( $sanitized_ov_color ) . ';opacity:' . $ov_opacity . ';position:absolute;inset:0"></div>';
+	}
 }
 
 // ── Buttons ───────────────────────────────────────────────────────────────────

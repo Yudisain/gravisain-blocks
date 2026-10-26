@@ -181,10 +181,10 @@ export default function Edit( props ) {
 										className="gravisain-tab-button-title"
 										value={ block.attributes.title || `Tab ${ index + 1 }` }
 										onChange={ ( val ) => updateTabTitle( block.clientId, index, val ) }
-										placeholder={ __( 'Tab Title...', 'gravisain' ) }
+										placeholder={ __( 'Tab Title...', 'gravisain-blocks' ) }
 									/>
 									{ childBlocks.length > 1 && (
-										<Tooltip text={ __( 'Remove Tab', 'gravisain' ) }>
+										<Tooltip text={ __( 'Remove Tab', 'gravisain-blocks' ) }>
 											<Button
 												className="gravisain-remove-tab"
 												isSmall
@@ -193,7 +193,7 @@ export default function Edit( props ) {
 													e.stopPropagation();
 													removeTab( block.clientId, index );
 												} }
-												aria-label={ __( 'Remove Tab', 'gravisain' ) }
+												aria-label={ __( 'Remove Tab', 'gravisain-blocks' ) }
 											/>
 										</Tooltip>
 									) }
@@ -203,7 +203,7 @@ export default function Edit( props ) {
 					</div>
 
 					<Button variant="secondary" className="gravisain-add-tab-btn" onClick={ addNewTab } icon="plus">
-						{ __( 'Add Tab', 'gravisain' ) }
+						{ __( 'Add Tab', 'gravisain-blocks' ) }
 					</Button>
 				</div>
 

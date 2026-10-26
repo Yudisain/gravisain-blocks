@@ -7,7 +7,7 @@
 	"category": "gravisain-blocks",
 	"icon": "welcome-widgets-menus",
 	"description": "Create interactive modal popups triggered by buttons, text, or icons containing any Blocks inside.",
-	"textdomain": "gravisain",
+	"textdomain": "gravisain-blocks",
 	"supports": {
 		"html": false,
 		"anchor": false,

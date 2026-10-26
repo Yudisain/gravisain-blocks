@@ -2,13 +2,15 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "gravisain/feature-card",
-	"version": "1.1.0",
+	"version": "1.0.0",
 	"title": "Feature Card",
 	"category": "gravisain-blocks",
 	"icon": "star-filled",
 	"description": "An individual feature card with icon/symbol, title, description, and hover animation.",
-	"textdomain": "gravisain",
-	"parent": [ "gravisain/features-grid" ],
+	"textdomain": "gravisain-blocks",
+	"parent": [
+		"gravisain/features-grid"
+	],
 	"attributes": {
 		"title": {
 			"type": "string",

@@ -2,15 +2,23 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "gravisain/advanced-form",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"title": "Advanced Form",
 	"category": "gravisain-blocks",
 	"icon": "feedback",
 	"description": "Create a fully customizable contact or lead generation form.",
-	"keywords": [ "form", "contact", "email", "input" ],
+	"keywords": [
+		"form",
+		"contact",
+		"email",
+		"input"
+	],
 	"supports": {
 		"html": false,
-		"align": [ "wide", "full" ]
+		"align": [
+			"wide",
+			"full"
+		]
 	},
 	"attributes": {
 		"formActionUrl": {

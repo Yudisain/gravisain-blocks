@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 export const INFOBOX_PRESETS = [
 	{
 		id: 'top-center',
-		label: __( 'Top Center', 'gravisain' ),
+		label: __( 'Top Center', 'gravisain-blocks' ),
 		values: {
 			textAlign: 'center',
 			iconRadius: 10,
@@ -23,7 +23,7 @@ export const INFOBOX_PRESETS = [
 	},
 	{
 		id: 'top-center-circle',
-		label: __( 'Center Circle', 'gravisain' ),
+		label: __( 'Center Circle', 'gravisain-blocks' ),
 		values: {
 			textAlign: 'center',
 			iconRadius: 999,
@@ -44,7 +44,7 @@ export const INFOBOX_PRESETS = [
 	},
 	{
 		id: 'top-left',
-		label: __( 'Top Left', 'gravisain' ),
+		label: __( 'Top Left', 'gravisain-blocks' ),
 		values: {
 			textAlign: 'left',
 			iconRadius: 10,
@@ -63,7 +63,7 @@ export const INFOBOX_PRESETS = [
 	},
 	{
 		id: 'left-horizontal',
-		label: __( 'Left Inline', 'gravisain' ),
+		label: __( 'Left Inline', 'gravisain-blocks' ),
 		values: {
 			textAlign: 'left',
 			iconRadius: 10,
@@ -81,7 +81,7 @@ export const INFOBOX_PRESETS = [
 	},
 	{
 		id: 'overlap-center',
-		label: __( 'Overlap Center', 'gravisain' ),
+		label: __( 'Overlap Center', 'gravisain-blocks' ),
 		values: {
 			textAlign: 'center',
 			iconRadius: 999,
@@ -102,7 +102,7 @@ export const INFOBOX_PRESETS = [
 	},
 	{
 		id: 'overlap-left',
-		label: __( 'Overlap Left', 'gravisain' ),
+		label: __( 'Overlap Left', 'gravisain-blocks' ),
 		values: {
 			textAlign: 'left',
 			iconRadius: 10,

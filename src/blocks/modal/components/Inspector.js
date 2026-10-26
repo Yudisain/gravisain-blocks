@@ -27,36 +27,36 @@ export default function Inspector( { attributes, setAttributes } ) {
 				className="gravisain-inspector-tabs"
 				activeClass="active-tab"
 				tabs={ [
-					{ name: 'general', title: __( 'General', 'gravisain' ), className: 'gravisain-tab-general' },
-					{ name: 'style', title: __( 'Style', 'gravisain' ), className: 'gravisain-tab-style' },
-					{ name: 'advanced', title: __( 'Advanced', 'gravisain' ), className: 'gravisain-tab-advanced' },
+					{ name: 'general', title: __( 'General', 'gravisain-blocks' ), className: 'gravisain-tab-general' },
+					{ name: 'style', title: __( 'Style', 'gravisain-blocks' ), className: 'gravisain-tab-style' },
+					{ name: 'advanced', title: __( 'Advanced', 'gravisain-blocks' ), className: 'gravisain-tab-advanced' },
 				] }
 			>
 				{ ( tab ) => (
 					<div className="gravisain-tab-content">
 						{ tab.name === 'general' && (
-							<PanelBody title={ __( 'Trigger & Modal Dimensions', 'gravisain' ) } initialOpen={ true }>
+							<PanelBody title={ __( 'Trigger & Modal Dimensions', 'gravisain-blocks' ) } initialOpen={ true }>
 								<SelectControl
-									label={ __( 'Trigger Type', 'gravisain' ) }
+									label={ __( 'Trigger Type', 'gravisain-blocks' ) }
 									value={ triggerType }
 									options={ [
-										{ label: __( 'Button', 'gravisain' ), value: 'button' },
-										{ label: __( 'Text Link', 'gravisain' ), value: 'text' },
+										{ label: __( 'Button', 'gravisain-blocks' ), value: 'button' },
+										{ label: __( 'Text Link', 'gravisain-blocks' ), value: 'text' },
 									] }
 									onChange={ ( val ) => setAttributes( { triggerType: val } ) }
 								/>
 								<TextControl
-									label={ __( 'Trigger Text', 'gravisain' ) }
+									label={ __( 'Trigger Text', 'gravisain-blocks' ) }
 									value={ triggerText }
 									onChange={ ( val ) => setAttributes( { triggerText: val } ) }
 								/>
 								<TextControl
-									label={ __( 'Modal Header Title', 'gravisain' ) }
+									label={ __( 'Modal Header Title', 'gravisain-blocks' ) }
 									value={ modalTitle }
 									onChange={ ( val ) => setAttributes( { modalTitle: val } ) }
 								/>
 								<RangeControl
-									label={ __( 'Modal Max Width (px)', 'gravisain' ) }
+									label={ __( 'Modal Max Width (px)', 'gravisain-blocks' ) }
 									value={ modalWidth }
 									onChange={ ( val ) => setAttributes( { modalWidth: val } ) }
 									min={ 300 }
@@ -68,46 +68,46 @@ export default function Inspector( { attributes, setAttributes } ) {
 
 						{ tab.name === 'style' && (
 							<>
-								<PanelBody title={ __( 'Trigger Colors', 'gravisain' ) } initialOpen={ true }>
+								<PanelBody title={ __( 'Trigger Colors', 'gravisain-blocks' ) } initialOpen={ true }>
 									<ColorControl
-										label={ __( 'Button Background Color', 'gravisain' ) }
+										label={ __( 'Button Background Color', 'gravisain-blocks' ) }
 										value={ buttonColor }
 										onChange={ ( val ) => setAttributes( { buttonColor: val } ) }
 									/>
 									<ColorControl
-										label={ __( 'Button Text Color', 'gravisain' ) }
+										label={ __( 'Button Text Color', 'gravisain-blocks' ) }
 										value={ buttonTextColor }
 										onChange={ ( val ) => setAttributes( { buttonTextColor: val } ) }
 										disableGradient={ true }
 									/>
 								</PanelBody>
 
-								<PanelBody title={ __( 'Modal Colors & Radius', 'gravisain' ) } initialOpen={ false }>
+								<PanelBody title={ __( 'Modal Colors & Radius', 'gravisain-blocks' ) } initialOpen={ false }>
 									<ColorControl
-										label={ __( 'Modal Box Background', 'gravisain' ) }
+										label={ __( 'Modal Box Background', 'gravisain-blocks' ) }
 										value={ modalBackgroundColor }
 										onChange={ ( val ) => setAttributes( { modalBackgroundColor: val } ) }
 									/>
 									<ColorControl
-										label={ __( 'Backdrop Overlay Color', 'gravisain' ) }
+										label={ __( 'Backdrop Overlay Color', 'gravisain-blocks' ) }
 										value={ overlayColor }
 										onChange={ ( val ) => setAttributes( { overlayColor: val } ) }
 									/>
 									<ColorControl
-										label={ __( 'Close Button Color', 'gravisain' ) }
+										label={ __( 'Close Button Color', 'gravisain-blocks' ) }
 										value={ closeButtonColor }
 										onChange={ ( val ) => setAttributes( { closeButtonColor: val } ) }
 										disableGradient={ true }
 									/>
 									<RangeControl
-										label={ __( 'Border Radius (px)', 'gravisain' ) }
+										label={ __( 'Border Radius (px)', 'gravisain-blocks' ) }
 										value={ borderRadius }
 										onChange={ ( val ) => setAttributes( { borderRadius: val } ) }
 										min={ 0 }
 										max={ 40 }
 									/>
 									<RangeControl
-										label={ __( 'Content Padding (px)', 'gravisain' ) }
+										label={ __( 'Content Padding (px)', 'gravisain-blocks' ) }
 										value={ contentPadding }
 										onChange={ ( val ) => setAttributes( { contentPadding: val } ) }
 										min={ 10 }
@@ -118,22 +118,22 @@ export default function Inspector( { attributes, setAttributes } ) {
 						) }
 
 						{ tab.name === 'advanced' && (
-							<PanelBody title={ __( 'Advanced Settings', 'gravisain' ) } initialOpen={ true }>
+							<PanelBody title={ __( 'Advanced Settings', 'gravisain-blocks' ) } initialOpen={ true }>
 								<TextControl
-									label={ __( 'HTML Anchor', 'gravisain' ) }
-									help={ __( 'Enter a word or two — without spaces — to make a unique web address just for this block, called an "anchor". Then, you\'ll be able to link directly to this section of your page.', 'gravisain' ) }
+									label={ __( 'HTML Anchor', 'gravisain-blocks' ) }
+									help={ __( 'Enter a word or two — without spaces — to make a unique web address just for this block, called an "anchor". Then, you\'ll be able to link directly to this section of your page.', 'gravisain-blocks' ) }
 									value={ anchor }
 									onChange={ ( val ) => setAttributes( { anchor: val } ) }
 								/>
 								<TextControl
-									label={ __( 'Additional CSS class(es)', 'gravisain' ) }
-									help={ __( 'Separate multiple classes with spaces.', 'gravisain' ) }
+									label={ __( 'Additional CSS class(es)', 'gravisain-blocks' ) }
+									help={ __( 'Separate multiple classes with spaces.', 'gravisain-blocks' ) }
 									value={ customClassName }
 									onChange={ ( val ) => setAttributes( { customClassName: val } ) }
 								/>
 								<TextareaControl
-									label={ __( 'Additional CSS', 'gravisain' ) }
-									help={ __( 'Add your own CSS to customize the appearance of this block. You do not need to include a CSS selector, just add the property and value, e.g. color: red;.', 'gravisain' ) }
+									label={ __( 'Additional CSS', 'gravisain-blocks' ) }
+									help={ __( 'Add your own CSS to customize the appearance of this block. You do not need to include a CSS selector, just add the property and value, e.g. color: red;.', 'gravisain-blocks' ) }
 									value={ customCSS }
 									onChange={ ( val ) => setAttributes( { customCSS: val } ) }
 									rows={ 4 }
