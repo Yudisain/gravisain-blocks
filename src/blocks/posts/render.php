@@ -11,27 +11,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
-$post_type      = $attributes['postType'] ?? 'post';
-$posts_to_show  = $attributes['postsToShow'] ?? 3;
-$order          = $attributes['order'] ?? 'DESC';
-$order_by       = $attributes['orderBy'] ?? 'date';
-$columns        = $attributes['columns'] ?? [ 'desktop' => 3, 'tablet' => 2, 'mobile' => 1 ];
-$gap            = $attributes['gap'] ?? [ 'desktop' => 20, 'tablet' => 15, 'mobile' => 10 ];
+$posts_post_type = $attributes['postType'] ?? 'post';
+$posts_to_show   = $attributes['postsToShow'] ?? 3;
+$posts_order     = $attributes['order'] ?? 'DESC';
+$order_by        = $attributes['orderBy'] ?? 'date';
+$columns         = $attributes['columns'] ?? array(
+	'desktop' => 3,
+	'tablet'  => 2,
+	'mobile'  => 1,
+);
+$gap             = $attributes['gap'] ?? array(
+	'desktop' => 20,
+	'tablet'  => 15,
+	'mobile'  => 10,
+);
 
-$show_image     = $attributes['showImage'] ?? true;
-$show_title     = $attributes['showTitle'] ?? true;
-$show_excerpt   = $attributes['showExcerpt'] ?? true;
-$show_meta      = $attributes['showMeta'] ?? true;
-$show_category  = $attributes['showCategory'] ?? true;
+$show_image    = $attributes['showImage'] ?? true;
+$show_title    = $attributes['showTitle'] ?? true;
+$show_excerpt  = $attributes['showExcerpt'] ?? true;
+$show_meta     = $attributes['showMeta'] ?? true;
+$show_category = $attributes['showCategory'] ?? true;
 
-$query_args = [
-	'post_type'           => $post_type,
+$query_args = array(
+	'post_type'           => $posts_post_type,
 	'posts_per_page'      => $posts_to_show,
-	'order'               => $order,
+	'order'               => $posts_order,
 	'orderby'             => $order_by,
 	'ignore_sticky_posts' => true,
 	'post_status'         => 'publish',
-];
+);
 
 $posts_query = new WP_Query( $query_args );
 
@@ -51,15 +59,20 @@ $wrapper_style   = sprintf(
 	esc_attr( $gap['mobile'] )
 );
 
-$block_attributes = get_block_wrapper_attributes( [
-	'class' => $wrapper_classes,
-	'style' => $wrapper_style,
-] );
+$block_attributes = get_block_wrapper_attributes(
+	array(
+		'class' => $wrapper_classes,
+		'style' => $wrapper_style,
+	)
+);
 
 ?>
 <div <?php echo $block_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="gravisain-posts-wrapper">
-		<?php while ( $posts_query->have_posts() ) : $posts_query->the_post(); ?>
+		<?php
+		while ( $posts_query->have_posts() ) :
+			$posts_query->the_post();
+			?>
 			<article id="post-<?php the_ID(); ?>" <?php post_class( 'gravisain-post-card' ); ?>>
 				
 				<?php if ( $show_image && has_post_thumbnail() ) : ?>
@@ -110,6 +123,9 @@ $block_attributes = get_block_wrapper_attributes( [
 					<?php endif; ?>
 				</div>
 			</article>
-		<?php endwhile; wp_reset_postdata(); ?>
+			<?php
+		endwhile;
+		wp_reset_postdata();
+		?>
 	</div>
 </div>

@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Sanitize an arbitrary CSS property value to prevent CSS declaration injection.
  */
-$sanitize_css_value = function( $val ): ?string {
+$sanitize_css_value = function ( $val ): ?string {
 	if ( $val === null || $val === '' || $val === false ) {
 		return null;
 	}
@@ -31,30 +31,44 @@ $sanitize_css_value = function( $val ): ?string {
 	return trim( $val ) !== '' ? trim( $val ) : null;
 };
 
-$spacing = function( $val, string $side ) use ( $sanitize_css_value ): ?string {
-	if ( $val === null || $val === '' ) return null;
-	if ( is_numeric( $val ) ) return $val . 'px';
-	if ( is_string( $val ) ) return $sanitize_css_value( $val );
+$spacing = function ( $val, string $side ) use ( $sanitize_css_value ): ?string {
+	if ( $val === null || $val === '' ) {
+		return null;
+	}
+	if ( is_numeric( $val ) ) {
+		return $val . 'px';
+	}
+	if ( is_string( $val ) ) {
+		return $sanitize_css_value( $val );
+	}
 	if ( is_array( $val ) ) {
 		$v = $val[ $side ] ?? null;
-		if ( $v === null || $v === '' ) return null;
+		if ( $v === null || $v === '' ) {
+			return null;
+		}
 		$res = is_numeric( $v ) ? $v . 'px' : (string) $v;
 		return $sanitize_css_value( $res );
 	}
 	return null;
 };
 
-$typo_var = function( $val, bool $px = false ) use ( $sanitize_css_value ): ?string {
-	if ( $val === null || $val === '' || $val === false ) return null;
-	if ( is_numeric( $val ) ) return $px ? $val . 'px' : (string) $val;
+$typo_var = function ( $val, bool $px = false ) use ( $sanitize_css_value ): ?string {
+	if ( $val === null || $val === '' || $val === false ) {
+		return null;
+	}
+	if ( is_numeric( $val ) ) {
+		return $px ? $val . 'px' : (string) $val;
+	}
 	if ( is_string( $val ) ) {
-		if ( $px && is_numeric( $val ) ) return $val . 'px';
+		if ( $px && is_numeric( $val ) ) {
+			return $val . 'px';
+		}
 		return $sanitize_css_value( $val );
 	}
 	return null;
 };
 
-$format_font_family = function( ?string $font ): ?string {
+$format_font_family = function ( ?string $font ): ?string {
 	if ( empty( $font ) || $font === 'inherit' ) {
 		return null;
 	}
@@ -65,14 +79,17 @@ $format_font_family = function( ?string $font ): ?string {
 		return null;
 	}
 	if ( false !== strpos( $font, ',' ) ) {
-		$parts = array_map( function( $part ) {
-			$part  = trim( $part );
-			$lower = strtolower( $part );
-			if ( in_array( $lower, [ 'serif', 'sans-serif', 'monospace', 'cursive', 'fantasy', 'system-ui', 'ui-sans-serif', 'ui-serif', 'ui-monospace' ], true ) || 0 === strpos( $part, '-' ) || 0 === strpos( $lower, 'blink' ) ) {
-				return esc_attr( $part );
-			}
-			return '"' . esc_attr( $part ) . '"';
-		}, explode( ',', $font ) );
+		$parts = array_map(
+			function ( $part ) {
+				$part  = trim( $part );
+				$lower = strtolower( $part );
+				if ( in_array( $lower, array( 'serif', 'sans-serif', 'monospace', 'cursive', 'fantasy', 'system-ui', 'ui-sans-serif', 'ui-serif', 'ui-monospace' ), true ) || 0 === strpos( $part, '-' ) || 0 === strpos( $lower, 'blink' ) ) {
+						return esc_attr( $part );
+				}
+				return '"' . esc_attr( $part ) . '"';
+			},
+			explode( ',', $font )
+		);
 		return implode( ', ', $parts );
 	}
 	return '"' . esc_attr( $font ) . '", sans-serif';
@@ -81,7 +98,7 @@ $format_font_family = function( ?string $font ): ?string {
 /**
  * Sanitize font weight to only allow numeric 100-900 or valid CSS keywords.
  */
-$sanitize_font_weight = function( $fw ): ?string {
+$sanitize_font_weight = function ( $fw ): ?string {
 	if ( empty( $fw ) ) {
 		return null;
 	}
@@ -95,7 +112,7 @@ $sanitize_font_weight = function( $fw ): ?string {
 /**
  * Sanitize a CSS color value (hex, rgb/rgba, hsl/hsla, var(), or keyword).
  */
-$sanitize_css_color = function( $color ): ?string {
+$sanitize_css_color = function ( $color ): ?string {
 	if ( ! is_string( $color ) ) {
 		return null;
 	}
@@ -112,7 +129,7 @@ $sanitize_css_color = function( $color ): ?string {
 	if ( preg_match( '/^var\(--[a-zA-Z0-9_-]+\)$/', $color ) ) {
 		return $color;
 	}
-	$named = [ 'transparent', 'currentcolor', 'inherit', 'initial', 'black', 'silver', 'gray', 'white', 'maroon', 'red', 'purple', 'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'teal', 'aqua', 'orange' ];
+	$named = array( 'transparent', 'currentcolor', 'inherit', 'initial', 'black', 'silver', 'gray', 'white', 'maroon', 'red', 'purple', 'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'teal', 'aqua', 'orange' );
 	if ( in_array( strtolower( $color ), $named, true ) ) {
 		return strtolower( $color );
 	}
@@ -122,7 +139,7 @@ $sanitize_css_color = function( $color ): ?string {
 /**
  * Sanitize a CSS gradient value to prevent declaration injection.
  */
-$sanitize_css_gradient = function( $gradient ): ?string {
+$sanitize_css_gradient = function ( $gradient ): ?string {
 	if ( ! is_string( $gradient ) ) {
 		return null;
 	}
@@ -145,91 +162,130 @@ $sanitize_css_gradient = function( $gradient ): ?string {
 	return $gradient;
 };
 
-$typo_vars = function( string $prefix, array $t ) use ( $typo_var, $format_font_family, $sanitize_font_weight ): array {
-	$vars = [];
-	$ff = $format_font_family( $t['fontFamily'] ?? null );
-	if ( $ff ) $vars[ "--gravisain-hero-{$prefix}-ff" ] = $ff;
-	$v = $typo_var( $t['fontSize'] ?? null, true );  if ( $v ) $vars[ "--gravisain-hero-{$prefix}-fs" ] = $v;
-	$v = $sanitize_font_weight( $t['fontWeight'] ?? null ); if ( $v ) $vars[ "--gravisain-hero-{$prefix}-fw" ] = $v;
-	$v = $typo_var( $t['lineHeight'] ?? null );       if ( $v ) $vars[ "--gravisain-hero-{$prefix}-lh" ] = $v;
-	$v = $typo_var( $t['letterSpacing'] ?? null, true ); if ( $v ) $vars[ "--gravisain-hero-{$prefix}-ls" ] = $v;
+$typo_vars = function ( string $prefix, array $t ) use ( $typo_var, $format_font_family, $sanitize_font_weight ): array {
+	$vars = array();
+	$ff   = $format_font_family( $t['fontFamily'] ?? null );
+	if ( $ff ) {
+		$vars[ "--gravisain-hero-{$prefix}-ff" ] = $ff;
+	}
+	$v = $typo_var( $t['fontSize'] ?? null, true );
+	if ( $v ) {
+		$vars[ "--gravisain-hero-{$prefix}-fs" ] = $v;
+	}
+	$v = $sanitize_font_weight( $t['fontWeight'] ?? null );
+	if ( $v ) {
+		$vars[ "--gravisain-hero-{$prefix}-fw" ] = $v;
+	}
+	$v = $typo_var( $t['lineHeight'] ?? null );
+	if ( $v ) {
+		$vars[ "--gravisain-hero-{$prefix}-lh" ] = $v;
+	}
+	$v = $typo_var( $t['letterSpacing'] ?? null, true );
+	if ( $v ) {
+		$vars[ "--gravisain-hero-{$prefix}-ls" ] = $v;
+	}
 	return $vars;
 };
 
 // ── Attributes ────────────────────────────────────────────────────────────────
 
-$layout             = $attributes['layout']              ?? '1-column';
-$eyebrow            = $attributes['eyebrow']             ?? '';
-$title              = $attributes['title']               ?? '';
-$description        = $attributes['description']         ?? '';
-$primary_btn        = $attributes['primaryButton']       ?? [];
-$secondary_btn      = $attributes['secondaryButton']     ?? [];
-$media              = $attributes['media']               ?? [];
-$background         = $attributes['background']          ?? [];
-$overlay            = $attributes['overlay']             ?? [];
-$inner_max_w        = $attributes['innerContainerMaxWidth'] ?? '';
-$anchor             = $attributes['anchor']              ?? '';
-$custom_class       = $attributes['customClassName']     ?? '';
+$layout        = $attributes['layout'] ?? '1-column';
+$eyebrow       = $attributes['eyebrow'] ?? '';
+$hero_title    = $attributes['title'] ?? '';
+$description   = $attributes['description'] ?? '';
+$primary_btn   = $attributes['primaryButton'] ?? array();
+$secondary_btn = $attributes['secondaryButton'] ?? array();
+$media         = $attributes['media'] ?? array();
+$background    = $attributes['background'] ?? array();
+$overlay       = $attributes['overlay'] ?? array();
+$inner_max_w   = $attributes['innerContainerMaxWidth'] ?? '';
+$anchor        = $attributes['anchor'] ?? '';
+$custom_class  = $attributes['customClassName'] ?? '';
 
-$title_color        = $sanitize_css_color( $attributes['titleColor']       ?? '' );
-$eyebrow_color      = $sanitize_css_color( $attributes['eyebrowColor']     ?? '' );
-$desc_color         = $sanitize_css_color( $attributes['descriptionColor'] ?? '' );
+$title_color   = $sanitize_css_color( $attributes['titleColor'] ?? '' );
+$eyebrow_color = $sanitize_css_color( $attributes['eyebrowColor'] ?? '' );
+$desc_color    = $sanitize_css_color( $attributes['descriptionColor'] ?? '' );
 
-$padding     = $attributes['padding']      ?? null;
-$pad_tab     = $attributes['paddingTablet'] ?? null;
-$pad_mob     = $attributes['paddingMobile'] ?? null;
-$margin      = $attributes['margin']       ?? null;
-$mar_tab     = $attributes['marginTablet']  ?? null;
-$mar_mob     = $attributes['marginMobile']  ?? null;
+$padding = $attributes['padding'] ?? null;
+$pad_tab = $attributes['paddingTablet'] ?? null;
+$pad_mob = $attributes['paddingMobile'] ?? null;
+$margin  = $attributes['margin'] ?? null;
+$mar_tab = $attributes['marginTablet'] ?? null;
+$mar_mob = $attributes['marginMobile'] ?? null;
 
-$title_typo     = $attributes['titleTypography']      ?? [];
-$title_typo_tab = $attributes['titleTypographyTablet'] ?? [];
-$title_typo_mob = $attributes['titleTypographyMobile'] ?? [];
-$eyebrow_typo   = $attributes['eyebrowTypography']    ?? [];
-$eyebrow_t_tab  = $attributes['eyebrowTypographyTablet'] ?? [];
-$eyebrow_t_mob  = $attributes['eyebrowTypographyMobile'] ?? [];
-$desc_typo      = $attributes['descriptionTypography']    ?? [];
-$desc_typo_tab  = $attributes['descriptionTypographyTablet'] ?? [];
-$desc_typo_mob  = $attributes['descriptionTypographyMobile'] ?? [];
-$btn1_typo      = $attributes['primaryButtonTypography']         ?? [];
-$btn1_typo_tab  = $attributes['primaryButtonTypographyTablet']   ?? [];
-$btn1_typo_mob  = $attributes['primaryButtonTypographyMobile']   ?? [];
-$btn2_typo      = $attributes['secondaryButtonTypography']       ?? [];
-$btn2_typo_tab  = $attributes['secondaryButtonTypographyTablet'] ?? [];
-$btn2_typo_mob  = $attributes['secondaryButtonTypographyMobile'] ?? [];
+$title_typo     = $attributes['titleTypography'] ?? array();
+$title_typo_tab = $attributes['titleTypographyTablet'] ?? array();
+$title_typo_mob = $attributes['titleTypographyMobile'] ?? array();
+$eyebrow_typo   = $attributes['eyebrowTypography'] ?? array();
+$eyebrow_t_tab  = $attributes['eyebrowTypographyTablet'] ?? array();
+$eyebrow_t_mob  = $attributes['eyebrowTypographyMobile'] ?? array();
+$desc_typo      = $attributes['descriptionTypography'] ?? array();
+$desc_typo_tab  = $attributes['descriptionTypographyTablet'] ?? array();
+$desc_typo_mob  = $attributes['descriptionTypographyMobile'] ?? array();
+$btn1_typo      = $attributes['primaryButtonTypography'] ?? array();
+$btn1_typo_tab  = $attributes['primaryButtonTypographyTablet'] ?? array();
+$btn1_typo_mob  = $attributes['primaryButtonTypographyMobile'] ?? array();
+$btn2_typo      = $attributes['secondaryButtonTypography'] ?? array();
+$btn2_typo_tab  = $attributes['secondaryButtonTypographyTablet'] ?? array();
+$btn2_typo_mob  = $attributes['secondaryButtonTypographyMobile'] ?? array();
 
 // ── Build CSS vars object ─────────────────────────────────────────────────────
 
-$sides = [ 'top', 'right', 'bottom', 'left' ];
-$css_vars = [];
+$sides    = array( 'top', 'right', 'bottom', 'left' );
+$css_vars = array();
 
-foreach ( $sides as $s ) {
-	$v = $spacing( $padding,  $s ); if ( $v ) $css_vars[ "--gravisain-hero-padding-{$s}" ]        = $v;
-	$v = $spacing( $pad_tab,  $s ); if ( $v ) $css_vars[ "--gravisain-hero-padding-{$s}-tablet" ] = $v;
-	$v = $spacing( $pad_mob,  $s ); if ( $v ) $css_vars[ "--gravisain-hero-padding-{$s}-mobile" ] = $v;
-	$v = $spacing( $margin,   $s ); if ( $v ) $css_vars[ "--gravisain-hero-margin-{$s}" ]         = $v;
-	$v = $spacing( $mar_tab,  $s ); if ( $v ) $css_vars[ "--gravisain-hero-margin-{$s}-tablet" ]  = $v;
-	$v = $spacing( $mar_mob,  $s ); if ( $v ) $css_vars[ "--gravisain-hero-margin-{$s}-mobile" ]  = $v;
+foreach ( $sides as $side ) {
+	$v = $spacing( $padding, $side );
+	if ( $v ) {
+		$css_vars[ "--gravisain-hero-padding-{$side}" ] = $v;
+	}
+	$v = $spacing( $pad_tab, $side );
+	if ( $v ) {
+		$css_vars[ "--gravisain-hero-padding-{$side}-tablet" ] = $v;
+	}
+	$v = $spacing( $pad_mob, $side );
+	if ( $v ) {
+		$css_vars[ "--gravisain-hero-padding-{$side}-mobile" ] = $v;
+	}
+	$v = $spacing( $margin, $side );
+	if ( $v ) {
+		$css_vars[ "--gravisain-hero-margin-{$side}" ] = $v;
+	}
+	$v = $spacing( $mar_tab, $side );
+	if ( $v ) {
+		$css_vars[ "--gravisain-hero-margin-{$side}-tablet" ] = $v;
+	}
+	$v = $spacing( $mar_mob, $side );
+	if ( $v ) {
+		$css_vars[ "--gravisain-hero-margin-{$side}-mobile" ] = $v;
+	}
 }
 
-if ( $title_color )   $css_vars['--gravisain-hero-title-color']   = $title_color;
-if ( $eyebrow_color ) $css_vars['--gravisain-hero-eyebrow-color'] = $eyebrow_color;
-if ( $desc_color )    $css_vars['--gravisain-hero-desc-color']    = $desc_color;
+if ( $title_color ) {
+	$css_vars['--gravisain-hero-title-color'] = $title_color;
+}
+if ( $eyebrow_color ) {
+	$css_vars['--gravisain-hero-eyebrow-color'] = $eyebrow_color;
+}
+if ( $desc_color ) {
+	$css_vars['--gravisain-hero-desc-color'] = $desc_color;
+}
 
-$css_vars = array_merge( $css_vars,
-	$typo_vars( 'title',        $title_typo ),
+$css_vars = array_merge(
+	$css_vars,
+	$typo_vars( 'title', $title_typo ),
 	$typo_vars( 'title-tablet', $title_typo_tab ),
 	$typo_vars( 'title-mobile', $title_typo_mob ),
-	$typo_vars( 'eyebrow',        $eyebrow_typo ),
+	$typo_vars( 'eyebrow', $eyebrow_typo ),
 	$typo_vars( 'eyebrow-tablet', $eyebrow_t_tab ),
 	$typo_vars( 'eyebrow-mobile', $eyebrow_t_mob ),
-	$typo_vars( 'desc',        $desc_typo ),
+	$typo_vars( 'desc', $desc_typo ),
 	$typo_vars( 'desc-tablet', $desc_typo_tab ),
 	$typo_vars( 'desc-mobile', $desc_typo_mob ),
-	$typo_vars( 'btn1',        $btn1_typo ),
+	$typo_vars( 'btn1', $btn1_typo ),
 	$typo_vars( 'btn1-tablet', $btn1_typo_tab ),
 	$typo_vars( 'btn1-mobile', $btn1_typo_mob ),
-	$typo_vars( 'btn2',        $btn2_typo ),
+	$typo_vars( 'btn2', $btn2_typo ),
 	$typo_vars( 'btn2-tablet', $btn2_typo_tab ),
 	$typo_vars( 'btn2-mobile', $btn2_typo_mob )
 );
@@ -237,42 +293,57 @@ $css_vars = array_merge( $css_vars,
 // Button colors, border-radius, and padding from button object
 if ( ! empty( $primary_btn['color'] ) ) {
 	$btn1_c = $sanitize_css_color( $primary_btn['color'] );
-	if ( $btn1_c ) $css_vars['--gravisain-hero-btn1-color'] = $btn1_c;
+	if ( $btn1_c ) {
+		$css_vars['--gravisain-hero-btn1-color'] = $btn1_c;
+	}
 }
 if ( ! empty( $primary_btn['backgroundColor'] ) ) {
 	$btn1_bg = $sanitize_css_color( $primary_btn['backgroundColor'] );
-	if ( $btn1_bg ) $css_vars['--gravisain-hero-btn1-bg'] = $btn1_bg;
+	if ( $btn1_bg ) {
+		$css_vars['--gravisain-hero-btn1-bg'] = $btn1_bg;
+	}
 }
 if ( isset( $primary_btn['borderRadius'] ) && $primary_btn['borderRadius'] !== '' && $primary_btn['borderRadius'] !== null ) {
 	$css_vars['--gravisain-hero-btn1-radius'] = intval( $primary_btn['borderRadius'] ) . 'px';
 }
-foreach ( $sides as $s ) {
-	$v = $spacing( $primary_btn['padding'] ?? null, $s );
-	if ( $v ) $css_vars[ "--gravisain-hero-btn1-p{$s[0]}" ] = $v;
+foreach ( $sides as $side ) {
+	$v = $spacing( $primary_btn['padding'] ?? null, $side );
+	if ( $v ) {
+		$css_vars[ "--gravisain-hero-btn1-p{$side[0]}" ] = $v;
+	}
 }
 
 if ( ! empty( $secondary_btn['color'] ) ) {
 	$btn2_c = $sanitize_css_color( $secondary_btn['color'] );
-	if ( $btn2_c ) $css_vars['--gravisain-hero-btn2-color'] = $btn2_c;
+	if ( $btn2_c ) {
+		$css_vars['--gravisain-hero-btn2-color'] = $btn2_c;
+	}
 }
 if ( ! empty( $secondary_btn['backgroundColor'] ) ) {
 	$btn2_bg = $sanitize_css_color( $secondary_btn['backgroundColor'] );
-	if ( $btn2_bg ) $css_vars['--gravisain-hero-btn2-bg'] = $btn2_bg;
+	if ( $btn2_bg ) {
+		$css_vars['--gravisain-hero-btn2-bg'] = $btn2_bg;
+	}
 }
 if ( isset( $secondary_btn['borderRadius'] ) && $secondary_btn['borderRadius'] !== '' && $secondary_btn['borderRadius'] !== null ) {
 	$css_vars['--gravisain-hero-btn2-radius'] = $secondary_btn['borderRadius'] . 'px';
 }
-foreach ( $sides as $s ) {
-	$v = $spacing( $secondary_btn['padding'] ?? null, $s );
-	if ( $v ) $css_vars[ "--gravisain-hero-btn2-p{$s[0]}" ] = $v;
+foreach ( $sides as $side ) {
+	$v = $spacing( $secondary_btn['padding'] ?? null, $side );
+	if ( $v ) {
+		$css_vars[ "--gravisain-hero-btn2-p{$side[0]}" ] = $v;
+	}
 }
 
 // Build style string
-$style_str = implode( ';', array_map(
-	fn( $k, $v ) => esc_attr( $k ) . ':' . esc_attr( $v ),
-	array_keys( $css_vars ),
-	array_values( $css_vars )
-) );
+$style_str = implode(
+	';',
+	array_map(
+		fn( $k, $v ) => esc_attr( $k ) . ':' . esc_attr( $v ),
+		array_keys( $css_vars ),
+		array_values( $css_vars )
+	)
+);
 
 // Explicit padding overrides
 $p_top    = $css_vars['--gravisain-hero-padding-top'] ?? null;
@@ -316,7 +387,7 @@ if ( ! $is_align_full ) {
 }
 
 // Background inline styles
-$bg_parts = [];
+$bg_parts = array();
 if ( ! empty( $background['color'] ) ) {
 	if ( false !== strpos( $background['color'], 'gradient' ) ) {
 		$sanitized_bg_grad = $sanitize_css_gradient( $background['color'] );
@@ -334,8 +405,8 @@ if ( ! empty( $background['image'] ) ) {
 	$bg_parts[] = 'background-image:url(' . esc_url( $background['image'] ) . ')';
 	$bg_parts[] = 'background-size:cover';
 	if ( ! empty( $background['focalPoint'] ) && is_array( $background['focalPoint'] ) ) {
-		$fx = round( floatval( $background['focalPoint']['x'] ?? 0.5 ) * 100 );
-		$fy = round( floatval( $background['focalPoint']['y'] ?? 0.5 ) * 100 );
+		$fx         = round( floatval( $background['focalPoint']['x'] ?? 0.5 ) * 100 );
+		$fy         = round( floatval( $background['focalPoint']['y'] ?? 0.5 ) * 100 );
 		$bg_parts[] = "background-position:{$fx}% {$fy}%";
 	} else {
 		$bg_parts[] = 'background-position:center center';
@@ -355,12 +426,14 @@ if ( $bg_parts ) {
 
 $align_class = ! empty( $attributes['align'] ) ? 'align' . $attributes['align'] : 'alignfull';
 
-$classes = array_filter( [
-	'gravisain-hero',
-	'hero-layout-' . esc_attr( $layout ),
-	$align_class,
-	$custom_class ? esc_attr( $custom_class ) : '',
-] );
+$classes   = array_filter(
+	array(
+		'gravisain-hero',
+		'hero-layout-' . esc_attr( $layout ),
+		$align_class,
+		$custom_class ? esc_attr( $custom_class ) : '',
+	)
+);
 $class_str = implode( ' ', $classes );
 
 $id_attr = $anchor ? 'id="' . esc_attr( $anchor ) . '"' : '';
@@ -385,8 +458,10 @@ if ( ! empty( $overlay['color'] ) ) {
 
 // ── Buttons ───────────────────────────────────────────────────────────────────
 
-$render_btn = function( array $btn, string $extra_class ) {
-	if ( empty( $btn['text'] ) ) return '';
+$render_btn = function ( array $btn, string $extra_class ) {
+	if ( empty( $btn['text'] ) ) {
+		return '';
+	}
 	$style_cls = esc_attr( $btn['style'] ?? 'primary' );
 	$url       = esc_url( $btn['url'] ?? '#' );
 	$text      = wp_kses_post( $btn['text'] );
@@ -397,12 +472,12 @@ $render_btn = function( array $btn, string $extra_class ) {
 
 $media_html = '';
 if ( $layout !== '1-column' && ! empty( $media['url'] ) ) {
-	$src = esc_url( $media['url'] );
-	$alt = esc_attr( $media['alt'] ?? 'Hero media' );
+	$src       = esc_url( $media['url'] );
+	$alt       = esc_attr( $media['alt'] ?? 'Hero media' );
 	$img_style = '';
 	if ( ! empty( $media['focalPoint'] ) && is_array( $media['focalPoint'] ) ) {
-		$fx = round( floatval( $media['focalPoint']['x'] ?? 0.5 ) * 100 );
-		$fy = round( floatval( $media['focalPoint']['y'] ?? 0.5 ) * 100 );
+		$fx        = round( floatval( $media['focalPoint']['x'] ?? 0.5 ) * 100 );
+		$fy        = round( floatval( $media['focalPoint']['y'] ?? 0.5 ) * 100 );
 		$img_style = " style=\"object-position:{$fx}% {$fy}%;object-fit:cover;\"";
 	}
 	$media_html = '<div class="hero-media-wrapper"><img src="' . $src . '" alt="' . $alt . '" loading="lazy"' . $img_style . ' /></div>';
@@ -416,21 +491,29 @@ $text_align_tab  = $attributes['textAlignTablet'] ?? '';
 $text_align_mob  = $attributes['textAlignMobile'] ?? '';
 $effective_align = $text_align ?: ( $layout === '1-column' ? 'center' : 'left' );
 
-$content_classes = [
+$content_classes = array(
 	'hero-content',
 	'has-text-align-' . esc_attr( $effective_align ),
-];
-if ( $text_align_tab ) $content_classes[] = 'has-tablet-text-align-' . esc_attr( $text_align_tab );
-if ( $text_align_mob ) $content_classes[] = 'has-mobile-text-align-' . esc_attr( $text_align_mob );
+);
+if ( $text_align_tab ) {
+	$content_classes[] = 'has-tablet-text-align-' . esc_attr( $text_align_tab );
+}
+if ( $text_align_mob ) {
+	$content_classes[] = 'has-mobile-text-align-' . esc_attr( $text_align_mob );
+}
 $content_class_str = implode( ' ', $content_classes );
 
-$btn_group_classes = [
+$btn_group_classes = array(
 	'hero-button-group',
 	esc_attr( $effective_align ),
 	'has-btn-align-' . esc_attr( $effective_align ),
-];
-if ( $text_align_tab ) $btn_group_classes[] = 'has-tablet-btn-align-' . esc_attr( $text_align_tab );
-if ( $text_align_mob ) $btn_group_classes[] = 'has-mobile-btn-align-' . esc_attr( $text_align_mob );
+);
+if ( $text_align_tab ) {
+	$btn_group_classes[] = 'has-tablet-btn-align-' . esc_attr( $text_align_tab );
+}
+if ( $text_align_mob ) {
+	$btn_group_classes[] = 'has-mobile-btn-align-' . esc_attr( $text_align_mob );
+}
 $btn_group_class = implode( ' ', $btn_group_classes );
 ?>
 <section class="<?php echo esc_attr( $class_str ); ?>" style="<?php echo esc_attr( $style_str ); ?>" <?php echo $anchor ? 'id="' . esc_attr( $anchor ) . '"' : ''; ?>>
@@ -443,7 +526,7 @@ $btn_group_class = implode( ' ', $btn_group_classes );
 						<span class="hero-eyebrow"><?php echo wp_kses_post( $eyebrow ); ?></span>
 					<?php endif; ?>
 
-					<h1 class="hero-title"><?php echo wp_kses_post( $title ); ?></h1>
+					<h1 class="hero-title"><?php echo wp_kses_post( $hero_title ); ?></h1>
 
 					<?php if ( $description ) : ?>
 						<p class="hero-description"><?php echo wp_kses_post( $description ); ?></p>

@@ -1,96 +1,96 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "gravisain/posts",
-	"version": "1.0.0",
-	"title": "Posts Grid",
-	"category": "gravisain-blocks",
-	"icon": "grid-view",
-	"description": "Display a grid or list of posts, pages, or custom post types.",
-	"keywords": [
-		"posts",
-		"grid",
-		"loop",
-		"query"
-	],
-	"supports": {
-		"html": false,
-		"align": [
-			"wide",
-			"full"
-		]
-	},
-	"attributes": {
-		"postType": {
-			"type": "string",
-			"default": "post"
-		},
-		"postsToShow": {
-			"type": "number",
-			"default": 3
-		},
-		"columns": {
-			"type": "object",
-			"default": {
-				"desktop": 3,
-				"tablet": 2,
-				"mobile": 1
-			}
-		},
-		"gap": {
-			"type": "object",
-			"default": {
-				"desktop": 20,
-				"tablet": 15,
-				"mobile": 10
-			}
-		},
-		"showImage": {
-			"type": "boolean",
-			"default": true
-		},
-		"showTitle": {
-			"type": "boolean",
-			"default": true
-		},
-		"showExcerpt": {
-			"type": "boolean",
-			"default": true
-		},
-		"showMeta": {
-			"type": "boolean",
-			"default": true
-		},
-		"showCategory": {
-			"type": "boolean",
-			"default": true
-		},
-		"order": {
-			"type": "string",
-			"default": "DESC"
-		},
-		"orderBy": {
-			"type": "string",
-			"default": "date"
-		},
-		"className": {
-			"type": "string",
-			"default": ""
-		},
-		"align": {
-			"type": "string",
-			"default": ""
-		},
-		"metadata": {
-			"type": "object"
-		},
-		"style": {
-			"type": "object"
-		}
-	},
-	"textdomain": "gravisain-blocks",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "gravisain/posts",
+  "version": "1.0.0",
+  "title": "Posts Grid",
+  "category": "gravisain-blocks",
+  "icon": "grid-view",
+  "description": "Display a grid or list of posts, pages, or custom post types.",
+  "keywords": [
+    "posts",
+    "grid",
+    "loop",
+    "query"
+  ],
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "attributes": {
+    "postType": {
+      "type": "string",
+      "default": "post"
+    },
+    "postsToShow": {
+      "type": "number",
+      "default": 3
+    },
+    "columns": {
+      "type": "object",
+      "default": {
+        "desktop": 3,
+        "tablet": 2,
+        "mobile": 1
+      }
+    },
+    "gap": {
+      "type": "object",
+      "default": {
+        "desktop": 20,
+        "tablet": 15,
+        "mobile": 10
+      }
+    },
+    "showImage": {
+      "type": "boolean",
+      "default": true
+    },
+    "showTitle": {
+      "type": "boolean",
+      "default": true
+    },
+    "showExcerpt": {
+      "type": "boolean",
+      "default": true
+    },
+    "showMeta": {
+      "type": "boolean",
+      "default": true
+    },
+    "showCategory": {
+      "type": "boolean",
+      "default": true
+    },
+    "order": {
+      "type": "string",
+      "default": "DESC"
+    },
+    "orderBy": {
+      "type": "string",
+      "default": "date"
+    },
+    "className": {
+      "type": "string",
+      "default": ""
+    },
+    "align": {
+      "type": "string",
+      "default": ""
+    },
+    "metadata": {
+      "type": "object"
+    },
+    "style": {
+      "type": "object"
+    }
+  },
+  "textdomain": "gravisain-blocks",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
 }

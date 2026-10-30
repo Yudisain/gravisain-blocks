@@ -61,30 +61,30 @@ class LoginSecurity {
 	 */
 	public function __construct() {
 		// Customizer integration.
-		add_action( 'customize_register', [ $this, 'register_settings' ], 25 );
+		add_action( 'customize_register', array( $this, 'register_settings' ), 25 );
 
 		// Admin Settings Submenu & Registration.
-		add_action( 'admin_menu', [ $this, 'register_admin_menu' ], 30 );
-		add_action( 'admin_init', [ $this, 'register_admin_settings' ] );
+		add_action( 'admin_menu', array( $this, 'register_admin_menu' ), 30 );
+		add_action( 'admin_init', array( $this, 'register_admin_settings' ) );
 
 		// WordPress Login Hooks.
-		add_action( 'login_enqueue_scripts', [ $this, 'enqueue_login_scripts' ] );
-		add_action( 'login_form', [ $this, 'render_login_widget' ] );
+		add_action( 'login_enqueue_scripts', array( $this, 'enqueue_login_scripts' ) );
+		add_action( 'login_form', array( $this, 'render_login_widget' ) );
 
 		// Core Authentication Filter (Priority 30 to intercept before password hashing).
-		add_filter( 'authenticate', [ $this, 'filter_authenticate' ], 30, 3 );
+		add_filter( 'authenticate', array( $this, 'filter_authenticate' ), 30, 3 );
 
 		// Track successful login to reset local rate limit counter.
-		add_action( 'wp_login', [ $this, 'on_successful_login' ], 10, 2 );
+		add_action( 'wp_login', array( $this, 'on_successful_login' ), 10, 2 );
 
 		// Track failed login attempts.
-		add_action( 'wp_login_failed', [ $this, 'on_failed_login' ], 10, 1 );
+		add_action( 'wp_login_failed', array( $this, 'on_failed_login' ), 10, 1 );
 
 		// Optional graceful logout redirect filter.
-		add_filter( 'logout_redirect', [ $this, 'filter_logout_redirect' ], 10, 3 );
+		add_filter( 'logout_redirect', array( $this, 'filter_logout_redirect' ), 10, 3 );
 
 		// Redirect direct visits to wp-login.php to Homepage.
-		add_action( 'login_init', [ $this, 'redirect_direct_login' ], 1 );
+		add_action( 'login_init', array( $this, 'redirect_direct_login' ), 1 );
 	}
 
 	/**
@@ -149,7 +149,7 @@ class LoginSecurity {
 	 */
 	public function get_widget_theme(): string {
 		$theme = get_option( 'gravisain_turnstile_theme', 'auto' );
-		return in_array( $theme, [ 'auto', 'light', 'dark' ], true ) ? $theme : 'auto';
+		return in_array( $theme, array( 'auto', 'light', 'dark' ), true ) ? $theme : 'auto';
 	}
 
 	/**
@@ -244,14 +244,14 @@ class LoginSecurity {
 		wp_enqueue_script(
 			'cloudflare-turnstile',
 			self::TURNSTILE_API_URL,
-			[],
+			array(),
 			GRAVISAIN_BLOCKS_VERSION,
 			true
 		);
 		// phpcs:enable PluginCheck.CodeAnalysis.EnqueuedResourceOffloading.OffloadedContent, PluginCheck.CodeAnalysis.Offloading.OffloadedContent
 
 		// Register and inject login Turnstile styles cleanly.
-		wp_register_style( 'gravisain-turnstile-login', false, [], GRAVISAIN_BLOCKS_VERSION );
+		wp_register_style( 'gravisain-turnstile-login', false, array(), GRAVISAIN_BLOCKS_VERSION );
 		wp_enqueue_style( 'gravisain-turnstile-login' );
 		$login_css = '
 			body.login div#login {
@@ -316,8 +316,9 @@ class LoginSecurity {
 
 		if ( $this->is_emergency_bypassed() ) {
 			echo '<div style="margin-bottom:16px;padding:8px 12px;background:#fef3c7;border:1px solid #f59e0b;color:#92400e;border-radius:4px;font-size:12px;">'
-				. esc_html__( '⚠️ Emergency Bypass Active: Turnstile verification skipped.', 'gravisain-blocks' )
+				. esc_html__( '⚠️ Emergency Bypass Active', 'gravisain-blocks' )
 				. '</div>';
+			echo '<input type="hidden" name="gravisain_bypass" value="' . esc_attr( $this->get_bypass_key() ) . '" />';
 			return;
 		}
 
@@ -409,68 +410,71 @@ class LoginSecurity {
 			);
 		}
 
-		// 3. Check Time-Trap (Humans take > 1.2 seconds to submit).
-		$time_token = isset( $_POST['gravisain_ls_time_token'] ) ? sanitize_text_field( wp_unslash( $_POST['gravisain_ls_time_token'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		if ( ! $this->verify_time_token( $time_token, $client_ip ) ) {
-			$this->record_failed_attempt( $client_ip );
-			return new \WP_Error(
-				'gravisain_time_trap',
-				'<strong>' . esc_html__( 'Security Alert:', 'gravisain-blocks' ) . '</strong> ' .
-				esc_html__( 'Form submitted too rapidly or security session expired. Please try again.', 'gravisain-blocks' )
-			);
-		}
-
-		// 4. Verify Cloudflare Turnstile Token.
+		// 3. Verify Cloudflare Turnstile Token (Siteverify API).
 		$cf_token = isset( $_POST['cf-turnstile-response'] ) ? sanitize_text_field( wp_unslash( $_POST['cf-turnstile-response'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-		if ( empty( $cf_token ) ) {
-			// If token is missing, check if Cloudflare is down and fail-open is enabled.
-			$fail_mode = $this->get_fail_mode();
-			if ( 'fail_open' === $fail_mode ) {
-				// Verify if server can reach Cloudflare; if unreachable, permit graceful fallback.
-				if ( $this->is_cloudflare_unreachable() ) {
-					$this->notify_admin_of_outage( $username, $client_ip, 'Missing token during confirmed Cloudflare API outage' );
-					return $user; // Allow normal password authentication!
-				}
-			}
+		if ( ! empty( $cf_token ) ) {
+			// Perform server-to-server verification directly with Cloudflare.
+			$verification = $this->verify_turnstile_with_cloudflare( $cf_token, $client_ip );
 
-			return new \WP_Error(
-				'gravisain_turnstile_missing',
-				'<strong>' . esc_html__( 'Security Challenge Required:', 'gravisain-blocks' ) . '</strong> ' .
-				esc_html__( 'Please complete the Cloudflare security verification before logging in.', 'gravisain-blocks' )
-			);
-		}
-
-		// Perform server-to-server verification with Cloudflare.
-		$verification = $this->verify_turnstile_with_cloudflare( $cf_token, $client_ip );
-
-		if ( 'success' === $verification ) {
-			// Turnstile verified successfully.
-			return $user;
-		}
-
-		if ( 'outage' === $verification ) {
-			$fail_mode = $this->get_fail_mode();
-			if ( 'fail_open' === $fail_mode ) {
-				// Cloudflare is down / network failure: allow user to proceed with password check!
-				$this->notify_admin_of_outage( $username, $client_ip, 'Cloudflare Turnstile API unreachable or returning HTTP 5xx' );
+			if ( 'success' === $verification ) {
+				// Turnstile verified successfully by Cloudflare API (siteverify recorded!).
 				return $user;
 			}
 
-			// Strict mode: block login.
+			if ( 'outage' === $verification ) {
+				$fail_mode = $this->get_fail_mode();
+				if ( 'fail_open' === $fail_mode ) {
+					// Fallback to local Time-Trap verification during confirmed Cloudflare outage.
+					$time_token = isset( $_POST['gravisain_ls_time_token'] ) ? sanitize_text_field( wp_unslash( $_POST['gravisain_ls_time_token'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+					if ( ! $this->verify_time_token( $time_token, $client_ip ) ) {
+						return new \WP_Error(
+							'gravisain_time_trap',
+							'<strong>' . esc_html__( 'Security Alert:', 'gravisain-blocks' ) . '</strong> ' .
+							esc_html__( 'Form submitted too rapidly or security session expired. Please try again.', 'gravisain-blocks' )
+						);
+					}
+					$this->notify_admin_of_outage( $username, $client_ip, 'Cloudflare Turnstile API unreachable or returning HTTP 5xx' );
+					return $user;
+				}
+
+				// Strict mode: block login during outage.
+				return new \WP_Error(
+					'gravisain_turnstile_outage',
+					'<strong>' . esc_html__( 'Security Error:', 'gravisain-blocks' ) . '</strong> ' .
+					esc_html__( 'Cloudflare security service is currently unreachable. Please try again later or contact your administrator.', 'gravisain-blocks' )
+				);
+			}
+
+			// Turnstile rejected the user (invalid token / bot).
+			$this->record_failed_attempt( $client_ip );
 			return new \WP_Error(
-				'gravisain_turnstile_outage',
-				'<strong>' . esc_html__( 'Security Error:', 'gravisain-blocks' ) . '</strong> ' .
-				esc_html__( 'Cloudflare security service is currently unreachable. Please try again later or contact your administrator.', 'gravisain-blocks' )
+				'gravisain_turnstile_failed',
+				'<strong>' . esc_html__( 'Security Verification Failed:', 'gravisain-blocks' ) . '</strong> ' .
+				esc_html__( 'Cloudflare verification failed. Please try again.', 'gravisain-blocks' )
 			);
 		}
 
-		// Turnstile rejected the user (invalid token / bot).
-		$this->record_failed_attempt( $client_ip );
+		// Token is empty: check if Cloudflare is down and fail-open is enabled.
+		$fail_mode = $this->get_fail_mode();
+		if ( 'fail_open' === $fail_mode && $this->is_cloudflare_unreachable() ) {
+			// Fallback to local Time-Trap verification.
+			$time_token = isset( $_POST['gravisain_ls_time_token'] ) ? sanitize_text_field( wp_unslash( $_POST['gravisain_ls_time_token'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			if ( ! $this->verify_time_token( $time_token, $client_ip ) ) {
+				return new \WP_Error(
+					'gravisain_time_trap',
+					'<strong>' . esc_html__( 'Security Alert:', 'gravisain-blocks' ) . '</strong> ' .
+					esc_html__( 'Form submitted too rapidly or security session expired. Please try again.', 'gravisain-blocks' )
+				);
+			}
+			$this->notify_admin_of_outage( $username, $client_ip, 'Missing token during confirmed Cloudflare API outage' );
+			return $user;
+		}
+
 		return new \WP_Error(
-			'gravisain_turnstile_failed',
-			'<strong>' . esc_html__( 'Security Verification Failed:', 'gravisain-blocks' ) . '</strong> ' .
-			esc_html__( 'Cloudflare verification failed. Please try again.', 'gravisain-blocks' )
+			'gravisain_turnstile_missing',
+			'<strong>' . esc_html__( 'Security Challenge Required:', 'gravisain-blocks' ) . '</strong> ' .
+			esc_html__( 'Please complete the Cloudflare security verification before logging in.', 'gravisain-blocks' )
 		);
 	}
 
@@ -486,15 +490,15 @@ class LoginSecurity {
 
 		$response = wp_remote_post(
 			self::TURNSTILE_VERIFY_URL,
-			[
+			array(
 				'timeout'   => 4, // Max 4 seconds timeout to ensure login is responsive.
 				'sslverify' => true,
-				'body'      => [
+				'body'      => array(
 					'secret'   => $secret_key,
 					'response' => $token,
 					'remoteip' => $client_ip,
-				],
-			]
+				),
+			)
 		);
 
 		// Handle network errors, cURL timeouts, DNS failures, or Cloudflare HTTP 500+ outages.
@@ -504,7 +508,7 @@ class LoginSecurity {
 		}
 
 		$status_code = wp_remote_retrieve_response_code( $response );
-		if ( $status_code >= 500 || $status_code === 0 ) {
+		if ( $status_code >= 500 || 0 === $status_code ) {
 			error_log( '[Gravisain Security] Turnstile HTTP server error: ' . $status_code ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			return 'outage';
 		}
@@ -520,6 +524,10 @@ class LoginSecurity {
 			return 'success';
 		}
 
+		if ( ! empty( $data['error-codes'] ) ) {
+			error_log( '[Gravisain Security] Turnstile validation failed: ' . wp_json_encode( $data['error-codes'] ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+		}
+
 		return 'failed';
 	}
 
@@ -531,10 +539,10 @@ class LoginSecurity {
 	private function is_cloudflare_unreachable(): bool {
 		$test = wp_remote_get(
 			self::TURNSTILE_VERIFY_URL,
-			[
+			array(
 				'timeout'   => 2,
 				'sslverify' => true,
-			]
+			)
 		);
 
 		return is_wp_error( $test ) || wp_remote_retrieve_response_code( $test ) >= 500;
@@ -581,8 +589,7 @@ class LoginSecurity {
 	 */
 	private function generate_time_token(): string {
 		$time = time();
-		$ip   = $this->get_client_ip();
-		$hash = wp_hash( 'gravisain_time_' . $time . '_' . $ip, 'nonce' );
+		$hash = wp_hash( 'gravisain_time_' . $time, 'nonce' );
 		return rawurlencode( $time . '|' . $hash );
 	}
 
@@ -604,23 +611,24 @@ class LoginSecurity {
 		}
 
 		[ $timestamp_str, $hash ] = explode( '|', $decoded, 2 );
-		$timestamp = (int) $timestamp_str;
+		$timestamp                = (int) $timestamp_str;
 
-		// Verify hash integrity with constant-time check.
-		$expected_hash = wp_hash( 'gravisain_time_' . $timestamp . '_' . $client_ip, 'nonce' );
-		if ( ! hash_equals( $expected_hash, $hash ) ) {
+		// Verify hash integrity with constant-time check. Support standard time hash and legacy IP-bound hash.
+		$standard_hash = wp_hash( 'gravisain_time_' . $timestamp, 'nonce' );
+		$legacy_hash   = wp_hash( 'gravisain_time_' . $timestamp . '_' . $client_ip, 'nonce' );
+		if ( ! hash_equals( $standard_hash, $hash ) && ! hash_equals( $legacy_hash, $hash ) ) {
 			return false;
 		}
 
 		$elapsed = time() - $timestamp;
 
-		// Reject if submitted in less than 1.2 seconds (typical headless bot speed).
+		// Reject if submitted in less than 1 second (typical headless bot speed).
 		if ( $elapsed < 1 ) {
 			return false;
 		}
 
-		// Reject if form is older than 2 hours (stale or replay attack).
-		if ( $elapsed > 7200 ) {
+		// Reject if form is older than 24 hours (stale or replay attack).
+		if ( $elapsed > 86400 ) {
 			return false;
 		}
 
@@ -649,7 +657,7 @@ class LoginSecurity {
 		$lockout_key  = 'gravisain_login_lockout_' . md5( $ip );
 
 		$attempts = (int) get_transient( $attempts_key );
-		$attempts++;
+		++$attempts;
 
 		if ( $attempts >= 5 ) {
 			// Lock out IP for 15 minutes.
@@ -687,9 +695,9 @@ class LoginSecurity {
 	/**
 	 * Filter logout redirect URL gracefully without abrupt script termination.
 	 *
-	 * @param string                $redirect_to           Default redirect URL (wp-login.php?loggedout=true).
-	 * @param string                $requested_redirect_to User-requested redirect URL via $_REQUEST['redirect_to'].
-	 * @param \WP_User|\WP_Error    $user                  User logging out.
+	 * @param string             $redirect_to           Default redirect URL (wp-login.php?loggedout=true).
+	 * @param string             $requested_redirect_to User-requested redirect URL via $_REQUEST['redirect_to'].
+	 * @param \WP_User|\WP_Error $user                  User logging out.
 	 * @return string Redirect destination URL.
 	 */
 	public function filter_logout_redirect( string $redirect_to, string $requested_redirect_to, $user ): string {
@@ -725,25 +733,24 @@ class LoginSecurity {
 			return;
 		}
 
-		// Don't intercept logout flow or post-password submissions.
+		// Don't intercept logout flow, password-protected post, or reset password links.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$action = isset( $_GET['action'] ) ? sanitize_key( wp_unslash( $_GET['action'] ) ) : '';
-		if ( in_array( $action, [ 'logout', 'postpass' ], true ) ) {
+		if ( in_array( $action, array( 'logout', 'postpass', 'lostpassword', 'rp', 'resetpass' ), true ) ) {
 			return;
 		}
 
-		// Allow access if authorized Emergency Bypass Key is present.
+		// 1. Allow access if Emergency Bypass Key is present (?gravisain_bypass=KEY).
+		// Note: This bypasses Turnstile completely (Disaster Recovery).
 		if ( $this->is_emergency_bypassed() ) {
 			return;
 		}
 
-		// Don't intercept requests containing custom secret query tokens (e.g. ?vIdEZ5Tc2y0LCIG8uA2UHOIL7OxX21Bnkv5iTaxx).
-		// Standard WordPress login parameters should still be redirected, but custom secret keys must be permitted!
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$request_keys  = array_keys( $_GET );
-		$standard_keys = [ 'action', 'redirect_to', 'reauth', 'interim-login', 'wp_lang', 'loggedout', 'checkemail', 'error' ];
-		$custom_keys   = array_diff( $request_keys, $standard_keys );
-		if ( ! empty( $custom_keys ) ) {
+		// 2. Allow access if Secret Direct Login Key is present (?KEY).
+		// Note: Login page is unlocked, and Cloudflare Turnstile remains fully active!
+		$secret_bypass = $this->get_bypass_key();
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Accessing GET query parameter for secret direct login key check on unauthenticated login page.
+		if ( ! empty( $secret_bypass ) && isset( $_GET[ $secret_bypass ] ) ) {
 			return;
 		}
 
@@ -765,11 +772,11 @@ class LoginSecurity {
 	 * @return void
 	 */
 	public function register_settings( $wp_customize ): void {
-		$section_args = [
+		$section_args = array(
 			'title'       => __( 'Login Security & Turnstile', 'gravisain-blocks' ),
 			'description' => __( 'Protect your WordPress login form against bot attacks, brute-force, and credential stuffing using Cloudflare Turnstile.', 'gravisain-blocks' ),
 			'priority'    => 85,
-		];
+		);
 
 		if ( $wp_customize->get_panel( 'gravisain_options' ) ) {
 			$section_args['panel'] = 'gravisain_options';
@@ -778,166 +785,220 @@ class LoginSecurity {
 		$wp_customize->add_section( 'gravisain_turnstile_section', $section_args );
 
 		// 1. Enable Toggle.
-		$wp_customize->add_setting( 'gravisain_turnstile_enabled', [
-			'type'              => 'option',
-			'default'           => false,
-			'sanitize_callback' => [ $this, 'sanitize_checkbox' ],
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_turnstile_enabled',
+			array(
+				'type'              => 'option',
+				'default'           => false,
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_turnstile_enabled', [
-			'label'       => __( 'Enable Turnstile Protection', 'gravisain-blocks' ),
-			'description' => __( 'Turn on Cloudflare Turnstile protection on the login page.', 'gravisain-blocks' ),
-			'section'     => 'gravisain_turnstile_section',
-			'settings'    => 'gravisain_turnstile_enabled',
-			'type'        => 'checkbox',
-		] );
+		$wp_customize->add_control(
+			'gravisain_turnstile_enabled',
+			array(
+				'label'       => __( 'Enable Turnstile Protection', 'gravisain-blocks' ),
+				'description' => __( 'Turn on Cloudflare Turnstile protection on the login page.', 'gravisain-blocks' ),
+				'section'     => 'gravisain_turnstile_section',
+				'settings'    => 'gravisain_turnstile_enabled',
+				'type'        => 'checkbox',
+			)
+		);
 
-		$is_enabled = function() {
+		$is_enabled = function () {
 			return (bool) get_option( 'gravisain_turnstile_enabled', false );
 		};
 
 		// 2. Site Key.
-		$wp_customize->add_setting( 'gravisain_turnstile_site_key', [
-			'type'              => 'option',
-			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_turnstile_site_key',
+			array(
+				'type'              => 'option',
+				'default'           => '',
+				'sanitize_callback' => 'sanitize_text_field',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_turnstile_site_key', [
-			'label'           => __( 'Cloudflare Site Key', 'gravisain-blocks' ),
-			'description'     => __( 'Obtain this key from your Cloudflare Dashboard under Turnstile.', 'gravisain-blocks' ),
-			'section'         => 'gravisain_turnstile_section',
-			'settings'        => 'gravisain_turnstile_site_key',
-			'type'            => 'text',
-			'active_callback' => $is_enabled,
-		] );
+		$wp_customize->add_control(
+			'gravisain_turnstile_site_key',
+			array(
+				'label'           => __( 'Cloudflare Site Key', 'gravisain-blocks' ),
+				'description'     => __( 'Obtain this key from your Cloudflare Dashboard under Turnstile.', 'gravisain-blocks' ),
+				'section'         => 'gravisain_turnstile_section',
+				'settings'        => 'gravisain_turnstile_site_key',
+				'type'            => 'text',
+				'active_callback' => $is_enabled,
+			)
+		);
 
 		// 3. Secret Key.
-		$wp_customize->add_setting( 'gravisain_turnstile_secret_key', [
-			'type'              => 'option',
-			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_turnstile_secret_key',
+			array(
+				'type'              => 'option',
+				'default'           => '',
+				'sanitize_callback' => 'sanitize_text_field',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_turnstile_secret_key', [
-			'label'           => __( 'Cloudflare Secret Key', 'gravisain-blocks' ),
-			'description'     => __( 'Your private Cloudflare Turnstile Secret Key.', 'gravisain-blocks' ),
-			'section'         => 'gravisain_turnstile_section',
-			'settings'        => 'gravisain_turnstile_secret_key',
-			'type'            => 'password',
-			'active_callback' => $is_enabled,
-		] );
+		$wp_customize->add_control(
+			'gravisain_turnstile_secret_key',
+			array(
+				'label'           => __( 'Cloudflare Secret Key', 'gravisain-blocks' ),
+				'description'     => __( 'Your private Cloudflare Turnstile Secret Key.', 'gravisain-blocks' ),
+				'section'         => 'gravisain_turnstile_section',
+				'settings'        => 'gravisain_turnstile_secret_key',
+				'type'            => 'password',
+				'active_callback' => $is_enabled,
+			)
+		);
 
 		// 4. Widget Theme.
-		$wp_customize->add_setting( 'gravisain_turnstile_theme', [
-			'type'              => 'option',
-			'default'           => 'auto',
-			'sanitize_callback' => 'sanitize_key',
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_turnstile_theme',
+			array(
+				'type'              => 'option',
+				'default'           => 'auto',
+				'sanitize_callback' => 'sanitize_key',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_turnstile_theme', [
-			'label'           => __( 'Turnstile Appearance Theme', 'gravisain-blocks' ),
-			'section'         => 'gravisain_turnstile_section',
-			'settings'        => 'gravisain_turnstile_theme',
-			'type'            => 'select',
-			'active_callback' => $is_enabled,
-			'choices'         => [
-				'auto'  => __( 'Auto (Follows System/Browser Theme)', 'gravisain-blocks' ),
-				'light' => __( 'Light Theme', 'gravisain-blocks' ),
-				'dark'  => __( 'Dark Theme', 'gravisain-blocks' ),
-			],
-		] );
+		$wp_customize->add_control(
+			'gravisain_turnstile_theme',
+			array(
+				'label'           => __( 'Turnstile Appearance Theme', 'gravisain-blocks' ),
+				'section'         => 'gravisain_turnstile_section',
+				'settings'        => 'gravisain_turnstile_theme',
+				'type'            => 'select',
+				'active_callback' => $is_enabled,
+				'choices'         => array(
+					'auto'  => __( 'Auto (Follows System/Browser Theme)', 'gravisain-blocks' ),
+					'light' => __( 'Light Theme', 'gravisain-blocks' ),
+					'dark'  => __( 'Dark Theme', 'gravisain-blocks' ),
+				),
+			)
+		);
 
 		// 5. Fallback Mode (Anti-Lockout).
-		$wp_customize->add_setting( 'gravisain_turnstile_fail_mode', [
-			'type'              => 'option',
-			'default'           => 'fail_open',
-			'sanitize_callback' => 'sanitize_key',
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_turnstile_fail_mode',
+			array(
+				'type'              => 'option',
+				'default'           => 'fail_open',
+				'sanitize_callback' => 'sanitize_key',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_turnstile_fail_mode', [
-			'label'           => __( 'Behavior on Cloudflare Outage', 'gravisain-blocks' ),
-			'description'     => __( 'Fail-Open allows password login when Cloudflare servers are down (protected by Honeypot and local rate limiter). Strict blocks all logins until Cloudflare is restored.', 'gravisain-blocks' ),
-			'section'         => 'gravisain_turnstile_section',
-			'settings'        => 'gravisain_turnstile_fail_mode',
-			'type'            => 'select',
-			'active_callback' => $is_enabled,
-			'choices'         => [
-				'fail_open' => __( 'Fail-Open: Allow Login (Recommended, Prevents Admin Lockout)', 'gravisain-blocks' ),
-				'strict'    => __( 'Strict: Block Login (High Security)', 'gravisain-blocks' ),
-			],
-		] );
+		$wp_customize->add_control(
+			'gravisain_turnstile_fail_mode',
+			array(
+				'label'           => __( 'Behavior on Cloudflare Outage', 'gravisain-blocks' ),
+				'description'     => __( 'Fail-Open allows password login when Cloudflare servers are down (protected by Honeypot and local rate limiter). Strict blocks all logins until Cloudflare is restored.', 'gravisain-blocks' ),
+				'section'         => 'gravisain_turnstile_section',
+				'settings'        => 'gravisain_turnstile_fail_mode',
+				'type'            => 'select',
+				'active_callback' => $is_enabled,
+				'choices'         => array(
+					'fail_open' => __( 'Fail-Open: Allow Login (Recommended, Prevents Admin Lockout)', 'gravisain-blocks' ),
+					'strict'    => __( 'Strict: Block Login (High Security)', 'gravisain-blocks' ),
+				),
+			)
+		);
 
 		// 6. Emergency Bypass Key.
-		$wp_customize->add_setting( 'gravisain_turnstile_bypass_key', [
-			'type'              => 'option',
-			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_turnstile_bypass_key',
+			array(
+				'type'              => 'option',
+				'default'           => '',
+				'sanitize_callback' => 'sanitize_text_field',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_turnstile_bypass_key', [
-			'label'           => __( 'Emergency Bypass Key (Optional)', 'gravisain-blocks' ),
-			'description'     => __( 'Set a secret key to bypass Turnstile via URL in case of network issues (e.g. wp-login.php?gravisain_bypass=YOUR_SECRET_KEY).', 'gravisain-blocks' ),
-			'section'         => 'gravisain_turnstile_section',
-			'settings'        => 'gravisain_turnstile_bypass_key',
-			'type'            => 'text',
-			'active_callback' => $is_enabled,
-		] );
+		$wp_customize->add_control(
+			'gravisain_turnstile_bypass_key',
+			array(
+				'label'           => __( 'Emergency Bypass Key (Optional)', 'gravisain-blocks' ),
+				'description'     => __( 'Set a secret key to bypass Turnstile via URL in case of network issues (e.g. wp-login.php?gravisain_bypass=YOUR_SECRET_KEY).', 'gravisain-blocks' ),
+				'section'         => 'gravisain_turnstile_section',
+				'settings'        => 'gravisain_turnstile_bypass_key',
+				'type'            => 'text',
+				'active_callback' => $is_enabled,
+			)
+		);
 
 		// 7. Admin Email Notification on Outage Fallback.
-		$wp_customize->add_setting( 'gravisain_turnstile_notify_admin', [
-			'type'              => 'option',
-			'default'           => false,
-			'sanitize_callback' => [ $this, 'sanitize_checkbox' ],
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_turnstile_notify_admin',
+			array(
+				'type'              => 'option',
+				'default'           => false,
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_turnstile_notify_admin', [
-			'label'           => __( 'Email Admin on Outage Event', 'gravisain-blocks' ),
-			'description'     => __( 'Receive an email alert whenever an authorized login occurs while Cloudflare API is unreachable.', 'gravisain-blocks' ),
-			'section'         => 'gravisain_turnstile_section',
-			'settings'        => 'gravisain_turnstile_notify_admin',
-			'type'            => 'checkbox',
-			'active_callback' => $is_enabled,
-		] );
+		$wp_customize->add_control(
+			'gravisain_turnstile_notify_admin',
+			array(
+				'label'           => __( 'Email Admin on Outage Event', 'gravisain-blocks' ),
+				'description'     => __( 'Receive an email alert whenever an authorized login occurs while Cloudflare API is unreachable.', 'gravisain-blocks' ),
+				'section'         => 'gravisain_turnstile_section',
+				'settings'        => 'gravisain_turnstile_notify_admin',
+				'type'            => 'checkbox',
+				'active_callback' => $is_enabled,
+			)
+		);
 
 		// 8. Logout Redirect to Homepage.
-		$wp_customize->add_setting( 'gravisain_turnstile_logout_redirect', [
-			'type'              => 'option',
-			'default'           => false,
-			'sanitize_callback' => [ $this, 'sanitize_checkbox' ],
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_turnstile_logout_redirect',
+			array(
+				'type'              => 'option',
+				'default'           => false,
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_turnstile_logout_redirect', [
-			'label'           => __( 'Redirect to Homepage on Logout', 'gravisain-blocks' ),
-			'description'     => __( 'Redirects users to the homepage upon logging out, preventing 404 errors on hidden or protected login URLs.', 'gravisain-blocks' ),
-			'section'         => 'gravisain_turnstile_section',
-			'settings'        => 'gravisain_turnstile_logout_redirect',
-			'type'            => 'checkbox',
-		] );
+		$wp_customize->add_control(
+			'gravisain_turnstile_logout_redirect',
+			array(
+				'label'       => __( 'Redirect to Homepage on Logout', 'gravisain-blocks' ),
+				'description' => __( 'Redirects users to the homepage upon logging out, preventing 404 errors on hidden or protected login URLs.', 'gravisain-blocks' ),
+				'section'     => 'gravisain_turnstile_section',
+				'settings'    => 'gravisain_turnstile_logout_redirect',
+				'type'        => 'checkbox',
+			)
+		);
 
 		// 9. Direct wp-login.php Access Redirect to Homepage.
-		$wp_customize->add_setting( 'gravisain_turnstile_direct_login_redirect', [
-			'type'              => 'option',
-			'default'           => false,
-			'sanitize_callback' => [ $this, 'sanitize_checkbox' ],
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_turnstile_direct_login_redirect',
+			array(
+				'type'              => 'option',
+				'default'           => false,
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_turnstile_direct_login_redirect', [
-			'label'           => __( 'Redirect Direct wp-login.php to Homepage', 'gravisain-blocks' ),
-			'description'     => __( 'Redirects anyone directly opening wp-login.php to Homepage. Use your Emergency Bypass Key (?gravisain_bypass=...) to access the login form.', 'gravisain-blocks' ),
-			'section'         => 'gravisain_turnstile_section',
-			'settings'        => 'gravisain_turnstile_direct_login_redirect',
-			'type'            => 'checkbox',
-		] );
+		$wp_customize->add_control(
+			'gravisain_turnstile_direct_login_redirect',
+			array(
+				'label'       => __( 'Redirect Direct wp-login.php to Homepage', 'gravisain-blocks' ),
+				'description' => __( 'Redirects direct visitors to homepage. Access login with Turnstile active via: ?YOUR_KEY, or bypass Turnstile via: ?gravisain_bypass=YOUR_KEY.', 'gravisain-blocks' ),
+				'section'     => 'gravisain_turnstile_section',
+				'settings'    => 'gravisain_turnstile_direct_login_redirect',
+				'type'        => 'checkbox',
+			)
+		);
 	}
 
 	/**
@@ -948,9 +1009,9 @@ class LoginSecurity {
 	public function register_admin_menu(): void {
 		$parent_slug = 'options-general.php';
 
-		// If Gravisain theme dashboard exists, place under Gravisain menu!
+		// If Gravisain theme is active, theme dashboard is registered under Appearance (themes.php).
 		if ( $this->is_gravisain_theme_active() ) {
-			$parent_slug = 'gravisain-dashboard';
+			$parent_slug = 'themes.php';
 		}
 
 		add_submenu_page(
@@ -959,7 +1020,7 @@ class LoginSecurity {
 			__( 'Login Security', 'gravisain-blocks' ),
 			'manage_options',
 			'gravisain-login-security',
-			[ $this, 'render_admin_page' ]
+			array( $this, 'render_admin_page' )
 		);
 	}
 
@@ -969,59 +1030,95 @@ class LoginSecurity {
 	 * @return void
 	 */
 	public function register_admin_settings(): void {
-		register_setting( 'gravisain_login_security_group', 'gravisain_turnstile_enabled', [
-			'type'              => 'boolean',
-			'sanitize_callback' => 'rest_sanitize_boolean',
-			'default'           => false,
-		] );
+		register_setting(
+			'gravisain_login_security_group',
+			'gravisain_turnstile_enabled',
+			array(
+				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'default'           => false,
+			)
+		);
 
-		register_setting( 'gravisain_login_security_group', 'gravisain_turnstile_site_key', [
-			'type'              => 'string',
-			'sanitize_callback' => 'sanitize_text_field',
-			'default'           => '',
-		] );
+		register_setting(
+			'gravisain_login_security_group',
+			'gravisain_turnstile_site_key',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'default'           => '',
+			)
+		);
 
-		register_setting( 'gravisain_login_security_group', 'gravisain_turnstile_secret_key', [
-			'type'              => 'string',
-			'sanitize_callback' => 'sanitize_text_field',
-			'default'           => '',
-		] );
+		register_setting(
+			'gravisain_login_security_group',
+			'gravisain_turnstile_secret_key',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'default'           => '',
+			)
+		);
 
-		register_setting( 'gravisain_login_security_group', 'gravisain_turnstile_theme', [
-			'type'              => 'string',
-			'sanitize_callback' => 'sanitize_key',
-			'default'           => 'auto',
-		] );
+		register_setting(
+			'gravisain_login_security_group',
+			'gravisain_turnstile_theme',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_key',
+				'default'           => 'auto',
+			)
+		);
 
-		register_setting( 'gravisain_login_security_group', 'gravisain_turnstile_fail_mode', [
-			'type'              => 'string',
-			'sanitize_callback' => 'sanitize_key',
-			'default'           => 'fail_open',
-		] );
+		register_setting(
+			'gravisain_login_security_group',
+			'gravisain_turnstile_fail_mode',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_key',
+				'default'           => 'fail_open',
+			)
+		);
 
-		register_setting( 'gravisain_login_security_group', 'gravisain_turnstile_bypass_key', [
-			'type'              => 'string',
-			'sanitize_callback' => 'sanitize_text_field',
-			'default'           => '',
-		] );
+		register_setting(
+			'gravisain_login_security_group',
+			'gravisain_turnstile_bypass_key',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'default'           => '',
+			)
+		);
 
-		register_setting( 'gravisain_login_security_group', 'gravisain_turnstile_notify_admin', [
-			'type'              => 'boolean',
-			'sanitize_callback' => 'rest_sanitize_boolean',
-			'default'           => false,
-		] );
+		register_setting(
+			'gravisain_login_security_group',
+			'gravisain_turnstile_notify_admin',
+			array(
+				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'default'           => false,
+			)
+		);
 
-		register_setting( 'gravisain_login_security_group', 'gravisain_turnstile_logout_redirect', [
-			'type'              => 'boolean',
-			'sanitize_callback' => 'rest_sanitize_boolean',
-			'default'           => true,
-		] );
+		register_setting(
+			'gravisain_login_security_group',
+			'gravisain_turnstile_logout_redirect',
+			array(
+				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'default'           => true,
+			)
+		);
 
-		register_setting( 'gravisain_login_security_group', 'gravisain_turnstile_direct_login_redirect', [
-			'type'              => 'boolean',
-			'sanitize_callback' => 'rest_sanitize_boolean',
-			'default'           => false,
-		] );
+		register_setting(
+			'gravisain_login_security_group',
+			'gravisain_turnstile_direct_login_redirect',
+			array(
+				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'default'           => false,
+			)
+		);
 	}
 
 	/**
@@ -1036,12 +1133,12 @@ class LoginSecurity {
 
 		// Handle Form Submission if using regular options.
 		if ( isset( $_POST['gravisain_login_sec_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['gravisain_login_sec_nonce'] ) ), 'gravisain_save_login_security' ) ) {
-			$enabled      = ! empty( $_POST['gravisain_turnstile_enabled'] );
-			$site_key     = isset( $_POST['gravisain_turnstile_site_key'] ) ? sanitize_text_field( wp_unslash( $_POST['gravisain_turnstile_site_key'] ) ) : '';
-			$secret_key   = isset( $_POST['gravisain_turnstile_secret_key'] ) ? sanitize_text_field( wp_unslash( $_POST['gravisain_turnstile_secret_key'] ) ) : '';
-			$theme        = isset( $_POST['gravisain_turnstile_theme'] ) ? sanitize_key( wp_unslash( $_POST['gravisain_turnstile_theme'] ) ) : 'auto';
-			$fail_mode    = isset( $_POST['gravisain_turnstile_fail_mode'] ) ? sanitize_key( wp_unslash( $_POST['gravisain_turnstile_fail_mode'] ) ) : 'fail_open';
-			$bypass_key   = isset( $_POST['gravisain_turnstile_bypass_key'] ) ? sanitize_text_field( wp_unslash( $_POST['gravisain_turnstile_bypass_key'] ) ) : '';
+			$enabled               = ! empty( $_POST['gravisain_turnstile_enabled'] );
+			$site_key              = isset( $_POST['gravisain_turnstile_site_key'] ) ? sanitize_text_field( wp_unslash( $_POST['gravisain_turnstile_site_key'] ) ) : '';
+			$secret_key            = isset( $_POST['gravisain_turnstile_secret_key'] ) ? sanitize_text_field( wp_unslash( $_POST['gravisain_turnstile_secret_key'] ) ) : '';
+			$theme                 = isset( $_POST['gravisain_turnstile_theme'] ) ? sanitize_key( wp_unslash( $_POST['gravisain_turnstile_theme'] ) ) : 'auto';
+			$fail_mode             = isset( $_POST['gravisain_turnstile_fail_mode'] ) ? sanitize_key( wp_unslash( $_POST['gravisain_turnstile_fail_mode'] ) ) : 'fail_open';
+			$bypass_key            = isset( $_POST['gravisain_turnstile_bypass_key'] ) ? sanitize_text_field( wp_unslash( $_POST['gravisain_turnstile_bypass_key'] ) ) : '';
 			$notify_admin          = ! empty( $_POST['gravisain_turnstile_notify_admin'] );
 			$logout_redirect       = ! empty( $_POST['gravisain_turnstile_logout_redirect'] );
 			$direct_login_redirect = ! empty( $_POST['gravisain_turnstile_direct_login_redirect'] );
@@ -1072,7 +1169,7 @@ class LoginSecurity {
 		?>
 		<div class="wrap" style="max-width: 900px; margin-top: 24px;">
 			<div style="background: #ffffff; padding: 24px 30px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 24px;">
-				<div style="display: flex; align-items: center; justify-content: space-between;">
+				<div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
 					<div>
 						<h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #0f172a;">
 							🛡️ <?php esc_html_e( 'Gravisain Login Security & Cloudflare Turnstile', 'gravisain-blocks' ); ?>
@@ -1081,11 +1178,11 @@ class LoginSecurity {
 							<?php esc_html_e( 'Protect your WordPress admin login page against bots, brute-force attacks, and credential stuffing without the risk of lockout.', 'gravisain-blocks' ); ?>
 						</p>
 					</div>
-					<div>
+					<div style="flex-shrink: 0;">
 						<?php if ( $this->is_enabled() ) : ?>
-							<span style="background: #dcfce7; color: #15803d; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 13px;">✓ Active & Protected</span>
+							<span style="display: inline-block; white-space: nowrap; background: #dcfce7; color: #15803d; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 13px; line-height: 1.4;">✓ Active & Protected</span>
 						<?php else : ?>
-							<span style="background: #f1f5f9; color: #64748b; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 13px;">Inactive</span>
+							<span style="display: inline-block; white-space: nowrap; background: #f1f5f9; color: #64748b; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 13px; line-height: 1.4;">Inactive</span>
 						<?php endif; ?>
 					</div>
 				</div>
@@ -1138,7 +1235,7 @@ class LoginSecurity {
 
 				<div style="background: #ffffff; padding: 26px 30px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 20px;">
 					<h2 style="font-size: 16px; font-weight: 600; color: #1e293b; margin-top: 0; margin-bottom: 16px; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;">
-						⚡ <?php esc_html_e( '2. Anti-Lockout Failsafe & Disaster Recovery', 'gravisain-blocks' ); ?>
+						<?php esc_html_e( '2. Anti-Lockout Failsafe & Disaster Recovery', 'gravisain-blocks' ); ?>
 					</h2>
 
 					<table class="form-table" role="presentation">
@@ -1207,7 +1304,12 @@ class LoginSecurity {
 									<input type="checkbox" name="gravisain_turnstile_direct_login_redirect" value="1" <?php checked( $direct_login_redirect, true ); ?> />
 									<strong><?php esc_html_e( 'Redirect Direct wp-login.php to Homepage', 'gravisain-blocks' ); ?></strong>
 								</label>
-								<p class="description"><?php esc_html_e( 'Redirects visitors/bots directly accessing wp-login.php to homepage, eliminating 404 errors. You can access the login page anytime by appending your Emergency Bypass Key (e.g. ?gravisain_bypass=YOUR_KEY).', 'gravisain-blocks' ); ?></p>
+								<p class="description">
+									<?php esc_html_e( 'Redirects direct visitors and bots to homepage. Access login with Turnstile active via: ', 'gravisain-blocks' ); ?>
+									<code><?php echo esc_html( wp_login_url() ); ?>?YOUR_KEY</code>.<br>
+									<?php esc_html_e( 'Or bypass Turnstile in an emergency via: ', 'gravisain-blocks' ); ?>
+									<code><?php echo esc_html( wp_login_url() ); ?>?gravisain_bypass=YOUR_KEY</code>.
+								</p>
 							</td>
 						</tr>
 					</table>
@@ -1215,7 +1317,7 @@ class LoginSecurity {
 
 				<div style="background: #ffffff; padding: 26px 30px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 24px;">
 					<h2 style="font-size: 16px; font-weight: 600; color: #1e293b; margin-top: 0; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;">
-						🔒 <?php esc_html_e( '3. Built-in Local Security Layers (Always Active)', 'gravisain-blocks' ); ?>
+						<?php esc_html_e( '3. Built-in Local Security Layers (Always Active)', 'gravisain-blocks' ); ?>
 					</h2>
 					<ul style="list-style: disc; margin-left: 20px; color: #475569; line-height: 1.6;">
 						<li><strong><?php esc_html_e( 'Zero-API Invisible Honeypot:', 'gravisain-blocks' ); ?></strong> <?php esc_html_e( 'Automatically catches and drops dumb scripts attempting automated form fills.', 'gravisain-blocks' ); ?></li>
@@ -1241,7 +1343,7 @@ class LoginSecurity {
 	 * @return bool
 	 */
 	public function sanitize_checkbox( $checked ): bool {
-		return ( isset( $checked ) && true === (bool) $checked );
+		return rest_sanitize_boolean( $checked );
 	}
 
 	/**

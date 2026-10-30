@@ -1,115 +1,115 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "gravisain/feature-card",
-	"version": "1.0.0",
-	"title": "Feature Card",
-	"category": "gravisain-blocks",
-	"icon": "star-filled",
-	"description": "An individual feature card with icon/symbol, title, description, and hover animation.",
-	"textdomain": "gravisain-blocks",
-	"parent": [
-		"gravisain/features-grid"
-	],
-	"attributes": {
-		"title": {
-			"type": "string",
-			"default": "Feature Title"
-		},
-		"description": {
-			"type": "string",
-			"default": "Describe the feature here in detail with highlights on performance and ease of use."
-		},
-		"icon": {
-			"type": "string",
-			"default": "wordpress"
-		},
-		"iconSymbol": {
-			"type": "string",
-			"default": ""
-		},
-		"iconPosition": {
-			"type": "string",
-			"default": "top"
-		},
-		"textAlign": {
-			"type": "string",
-			"default": "center"
-		},
-		"iconSize": {
-			"type": "number",
-			"default": 32
-		},
-		"iconBoxSize": {
-			"type": "number",
-			"default": 64
-		},
-		"iconRadius": {
-			"type": "number",
-			"default": 12
-		},
-		"iconColor": {
-			"type": "string",
-			"default": "#4f46e5"
-		},
-		"iconBackgroundColor": {
-			"type": "string",
-			"default": "rgba(79, 70, 229, 0.1)"
-		},
-		"titleFontSize": {
-			"type": "number",
-			"default": 20
-		},
-		"titleColor": {
-			"type": "string",
-			"default": "#111827"
-		},
-		"descriptionFontSize": {
-			"type": "number",
-			"default": 15
-		},
-		"descriptionColor": {
-			"type": "string",
-			"default": "#4b5563"
-		},
-		"cardBackgroundColor": {
-			"type": "string",
-			"default": "#ffffff"
-		},
-		"cardBorderColor": {
-			"type": "string",
-			"default": "#f3f4f6"
-		},
-		"cardBorderWidth": {
-			"type": "number",
-			"default": 1
-		},
-		"cardBorderRadius": {
-			"type": "number",
-			"default": 12
-		},
-		"cardPaddingTop": {
-			"type": "number",
-			"default": 32
-		},
-		"cardPaddingBottom": {
-			"type": "number",
-			"default": 32
-		},
-		"cardPaddingLeft": {
-			"type": "number",
-			"default": 28
-		},
-		"cardPaddingRight": {
-			"type": "number",
-			"default": 28
-		},
-		"hoverEffect": {
-			"type": "string",
-			"default": "lift"
-		}
-	},
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "gravisain/feature-card",
+  "version": "1.0.0",
+  "title": "Feature Card",
+  "category": "gravisain-blocks",
+  "icon": "star-filled",
+  "description": "An individual feature card with icon/symbol, title, description, and hover animation.",
+  "textdomain": "gravisain-blocks",
+  "parent": [
+    "gravisain/features-grid"
+  ],
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Feature Title"
+    },
+    "description": {
+      "type": "string",
+      "default": "Describe the feature here in detail with highlights on performance and ease of use."
+    },
+    "icon": {
+      "type": "string",
+      "default": "wordpress"
+    },
+    "iconSymbol": {
+      "type": "string",
+      "default": ""
+    },
+    "iconPosition": {
+      "type": "string",
+      "default": "top"
+    },
+    "textAlign": {
+      "type": "string",
+      "default": "center"
+    },
+    "iconSize": {
+      "type": "number",
+      "default": 32
+    },
+    "iconBoxSize": {
+      "type": "number",
+      "default": 64
+    },
+    "iconRadius": {
+      "type": "number",
+      "default": 12
+    },
+    "iconColor": {
+      "type": "string",
+      "default": "#4f46e5"
+    },
+    "iconBackgroundColor": {
+      "type": "string",
+      "default": "rgba(79, 70, 229, 0.1)"
+    },
+    "titleFontSize": {
+      "type": "number",
+      "default": 20
+    },
+    "titleColor": {
+      "type": "string",
+      "default": "#111827"
+    },
+    "descriptionFontSize": {
+      "type": "number",
+      "default": 15
+    },
+    "descriptionColor": {
+      "type": "string",
+      "default": "#4b5563"
+    },
+    "cardBackgroundColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "cardBorderColor": {
+      "type": "string",
+      "default": "#f3f4f6"
+    },
+    "cardBorderWidth": {
+      "type": "number",
+      "default": 1
+    },
+    "cardBorderRadius": {
+      "type": "number",
+      "default": 12
+    },
+    "cardPaddingTop": {
+      "type": "number",
+      "default": 32
+    },
+    "cardPaddingBottom": {
+      "type": "number",
+      "default": 32
+    },
+    "cardPaddingLeft": {
+      "type": "number",
+      "default": 28
+    },
+    "cardPaddingRight": {
+      "type": "number",
+      "default": 28
+    },
+    "hoverEffect": {
+      "type": "string",
+      "default": "lift"
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
 }

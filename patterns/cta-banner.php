@@ -9,10 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-return [
+return array(
 	'slug'        => 'gravisain-blocks/cta-banner',
 	'title'       => __( 'High-Impact Call to Action Banner', 'gravisain-blocks' ),
-	'categories'  => [ 'gravisain-cta' ],
+	'categories'  => array( 'gravisain-cta' ),
 	'description' => __( 'A bold conversion banner with heading, description, and action buttons.', 'gravisain-blocks' ),
 	'content'     => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"64px","bottom":"64px","left":"32px","right":"32px"}}},"backgroundColor":"primary","textColor":"base","layout":{"type":"constrained","contentSize":"840px"}} -->
 <div class="wp-block-group alignfull has-base-color has-primary-background-color has-text-color has-background" style="padding-top:64px;padding-right:32px;padding-bottom:64px;padding-left:32px">
@@ -33,4 +33,4 @@ return [
 	<!-- /wp:buttons -->
 </div>
 <!-- /wp:group -->',
-];
+);

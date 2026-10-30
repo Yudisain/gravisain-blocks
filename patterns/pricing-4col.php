@@ -9,10 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-return [
+return array(
 	'slug'          => 'gravisain-blocks/pricing-4col',
 	'title'         => __( '4-Column Tiered Pricing Table', 'gravisain-blocks' ),
-	'categories'    => [ 'gravisain-pricing', 'gravisain-sections' ],
+	'categories'    => array( 'gravisain-pricing', 'gravisain-sections' ),
 	'viewportWidth' => 1200,
 	'description'   => __( 'Modern 4-column pricing cards for tiered subscription plans.', 'gravisain-blocks' ),
 	'content'       => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"60px","bottom":"80px","left":"24px","right":"24px"}}},"layout":{"type":"constrained","contentSize":"1200px"}} -->
@@ -162,4 +162,4 @@ return [
 	<!-- /wp:columns -->
 </div>
 <!-- /wp:group -->',
-];
+);

@@ -42,10 +42,10 @@ class Maintenance {
 	 */
 	public function __construct() {
 		// Register Customizer settings.
-		add_action( 'customize_register', [ $this, 'register_settings' ], 20 );
+		add_action( 'customize_register', array( $this, 'register_settings' ), 20 );
 
 		// Intercept frontend requests.
-		add_action( 'template_redirect', [ $this, 'intercept_request' ], 5 );
+		add_action( 'template_redirect', array( $this, 'intercept_request' ), 5 );
 	}
 
 	/**
@@ -56,11 +56,11 @@ class Maintenance {
 	 */
 	public function register_settings( $wp_customize ): void {
 		// Register Section.
-		$section_args = [
+		$section_args = array(
 			'title'       => __( 'Maintenance & Coming Soon', 'gravisain-blocks' ),
 			'description' => __( 'Manage your website offline status, teaser page, and access control.', 'gravisain-blocks' ),
 			'priority'    => 80,
-		];
+		);
 
 		// If Gravisain theme options panel is registered, attach to it.
 		if ( $wp_customize->get_panel( 'gravisain_options' ) ) {
@@ -70,277 +70,376 @@ class Maintenance {
 		$wp_customize->add_section( 'gravisain_maintenance_section', $section_args );
 
 		// 1. Enable Toggle.
-		$wp_customize->add_setting( 'gravisain_maintenance_enabled', [
-			'type'              => 'option',
-			'default'           => false,
-			'sanitize_callback' => [ $this, 'sanitize_checkbox' ],
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_maintenance_enabled',
+			array(
+				'type'              => 'option',
+				'default'           => false,
+				'sanitize_callback' => array( $this, 'sanitize_checkbox' ),
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_maintenance_enabled', [
-			'label'       => __( 'Enable Maintenance Mode', 'gravisain-blocks' ),
-			'description' => __( 'Turn this on to restrict access to the frontend of your website.', 'gravisain-blocks' ),
-			'section'     => 'gravisain_maintenance_section',
-			'settings'    => 'gravisain_maintenance_enabled',
-			'type'        => 'checkbox',
-		] );
+		$wp_customize->add_control(
+			'gravisain_maintenance_enabled',
+			array(
+				'label'       => __( 'Enable Maintenance Mode', 'gravisain-blocks' ),
+				'description' => __( 'Turn this on to restrict access to the frontend of your website.', 'gravisain-blocks' ),
+				'section'     => 'gravisain_maintenance_section',
+				'settings'    => 'gravisain_maintenance_enabled',
+				'type'        => 'checkbox',
+			)
+		);
 
 		// Active callback helper to show options only when enabled.
-		$is_enabled = function() {
+		$is_enabled = function () {
 			return (bool) get_option( 'gravisain_maintenance_enabled', false );
 		};
 
 		// 2. Mode Type (Maintenance vs Coming Soon).
-		$wp_customize->add_setting( 'gravisain_maintenance_mode', [
-			'type'              => 'option',
-			'default'           => 'maintenance',
-			'sanitize_callback' => 'sanitize_key',
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_maintenance_mode',
+			array(
+				'type'              => 'option',
+				'default'           => 'maintenance',
+				'sanitize_callback' => 'sanitize_key',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_maintenance_mode', [
-			'label'           => __( 'Status Mode', 'gravisain-blocks' ),
-			'description'     => __( 'Maintenance Mode sends a 503 HTTP status (SEO friendly, temporary offline). Coming Soon sends a 200 HTTP status (allows indexing, pre-launch).', 'gravisain-blocks' ),
-			'section'         => 'gravisain_maintenance_section',
-			'settings'        => 'gravisain_maintenance_mode',
-			'type'            => 'select',
-			'active_callback' => $is_enabled,
-			'choices'         => [
-				'maintenance' => __( 'Maintenance (503 Service Unavailable)', 'gravisain-blocks' ),
-				'coming_soon' => __( 'Coming Soon (200 OK)', 'gravisain-blocks' ),
-			],
-		] );
+		$wp_customize->add_control(
+			'gravisain_maintenance_mode',
+			array(
+				'label'           => __( 'Status Mode', 'gravisain-blocks' ),
+				'description'     => __( 'Maintenance Mode sends a 503 HTTP status (SEO friendly, temporary offline). Coming Soon sends a 200 HTTP status (allows indexing, pre-launch).', 'gravisain-blocks' ),
+				'section'         => 'gravisain_maintenance_section',
+				'settings'        => 'gravisain_maintenance_mode',
+				'type'            => 'select',
+				'active_callback' => $is_enabled,
+				'choices'         => array(
+					'maintenance' => __( 'Maintenance (503 Service Unavailable)', 'gravisain-blocks' ),
+					'coming_soon' => __( 'Coming Soon (200 OK)', 'gravisain-blocks' ),
+				),
+			)
+		);
 
 		// 3. Bypass Roles.
-		$wp_customize->add_setting( 'gravisain_maintenance_bypass_role', [
-			'type'              => 'option',
-			'default'           => 'manage_options',
-			'sanitize_callback' => 'sanitize_key',
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_maintenance_bypass_role',
+			array(
+				'type'              => 'option',
+				'default'           => 'manage_options',
+				'sanitize_callback' => 'sanitize_key',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_maintenance_bypass_role', [
-			'label'           => __( 'Who can access the site?', 'gravisain-blocks' ),
-			'description'     => __( 'Select the minimum capability required to view the live frontend.', 'gravisain-blocks' ),
-			'section'         => 'gravisain_maintenance_section',
-			'settings'        => 'gravisain_maintenance_bypass_role',
-			'type'            => 'select',
-			'active_callback' => $is_enabled,
-			'choices'         => [
-				'manage_options' => __( 'Administrators Only (manage_options)', 'gravisain-blocks' ),
-				'edit_posts'     => __( 'Editors & Administrators (edit_posts)', 'gravisain-blocks' ),
-				'read'           => __( 'All Logged-In Users (read)', 'gravisain-blocks' ),
-			],
-		] );
+		$wp_customize->add_control(
+			'gravisain_maintenance_bypass_role',
+			array(
+				'label'           => __( 'Who can access the site?', 'gravisain-blocks' ),
+				'description'     => __( 'Select the minimum capability required to view the live frontend.', 'gravisain-blocks' ),
+				'section'         => 'gravisain_maintenance_section',
+				'settings'        => 'gravisain_maintenance_bypass_role',
+				'type'            => 'select',
+				'active_callback' => $is_enabled,
+				'choices'         => array(
+					'manage_options' => __( 'Administrators Only (manage_options)', 'gravisain-blocks' ),
+					'edit_posts'     => __( 'Editors & Administrators (edit_posts)', 'gravisain-blocks' ),
+					'read'           => __( 'All Logged-In Users (read)', 'gravisain-blocks' ),
+				),
+			)
+		);
 
 		// 4. Content Source.
-		$wp_customize->add_setting( 'gravisain_maintenance_source', [
-			'type'              => 'option',
-			'default'           => 'default',
-			'sanitize_callback' => 'sanitize_key',
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_maintenance_source',
+			array(
+				'type'              => 'option',
+				'default'           => 'default',
+				'sanitize_callback' => 'sanitize_key',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_maintenance_source', [
-			'label'           => __( 'Page Source', 'gravisain-blocks' ),
-			'description'     => __( 'Choose to display our premium built-in fallback template or select a custom page designed with blocks.', 'gravisain-blocks' ),
-			'section'         => 'gravisain_maintenance_section',
-			'settings'        => 'gravisain_maintenance_source',
-			'type'            => 'select',
-			'active_callback' => $is_enabled,
-			'choices'         => [
-				'default'     => __( 'Default Premium Fallback', 'gravisain-blocks' ),
-				'custom_page' => __( 'Select a Custom Page', 'gravisain-blocks' ),
-			],
-		] );
+		$wp_customize->add_control(
+			'gravisain_maintenance_source',
+			array(
+				'label'           => __( 'Page Source', 'gravisain-blocks' ),
+				'description'     => __( 'Choose to display our premium built-in fallback template or select a custom page designed with blocks.', 'gravisain-blocks' ),
+				'section'         => 'gravisain_maintenance_section',
+				'settings'        => 'gravisain_maintenance_source',
+				'type'            => 'select',
+				'active_callback' => $is_enabled,
+				'choices'         => array(
+					'default'     => __( 'Default Premium Fallback', 'gravisain-blocks' ),
+					'custom_page' => __( 'Select a Custom Page', 'gravisain-blocks' ),
+				),
+			)
+		);
 
 		// 5. Custom Page Selector.
-		$wp_customize->add_setting( 'gravisain_maintenance_page_id', [
-			'type'              => 'option',
-			'default'           => 0,
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_maintenance_page_id',
+			array(
+				'type'              => 'option',
+				'default'           => 0,
+				'sanitize_callback' => 'absint',
+				'transport'         => 'refresh',
+			)
+		);
 
 		// Retrieve all pages for selection.
 		$pages         = get_pages();
-		$pages_choices = [ 0 => __( 'Select a page...', 'gravisain-blocks' ) ];
+		$pages_choices = array( 0 => __( 'Select a page...', 'gravisain-blocks' ) );
 		foreach ( $pages as $page ) {
 			$pages_choices[ $page->ID ] = $page->post_title;
 		}
 
-		$wp_customize->add_control( 'gravisain_maintenance_page_id', [
-			'label'           => __( 'Select Custom Page', 'gravisain-blocks' ),
-			'description'     => __( 'Choose the page you want to show to visitors.', 'gravisain-blocks' ),
-			'section'         => 'gravisain_maintenance_section',
-			'settings'        => 'gravisain_maintenance_page_id',
-			'type'            => 'select',
-			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'custom_page' === get_option( 'gravisain_maintenance_source', 'default' );
-			},
-			'choices'         => $pages_choices,
-		] );
+		$wp_customize->add_control(
+			'gravisain_maintenance_page_id',
+			array(
+				'label'           => __( 'Select Custom Page', 'gravisain-blocks' ),
+				'description'     => __( 'Choose the page you want to show to visitors.', 'gravisain-blocks' ),
+				'section'         => 'gravisain_maintenance_section',
+				'settings'        => 'gravisain_maintenance_page_id',
+				'type'            => 'select',
+				'active_callback' => function () use ( $is_enabled ) {
+					return $is_enabled() && 'custom_page' === get_option( 'gravisain_maintenance_source', 'default' );
+				},
+				'choices'         => $pages_choices,
+			)
+		);
 
 		// 6. Separator: Default Template Customization.
-		$wp_customize->add_setting( 'gravisain_maintenance_default_section_title', [
-			'type'              => 'option',
-			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_maintenance_default_section_title',
+			array(
+				'type'              => 'option',
+				'default'           => '',
+				'sanitize_callback' => 'sanitize_text_field',
+			)
+		);
 
 		if ( class_exists( '\Gravisain\Customizer\Controls\HeadingControl' ) ) {
-			$wp_customize->add_control( new \Gravisain\Customizer\Controls\HeadingControl( $wp_customize, 'gravisain_maintenance_default_section_title', [
-				'label'           => __( 'Default Fallback Design Options', 'gravisain-blocks' ),
-				'section'         => 'gravisain_maintenance_section',
-				'settings'        => 'gravisain_maintenance_default_section_title',
-				'active_callback' => function() use ( $is_enabled ) {
-					return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
-				},
-			] ) );
+			$wp_customize->add_control(
+				new \Gravisain\Customizer\Controls\HeadingControl(
+					$wp_customize,
+					'gravisain_maintenance_default_section_title',
+					array(
+						'label'           => __( 'Default Fallback Design Options', 'gravisain-blocks' ),
+						'section'         => 'gravisain_maintenance_section',
+						'settings'        => 'gravisain_maintenance_default_section_title',
+						'active_callback' => function () use ( $is_enabled ) {
+							return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
+						},
+					)
+				)
+			);
 		}
 
 		// 7. Headline.
-		$wp_customize->add_setting( 'gravisain_maintenance_headline', [
-			'type'              => 'option',
-			'default'           => __( 'Under Maintenance', 'gravisain-blocks' ),
-			'sanitize_callback' => 'sanitize_text_field',
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_maintenance_headline',
+			array(
+				'type'              => 'option',
+				'default'           => __( 'Under Maintenance', 'gravisain-blocks' ),
+				'sanitize_callback' => 'sanitize_text_field',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_maintenance_headline', [
-			'label'           => __( 'Headline text', 'gravisain-blocks' ),
-			'section'         => 'gravisain_maintenance_section',
-			'settings'        => 'gravisain_maintenance_headline',
-			'type'            => 'text',
-			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
-			},
-		] );
+		$wp_customize->add_control(
+			'gravisain_maintenance_headline',
+			array(
+				'label'           => __( 'Headline text', 'gravisain-blocks' ),
+				'section'         => 'gravisain_maintenance_section',
+				'settings'        => 'gravisain_maintenance_headline',
+				'type'            => 'text',
+				'active_callback' => function () use ( $is_enabled ) {
+					return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
+				},
+			)
+		);
 
 		// 8. Description.
-		$wp_customize->add_setting( 'gravisain_maintenance_message', [
-			'type'              => 'option',
-			'default'           => __( 'We are currently updating our website to bring you a better experience. Please check back soon!', 'gravisain-blocks' ),
-			'sanitize_callback' => 'sanitize_textarea_field',
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_maintenance_message',
+			array(
+				'type'              => 'option',
+				'default'           => __( 'We are currently updating our website to bring you a better experience. Please check back soon!', 'gravisain-blocks' ),
+				'sanitize_callback' => 'sanitize_textarea_field',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_maintenance_message', [
-			'label'           => __( 'Description Message', 'gravisain-blocks' ),
-			'section'         => 'gravisain_maintenance_section',
-			'settings'        => 'gravisain_maintenance_message',
-			'type'            => 'textarea',
-			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
-			},
-		] );
+		$wp_customize->add_control(
+			'gravisain_maintenance_message',
+			array(
+				'label'           => __( 'Description Message', 'gravisain-blocks' ),
+				'section'         => 'gravisain_maintenance_section',
+				'settings'        => 'gravisain_maintenance_message',
+				'type'            => 'textarea',
+				'active_callback' => function () use ( $is_enabled ) {
+					return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
+				},
+			)
+		);
 
 		// 9. Background Color.
-		$wp_customize->add_setting( 'gravisain_maintenance_bg_color', [
-			'type'              => 'option',
-			'default'           => '#0f172a',
-			'sanitize_callback' => 'sanitize_hex_color',
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_maintenance_bg_color',
+			array(
+				'type'              => 'option',
+				'default'           => '#0f172a',
+				'sanitize_callback' => 'sanitize_hex_color',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, 'gravisain_maintenance_bg_color', [
-			'label'           => __( 'Background Color', 'gravisain-blocks' ),
-			'section'         => 'gravisain_maintenance_section',
-			'settings'        => 'gravisain_maintenance_bg_color',
-			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
-			},
-		] ) );
+		$wp_customize->add_control(
+			new \WP_Customize_Color_Control(
+				$wp_customize,
+				'gravisain_maintenance_bg_color',
+				array(
+					'label'           => __( 'Background Color', 'gravisain-blocks' ),
+					'section'         => 'gravisain_maintenance_section',
+					'settings'        => 'gravisain_maintenance_bg_color',
+					'active_callback' => function () use ( $is_enabled ) {
+						return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
+					},
+				)
+			)
+		);
 
 		// 10. Text Color.
-		$wp_customize->add_setting( 'gravisain_maintenance_text_color', [
-			'type'              => 'option',
-			'default'           => '#f8fafc',
-			'sanitize_callback' => 'sanitize_hex_color',
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_maintenance_text_color',
+			array(
+				'type'              => 'option',
+				'default'           => '#f8fafc',
+				'sanitize_callback' => 'sanitize_hex_color',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, 'gravisain_maintenance_text_color', [
-			'label'           => __( 'Text Color', 'gravisain-blocks' ),
-			'section'         => 'gravisain_maintenance_section',
-			'settings'        => 'gravisain_maintenance_text_color',
-			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
-			},
-		] ) );
+		$wp_customize->add_control(
+			new \WP_Customize_Color_Control(
+				$wp_customize,
+				'gravisain_maintenance_text_color',
+				array(
+					'label'           => __( 'Text Color', 'gravisain-blocks' ),
+					'section'         => 'gravisain_maintenance_section',
+					'settings'        => 'gravisain_maintenance_text_color',
+					'active_callback' => function () use ( $is_enabled ) {
+						return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
+					},
+				)
+			)
+		);
 
 		// 11. Accent Color.
-		$wp_customize->add_setting( 'gravisain_maintenance_accent_color', [
-			'type'              => 'option',
-			'default'           => '#3b82f6',
-			'sanitize_callback' => 'sanitize_hex_color',
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_maintenance_accent_color',
+			array(
+				'type'              => 'option',
+				'default'           => '#3b82f6',
+				'sanitize_callback' => 'sanitize_hex_color',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, 'gravisain_maintenance_accent_color', [
-			'label'           => __( 'Accent Color', 'gravisain-blocks' ),
-			'section'         => 'gravisain_maintenance_section',
-			'settings'        => 'gravisain_maintenance_accent_color',
-			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
-			},
-		] ) );
+		$wp_customize->add_control(
+			new \WP_Customize_Color_Control(
+				$wp_customize,
+				'gravisain_maintenance_accent_color',
+				array(
+					'label'           => __( 'Accent Color', 'gravisain-blocks' ),
+					'section'         => 'gravisain_maintenance_section',
+					'settings'        => 'gravisain_maintenance_accent_color',
+					'active_callback' => function () use ( $is_enabled ) {
+						return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
+					},
+				)
+			)
+		);
 
 		// 12. Show Logo.
-		$wp_customize->add_setting( 'gravisain_maintenance_show_logo', [
-			'type'              => 'option',
-			'default'           => true,
-			'sanitize_callback' => [ $this, 'sanitize_checkbox' ],
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_maintenance_show_logo',
+			array(
+				'type'              => 'option',
+				'default'           => true,
+				'sanitize_callback' => array( $this, 'sanitize_checkbox' ),
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_maintenance_show_logo', [
-			'label'           => __( 'Show Custom Logo', 'gravisain-blocks' ),
-			'section'         => 'gravisain_maintenance_section',
-			'settings'        => 'gravisain_maintenance_show_logo',
-			'type'            => 'checkbox',
-			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
-			},
-		] );
+		$wp_customize->add_control(
+			'gravisain_maintenance_show_logo',
+			array(
+				'label'           => __( 'Show Custom Logo', 'gravisain-blocks' ),
+				'section'         => 'gravisain_maintenance_section',
+				'settings'        => 'gravisain_maintenance_show_logo',
+				'type'            => 'checkbox',
+				'active_callback' => function () use ( $is_enabled ) {
+					return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
+				},
+			)
+		);
 
 		// 13. Enable Countdown.
-		$wp_customize->add_setting( 'gravisain_maintenance_enable_countdown', [
-			'type'              => 'option',
-			'default'           => false,
-			'sanitize_callback' => [ $this, 'sanitize_checkbox' ],
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_maintenance_enable_countdown',
+			array(
+				'type'              => 'option',
+				'default'           => false,
+				'sanitize_callback' => array( $this, 'sanitize_checkbox' ),
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( 'gravisain_maintenance_enable_countdown', [
-			'label'           => __( 'Enable Countdown Timer', 'gravisain-blocks' ),
-			'section'         => 'gravisain_maintenance_section',
-			'settings'        => 'gravisain_maintenance_enable_countdown',
-			'type'            => 'checkbox',
-			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
-			},
-		] );
+		$wp_customize->add_control(
+			'gravisain_maintenance_enable_countdown',
+			array(
+				'label'           => __( 'Enable Countdown Timer', 'gravisain-blocks' ),
+				'section'         => 'gravisain_maintenance_section',
+				'settings'        => 'gravisain_maintenance_enable_countdown',
+				'type'            => 'checkbox',
+				'active_callback' => function () use ( $is_enabled ) {
+					return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' );
+				},
+			)
+		);
 
 		// 14. Countdown Target Date.
-		$wp_customize->add_setting( 'gravisain_maintenance_countdown_date', [
-			'type'              => 'option',
-			'default'           => '',
-			'sanitize_callback' => 'sanitize_text_field',
-			'transport'         => 'refresh',
-		] );
+		$wp_customize->add_setting(
+			'gravisain_maintenance_countdown_date',
+			array(
+				'type'              => 'option',
+				'default'           => '',
+				'sanitize_callback' => 'sanitize_text_field',
+				'transport'         => 'refresh',
+			)
+		);
 
-		$wp_customize->add_control( new \WP_Customize_Date_Time_Control( $wp_customize, 'gravisain_maintenance_countdown_date', [
-			'label'           => __( 'Countdown Target Date & Time', 'gravisain-blocks' ),
-			'description'     => __( 'Select the target date and time when the website will be online (based on the site\'s timezone).', 'gravisain-blocks' ),
-			'section'         => 'gravisain_maintenance_section',
-			'settings'        => 'gravisain_maintenance_countdown_date',
-			'include_time'    => true,
-			'allow_past_date' => true, // Allow selecting past date for testing expiration if needed
-			'active_callback' => function() use ( $is_enabled ) {
-				return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' ) && get_option( 'gravisain_maintenance_enable_countdown', false );
-			},
-		] ) );
+		$wp_customize->add_control(
+			new \WP_Customize_Date_Time_Control(
+				$wp_customize,
+				'gravisain_maintenance_countdown_date',
+				array(
+					'label'           => __( 'Countdown Target Date & Time', 'gravisain-blocks' ),
+					'description'     => __( 'Select the target date and time when the website will be online (based on the site\'s timezone).', 'gravisain-blocks' ),
+					'section'         => 'gravisain_maintenance_section',
+					'settings'        => 'gravisain_maintenance_countdown_date',
+					'include_time'    => true,
+					'allow_past_date' => true, // Allow selecting past date for testing expiration if needed
+					'active_callback' => function () use ( $is_enabled ) {
+						return $is_enabled() && 'default' === get_option( 'gravisain_maintenance_source', 'default' ) && get_option( 'gravisain_maintenance_enable_countdown', false );
+					},
+				)
+			)
+		);
 	}
 
 	/**
@@ -370,7 +469,7 @@ class Maintenance {
 			$countdown_date = get_option( 'gravisain_maintenance_countdown_date', '' );
 			if ( ! empty( $countdown_date ) ) {
 				try {
-					$date = new \DateTime( $countdown_date, wp_timezone() );
+					$date         = new \DateTime( $countdown_date, wp_timezone() );
 					$countdown_ts = $date->getTimestamp();
 				} catch ( \Exception $e ) {
 					$countdown_ts = strtotime( $countdown_date );
@@ -458,13 +557,14 @@ class Maintenance {
 		}
 
 		// Set global WP Query to our custom page ID.
-		$GLOBALS['wp_query'] = new \WP_Query( [ 'page_id' => $page_id ] );
-		
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Overriding $wp_query to render custom maintenance page template before exit.
+		$GLOBALS['wp_query'] = new \WP_Query( array( 'page_id' => $page_id ) );
+
 		// Set headers to prevent browser cache of maintenance state.
 		nocache_headers();
 
 		// Load template.
-		$template = locate_template( [ 'page.php', 'single.php', 'index.php' ] );
+		$template = locate_template( array( 'page.php', 'single.php', 'index.php' ) );
 		if ( $template ) {
 			include $template;
 		} else {
@@ -479,12 +579,12 @@ class Maintenance {
 	 * @return void
 	 */
 	private function render_default_template(): void {
-		$headline = get_option( 'gravisain_maintenance_headline', __( 'Under Maintenance', 'gravisain-blocks' ) );
-		$message  = get_option( 'gravisain_maintenance_message', __( 'We are currently updating our website to bring you a better experience. Please check back soon!', 'gravisain-blocks' ) );
-		$bg_color = get_option( 'gravisain_maintenance_bg_color', '#0f172a' );
+		$headline     = get_option( 'gravisain_maintenance_headline', __( 'Under Maintenance', 'gravisain-blocks' ) );
+		$message      = get_option( 'gravisain_maintenance_message', __( 'We are currently updating our website to bring you a better experience. Please check back soon!', 'gravisain-blocks' ) );
+		$bg_color     = get_option( 'gravisain_maintenance_bg_color', '#0f172a' );
 		$text_color   = get_option( 'gravisain_maintenance_text_color', '#f8fafc' );
 		$accent_color = get_option( 'gravisain_maintenance_accent_color', '#3b82f6' );
-		
+
 		$show_logo = get_option( 'gravisain_maintenance_show_logo', true );
 		$logo_url  = '';
 		if ( $show_logo && function_exists( 'has_custom_logo' ) && has_custom_logo() ) {
@@ -500,7 +600,7 @@ class Maintenance {
 		$countdown_ts   = 0;
 		if ( $show_countdown && ! empty( $countdown_date ) ) {
 			try {
-				$date = new \DateTime( $countdown_date, wp_timezone() );
+				$date         = new \DateTime( $countdown_date, wp_timezone() );
 				$countdown_ts = $date->getTimestamp();
 			} catch ( \Exception $e ) {
 				$countdown_ts = strtotime( $countdown_date );
@@ -510,11 +610,11 @@ class Maintenance {
 			}
 		}
 
-		$css = "
+		$css = '
 			:root {
-				--bg-color: " . esc_html( $bg_color ) . ";
-				--text-color: " . esc_html( $text_color ) . ";
-				--accent-color: " . esc_html( $accent_color ) . ";
+				--bg-color: ' . esc_html( $bg_color ) . ';
+				--text-color: ' . esc_html( $text_color ) . ';
+				--accent-color: ' . esc_html( $accent_color ) . ";
 				--glass-bg: rgba(255, 255, 255, 0.03);
 				--glass-border: rgba(255, 255, 255, 0.08);
 			}
@@ -678,7 +778,7 @@ class Maintenance {
 				}
 			}
 		";
-		wp_register_style( 'gravisain-maintenance-style', false, [], defined( 'GRAVISAIN_BLOCKS_VERSION' ) ? GRAVISAIN_BLOCKS_VERSION : '1.0.0' );
+		wp_register_style( 'gravisain-maintenance-style', false, array(), defined( 'GRAVISAIN_BLOCKS_VERSION' ) ? GRAVISAIN_BLOCKS_VERSION : '1.0.0' );
 		wp_enqueue_style( 'gravisain-maintenance-style' );
 		wp_add_inline_style( 'gravisain-maintenance-style', $css );
 
@@ -769,7 +869,7 @@ class Maintenance {
 							setInterval(updateCountdown, 1000);
 						});
 					";
-					wp_register_script( 'gravisain-maintenance-countdown', false, [], defined( 'GRAVISAIN_BLOCKS_VERSION' ) ? GRAVISAIN_BLOCKS_VERSION : '1.0.0', true );
+					wp_register_script( 'gravisain-maintenance-countdown', false, array(), defined( 'GRAVISAIN_BLOCKS_VERSION' ) ? GRAVISAIN_BLOCKS_VERSION : '1.0.0', true );
 					wp_enqueue_script( 'gravisain-maintenance-countdown' );
 					wp_add_inline_script( 'gravisain-maintenance-countdown', $js );
 					wp_print_scripts( 'gravisain-maintenance-countdown' );
@@ -781,5 +881,3 @@ class Maintenance {
 		<?php
 	}
 }
-// Initialize
-Maintenance::get_instance();

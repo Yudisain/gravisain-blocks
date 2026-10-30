@@ -25,21 +25,21 @@ class GoogleFontsLoader {
 	 *
 	 * @var array<string, bool>
 	 */
-	private array $fonts = [];
+	private array $fonts = array();
 
 	/**
 	 * Already enqueued fonts to prevent duplicate output.
 	 *
 	 * @var array<string, bool>
 	 */
-	private array $enqueued_fonts = [];
+	private array $enqueued_fonts = array();
 
 	/**
 	 * System fonts that should not be queried from Google Fonts.
 	 *
 	 * @var array<int, string>
 	 */
-	private array $system_fonts = [
+	private array $system_fonts = array(
 		'inherit',
 		'arial',
 		'helvetica',
@@ -62,7 +62,7 @@ class GoogleFontsLoader {
 		'-apple-system',
 		'blinkmacsystemfont',
 		'segoe ui',
-	];
+	);
 
 	/**
 	 * Register hooks.
@@ -71,16 +71,16 @@ class GoogleFontsLoader {
 	 */
 	public function register(): void {
 		// Enqueue fonts early in wp_head on frontend.
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_frontend_fonts' ], 20 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_fonts' ), 20 );
 
 		// Collect fonts during block rendering (for dynamic blocks, widgets, FSE templates).
-		add_filter( 'render_block', [ $this, 'collect_fonts_from_block' ], 10, 2 );
+		add_filter( 'render_block', array( $this, 'collect_fonts_from_block' ), 10, 2 );
 
 		// Directly print any remaining dynamically collected fonts in the footer.
-		add_action( 'wp_footer', [ $this, 'print_google_fonts' ], 99 );
+		add_action( 'wp_footer', array( $this, 'print_google_fonts' ), 99 );
 
 		// For the block editor, parse the post content on load.
-		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_editor_fonts' ] );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_fonts' ) );
 	}
 
 	/**
@@ -121,7 +121,7 @@ class GoogleFontsLoader {
 		}
 
 		// Extract primary font name (before fallback comma)
-		$parts = explode( ',', $clean );
+		$parts   = explode( ',', $clean );
 		$primary = trim( $parts[0], "'\" \t\n\r\0\x0B" );
 
 		if ( empty( $primary ) || $this->is_system_font( $primary ) ) {
@@ -149,11 +149,11 @@ class GoogleFontsLoader {
 
 		if ( ! empty( $this->fonts ) ) {
 			// Preconnect only when Google Fonts are actively detected on this page.
-			add_action( 'wp_head', [ $this, 'add_google_fonts_preconnect' ], 2 );
+			add_action( 'wp_head', array( $this, 'add_google_fonts_preconnect' ), 2 );
 
 			$url = $this->get_google_fonts_url( array_keys( $this->fonts ) );
 			if ( $url ) {
-				wp_enqueue_style( 'gravisain-blocks-google-fonts', $url, [], defined( 'GRAVISAIN_BLOCKS_VERSION' ) ? GRAVISAIN_BLOCKS_VERSION : '1.0.0' );
+				wp_enqueue_style( 'gravisain-blocks-google-fonts', $url, array(), defined( 'GRAVISAIN_BLOCKS_VERSION' ) ? GRAVISAIN_BLOCKS_VERSION : '1.0.0' );
 				foreach ( array_keys( $this->fonts ) as $f ) {
 					$this->enqueued_fonts[ $f ] = true;
 				}
@@ -170,7 +170,7 @@ class GoogleFontsLoader {
 	 */
 	public function collect_fonts_from_block( string $block_content, array $block ): string {
 		if ( isset( $block['blockName'] ) && 0 === strpos( $block['blockName'], 'gravisain/' ) ) {
-			$this->extract_fonts_from_attrs( $block['attrs'] ?? [] );
+			$this->extract_fonts_from_attrs( $block['attrs'] ?? array() );
 		}
 
 		return $block_content;
@@ -194,7 +194,7 @@ class GoogleFontsLoader {
 		if ( ! empty( $this->fonts ) ) {
 			$url = $this->get_google_fonts_url( array_keys( $this->fonts ) );
 			if ( $url ) {
-				wp_enqueue_style( 'gravisain-blocks-editor-fonts', $url, [], defined( 'GRAVISAIN_BLOCKS_VERSION' ) ? GRAVISAIN_BLOCKS_VERSION : '1.0.0' );
+				wp_enqueue_style( 'gravisain-blocks-editor-fonts', $url, array(), defined( 'GRAVISAIN_BLOCKS_VERSION' ) ? GRAVISAIN_BLOCKS_VERSION : '1.0.0' );
 			}
 		}
 	}
@@ -208,7 +208,7 @@ class GoogleFontsLoader {
 	private function extract_fonts_from_blocks( array $blocks ): void {
 		foreach ( $blocks as $block ) {
 			if ( isset( $block['blockName'] ) && 0 === strpos( $block['blockName'], 'gravisain/' ) ) {
-				$this->extract_fonts_from_attrs( $block['attrs'] ?? [] );
+				$this->extract_fonts_from_attrs( $block['attrs'] ?? array() );
 			}
 
 			if ( ! empty( $block['innerBlocks'] ) ) {
@@ -230,7 +230,7 @@ class GoogleFontsLoader {
 		}
 
 		// 2. Nested typography objects (e.g., Hero block, Buttons)
-		$typo_keys = [
+		$typo_keys = array(
 			'titleTypography',
 			'titleTypographyTablet',
 			'titleTypographyMobile',
@@ -247,7 +247,7 @@ class GoogleFontsLoader {
 			'secondaryButtonTypographyTablet',
 			'secondaryButtonTypographyMobile',
 			'typography',
-		];
+		);
 
 		foreach ( $typo_keys as $key ) {
 			if ( ! empty( $attrs[ $key ]['fontFamily'] ) ) {
@@ -277,7 +277,7 @@ class GoogleFontsLoader {
 		$url = $this->get_google_fonts_url( array_keys( $remaining ) );
 		if ( $url ) {
 			$handle = 'gravisain-blocks-google-fonts-footer';
-			wp_enqueue_style( $handle, $url, [], defined( 'GRAVISAIN_BLOCKS_VERSION' ) ? GRAVISAIN_BLOCKS_VERSION : '1.0.0' );
+			wp_enqueue_style( $handle, $url, array(), defined( 'GRAVISAIN_BLOCKS_VERSION' ) ? GRAVISAIN_BLOCKS_VERSION : '1.0.0' );
 			wp_print_styles( $handle );
 			foreach ( array_keys( $remaining ) as $font ) {
 				$this->enqueued_fonts[ $font ] = true;
@@ -297,7 +297,7 @@ class GoogleFontsLoader {
 		}
 
 		$base_url = 'https://fonts.googleapis.com/css2';
-		$families = [];
+		$families = array();
 
 		foreach ( $fonts as $font ) {
 			$clean = trim( $font, "'\" \t\n\r\0\x0B" );

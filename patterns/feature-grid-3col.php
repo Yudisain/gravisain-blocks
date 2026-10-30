@@ -9,10 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-return [
+return array(
 	'slug'        => 'gravisain-blocks/feature-grid-3col',
 	'title'       => __( '3-Column Feature Grid with Cards', 'gravisain-blocks' ),
-	'categories'  => [ 'gravisain-sections' ],
+	'categories'  => array( 'gravisain-sections' ),
 	'description' => __( 'A clean 3-column grid highlighting key product features or agency benefits.', 'gravisain-blocks' ),
 	'content'     => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}}},"layout":{"type":"constrained","contentSize":"1160px"}} -->
 <div class="wp-block-group alignfull" style="padding-top:var(--wp--preset--spacing--70);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--70);padding-left:var(--wp--preset--spacing--40)">
@@ -62,4 +62,4 @@ return [
 	<!-- /wp:columns -->
 </div>
 <!-- /wp:group -->',
-];
+);

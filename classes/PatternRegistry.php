@@ -27,8 +27,8 @@ class PatternRegistry {
 	 * @return void
 	 */
 	public function register(): void {
-		add_action( 'init', [ $this, 'register_pattern_categories' ] );
-		add_action( 'init', [ $this, 'register_block_patterns' ], 20 );
+		add_action( 'init', array( $this, 'register_pattern_categories' ) );
+		add_action( 'init', array( $this, 'register_block_patterns' ), 20 );
 	}
 
 	/**
@@ -41,13 +41,13 @@ class PatternRegistry {
 			return;
 		}
 
-		$categories = [
-			'gravisain-templates' => [ 'label' => __( 'Gravisain Templates', 'gravisain-blocks' ) ],
-			'gravisain-heroes'    => [ 'label' => __( 'Gravisain Heroes', 'gravisain-blocks' ) ],
-			'gravisain-sections'  => [ 'label' => __( 'Gravisain Sections', 'gravisain-blocks' ) ],
-			'gravisain-cta'       => [ 'label' => __( 'Gravisain Call to Action', 'gravisain-blocks' ) ],
-			'gravisain-pricing'   => [ 'label' => __( 'Gravisain Pricing', 'gravisain-blocks' ) ],
-		];
+		$categories = array(
+			'gravisain-templates' => array( 'label' => __( 'Gravisain Templates', 'gravisain-blocks' ) ),
+			'gravisain-heroes'    => array( 'label' => __( 'Gravisain Heroes', 'gravisain-blocks' ) ),
+			'gravisain-sections'  => array( 'label' => __( 'Gravisain Sections', 'gravisain-blocks' ) ),
+			'gravisain-cta'       => array( 'label' => __( 'Gravisain Call to Action', 'gravisain-blocks' ) ),
+			'gravisain-pricing'   => array( 'label' => __( 'Gravisain Pricing', 'gravisain-blocks' ) ),
+		);
 
 		foreach ( $categories as $slug => $args ) {
 			register_block_pattern_category( $slug, $args );
@@ -101,6 +101,7 @@ class PatternRegistry {
 		$path      = GRAVISAIN_BLOCKS_DIR . 'starter-templates/' . $safe_slug . '/' . $safe_file;
 
 		if ( file_exists( $path ) ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local file read inside plugin directory.
 			$content = file_get_contents( $path );
 			if ( false !== $content && ! empty( $content ) ) {
 				$template_images_url = GRAVISAIN_BLOCKS_URL . 'starter-templates/' . $safe_slug . '/images/';
@@ -142,12 +143,12 @@ class PatternRegistry {
 
 		// 2. Strip empty inline CSS variable declarations that React 18 DOM serialization omits
 		$content = str_replace(
-			[
+			array(
 				'--gravisain-bg-color-tablet:;',
 				'--gravisain-bg-color-mobile:;',
 				'--gravisain-bg-gradient-tablet:;',
 				'--gravisain-bg-gradient-mobile:;',
-			],
+			),
 			'',
 			$content
 		);
@@ -155,7 +156,7 @@ class PatternRegistry {
 		// 3. Ensure advanced-button inner text is wrapped in <span class="gravisain-btn-text">
 		$content = preg_replace_callback(
 			'/(<div class="[^"]*wp-block-gravisain-advanced-button[^"]*">.*?<a\s+[^>]*>)(.*?)(<\/a>.*?<\/div>)/is',
-			function( $matches ) {
+			function ( $matches ) {
 				$prefix = $matches[1];
 				$inner  = $matches[2];
 				$suffix = $matches[3];
@@ -170,13 +171,13 @@ class PatternRegistry {
 		// 4. Ensure advanced-heading with no divider has "showDivider": false in comment attrs
 		$content = preg_replace_callback(
 			'/<!--\s*wp:gravisain\/advanced-heading\s+(\{.*?\})\s*-->/s',
-			function( $matches ) {
+			function ( $matches ) {
 				$attrs_str = $matches[1];
 				if ( strpos( $attrs_str, '"showDivider"' ) === false ) {
 					$attrs = json_decode( $attrs_str, true );
 					if ( is_array( $attrs ) ) {
 						$attrs['showDivider'] = false;
-						return '<!-- wp:gravisain/advanced-heading ' . json_encode( $attrs, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ' -->';
+						return '<!-- wp:gravisain/advanced-heading ' . wp_json_encode( $attrs, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ' -->';
 					}
 				}
 				return $matches[0];
@@ -193,8 +194,8 @@ class PatternRegistry {
 
 		// 6. Normalize legacy button variant attribute to buttonStyle
 		$content = str_replace(
-			[ '"variant":"fill"', '"variant":"outline"' ],
-			[ '"buttonStyle":"fill"', '"buttonStyle":"outline"' ],
+			array( '"variant":"fill"', '"variant":"outline"' ),
+			array( '"buttonStyle":"fill"', '"buttonStyle":"outline"' ),
 			$content
 		);
 

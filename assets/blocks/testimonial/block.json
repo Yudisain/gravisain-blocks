@@ -1,150 +1,150 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "gravisain/testimonial",
-	"version": "1.0.0",
-	"title": "Testimonial Card",
-	"category": "gravisain-blocks",
-	"icon": "format-quote",
-	"description": "Display a beautiful customer review or testimonial card with ratings and author profile.",
-	"textdomain": "gravisain-blocks",
-	"supports": {
-		"align": [
-			"wide",
-			"full"
-		],
-		"html": false
-	},
-	"attributes": {
-		"quote": {
-			"type": "string",
-			"default": "This theme completely changed how we build websites. The performance and block ecosystem are truly world-class. Highly recommended!"
-		},
-		"authorName": {
-			"type": "string",
-			"default": "Jane Doe"
-		},
-		"authorRole": {
-			"type": "string",
-			"default": "CEO, TechFlow Inc."
-		},
-		"avatarUrl": {
-			"type": "string",
-			"default": ""
-		},
-		"avatarId": {
-			"type": "number",
-			"default": 0
-		},
-		"avatarFocalPoint": {
-			"type": "object",
-			"default": {
-				"x": 0.5,
-				"y": 0.5
-			}
-		},
-		"rating": {
-			"type": "number",
-			"default": 5
-		},
-		"showRating": {
-			"type": "boolean",
-			"default": true
-		},
-		"showAvatar": {
-			"type": "boolean",
-			"default": true
-		},
-		"avatarLayout": {
-			"type": "string",
-			"default": "left"
-		},
-		"avatarShape": {
-			"type": "string",
-			"default": "circle"
-		},
-		"showQuoteMark": {
-			"type": "boolean",
-			"default": true
-		},
-		"textAlign": {
-			"type": "string",
-			"default": "left"
-		},
-		"ratingColor": {
-			"type": "string",
-			"default": "#fbbf24"
-		},
-		"quoteColor": {
-			"type": "string",
-			"default": "#334155"
-		},
-		"quoteFontSize": {
-			"type": "number",
-			"default": 18
-		},
-		"authorColor": {
-			"type": "string",
-			"default": "#0f172a"
-		},
-		"authorFontSize": {
-			"type": "number",
-			"default": 16
-		},
-		"roleColor": {
-			"type": "string",
-			"default": "#64748b"
-		},
-		"roleFontSize": {
-			"type": "number",
-			"default": 14
-		},
-		"avatarSize": {
-			"type": "number",
-			"default": 56
-		},
-		"quoteMarkColor": {
-			"type": "string",
-			"default": "rgba(79, 70, 229, 0.1)"
-		},
-		"cardBackgroundColor": {
-			"type": "string",
-			"default": "#ffffff"
-		},
-		"cardBorderColor": {
-			"type": "string",
-			"default": "rgba(0, 0, 0, 0.08)"
-		},
-		"cardBorderWidth": {
-			"type": "number",
-			"default": 1
-		},
-		"cardBorderRadius": {
-			"type": "number",
-			"default": 12
-		},
-		"cardPaddingTop": {
-			"type": "number",
-			"default": 40
-		},
-		"cardPaddingBottom": {
-			"type": "number",
-			"default": 40
-		},
-		"cardPaddingLeft": {
-			"type": "number",
-			"default": 40
-		},
-		"cardPaddingRight": {
-			"type": "number",
-			"default": 40
-		},
-		"boxShadow": {
-			"type": "boolean",
-			"default": true
-		}
-	},
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "gravisain/testimonial",
+  "version": "1.0.0",
+  "title": "Testimonial Card",
+  "category": "gravisain-blocks",
+  "icon": "format-quote",
+  "description": "Display a beautiful customer review or testimonial card with ratings and author profile.",
+  "textdomain": "gravisain-blocks",
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false
+  },
+  "attributes": {
+    "quote": {
+      "type": "string",
+      "default": "This theme completely changed how we build websites. The performance and block ecosystem are truly world-class. Highly recommended!"
+    },
+    "authorName": {
+      "type": "string",
+      "default": "Jane Doe"
+    },
+    "authorRole": {
+      "type": "string",
+      "default": "CEO, TechFlow Inc."
+    },
+    "avatarUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "avatarId": {
+      "type": "number",
+      "default": 0
+    },
+    "avatarFocalPoint": {
+      "type": "object",
+      "default": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "rating": {
+      "type": "number",
+      "default": 5
+    },
+    "showRating": {
+      "type": "boolean",
+      "default": true
+    },
+    "showAvatar": {
+      "type": "boolean",
+      "default": true
+    },
+    "avatarLayout": {
+      "type": "string",
+      "default": "left"
+    },
+    "avatarShape": {
+      "type": "string",
+      "default": "circle"
+    },
+    "showQuoteMark": {
+      "type": "boolean",
+      "default": true
+    },
+    "textAlign": {
+      "type": "string",
+      "default": "left"
+    },
+    "ratingColor": {
+      "type": "string",
+      "default": "#fbbf24"
+    },
+    "quoteColor": {
+      "type": "string",
+      "default": "#334155"
+    },
+    "quoteFontSize": {
+      "type": "number",
+      "default": 18
+    },
+    "authorColor": {
+      "type": "string",
+      "default": "#0f172a"
+    },
+    "authorFontSize": {
+      "type": "number",
+      "default": 16
+    },
+    "roleColor": {
+      "type": "string",
+      "default": "#64748b"
+    },
+    "roleFontSize": {
+      "type": "number",
+      "default": 14
+    },
+    "avatarSize": {
+      "type": "number",
+      "default": 56
+    },
+    "quoteMarkColor": {
+      "type": "string",
+      "default": "rgba(79, 70, 229, 0.1)"
+    },
+    "cardBackgroundColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "cardBorderColor": {
+      "type": "string",
+      "default": "rgba(0, 0, 0, 0.08)"
+    },
+    "cardBorderWidth": {
+      "type": "number",
+      "default": 1
+    },
+    "cardBorderRadius": {
+      "type": "number",
+      "default": 12
+    },
+    "cardPaddingTop": {
+      "type": "number",
+      "default": 40
+    },
+    "cardPaddingBottom": {
+      "type": "number",
+      "default": 40
+    },
+    "cardPaddingLeft": {
+      "type": "number",
+      "default": 40
+    },
+    "cardPaddingRight": {
+      "type": "number",
+      "default": 40
+    },
+    "boxShadow": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
 }

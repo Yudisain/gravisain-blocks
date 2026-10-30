@@ -1,44 +1,104 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "gravisain/form",
-	"version": "1.0.0",
-	"title": "Form / Contact Form",
-	"category": "gravisain-blocks",
-	"icon": "feedback",
-	"description": "Create customizable contact and lead generation forms with built-in validation and styling.",
-	"textdomain": "gravisain-blocks",
-	"supports": {
-		"html": false,
-		"anchor": false,
-		"customClassName": false,
-		"customCSS": false,
-		"__experimentalCustomCSS": false
-	},
-	"attributes": {
-		"formTitle": { "type": "string", "default": "Send Us a Message" },
-		"showName": { "type": "boolean", "default": true },
-		"showEmail": { "type": "boolean", "default": true },
-		"showSubject": { "type": "boolean", "default": true },
-		"showMessage": { "type": "boolean", "default": true },
-		"submitButtonText": { "type": "string", "default": "Send Message" },
-		"recipientEmail": { "type": "string", "default": "" },
-		"successMessage": { "type": "string", "default": "Thank you! Your message has been sent successfully." },
-		"inputBackgroundColor": { "type": "string", "default": "#ffffff" },
-		"inputBorderColor": { "type": "string", "default": "#cbd5e1" },
-		"inputTextColor": { "type": "string", "default": "#1e293b" },
-		"inputBorderRadius": { "type": "number", "default": 6 },
-		"inputPadding": { "type": "number", "default": 12 },
-		"buttonColor": { "type": "string", "default": "#007cba" },
-		"buttonTextColor": { "type": "string", "default": "#ffffff" },
-		"buttonBorderRadius": { "type": "number", "default": 6 },
-		"buttonFullWidth": { "type": "boolean", "default": false },
-		"anchor": { "type": "string", "default": "" },
-		"customClassName": { "type": "string", "default": "" },
-		"customCSS": { "type": "string", "default": "" }
-	},
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"viewScript": "file:./view.js"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "gravisain/form",
+  "version": "1.0.0",
+  "title": "Form / Contact Form",
+  "category": "gravisain-blocks",
+  "icon": "feedback",
+  "description": "Create customizable contact and lead generation forms with built-in validation and styling.",
+  "textdomain": "gravisain-blocks",
+  "supports": {
+    "html": false,
+    "anchor": false,
+    "customClassName": false,
+    "customCSS": false,
+    "__experimentalCustomCSS": false
+  },
+  "attributes": {
+    "formTitle": {
+      "type": "string",
+      "default": "Send Us a Message"
+    },
+    "showName": {
+      "type": "boolean",
+      "default": true
+    },
+    "showEmail": {
+      "type": "boolean",
+      "default": true
+    },
+    "showSubject": {
+      "type": "boolean",
+      "default": true
+    },
+    "showMessage": {
+      "type": "boolean",
+      "default": true
+    },
+    "submitButtonText": {
+      "type": "string",
+      "default": "Send Message"
+    },
+    "recipientEmail": {
+      "type": "string",
+      "default": ""
+    },
+    "successMessage": {
+      "type": "string",
+      "default": "Thank you! Your message has been sent successfully."
+    },
+    "inputBackgroundColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "inputBorderColor": {
+      "type": "string",
+      "default": "#cbd5e1"
+    },
+    "inputTextColor": {
+      "type": "string",
+      "default": "#1e293b"
+    },
+    "inputBorderRadius": {
+      "type": "number",
+      "default": 6
+    },
+    "inputPadding": {
+      "type": "number",
+      "default": 12
+    },
+    "buttonColor": {
+      "type": "string",
+      "default": "#007cba"
+    },
+    "buttonTextColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "buttonBorderRadius": {
+      "type": "number",
+      "default": 6
+    },
+    "buttonFullWidth": {
+      "type": "boolean",
+      "default": false
+    },
+    "anchor": {
+      "type": "string",
+      "default": ""
+    },
+    "customClassName": {
+      "type": "string",
+      "default": ""
+    },
+    "customCSS": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
 }

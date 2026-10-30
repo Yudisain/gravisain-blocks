@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Sanitize an arbitrary CSS property value to prevent CSS declaration injection.
  */
-$sanitize_css_value = function( $val ): ?string {
+$sanitize_css_value = function ( $val ): ?string {
 	if ( $val === null || $val === '' || $val === false ) {
 		return null;
 	}
@@ -35,8 +35,10 @@ $sanitize_css_value = function( $val ): ?string {
 /**
  * Extract a spacing value (supports object with sides or a flat scalar).
  */
-$get_spacing = function( $spacing, string $side ) use ( $sanitize_css_value ): ?string {
-	if ( $spacing === null || $spacing === '' || $spacing === false ) return null;
+$get_spacing = function ( $spacing, string $side ) use ( $sanitize_css_value ): ?string {
+	if ( $spacing === null || $spacing === '' || $spacing === false ) {
+		return null;
+	}
 
 	if ( is_string( $spacing ) || is_numeric( $spacing ) ) {
 		$res = is_numeric( $spacing ) ? $spacing . 'px' : (string) $spacing;
@@ -44,7 +46,9 @@ $get_spacing = function( $spacing, string $side ) use ( $sanitize_css_value ): ?
 	}
 	if ( is_array( $spacing ) ) {
 		$val = $spacing[ $side ] ?? null;
-		if ( is_numeric( $val ) ) return $val . 'px';
+		if ( is_numeric( $val ) ) {
+			return $val . 'px';
+		}
 		return $sanitize_css_value( $val );
 	}
 	return null;
@@ -56,11 +60,17 @@ $get_spacing = function( $spacing, string $side ) use ( $sanitize_css_value ): ?
  * @param mixed $val       Raw value.
  * @param bool  $is_size   True ⇒ append "px" for bare numbers.
  */
-$get_typo_var = function( $val, bool $is_size = false ) use ( $sanitize_css_value ): ?string {
-	if ( $val === null || $val === '' || $val === false ) return null;
-	if ( is_numeric( $val ) ) return $is_size ? $val . 'px' : (string) $val;
+$get_typo_var = function ( $val, bool $is_size = false ) use ( $sanitize_css_value ): ?string {
+	if ( $val === null || $val === '' || $val === false ) {
+		return null;
+	}
+	if ( is_numeric( $val ) ) {
+		return $is_size ? $val . 'px' : (string) $val;
+	}
 	if ( is_string( $val ) ) {
-		if ( $is_size && is_numeric( $val ) ) return $val . 'px';
+		if ( $is_size && is_numeric( $val ) ) {
+			return $val . 'px';
+		}
 		return $sanitize_css_value( $val );
 	}
 	return null;
@@ -69,7 +79,7 @@ $get_typo_var = function( $val, bool $is_size = false ) use ( $sanitize_css_valu
 /**
  * Sanitize font weight to only allow numeric 100-900 or valid CSS keywords.
  */
-$sanitize_font_weight = function( $fw ): ?string {
+$sanitize_font_weight = function ( $fw ): ?string {
 	if ( empty( $fw ) ) {
 		return null;
 	}
@@ -83,7 +93,7 @@ $sanitize_font_weight = function( $fw ): ?string {
 /**
  * Sanitize a CSS color value (hex, rgb/rgba, hsl/hsla, var(), or keyword).
  */
-$sanitize_css_color = function( $color ): ?string {
+$sanitize_css_color = function ( $color ): ?string {
 	if ( ! is_string( $color ) ) {
 		return null;
 	}
@@ -100,7 +110,7 @@ $sanitize_css_color = function( $color ): ?string {
 	if ( preg_match( '/^var\(--[a-zA-Z0-9_-]+\)$/', $color ) ) {
 		return $color;
 	}
-	$named = [ 'transparent', 'currentcolor', 'inherit', 'initial', 'black', 'silver', 'gray', 'white', 'maroon', 'red', 'purple', 'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'teal', 'aqua', 'orange' ];
+	$named = array( 'transparent', 'currentcolor', 'inherit', 'initial', 'black', 'silver', 'gray', 'white', 'maroon', 'red', 'purple', 'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'teal', 'aqua', 'orange' );
 	if ( in_array( strtolower( $color ), $named, true ) ) {
 		return strtolower( $color );
 	}
@@ -110,7 +120,7 @@ $sanitize_css_color = function( $color ): ?string {
 /**
  * Sanitize a CSS gradient value to prevent declaration injection.
  */
-$sanitize_css_gradient = function( $gradient ): ?string {
+$sanitize_css_gradient = function ( $gradient ): ?string {
 	if ( ! is_string( $gradient ) ) {
 		return null;
 	}
@@ -135,82 +145,100 @@ $sanitize_css_gradient = function( $gradient ): ?string {
 
 // ── Attribute extraction ─────────────────────────────────────────────────────
 
-$heading_tag     = $attributes['headingTag']          ?? 'h2';
-$align           = $attributes['align']               ?? '';
-$text_align      = $attributes['textAlign']           ?? 'left';
-$text_align_tab  = $attributes['textAlignTablet']     ?? '';
-$text_align_mob  = $attributes['textAlignMobile']     ?? '';
-$eyebrow         = $attributes['eyebrow']             ?? '';
-$eyebrow_pos     = $attributes['eyebrowPosition']     ?? 'above';
-$eyebrow_color   = $sanitize_css_color( $attributes['eyebrowColor'] ?? '' );
-$eyebrow_typo    = $attributes['eyebrowTypography']   ?? [];
-$eyebrow_tab     = $attributes['eyebrowTypographyTablet'] ?? [];
-$eyebrow_mob     = $attributes['eyebrowTypographyMobile'] ?? [];
+$heading_tag    = $attributes['headingTag'] ?? 'h2';
+$align          = $attributes['align'] ?? '';
+$text_align     = $attributes['textAlign'] ?? 'left';
+$text_align_tab = $attributes['textAlignTablet'] ?? '';
+$text_align_mob = $attributes['textAlignMobile'] ?? '';
+$eyebrow        = $attributes['eyebrow'] ?? '';
+$eyebrow_pos    = $attributes['eyebrowPosition'] ?? 'above';
+$eyebrow_color  = $sanitize_css_color( $attributes['eyebrowColor'] ?? '' );
+$eyebrow_typo   = $attributes['eyebrowTypography'] ?? array();
+$eyebrow_tab    = $attributes['eyebrowTypographyTablet'] ?? array();
+$eyebrow_mob    = $attributes['eyebrowTypographyMobile'] ?? array();
 
-$content         = $attributes['content']             ?? '';
-$title_color     = $sanitize_css_color( $attributes['titleColor'] ?? '' );
-$title_typo      = $attributes['titleTypography']     ?? [];
-$title_tab       = $attributes['titleTypographyTablet'] ?? [];
-$title_mob       = $attributes['titleTypographyMobile'] ?? [];
+$content     = $attributes['content'] ?? '';
+$title_color = $sanitize_css_color( $attributes['titleColor'] ?? '' );
+$title_typo  = $attributes['titleTypography'] ?? array();
+$title_tab   = $attributes['titleTypographyTablet'] ?? array();
+$title_mob   = $attributes['titleTypographyMobile'] ?? array();
 
-$description     = $attributes['description']         ?? '';
-$desc_color      = $sanitize_css_color( $attributes['descriptionColor'] ?? '' );
-$desc_typo       = $attributes['descriptionTypography'] ?? [];
-$desc_tab        = $attributes['descriptionTypographyTablet'] ?? [];
-$desc_mob        = $attributes['descriptionTypographyMobile'] ?? [];
+$description = $attributes['description'] ?? '';
+$desc_color  = $sanitize_css_color( $attributes['descriptionColor'] ?? '' );
+$desc_typo   = $attributes['descriptionTypography'] ?? array();
+$desc_tab    = $attributes['descriptionTypographyTablet'] ?? array();
+$desc_mob    = $attributes['descriptionTypographyMobile'] ?? array();
 
-$font_family     = $attributes['fontFamily']          ?? '';
-$font_size       = $attributes['fontSize']            ?? 32;
-$font_size_tab   = $attributes['fontSizeTablet']      ?? null;
-$font_size_mob   = $attributes['fontSizeMobile']      ?? null;
+$font_family     = $attributes['fontFamily'] ?? '';
+$font_size       = $attributes['fontSize'] ?? 32;
+$font_size_tab   = $attributes['fontSizeTablet'] ?? null;
+$font_size_mob   = $attributes['fontSizeMobile'] ?? null;
 $font_weight     = $sanitize_font_weight( $attributes['fontWeight'] ?? '800' ) ?: '800';
-$line_height     = $attributes['lineHeight']          ?? '1.25';
-$line_height_tab = $attributes['lineHeightTablet']    ?? null;
-$line_height_mob = $attributes['lineHeightMobile']    ?? null;
-$letter_spacing  = $attributes['letterSpacing']       ?? '0px';
+$line_height     = $attributes['lineHeight'] ?? '1.25';
+$line_height_tab = $attributes['lineHeightTablet'] ?? null;
+$line_height_mob = $attributes['lineHeightMobile'] ?? null;
+$letter_spacing  = $attributes['letterSpacing'] ?? '0px';
 $letter_sp_tab   = $attributes['letterSpacingTablet'] ?? null;
 $letter_sp_mob   = $attributes['letterSpacingMobile'] ?? null;
-$text_transform  = $attributes['textTransform']       ?? 'none';
+$text_transform  = $attributes['textTransform'] ?? 'none';
 $text_color      = $sanitize_css_color( $attributes['textColor'] ?? '' ) ?: '#0f172a';
 $highlight_color = $sanitize_css_color( $attributes['highlightColor'] ?? '' ) ?: '#2563eb';
-$enable_gradient = $attributes['enableTextGradient']  ?? false;
-$text_gradient   = $attributes['textGradient']        ?? '';
-$show_divider    = $attributes['showDivider']         ?? true;
-$divider_width   = $attributes['dividerWidth']        ?? 48;
-$divider_height  = $attributes['dividerHeight']       ?? 4;
+$enable_gradient = $attributes['enableTextGradient'] ?? false;
+$text_gradient   = $attributes['textGradient'] ?? '';
+$show_divider    = $attributes['showDivider'] ?? true;
+$divider_width   = $attributes['dividerWidth'] ?? 48;
+$divider_height  = $attributes['dividerHeight'] ?? 4;
 $divider_color   = $sanitize_css_color( $attributes['dividerColor'] ?? '' ) ?: '#2563eb';
-$divider_style   = $attributes['dividerStyle']        ?? 'solid';
-$divider_flip    = $attributes['dividerFlip']         ?? false;
-$divider_spacing = $attributes['dividerSpacing']      ?? 14;
-$padding         = $attributes['padding']             ?? null;
-$padding_tab     = $attributes['paddingTablet']       ?? null;
-$padding_mob     = $attributes['paddingMobile']       ?? null;
-$margin          = $attributes['margin']              ?? null;
-$margin_tab      = $attributes['marginTablet']        ?? null;
-$margin_mob      = $attributes['marginMobile']        ?? null;
-$max_width       = $attributes['maxWidth']            ?? '100%';
-$breakout        = $attributes['breakoutPadding']     ?? false;
-$anchor          = $attributes['anchor']              ?? '';
-$custom_class    = $attributes['customClassName']     ?? '';
-$custom_css_raw  = $attributes['customCSS']           ?? '';
+$divider_style   = $attributes['dividerStyle'] ?? 'solid';
+$divider_flip    = $attributes['dividerFlip'] ?? false;
+$divider_spacing = $attributes['dividerSpacing'] ?? 14;
+$padding         = $attributes['padding'] ?? null;
+$padding_tab     = $attributes['paddingTablet'] ?? null;
+$padding_mob     = $attributes['paddingMobile'] ?? null;
+$margin          = $attributes['margin'] ?? null;
+$margin_tab      = $attributes['marginTablet'] ?? null;
+$margin_mob      = $attributes['marginMobile'] ?? null;
+$max_width       = $attributes['maxWidth'] ?? '100%';
+$breakout        = $attributes['breakoutPadding'] ?? false;
+$anchor          = $attributes['anchor'] ?? '';
+$custom_class    = $attributes['customClassName'] ?? '';
+$custom_css_raw  = $attributes['customCSS'] ?? '';
 
 // ── Build CSS custom properties ──────────────────────────────────────────────
 
-$css_vars = [];
+$css_vars = array();
 
 // Spacing
-$sides = [ 'top', 'right', 'bottom', 'left' ];
+$sides = array( 'top', 'right', 'bottom', 'left' );
 foreach ( $sides as $side ) {
-	$v = $get_spacing( $padding, $side );     if ( $v ) $css_vars[ "--gravisain-padding-{$side}" ]         = $v;
-	$v = $get_spacing( $padding_tab, $side ); if ( $v ) $css_vars[ "--gravisain-padding-{$side}-tablet" ]  = $v;
-	$v = $get_spacing( $padding_mob, $side ); if ( $v ) $css_vars[ "--gravisain-padding-{$side}-mobile" ]  = $v;
-	$v = $get_spacing( $margin, $side );      if ( $v ) $css_vars[ "--gravisain-margin-{$side}" ]          = $v;
-	$v = $get_spacing( $margin_tab, $side );  if ( $v ) $css_vars[ "--gravisain-margin-{$side}-tablet" ]   = $v;
-	$v = $get_spacing( $margin_mob, $side );  if ( $v ) $css_vars[ "--gravisain-margin-{$side}-mobile" ]   = $v;
+	$v = $get_spacing( $padding, $side );
+	if ( $v ) {
+		$css_vars[ "--gravisain-padding-{$side}" ] = $v;
+	}
+	$v = $get_spacing( $padding_tab, $side );
+	if ( $v ) {
+		$css_vars[ "--gravisain-padding-{$side}-tablet" ] = $v;
+	}
+	$v = $get_spacing( $padding_mob, $side );
+	if ( $v ) {
+		$css_vars[ "--gravisain-padding-{$side}-mobile" ] = $v;
+	}
+	$v = $get_spacing( $margin, $side );
+	if ( $v ) {
+		$css_vars[ "--gravisain-margin-{$side}" ] = $v;
+	}
+	$v = $get_spacing( $margin_tab, $side );
+	if ( $v ) {
+		$css_vars[ "--gravisain-margin-{$side}-tablet" ] = $v;
+	}
+	$v = $get_spacing( $margin_mob, $side );
+	if ( $v ) {
+		$css_vars[ "--gravisain-margin-{$side}-mobile" ] = $v;
+	}
 }
 
 // Typography Helper
-$format_font_family = function( ?string $font ): ?string {
+$format_font_family = function ( ?string $font ): ?string {
 	if ( empty( $font ) || $font === 'inherit' ) {
 		return null;
 	}
@@ -221,51 +249,54 @@ $format_font_family = function( ?string $font ): ?string {
 		return null;
 	}
 	if ( false !== strpos( $font, ',' ) ) {
-		$parts = array_map( function( $part ) {
-			$part  = trim( $part );
-			$lower = strtolower( $part );
-			if ( in_array( $lower, [ 'serif', 'sans-serif', 'monospace', 'cursive', 'fantasy', 'system-ui', 'ui-sans-serif', 'ui-serif', 'ui-monospace' ], true ) || 0 === strpos( $part, '-' ) || 0 === strpos( $lower, 'blink' ) ) {
-				return esc_attr( $part );
-			}
-			return '"' . esc_attr( $part ) . '"';
-		}, explode( ',', $font ) );
+		$parts = array_map(
+			function ( $part ) {
+				$part  = trim( $part );
+				$lower = strtolower( $part );
+				if ( in_array( $lower, array( 'serif', 'sans-serif', 'monospace', 'cursive', 'fantasy', 'system-ui', 'ui-sans-serif', 'ui-serif', 'ui-monospace' ), true ) || 0 === strpos( $part, '-' ) || 0 === strpos( $lower, 'blink' ) ) {
+						return esc_attr( $part );
+				}
+				return '"' . esc_attr( $part ) . '"';
+			},
+			explode( ',', $font )
+		);
 		return implode( ', ', $parts );
 	}
 	return '"' . esc_attr( $font ) . '", sans-serif';
 };
 
-$add_typo_vars = function( string $prefix, $typo_obj, array $fallback = [] ) use ( &$css_vars, $format_font_family, $get_typo_var, $sanitize_font_weight ) {
+$add_typo_vars = function ( string $prefix, $typo_obj, array $fallback = array() ) use ( &$css_vars, $format_font_family, $get_typo_var, $sanitize_font_weight ) {
 	if ( ! is_array( $typo_obj ) ) {
-		$typo_obj = [];
+		$typo_obj = array();
 	}
 	$font = $typo_obj['fontFamily'] ?? ( $fallback['fontFamily'] ?? null );
 	$ff   = $format_font_family( $font );
 	if ( $ff ) {
-		$css_vars["--gravisain-heading-{$prefix}-ff"] = $ff;
+		$css_vars[ "--gravisain-heading-{$prefix}-ff" ] = $ff;
 	}
 
 	$fs = $typo_obj['fontSize'] ?? ( $fallback['fontSize'] ?? null );
 	$v  = $get_typo_var( $fs, true );
 	if ( $v ) {
-		$css_vars["--gravisain-heading-{$prefix}-fs"] = $v;
+		$css_vars[ "--gravisain-heading-{$prefix}-fs" ] = $v;
 	}
 
 	$fw = $typo_obj['fontWeight'] ?? ( $fallback['fontWeight'] ?? null );
 	$fw = $sanitize_font_weight( $fw );
 	if ( $fw ) {
-		$css_vars["--gravisain-heading-{$prefix}-fw"] = $fw;
+		$css_vars[ "--gravisain-heading-{$prefix}-fw" ] = $fw;
 	}
 
 	$lh = $typo_obj['lineHeight'] ?? ( $fallback['lineHeight'] ?? null );
 	$v  = $get_typo_var( $lh, false );
 	if ( $v ) {
-		$css_vars["--gravisain-heading-{$prefix}-lh"] = $v;
+		$css_vars[ "--gravisain-heading-{$prefix}-lh" ] = $v;
 	}
 
 	$ls = $typo_obj['letterSpacing'] ?? ( $fallback['letterSpacing'] ?? null );
 	$v  = $get_typo_var( $ls, true );
 	if ( $v ) {
-		$css_vars["--gravisain-heading-{$prefix}-ls"] = $v;
+		$css_vars[ "--gravisain-heading-{$prefix}-ls" ] = $v;
 	}
 };
 
@@ -278,26 +309,38 @@ $add_typo_vars( 'eyebrow-tablet', $eyebrow_tab );
 $add_typo_vars( 'eyebrow-mobile', $eyebrow_mob );
 
 // Title
-$final_title_color = ! empty( $title_color ) ? $title_color : ( $text_color ?: '#0f172a' );
+$final_title_color                           = ! empty( $title_color ) ? $title_color : ( $text_color ?: '#0f172a' );
 $css_vars['--gravisain-heading-title-color'] = $final_title_color;
 
-$add_typo_vars( 'title', $title_typo, [
-	'fontFamily'    => $font_family,
-	'fontSize'      => $font_size,
-	'fontWeight'    => $font_weight,
-	'lineHeight'    => $line_height,
-	'letterSpacing' => $letter_spacing,
-] );
-$add_typo_vars( 'title-tablet', $title_tab, [
-	'fontSize'      => $font_size_tab,
-	'lineHeight'    => $line_height_tab,
-	'letterSpacing' => $letter_sp_tab,
-] );
-$add_typo_vars( 'title-mobile', $title_mob, [
-	'fontSize'      => $font_size_mob,
-	'lineHeight'    => $line_height_mob,
-	'letterSpacing' => $letter_sp_mob,
-] );
+$add_typo_vars(
+	'title',
+	$title_typo,
+	array(
+		'fontFamily'    => $font_family,
+		'fontSize'      => $font_size,
+		'fontWeight'    => $font_weight,
+		'lineHeight'    => $line_height,
+		'letterSpacing' => $letter_spacing,
+	)
+);
+$add_typo_vars(
+	'title-tablet',
+	$title_tab,
+	array(
+		'fontSize'      => $font_size_tab,
+		'lineHeight'    => $line_height_tab,
+		'letterSpacing' => $letter_sp_tab,
+	)
+);
+$add_typo_vars(
+	'title-mobile',
+	$title_mob,
+	array(
+		'fontSize'      => $font_size_mob,
+		'lineHeight'    => $line_height_mob,
+		'letterSpacing' => $letter_sp_mob,
+	)
+);
 
 // Description
 if ( ! empty( $desc_color ) ) {
@@ -309,24 +352,53 @@ $add_typo_vars( 'desc-mobile', $desc_mob );
 
 // Legacy fallbacks
 $ff = $format_font_family( $font_family );
-if ( $ff ) $css_vars['--gravisain-ff'] = $ff;
+if ( $ff ) {
+	$css_vars['--gravisain-ff'] = $ff;
+}
 
-$v = $get_typo_var( $font_size, true );     if ( $v ) $css_vars['--gravisain-fs']          = $v;
-$v = $get_typo_var( $font_size_tab, true ); if ( $v ) $css_vars['--gravisain-fs-tablet']    = $v;
-$v = $get_typo_var( $font_size_mob, true ); if ( $v ) $css_vars['--gravisain-fs-mobile']    = $v;
-$v = $get_typo_var( $line_height );         if ( $v ) $css_vars['--gravisain-lh']           = $v;
-$v = $get_typo_var( $line_height_tab );     if ( $v ) $css_vars['--gravisain-lh-tablet']    = $v;
-$v = $get_typo_var( $line_height_mob );     if ( $v ) $css_vars['--gravisain-lh-mobile']    = $v;
-$v = $get_typo_var( $letter_spacing, true );if ( $v ) $css_vars['--gravisain-ls']           = $v;
-$v = $get_typo_var( $letter_sp_tab, true ); if ( $v ) $css_vars['--gravisain-ls-tablet']    = $v;
-$v = $get_typo_var( $letter_sp_mob, true ); if ( $v ) $css_vars['--gravisain-ls-mobile']    = $v;
+$v = $get_typo_var( $font_size, true );
+if ( $v ) {
+	$css_vars['--gravisain-fs'] = $v;
+}
+$v = $get_typo_var( $font_size_tab, true );
+if ( $v ) {
+	$css_vars['--gravisain-fs-tablet'] = $v;
+}
+$v = $get_typo_var( $font_size_mob, true );
+if ( $v ) {
+	$css_vars['--gravisain-fs-mobile'] = $v;
+}
+$v = $get_typo_var( $line_height );
+if ( $v ) {
+	$css_vars['--gravisain-lh'] = $v;
+}
+$v = $get_typo_var( $line_height_tab );
+if ( $v ) {
+	$css_vars['--gravisain-lh-tablet'] = $v;
+}
+$v = $get_typo_var( $line_height_mob );
+if ( $v ) {
+	$css_vars['--gravisain-lh-mobile'] = $v;
+}
+$v = $get_typo_var( $letter_spacing, true );
+if ( $v ) {
+	$css_vars['--gravisain-ls'] = $v;
+}
+$v = $get_typo_var( $letter_sp_tab, true );
+if ( $v ) {
+	$css_vars['--gravisain-ls-tablet'] = $v;
+}
+$v = $get_typo_var( $letter_sp_mob, true );
+if ( $v ) {
+	$css_vars['--gravisain-ls-mobile'] = $v;
+}
 
 if ( $max_width && $max_width !== '100%' ) {
 	$css_vars['max-width'] = esc_attr( $max_width );
 }
 
 // Build style string
-$style_parts = array_map(
+$style_parts  = array_map(
 	fn( $k, $v ) => esc_attr( $k ) . ':' . esc_attr( $v ),
 	array_keys( $css_vars ),
 	array_values( $css_vars )
@@ -379,21 +451,31 @@ if ( $max_width && $align !== 'full' ) {
 
 // ── CSS classes ───────────────────────────────────────────────────────────────
 
-$classes = [
+$classes = array(
 	'gravisain-advanced-heading',
 	'has-text-align-' . $text_align,
-];
-if ( $align )          $classes[] = 'align' . $align;
-if ( $text_align_tab ) $classes[] = 'has-tablet-text-align-' . $text_align_tab;
-if ( $text_align_mob ) $classes[] = 'has-mobile-text-align-' . $text_align_mob;
-if ( $breakout )       $classes[] = 'has-breakout-padding';
-if ( $custom_class )   $classes[] = $custom_class;
+);
+if ( $align ) {
+	$classes[] = 'align' . $align;
+}
+if ( $text_align_tab ) {
+	$classes[] = 'has-tablet-text-align-' . $text_align_tab;
+}
+if ( $text_align_mob ) {
+	$classes[] = 'has-mobile-text-align-' . $text_align_mob;
+}
+if ( $breakout ) {
+	$classes[] = 'has-breakout-padding';
+}
+if ( $custom_class ) {
+	$classes[] = $custom_class;
+}
 
 $class_string = implode( ' ', array_map( 'esc_attr', $classes ) );
 
 // ── Heading inner style ───────────────────────────────────────────────────────
 
-$heading_style_parts = [];
+$heading_style_parts   = array();
 $heading_style_parts[] = 'text-align:' . esc_attr( $text_align );
 $heading_style_parts[] = 'font-weight:' . esc_attr( $font_weight ?: '800' );
 $heading_style_parts[] = 'text-transform:' . esc_attr( $text_transform ?: 'none' );
@@ -410,9 +492,9 @@ if ( $sanitized_text_gradient ) {
 }
 
 $heading_style_parts[] = '--gravisain-highlight-color:' . esc_attr( $highlight_color ?: '#2563eb' );
-$heading_style_string = implode( ';', $heading_style_parts );
+$heading_style_string  = implode( ';', $heading_style_parts );
 
-$tag_name = in_array( $heading_tag, [ 'h1','h2','h3','h4','h5','h6' ], true ) ? $heading_tag : 'h2';
+$tag_name = in_array( $heading_tag, array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ), true ) ? $heading_tag : 'h2';
 
 // ── ID attribute ──────────────────────────────────────────────────────────────
 
@@ -434,8 +516,9 @@ $id_attr = $anchor ? 'id="' . esc_attr( $anchor ) . '"' : '';
 		<span class="gravisain-heading-eyebrow below"><?php echo wp_kses_post( $eyebrow ); ?></span>
 	<?php endif; ?>
 
-	<?php if ( $show_divider ) : 
-		$d_margin_left  = in_array( $text_align, [ 'center', 'right' ], true ) ? 'auto' : '0';
+	<?php
+	if ( $show_divider ) :
+		$d_margin_left  = in_array( $text_align, array( 'center', 'right' ), true ) ? 'auto' : '0';
 		$d_margin_right = $text_align === 'center' ? 'auto' : '0';
 		$d_margin_top   = ( $divider_spacing !== 14 ) ? 'margin-top: ' . absint( $divider_spacing ) . 'px;' : '';
 		$d_width        = absint( $divider_width ?: 48 );
@@ -443,7 +526,8 @@ $id_attr = $anchor ? 'id="' . esc_attr( $anchor ) . '"' : '';
 		$d_color        = esc_attr( $divider_color ?: '#2563eb' );
 		$d_flip_style   = $divider_flip ? 'transform: scaleX(-1); transform-origin: center center;' : '';
 
-		if ( 'solid' === $divider_style ) : ?>
+		if ( 'solid' === $divider_style ) :
+			?>
 			<div
 				class="gravisain-heading-divider is-style-solid"
 				style="
@@ -455,8 +539,10 @@ $id_attr = $anchor ? 'id="' . esc_attr( $anchor ) . '"' : '';
 					<?php echo esc_attr( $d_margin_top ); ?>
 				"
 			></div>
-		<?php elseif ( 'double' === $divider_style ) : 
-			$border_thick = max( 1, (int) floor( $d_height / 3 ) ); ?>
+			<?php
+		elseif ( 'double' === $divider_style ) :
+			$border_thick = max( 1, (int) floor( $d_height / 3 ) );
+			?>
 			<div
 				class="gravisain-heading-divider is-style-double"
 				style="
@@ -496,8 +582,9 @@ $id_attr = $anchor ? 'id="' . esc_attr( $anchor ) . '"' : '';
 					<?php echo esc_attr( $d_margin_top ); ?>
 				"
 			></div>
-		<?php else : 
-			$view_box = '0 0 500 20';
+			<?php
+		else :
+			$view_box  = '0 0 500 20';
 			$svg_inner = '';
 			$stroke_w  = max( 2, min( $d_height, 8 ) );
 

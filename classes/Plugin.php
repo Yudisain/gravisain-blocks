@@ -89,14 +89,14 @@ class Plugin {
 			Updater::init();
 		}
 
-		add_action( 'admin_menu', [ $this, 'register_admin_menu' ] );
-		add_filter( 'parent_file', [ $this, 'filter_parent_file' ] );
-		add_filter( 'submenu_file', [ $this, 'filter_submenu_file' ] );
+		add_action( 'admin_menu', array( $this, 'register_admin_menu' ) );
+		add_filter( 'parent_file', array( $this, 'filter_parent_file' ) );
+		add_filter( 'submenu_file', array( $this, 'filter_submenu_file' ) );
 
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_assets' ] );
-		add_action( 'enqueue_block_editor_assets', [ $this, 'inject_editor_reset_css' ], 9999 );
-		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_recovery_script' ], 100 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_assets' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'inject_editor_reset_css' ), 9999 );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_recovery_script' ), 100 );
 	}
 
 	/**
@@ -169,7 +169,7 @@ class Plugin {
 		wp_enqueue_style(
 			'gravisain-blocks-patterns',
 			GRAVISAIN_BLOCKS_URL . 'assets/css/patterns.css',
-			[],
+			array(),
 			GRAVISAIN_BLOCKS_VERSION
 		);
 	}
@@ -365,7 +365,7 @@ class Plugin {
 		wp_register_script(
 			'gravisain-auto-recovery',
 			false,
-			[ 'wp-blocks', 'wp-element', 'wp-editor', 'wp-edit-post', 'wp-data', 'wp-dom-ready' ],
+			array( 'wp-blocks', 'wp-element', 'wp-editor', 'wp-edit-post', 'wp-data', 'wp-dom-ready' ),
 			GRAVISAIN_BLOCKS_VERSION,
 			true
 		);

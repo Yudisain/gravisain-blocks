@@ -27,13 +27,13 @@ $alignment_mobile = $attributes['alignmentMobile'] ?? '';
 $max_width        = $attributes['maxWidth'] ?? 0;
 $min_height       = $attributes['minHeight'] ?? 90;
 $border_radius    = $attributes['borderRadius'] ?? 0;
-$margin           = $attributes['margin'] ?? [];
+$margin           = $attributes['margin'] ?? array();
 $custom_class     = $attributes['customClassName'] ?? '';
 
 // Structured Google AdSense attributes.
 $raw_client    = sanitize_text_field( $attributes['adSenseClient'] ?? '' );
 $raw_slot      = sanitize_text_field( $attributes['adSenseSlot'] ?? '' );
-$ad_format     = in_array( $attributes['adSenseFormat'] ?? 'auto', [ 'auto', 'rectangle', 'horizontal', 'vertical', 'fluid' ], true ) ? $attributes['adSenseFormat'] : 'auto';
+$ad_format     = in_array( $attributes['adSenseFormat'] ?? 'auto', array( 'auto', 'rectangle', 'horizontal', 'vertical', 'fluid' ), true ) ? $attributes['adSenseFormat'] : 'auto';
 $ad_responsive = ! empty( $attributes['adSenseResponsive'] );
 
 // Validate publisher client (ca-pub-1234567890123456) and numeric slot ID.
@@ -46,7 +46,7 @@ if ( $is_empty ) {
 	return;
 }
 
-$classes = [ 'gravisain-ad' ];
+$classes = array( 'gravisain-ad' );
 if ( $alignment ) {
 	$classes[] = 'align-' . sanitize_html_class( $alignment );
 }
@@ -60,7 +60,7 @@ if ( $custom_class ) {
 	$classes[] = sanitize_html_class( $custom_class );
 }
 
-$style_vars = [];
+$style_vars = array();
 if ( $max_width > 0 ) {
 	$style_vars[] = '--gravisain-ad-max-width:' . intval( $max_width ) . 'px';
 }
@@ -70,16 +70,18 @@ if ( $min_height > 0 ) {
 if ( $border_radius > 0 && 'banner' === $ad_type ) {
 	$style_vars[] = '--gravisain-ad-radius:' . intval( $border_radius ) . 'px';
 }
-foreach ( [ 'top', 'right', 'bottom', 'left' ] as $side ) {
+foreach ( array( 'top', 'right', 'bottom', 'left' ) as $side ) {
 	if ( ! empty( $margin[ $side ] ) && preg_match( '/^[0-9]+(px|em|rem|%)?$/', (string) $margin[ $side ] ) ) {
 		$style_vars[] = '--gravisain-ad-margin-' . $side . ':' . esc_attr( $margin[ $side ] );
 	}
 }
 
-$wrapper_attributes = get_block_wrapper_attributes( [
-	'class' => implode( ' ', $classes ),
-	'style' => implode( ';', $style_vars ),
-] );
+$wrapper_attributes = get_block_wrapper_attributes(
+	array(
+		'class' => implode( ' ', $classes ),
+		'style' => implode( ';', $style_vars ),
+	)
+);
 ?>
 <div <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<?php if ( $show_label && $ad_label ) : ?>

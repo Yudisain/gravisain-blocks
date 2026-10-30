@@ -12,3 +12,6 @@ build/
 WP-ORG-REVIEW.md
 classes/Updater.php
 Project_Status_Blocks.md
+vendor/
+composer.lock
+composer.json

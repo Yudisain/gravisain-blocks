@@ -13,13 +13,13 @@ use Gravisain\Blocks\PatternRegistry;
 
 $gravisain_blocks_bakery_content = PatternRegistry::get_template_content( 'artisan-bakery' );
 if ( empty( $gravisain_blocks_bakery_content ) ) {
-	return [];
+	return array();
 }
 
-return [
+return array(
 	'slug'        => 'gravisain-blocks/artisan-bakery-home',
 	'title'       => __( 'Artisan Bakery & Pastry — Full Homepage', 'gravisain-blocks' ),
-	'categories'  => [ 'gravisain-templates', 'gravisain-heroes', 'gravisain-sections' ],
+	'categories'  => array( 'gravisain-templates', 'gravisain-heroes', 'gravisain-sections' ),
 	'description' => __( 'A warm, inviting sourdough and French pastry bakery homepage built 100% with Gravisain blocks.', 'gravisain-blocks' ),
 	'content'     => $gravisain_blocks_bakery_content,
-];
+);

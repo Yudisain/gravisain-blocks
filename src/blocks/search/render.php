@@ -21,7 +21,7 @@ $btn_bg          = $attributes['buttonBackgroundColor'] ?? '#2563eb';
 $btn_color       = $attributes['buttonTextColor'] ?? '#ffffff';
 $radius          = $attributes['borderRadius'] ?? 4;
 
-$clean_position = in_array( $button_position, [ 'inside', 'outside' ], true ) ? $button_position : 'outside';
+$clean_position = in_array( $button_position, array( 'inside', 'outside' ), true ) ? $button_position : 'outside';
 
 $styles = sprintf(
 	'--gravisain-search-input-bg: %s; --gravisain-search-input-color: %s; --gravisain-search-btn-bg: %s; --gravisain-search-btn-color: %s; --gravisain-search-radius: %dpx;',
@@ -32,10 +32,12 @@ $styles = sprintf(
 	absint( $radius )
 );
 
-$wrapper_attributes = get_block_wrapper_attributes( [
-	'class' => 'gravisain-search-wrapper pos-' . esc_attr( $clean_position ),
-	'style' => $styles,
-] );
+$wrapper_attributes = get_block_wrapper_attributes(
+	array(
+		'class' => 'gravisain-search-wrapper pos-' . esc_attr( $clean_position ),
+		'style' => $styles,
+	)
+);
 ?>
 <div <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<form role="search" method="get" class="gravisain-search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">

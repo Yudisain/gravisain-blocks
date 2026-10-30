@@ -9,10 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-return [
+return array(
 	'slug'        => 'gravisain-blocks/hero-modern',
 	'title'       => __( 'Modern Hero Section with Eyebrow and Buttons', 'gravisain-blocks' ),
-	'categories'  => [ 'gravisain-heroes' ],
+	'categories'  => array( 'gravisain-heroes' ),
 	'description' => __( 'A stunning, high-converting hero banner featuring eyebrow text, bold heading, description, and dual action buttons.', 'gravisain-blocks' ),
 	'content'     => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}}},"backgroundColor":"base","layout":{"type":"constrained","contentSize":"960px"}} -->
 <div class="wp-block-group alignfull has-base-background-color has-background" style="padding-top:var(--wp--preset--spacing--80);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--80);padding-left:var(--wp--preset--spacing--40)">
@@ -41,4 +41,4 @@ return [
 	<!-- /wp:buttons -->
 </div>
 <!-- /wp:group -->',
-];
+);

@@ -12,10 +12,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-return [
+return array(
 	'slug'          => 'gravisain-blocks/pricing-4-1col',
 	'title'         => __( '4-Column Pricing Table (Native Gravisain Blocks)', 'gravisain-blocks' ),
-	'categories'    => [ 'gravisain-pricing', 'gravisain-sections' ],
+	'categories'    => array( 'gravisain-pricing', 'gravisain-sections' ),
 	'viewportWidth' => 1200,
 	'description'   => __( 'Modern 4-column pricing cards built 100% with Gravisain blocks (row-layout, column, advanced-heading, badge, advanced-text, icon-list, buttons, advanced-button).', 'gravisain-blocks' ),
 	'content'       => '<!-- wp:gravisain/row-layout {"align":"full","backgroundColor":"#ffffff","padding":{"top":"80px","right":"5%","bottom":"16px","left":"5%"}} -->
@@ -123,4 +123,4 @@ return [
 <!-- /wp:gravisain/buttons --></div>
 <!-- /wp:gravisain/column --></div></div>
 <!-- /wp:gravisain/row-layout -->',
-];
+);

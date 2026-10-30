@@ -1,58 +1,65 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "gravisain/search",
-	"version": "1.0.0",
-	"title": "Search Form",
-	"category": "gravisain-blocks",
-	"icon": "search",
-	"description": "Add a customizable search form to your site.",
-	"keywords": [ "search", "form", "find" ],
-	"supports": {
-		"html": false,
-		"align": [ "wide", "full" ]
-	},
-	"attributes": {
-		"placeholder": {
-			"type": "string",
-			"default": "Search..."
-		},
-		"showButton": {
-			"type": "boolean",
-			"default": true
-		},
-		"buttonText": {
-			"type": "string",
-			"default": "Search"
-		},
-		"buttonPosition": {
-			"type": "string",
-			"default": "outside"
-		},
-		"inputBackgroundColor": {
-			"type": "string",
-			"default": "#f1f5f9"
-		},
-		"inputTextColor": {
-			"type": "string",
-			"default": "#334155"
-		},
-		"buttonBackgroundColor": {
-			"type": "string",
-			"default": "#2563eb"
-		},
-		"buttonTextColor": {
-			"type": "string",
-			"default": "#ffffff"
-		},
-		"borderRadius": {
-			"type": "number",
-			"default": 4
-		}
-	},
-	"textdomain": "gravisain-blocks",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "gravisain/search",
+  "version": "1.0.0",
+  "title": "Search Form",
+  "category": "gravisain-blocks",
+  "icon": "search",
+  "description": "Add a customizable search form to your site.",
+  "keywords": [
+    "search",
+    "form",
+    "find"
+  ],
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "attributes": {
+    "placeholder": {
+      "type": "string",
+      "default": "Search..."
+    },
+    "showButton": {
+      "type": "boolean",
+      "default": true
+    },
+    "buttonText": {
+      "type": "string",
+      "default": "Search"
+    },
+    "buttonPosition": {
+      "type": "string",
+      "default": "outside"
+    },
+    "inputBackgroundColor": {
+      "type": "string",
+      "default": "#f1f5f9"
+    },
+    "inputTextColor": {
+      "type": "string",
+      "default": "#334155"
+    },
+    "buttonBackgroundColor": {
+      "type": "string",
+      "default": "#2563eb"
+    },
+    "buttonTextColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "borderRadius": {
+      "type": "number",
+      "default": 4
+    }
+  },
+  "textdomain": "gravisain-blocks",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
 }

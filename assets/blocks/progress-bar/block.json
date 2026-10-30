@@ -1,36 +1,75 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "gravisain/progress-bar",
-	"version": "1.0.0",
-	"title": "Progress Bar",
-	"category": "gravisain-blocks",
-	"icon": "chart-bar",
-	"description": "Display skills, metrics, and completion goals with a smooth animated progress bar.",
-	"textdomain": "gravisain-blocks",
-	"supports": {
-		"html": false,
-		"anchor": false,
-		"customClassName": false,
-		"customCSS": false,
-		"__experimentalCustomCSS": false
-	},
-	"attributes": {
-		"label": { "type": "string", "default": "Web Development" },
-		"percentage": { "type": "number", "default": 85 },
-		"showPercentage": { "type": "boolean", "default": true },
-		"height": { "type": "number", "default": 10 },
-		"barColor": { "type": "string", "default": "#007cba" },
-		"trackColor": { "type": "string", "default": "#e2e8f0" },
-		"textColor": { "type": "string", "default": "#333333" },
-		"borderRadius": { "type": "number", "default": 999 },
-		"striped": { "type": "boolean", "default": false },
-		"animated": { "type": "boolean", "default": false },
-		"anchor": { "type": "string", "default": "" },
-		"customClassName": { "type": "string", "default": "" },
-		"customCSS": { "type": "string", "default": "" }
-	},
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "gravisain/progress-bar",
+  "version": "1.0.0",
+  "title": "Progress Bar",
+  "category": "gravisain-blocks",
+  "icon": "chart-bar",
+  "description": "Display skills, metrics, and completion goals with a smooth animated progress bar.",
+  "textdomain": "gravisain-blocks",
+  "supports": {
+    "html": false,
+    "anchor": false,
+    "customClassName": false,
+    "customCSS": false,
+    "__experimentalCustomCSS": false
+  },
+  "attributes": {
+    "label": {
+      "type": "string",
+      "default": "Web Development"
+    },
+    "percentage": {
+      "type": "number",
+      "default": 85
+    },
+    "showPercentage": {
+      "type": "boolean",
+      "default": true
+    },
+    "height": {
+      "type": "number",
+      "default": 10
+    },
+    "barColor": {
+      "type": "string",
+      "default": "#007cba"
+    },
+    "trackColor": {
+      "type": "string",
+      "default": "#e2e8f0"
+    },
+    "textColor": {
+      "type": "string",
+      "default": "#333333"
+    },
+    "borderRadius": {
+      "type": "number",
+      "default": 999
+    },
+    "striped": {
+      "type": "boolean",
+      "default": false
+    },
+    "animated": {
+      "type": "boolean",
+      "default": false
+    },
+    "anchor": {
+      "type": "string",
+      "default": ""
+    },
+    "customClassName": {
+      "type": "string",
+      "default": ""
+    },
+    "customCSS": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
 }

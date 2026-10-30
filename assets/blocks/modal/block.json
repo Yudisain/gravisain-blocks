@@ -1,38 +1,80 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "gravisain/modal",
-	"version": "1.0.0",
-	"title": "Modal / Popup",
-	"category": "gravisain-blocks",
-	"icon": "welcome-widgets-menus",
-	"description": "Create interactive modal popups triggered by buttons, text, or icons containing any Blocks inside.",
-	"textdomain": "gravisain-blocks",
-	"supports": {
-		"html": false,
-		"anchor": false,
-		"customClassName": false,
-		"customCSS": false,
-		"__experimentalCustomCSS": false
-	},
-	"attributes": {
-		"triggerType": { "type": "string", "default": "button" },
-		"triggerText": { "type": "string", "default": "Open Popup" },
-		"buttonColor": { "type": "string", "default": "#007cba" },
-		"buttonTextColor": { "type": "string", "default": "#ffffff" },
-		"modalTitle": { "type": "string", "default": "Special Offer" },
-		"modalWidth": { "type": "number", "default": 600 },
-		"modalBackgroundColor": { "type": "string", "default": "#ffffff" },
-		"overlayColor": { "type": "string", "default": "rgba(0, 0, 0, 0.6)" },
-		"borderRadius": { "type": "number", "default": 12 },
-		"contentPadding": { "type": "number", "default": 24 },
-		"closeButtonColor": { "type": "string", "default": "#333333" },
-		"anchor": { "type": "string", "default": "" },
-		"customClassName": { "type": "string", "default": "" },
-		"customCSS": { "type": "string", "default": "" }
-	},
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"viewScript": "file:./view.js"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "gravisain/modal",
+  "version": "1.0.0",
+  "title": "Modal / Popup",
+  "category": "gravisain-blocks",
+  "icon": "welcome-widgets-menus",
+  "description": "Create interactive modal popups triggered by buttons, text, or icons containing any Blocks inside.",
+  "textdomain": "gravisain-blocks",
+  "supports": {
+    "html": false,
+    "anchor": false,
+    "customClassName": false,
+    "customCSS": false,
+    "__experimentalCustomCSS": false
+  },
+  "attributes": {
+    "triggerType": {
+      "type": "string",
+      "default": "button"
+    },
+    "triggerText": {
+      "type": "string",
+      "default": "Open Popup"
+    },
+    "buttonColor": {
+      "type": "string",
+      "default": "#007cba"
+    },
+    "buttonTextColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "modalTitle": {
+      "type": "string",
+      "default": "Special Offer"
+    },
+    "modalWidth": {
+      "type": "number",
+      "default": 600
+    },
+    "modalBackgroundColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "overlayColor": {
+      "type": "string",
+      "default": "rgba(0, 0, 0, 0.6)"
+    },
+    "borderRadius": {
+      "type": "number",
+      "default": 12
+    },
+    "contentPadding": {
+      "type": "number",
+      "default": 24
+    },
+    "closeButtonColor": {
+      "type": "string",
+      "default": "#333333"
+    },
+    "anchor": {
+      "type": "string",
+      "default": ""
+    },
+    "customClassName": {
+      "type": "string",
+      "default": ""
+    },
+    "customCSS": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
 }

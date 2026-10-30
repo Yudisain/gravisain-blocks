@@ -9,10 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-return [
+return array(
 	'slug'        => 'gravisain-blocks/faq-accordion',
 	'title'       => __( 'FAQ Accordion Section using Native HTML5 Details', 'gravisain-blocks' ),
-	'categories'  => [ 'gravisain-sections' ],
+	'categories'  => array( 'gravisain-sections' ),
 	'description' => __( 'Accessible FAQ section using native Details/Summary blocks with zero JavaScript overhead.', 'gravisain-blocks' ),
 	'content'     => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"72px","bottom":"72px","left":"32px","right":"32px"}}},"layout":{"type":"constrained","contentSize":"800px"}} -->
 <div class="wp-block-group alignfull" style="padding-top:72px;padding-right:32px;padding-bottom:72px;padding-left:32px">
@@ -49,4 +49,4 @@ return [
 	<!-- /wp:details -->
 </div>
 <!-- /wp:group -->',
-];
+);

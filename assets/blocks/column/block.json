@@ -1,197 +1,197 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "gravisain/column",
-	"version": "1.0.0",
-	"title": "Column",
-	"category": "gravisain-blocks",
-	"icon": "columns",
-	"description": "A single column inside a Row Layout.",
-	"parent": [
-		"gravisain/row-layout"
-	],
-	"textdomain": "gravisain-blocks",
-	"supports": {
-		"html": false,
-		"anchor": false,
-		"customClassName": false,
-		"customCSS": false,
-		"__experimentalCustomCSS": false
-	},
-	"attributes": {
-		"width": {
-			"type": "string",
-			"default": ""
-		},
-		"widthTablet": {
-			"type": "string",
-			"default": ""
-		},
-		"widthMobile": {
-			"type": "string",
-			"default": ""
-		},
-		"verticalAlignment": {
-			"type": "string",
-			"default": ""
-		},
-		"horizontalAlignment": {
-			"type": "string",
-			"default": ""
-		},
-		"horizontalAlignmentTablet": {
-			"type": "string",
-			"default": ""
-		},
-		"horizontalAlignmentMobile": {
-			"type": "string",
-			"default": ""
-		},
-		"backgroundColor": {
-			"type": "string",
-			"default": ""
-		},
-		"textColor": {
-			"type": "string",
-			"default": ""
-		},
-		"backgroundImage": {
-			"type": "string",
-			"default": ""
-		},
-		"backgroundFocalPoint": {
-			"type": "object",
-			"default": {
-				"x": 0.5,
-				"y": 0.5
-			}
-		},
-		"padding": {
-			"type": "object",
-			"default": {
-				"top": "",
-				"right": "",
-				"bottom": "",
-				"left": ""
-			}
-		},
-		"paddingTablet": {
-			"type": "object",
-			"default": {
-				"top": "",
-				"right": "",
-				"bottom": "",
-				"left": ""
-			}
-		},
-		"paddingMobile": {
-			"type": "object",
-			"default": {
-				"top": "",
-				"right": "",
-				"bottom": "",
-				"left": ""
-			}
-		},
-		"margin": {
-			"type": "object",
-			"default": {
-				"top": "",
-				"right": "",
-				"bottom": "",
-				"left": ""
-			}
-		},
-		"marginTablet": {
-			"type": "object",
-			"default": {
-				"top": "",
-				"right": "",
-				"bottom": "",
-				"left": ""
-			}
-		},
-		"marginMobile": {
-			"type": "object",
-			"default": {
-				"top": "",
-				"right": "",
-				"bottom": "",
-				"left": ""
-			}
-		},
-		"borderWidth": {
-			"type": "number",
-			"default": 0
-		},
-		"borderColor": {
-			"type": "string",
-			"default": ""
-		},
-		"borderStyle": {
-			"type": "string",
-			"default": "solid"
-		},
-		"borderRadius": {
-			"type": "number",
-			"default": 0
-		},
-		"boxShadow": {
-			"type": "string",
-			"default": ""
-		},
-		"hoverEffect": {
-			"type": "string",
-			"default": "none"
-		},
-		"hoverBackgroundColor": {
-			"type": "string",
-			"default": ""
-		},
-		"hoverBorderColor": {
-			"type": "string",
-			"default": ""
-		},
-		"anchor": {
-			"type": "string",
-			"default": ""
-		},
-		"customClassName": {
-			"type": "string",
-			"default": ""
-		},
-		"customCSS": {
-			"type": "string",
-			"default": ""
-		},
-		"isSticky": {
-			"type": "boolean",
-			"default": false
-		},
-		"stickyDesktop": {
-			"type": "boolean",
-			"default": true
-		},
-		"stickyTablet": {
-			"type": "boolean",
-			"default": true
-		},
-		"stickyMobile": {
-			"type": "boolean",
-			"default": false
-		},
-		"stickyOffset": {
-			"type": "number",
-			"default": 0
-		},
-		"stickyOffsetTablet": {
-			"type": "number"
-		},
-		"stickyOffsetMobile": {
-			"type": "number"
-		}
-	},
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "gravisain/column",
+  "version": "1.0.0",
+  "title": "Column",
+  "category": "gravisain-blocks",
+  "icon": "columns",
+  "description": "A single column inside a Row Layout.",
+  "parent": [
+    "gravisain/row-layout"
+  ],
+  "textdomain": "gravisain-blocks",
+  "supports": {
+    "html": false,
+    "anchor": false,
+    "customClassName": false,
+    "customCSS": false,
+    "__experimentalCustomCSS": false
+  },
+  "attributes": {
+    "width": {
+      "type": "string",
+      "default": ""
+    },
+    "widthTablet": {
+      "type": "string",
+      "default": ""
+    },
+    "widthMobile": {
+      "type": "string",
+      "default": ""
+    },
+    "verticalAlignment": {
+      "type": "string",
+      "default": ""
+    },
+    "horizontalAlignment": {
+      "type": "string",
+      "default": ""
+    },
+    "horizontalAlignmentTablet": {
+      "type": "string",
+      "default": ""
+    },
+    "horizontalAlignmentMobile": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundColor": {
+      "type": "string",
+      "default": ""
+    },
+    "textColor": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundImage": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundFocalPoint": {
+      "type": "object",
+      "default": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "padding": {
+      "type": "object",
+      "default": {
+        "top": "",
+        "right": "",
+        "bottom": "",
+        "left": ""
+      }
+    },
+    "paddingTablet": {
+      "type": "object",
+      "default": {
+        "top": "",
+        "right": "",
+        "bottom": "",
+        "left": ""
+      }
+    },
+    "paddingMobile": {
+      "type": "object",
+      "default": {
+        "top": "",
+        "right": "",
+        "bottom": "",
+        "left": ""
+      }
+    },
+    "margin": {
+      "type": "object",
+      "default": {
+        "top": "",
+        "right": "",
+        "bottom": "",
+        "left": ""
+      }
+    },
+    "marginTablet": {
+      "type": "object",
+      "default": {
+        "top": "",
+        "right": "",
+        "bottom": "",
+        "left": ""
+      }
+    },
+    "marginMobile": {
+      "type": "object",
+      "default": {
+        "top": "",
+        "right": "",
+        "bottom": "",
+        "left": ""
+      }
+    },
+    "borderWidth": {
+      "type": "number",
+      "default": 0
+    },
+    "borderColor": {
+      "type": "string",
+      "default": ""
+    },
+    "borderStyle": {
+      "type": "string",
+      "default": "solid"
+    },
+    "borderRadius": {
+      "type": "number",
+      "default": 0
+    },
+    "boxShadow": {
+      "type": "string",
+      "default": ""
+    },
+    "hoverEffect": {
+      "type": "string",
+      "default": "none"
+    },
+    "hoverBackgroundColor": {
+      "type": "string",
+      "default": ""
+    },
+    "hoverBorderColor": {
+      "type": "string",
+      "default": ""
+    },
+    "anchor": {
+      "type": "string",
+      "default": ""
+    },
+    "customClassName": {
+      "type": "string",
+      "default": ""
+    },
+    "customCSS": {
+      "type": "string",
+      "default": ""
+    },
+    "isSticky": {
+      "type": "boolean",
+      "default": false
+    },
+    "stickyDesktop": {
+      "type": "boolean",
+      "default": true
+    },
+    "stickyTablet": {
+      "type": "boolean",
+      "default": true
+    },
+    "stickyMobile": {
+      "type": "boolean",
+      "default": false
+    },
+    "stickyOffset": {
+      "type": "number",
+      "default": 0
+    },
+    "stickyOffsetTablet": {
+      "type": "number"
+    },
+    "stickyOffsetMobile": {
+      "type": "number"
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
 }

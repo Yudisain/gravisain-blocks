@@ -13,43 +13,43 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
-$show_logo            = $attributes['showLogo'] ?? true;
-$logo_width           = isset( $attributes['logoWidth'] ) ? (int) $attributes['logoWidth'] : 140;
-$logo_width_tablet    = isset( $attributes['logoWidthTablet'] ) ? (int) $attributes['logoWidthTablet'] : null;
-$logo_width_mobile    = isset( $attributes['logoWidthMobile'] ) ? (int) $attributes['logoWidthMobile'] : null;
-$logo_shape           = $attributes['logoShape'] ?? 'circle';
-$logo_border_radius   = isset( $attributes['logoBorderRadius'] ) ? (int) $attributes['logoBorderRadius'] : 50;
-$show_title           = $attributes['showTitle'] ?? true;
-$show_tagline         = $attributes['showTagline'] ?? false;
-$layout               = $attributes['layout'] ?? 'logo-left';
-$vertical_alignment   = $attributes['verticalAlignment'] ?? 'center';
-$item_gap             = isset( $attributes['itemGap'] ) ? (int) $attributes['itemGap'] : 16;
-$link_to_home         = $attributes['linkToHome'] ?? true;
-$link_url             = ! empty( $attributes['linkUrl'] ) ? esc_url( $attributes['linkUrl'] ) : esc_url( home_url( '/' ) );
-$title_tag            = ! empty( $attributes['titleTag'] ) ? sanitize_key( $attributes['titleTag'] ) : 'span';
-$allowed_tags         = [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'div' ];
+$show_logo          = $attributes['showLogo'] ?? true;
+$logo_width         = isset( $attributes['logoWidth'] ) ? (int) $attributes['logoWidth'] : 140;
+$logo_width_tablet  = isset( $attributes['logoWidthTablet'] ) ? (int) $attributes['logoWidthTablet'] : null;
+$logo_width_mobile  = isset( $attributes['logoWidthMobile'] ) ? (int) $attributes['logoWidthMobile'] : null;
+$logo_shape         = $attributes['logoShape'] ?? 'circle';
+$logo_border_radius = isset( $attributes['logoBorderRadius'] ) ? (int) $attributes['logoBorderRadius'] : 50;
+$show_title         = $attributes['showTitle'] ?? true;
+$show_tagline       = $attributes['showTagline'] ?? false;
+$layout             = $attributes['layout'] ?? 'logo-left';
+$vertical_alignment = $attributes['verticalAlignment'] ?? 'center';
+$item_gap           = isset( $attributes['itemGap'] ) ? (int) $attributes['itemGap'] : 16;
+$link_to_home       = $attributes['linkToHome'] ?? true;
+$link_url           = ! empty( $attributes['linkUrl'] ) ? esc_url( $attributes['linkUrl'] ) : esc_url( home_url( '/' ) );
+$title_tag          = ! empty( $attributes['titleTag'] ) ? sanitize_key( $attributes['titleTag'] ) : 'span';
+$allowed_tags       = array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'div' );
 if ( ! in_array( $title_tag, $allowed_tags, true ) ) {
 	$title_tag = 'span';
 }
 
-$title_color          = $attributes['titleColor'] ?? '';
-$title_hover_color    = $attributes['titleHoverColor'] ?? '';
-$title_typography     = $attributes['titleTypography'] ?? [];
-$tagline_color        = $attributes['taglineColor'] ?? '#64748b';
-$tagline_typography   = $attributes['taglineTypography'] ?? [];
-$padding              = $attributes['padding'] ?? [];
-$margin               = $attributes['margin'] ?? [];
+$title_color        = $attributes['titleColor'] ?? '';
+$title_hover_color  = $attributes['titleHoverColor'] ?? '';
+$title_typography   = $attributes['titleTypography'] ?? array();
+$tagline_color      = $attributes['taglineColor'] ?? '#64748b';
+$tagline_typography = $attributes['taglineTypography'] ?? array();
+$padding            = $attributes['padding'] ?? array();
+$margin             = $attributes['margin'] ?? array();
 
 // Dynamic values from WordPress settings or block attributes
-$custom_title         = isset( $attributes['customTitle'] ) && '' !== trim( (string) $attributes['customTitle'] ) ? $attributes['customTitle'] : '';
-$custom_tagline       = isset( $attributes['customTagline'] ) && '' !== trim( (string) $attributes['customTagline'] ) ? $attributes['customTagline'] : '';
-$site_name            = ! empty( $custom_title ) ? $custom_title : get_bloginfo( 'name', 'display' );
-$site_description     = ! empty( $custom_tagline ) ? $custom_tagline : get_bloginfo( 'description', 'display' );
-$custom_logo_url      = ! empty( $attributes['customLogoUrl'] ) ? esc_url( $attributes['customLogoUrl'] ) : '';
-$custom_logo_id       = ! empty( $attributes['customLogoId'] ) ? (int) $attributes['customLogoId'] : (int) get_theme_mod( 'custom_logo' );
+$custom_title     = isset( $attributes['customTitle'] ) && '' !== trim( (string) $attributes['customTitle'] ) ? $attributes['customTitle'] : '';
+$custom_tagline   = isset( $attributes['customTagline'] ) && '' !== trim( (string) $attributes['customTagline'] ) ? $attributes['customTagline'] : '';
+$site_name        = ! empty( $custom_title ) ? $custom_title : get_bloginfo( 'name', 'display' );
+$site_description = ! empty( $custom_tagline ) ? $custom_tagline : get_bloginfo( 'description', 'display' );
+$custom_logo_url  = ! empty( $attributes['customLogoUrl'] ) ? esc_url( $attributes['customLogoUrl'] ) : '';
+$custom_logo_id   = ! empty( $attributes['customLogoId'] ) ? (int) $attributes['customLogoId'] : (int) get_theme_mod( 'custom_logo' );
 
 // Build inline CSS styles
-$styles = [];
+$styles   = array();
 $styles[] = '--gravisain-si-gap:' . $item_gap . 'px';
 $styles[] = '--gravisain-si-logo-width:' . $logo_width . 'px';
 $styles[] = '--gravisain-si-logo-radius:' . $logo_border_radius . 'px';
@@ -70,7 +70,7 @@ if ( ! empty( $tagline_color ) ) {
 }
 
 // Spacing styles
-foreach ( [ 'top', 'right', 'bottom', 'left' ] as $side ) {
+foreach ( array( 'top', 'right', 'bottom', 'left' ) as $side ) {
 	if ( ! empty( $padding[ $side ] ) ) {
 		$styles[] = 'padding-' . $side . ':' . esc_attr( $padding[ $side ] );
 	}
@@ -80,7 +80,7 @@ foreach ( [ 'top', 'right', 'bottom', 'left' ] as $side ) {
 }
 
 // Title typography styles
-$title_styles = [];
+$title_styles = array();
 if ( ! empty( $title_typography['fontFamily'] ) ) {
 	$title_styles[] = 'font-family:' . esc_attr( $title_typography['fontFamily'] );
 }
@@ -98,7 +98,7 @@ if ( isset( $title_typography['letterSpacing'] ) && '' !== (string) $title_typog
 }
 
 // Tagline typography styles
-$tagline_styles = [];
+$tagline_styles = array();
 if ( ! empty( $tagline_typography['fontFamily'] ) ) {
 	$tagline_styles[] = 'font-family:' . esc_attr( $tagline_typography['fontFamily'] );
 }
@@ -112,16 +112,18 @@ if ( ! empty( $tagline_typography['lineHeight'] ) ) {
 	$tagline_styles[] = 'line-height:' . esc_attr( (string) $tagline_typography['lineHeight'] );
 }
 
-$wrapper_classes = [
+$wrapper_classes = array(
 	'gravisain-site-identity-wrapper',
 	'layout-' . sanitize_html_class( $layout ),
 	'align-' . sanitize_html_class( $vertical_alignment ),
-];
+);
 
-$wrapper_attributes = get_block_wrapper_attributes( [
-	'class' => implode( ' ', $wrapper_classes ),
-	'style' => implode( ';', $styles ),
-] );
+$wrapper_attributes = get_block_wrapper_attributes(
+	array(
+		'class' => implode( ' ', $wrapper_classes ),
+		'style' => implode( ';', $styles ),
+	)
+);
 
 $target_url = $link_to_home ? esc_url( home_url( '/' ) ) : $link_url;
 ?>
@@ -133,19 +135,19 @@ $target_url = $link_to_home ? esc_url( home_url( '/' ) ) : $link_url;
 		<div class="gravisain-site-identity-inner">
 			<?php if ( $show_logo && ( $custom_logo_url || $custom_logo_id ) ) : ?>
 				<div class="gravisain-site-logo-wrap is-shape-<?php echo esc_attr( $logo_shape ); ?>">
-					<?php 
+					<?php
 					if ( $custom_logo_url ) {
 						echo '<img src="' . esc_url( $custom_logo_url ) . '" class="gravisain-site-logo-img" alt="' . esc_attr( $site_name ) . '" />';
 					} elseif ( $custom_logo_id ) {
-						echo wp_get_attachment_image( 
-							(int) $custom_logo_id, 
-							'full', 
-							false, 
-							[ 
+						echo wp_get_attachment_image(
+							(int) $custom_logo_id,
+							'full',
+							false,
+							array(
 								'class' => 'gravisain-site-logo-img',
 								'alt'   => esc_attr( $site_name ),
-							] 
-						); 
+							)
+						);
 					}
 					?>
 				</div>
